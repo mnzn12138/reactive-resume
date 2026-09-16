@@ -1,0 +1,4 @@
+# pnpm's patch parser rejects CRLF in patch files (ERR_PNPM_INVALID_PATCH:
+# "invalid char in unquoted filename"), regardless of core.autocrlf on Windows.
+# Keep patch files LF in the working tree on every platform.
+patches/*.patch text eol=lf
