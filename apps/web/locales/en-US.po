@@ -22,11 +22,6 @@ msgstr ""
 msgid "\"{0} · {1}\" and its full timeline will be permanently deleted. This can't be undone."
 msgstr "\"{0} · {1}\" and its full timeline will be permanently deleted. This can't be undone."
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "(opens in new tab)"
-msgstr "(opens in new tab)"
-
 #. placeholder {0}: selected.length
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "{0, plural, one {# application to export} other {# applications to export}}"
@@ -207,10 +202,6 @@ msgstr "A date range is written in a form most software cannot read."
 msgid "A font is referenced but not embedded."
 msgstr "A font is referenced but not embedded."
 
-#: src/routes/_home/-sections/footer.tsx
-msgid "A free and open-source resume builder that makes it easy to create, update, and share your resume."
-msgstr "A free and open-source resume builder that makes it easy to create, update, and share your resume."
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "A free collection of accessible patterns for the web."
 msgstr "A free collection of accessible patterns for the web."
@@ -218,10 +209,6 @@ msgstr "A free collection of accessible patterns for the web."
 #: src/features/homepage/page.tsx
 msgid "A free, open-source resume builder. Put your experience on the page, without fighting the formatting."
 msgstr "A free, open-source resume builder. Put your experience on the page, without fighting the formatting."
-
-#: src/features/homepage/site-footer.tsx
-msgid "A free, open-source resume builder. Yours to keep, yours to export, yours to host."
-msgstr "A free, open-source resume builder. Yours to keep, yours to export, yours to host."
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "A friendly nudge for the recruiter"
@@ -274,10 +261,6 @@ msgstr "A PDF for the application. A Word file for a few more edits. Download a 
 #: src/features/homepage/feature-explorer.tsx
 msgid "A private resume does not appear at its public link."
 msgstr "A private resume does not appear at its public link."
-
-#: src/features/homepage/page.tsx
-msgid "A project you can<0/>be part of."
-msgstr "A project you can<0/>be part of."
 
 #: src/features/homepage/ats-playground.tsx
 msgid "A real sample PDF"
@@ -826,7 +809,6 @@ msgstr "Aspect Ratio"
 msgid "ATS Check"
 msgstr "ATS Check"
 
-#: src/features/homepage/site-footer.tsx
 #: src/routes/_home/ats-checker.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "ATS Checker"
@@ -1053,11 +1035,6 @@ msgstr "Change theme to…"
 msgid "Changed your mind? Rename your resume to something more descriptive."
 msgstr "Changed your mind? Rename your resume to something more descriptive."
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Changelog"
-msgstr "Changelog"
-
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "Changes are shared between your library and the resume builder."
 msgstr "Changes are shared between your library and the resume builder."
@@ -1241,11 +1218,6 @@ msgstr "Command Palette"
 msgid "Command Palette - {currentPage}"
 msgstr "Command Palette - {currentPage}"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Community"
-msgstr "Community"
-
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Compact"
 msgstr "Compact"
@@ -1355,10 +1327,6 @@ msgstr "Continue where you left off"
 #: src/dialogs/resume/import.tsx
 msgid "Continue where you left off by importing a resume you built in Reactive Resume or another resume builder. Supported formats are PDF, Microsoft Word, and JSON files from Reactive Resume or JSON Resume."
 msgstr "Continue where you left off by importing a resume you built in Reactive Resume or another resume builder. Supported formats are PDF, Microsoft Word, and JSON files from Reactive Resume or JSON Resume."
-
-#: src/features/homepage/page.tsx
-msgid "Contribute code"
-msgstr "Contribute code"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Conversation copied."
@@ -1994,21 +1962,10 @@ msgstr "Discard unsaved changes?"
 msgid "Disconnect"
 msgstr "Disconnect"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Discord"
-msgstr "Discord"
-
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Dismiss"
 msgstr "Dismiss"
 
-#: src/features/homepage/page.tsx
-msgid "Docs"
-msgstr "Docs"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Documentation"
 msgstr "Documentation"
@@ -2598,10 +2555,6 @@ msgstr "Failed to verify your code. Please try again."
 msgid "Fatal error"
 msgstr "Fatal error"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Features"
-msgstr "Features"
-
 #: src/features/homepage/page.tsx
 msgid "Fifteen templates, all free. Pick one you like. You can change the type, color, and layout in the editor."
 msgstr "Fifteen templates, all free. Pick one you like. You can change the type, color, and layout in the editor."
@@ -2629,10 +2582,6 @@ msgstr "Filter by tags"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Find the weak bullet points and rewrite them with stronger outcomes, numbers, scope, and sharper verbs."
 msgstr "Find the weak bullet points and rewrite them with stronger outcomes, numbers, scope, and sharper verbs."
-
-#: src/features/homepage/page.tsx
-msgid "Find us on GitHub"
-msgstr "Find us on GitHub"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
@@ -2776,16 +2725,13 @@ msgid "Get a second opinion on your writing, share your resume, and keep track o
 msgstr "Get a second opinion on your writing, share your resume, and keep track of where you’ve applied. It’s all in one place."
 
 #: src/features/homepage/page.tsx
-#: src/features/homepage/site-footer.tsx
 msgid "Get Started"
 msgstr "Get Started"
 
 #. Authentication provider display name in account settings
 #. Brand name label for GitHub social sign-in button
 #: src/features/auth/components/social-auth.tsx
-#: src/features/homepage/site-footer.tsx
 #: src/features/settings/authentication/components/hooks.tsx
-#: src/routes/_home/-sections/footer.tsx
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -3336,10 +3282,6 @@ msgstr "Leave to set up an AI provider?"
 msgid "Left Align"
 msgstr "Left Align"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Legal"
-msgstr "Legal"
-
 #: src/features/ats-checker/messages.ts
 msgid "Length is not a defect, and there is no universal one-page rule. Keep the pages that earn their place."
 msgstr "Length is not a defect, and there is no universal one-page rule. Keep the pages that earn their place."
@@ -3406,9 +3348,7 @@ msgstr "Linked Reactive Resume"
 #. Authentication provider display name in account settings
 #. Brand name label for LinkedIn social sign-in button
 #: src/features/auth/components/social-auth.tsx
-#: src/features/homepage/site-footer.tsx
 #: src/features/settings/authentication/components/hooks.tsx
-#: src/routes/_home/-sections/footer.tsx
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
@@ -3507,7 +3447,6 @@ msgstr "Made with Reactive Resume"
 msgid "Main"
 msgstr "Main"
 
-#: src/features/homepage/page.tsx
 #: src/routes/_home/-sections/header.tsx
 msgid "Main navigation"
 msgstr "Main navigation"
@@ -3569,10 +3508,6 @@ msgstr "Missing working resume"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Mistral AI"
 msgstr "Mistral AI"
-
-#: src/features/homepage/site-footer.tsx
-msgid "MIT License"
-msgstr "MIT License"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Model"
@@ -4017,9 +3952,7 @@ msgstr "OpenRouter"
 msgid "Opens in a new tab"
 msgstr "Opens in a new tab"
 
-#: src/features/homepage/site-footer.tsx
 #: src/features/resume/stylesheet/editor.tsx
-#: src/routes/_home/-sections/footer.tsx
 msgid "opens in new tab"
 msgstr "opens in new tab"
 
@@ -4360,17 +4293,9 @@ msgstr "Primary Color"
 msgid "Print or export the form to a flat PDF before sending it."
 msgstr "Print or export the form to a flat PDF before sending it."
 
-#: src/features/homepage/site-footer.tsx
-msgid "Privacy Policy"
-msgstr "Privacy Policy"
-
 #: src/features/homepage/feature-explorer.tsx
 msgid "Private"
 msgstr "Private"
-
-#: src/features/homepage/site-footer.tsx
-msgid "Product"
-msgstr "Product"
 
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/feature-explorer.tsx
@@ -4488,10 +4413,6 @@ msgstr "Reactive Resume - Go to homepage"
 #: src/dialogs/resume/import.tsx
 msgid "Reactive Resume (JSON)"
 msgstr "Reactive Resume (JSON)"
-
-#: src/features/homepage/page.tsx
-msgid "Reactive Resume is free and open source. Amruth and a community of contributors keep it running. If you’d like to support the work, donations help cover hosting and development."
-msgstr "Reactive Resume is free and open source. Amruth and a community of contributors keep it running. If you’d like to support the work, donations help cover hosting and development."
 
 #: src/components/ui/donation-toast.tsx
 msgid "Reactive Resume is free and open source. If it has helped you, please consider donating."
@@ -4706,18 +4627,9 @@ msgstr "Replace tables with plain paragraphs and lists. Cells extract in storage
 msgid "Replace the attached cover letter?"
 msgstr "Replace the attached cover letter?"
 
-#: src/features/homepage/page.tsx
-msgid "Report a bug"
-msgstr "Report a bug"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Report a Bug"
 msgstr "Report a Bug"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Report an issue"
-msgstr "Report an issue"
 
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
@@ -4750,11 +4662,6 @@ msgstr "Reset your password"
 #: src/features/auth/pages/reset-password.tsx
 msgid "Resetting your password..."
 msgstr "Resetting your password..."
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Resources"
-msgstr "Resources"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Responsible for working on the design system and helping other teams with their designs."
@@ -5529,8 +5436,6 @@ msgstr "Sort by…"
 msgid "Source"
 msgstr "Source"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Source Code"
 msgstr "Source Code"
@@ -5560,11 +5465,6 @@ msgstr "Spell the month, as in \"Mar 2022\"."
 msgid "Sponsors"
 msgstr "Sponsors"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Sponsorships"
-msgstr "Sponsorships"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Spread pages"
 msgstr "Spread pages"
@@ -5587,15 +5487,6 @@ msgstr "Stage"
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Stage date"
 msgstr "Stage date"
-
-#: src/components/input/github-stars-button.tsx
-msgid "Star us on GitHub (opens in new tab)"
-msgstr "Star us on GitHub (opens in new tab)"
-
-#. placeholder {0}: starCount.toLocaleString()
-#: src/components/input/github-stars-button.tsx
-msgid "Star us on GitHub, currently {0} stars (opens in new tab)"
-msgstr "Star us on GitHub, currently {0} stars (opens in new tab)"
 
 #: src/routes/agent/$threadId.tsx
 msgid "Start a new thread"
@@ -5692,11 +5583,6 @@ msgstr "Styling and sender details are copied. Future resume edits apply only wh
 msgid "Styling and sender details refreshed from the selected resume."
 msgstr "Styling and sender details refreshed from the selected resume."
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Subreddit"
-msgstr "Subreddit"
-
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Suggestions"
 msgstr "Suggestions"
@@ -5714,10 +5600,6 @@ msgstr "Summary"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Support the app by doing what you can!"
 msgstr "Support the app by doing what you can!"
-
-#: src/features/homepage/page.tsx
-msgid "Support the project"
-msgstr "Support the project"
 
 #: src/features/ats-checker/messages.ts
 #: src/libs/resume/ats.ts
@@ -5785,10 +5667,6 @@ msgstr "Template"
 msgid "Template Gallery"
 msgstr "Template Gallery"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Templates"
-msgstr "Templates"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Test"
 msgstr "Test"
@@ -5821,10 +5699,6 @@ msgstr "Text is written one character at a time."
 #: src/features/ats-checker/messages.ts
 msgid "Text sits in the header or footer area."
 msgstr "Text sits in the header or footer area."
-
-#: src/features/homepage/page.tsx
-msgid "Thank you for helping keep it free."
-msgstr "Thank you for helping keep it free."
 
 #: src/features/ats-checker/tool.tsx
 msgid "That file could not be read as a PDF."
@@ -5963,10 +5837,6 @@ msgstr "Theme"
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "Then, enter the 6 digit code that the app provides to continue."
-
-#: src/features/homepage/page.tsx
-msgid "There are other ways to pitch in."
-msgstr "There are other ways to pitch in."
 
 #: src/features/ats-checker/messages.ts
 msgid "There is a gap between two dated roles."
@@ -7000,11 +6870,6 @@ msgstr "Write the full address, including https://."
 #: src/features/ats-checker/messages.ts
 msgid "Writing"
 msgstr "Writing"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "X (Twitter)"
-msgstr "X (Twitter)"
 
 #: src/features/auth/pages/login.tsx
 msgid "You can also sign in with your username."

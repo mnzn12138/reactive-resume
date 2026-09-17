@@ -27,11 +27,6 @@ msgstr ""
 msgid "\"{0} · {1}\" and its full timeline will be permanently deleted. This can't be undone."
 msgstr "\"{0} · {1}\" 及其完整時間軸將被永久刪除。此操作無法復原。"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "(opens in new tab)"
-msgstr "（在新分頁中開啟）"
-
 #. placeholder {0}: selected.length
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "{0, plural, one {# application to export} other {# applications to export}}"
@@ -212,10 +207,6 @@ msgstr "有一個時間段的寫法是大多數軟體無法讀取的。"
 msgid "A font is referenced but not embedded."
 msgstr "有一款字體被引用但未嵌入。"
 
-#: src/routes/_home/-sections/footer.tsx
-msgid "A free and open-source resume builder that makes it easy to create, update, and share your resume."
-msgstr "一款免費且開放原始碼的履歷建立工具，讓您輕鬆建立、更新與分享履歷。"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "A free collection of accessible patterns for the web."
 msgstr "一套免費、無障礙的網頁設計模式。"
@@ -223,10 +214,6 @@ msgstr "一套免費、無障礙的網頁設計模式。"
 #: src/features/homepage/page.tsx
 msgid "A free, open-source resume builder. Put your experience on the page, without fighting the formatting."
 msgstr "免費、開放原始碼的履歷編輯器。把你的經歷放上版面，不必再跟排版奮戰。"
-
-#: src/features/homepage/site-footer.tsx
-msgid "A free, open-source resume builder. Yours to keep, yours to export, yours to host."
-msgstr "免費、開放原始碼的履歷編輯器。 履歷屬於你：可保存、可匯出，也能自行架設。"
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "A friendly nudge for the recruiter"
@@ -279,10 +266,6 @@ msgstr "用於求職的 PDF。用於進一步編輯的 Word 檔案。依照你�
 #: src/features/homepage/feature-explorer.tsx
 msgid "A private resume does not appear at its public link."
 msgstr "私密履歷不會顯示在其公開連結中。"
-
-#: src/features/homepage/page.tsx
-msgid "A project you can<0/>be part of."
-msgstr "一個你也能<0/>參與的專案。"
 
 #: src/features/homepage/ats-playground.tsx
 msgid "A real sample PDF"
@@ -831,7 +814,6 @@ msgstr "顯示比例"
 msgid "ATS Check"
 msgstr "ATS檢查”"
 
-#: src/features/homepage/site-footer.tsx
 #: src/routes/_home/ats-checker.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "ATS Checker"
@@ -1058,11 +1040,6 @@ msgstr "改主題為…"
 msgid "Changed your mind? Rename your resume to something more descriptive."
 msgstr "改變主意了嗎？將履歷重新命名成更具描述性的名稱吧。"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Changelog"
-msgstr "更新日誌"
-
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "Changes are shared between your library and the resume builder."
 msgstr "變更會在您的求職信庫與履歷建構器之間同步。"
@@ -1246,11 +1223,6 @@ msgstr "指令選項板"
 msgid "Command Palette - {currentPage}"
 msgstr "指令選項板 - {currentPage}"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Community"
-msgstr "社群"
-
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Compact"
 msgstr "緊湊型"
@@ -1360,10 +1332,6 @@ msgstr "從上次中斷的地方繼續"
 #: src/dialogs/resume/import.tsx
 msgid "Continue where you left off by importing a resume you built in Reactive Resume or another resume builder. Supported formats are PDF, Microsoft Word, and JSON files from Reactive Resume or JSON Resume."
 msgstr "匯入您在 Reactive Resume 或其他履歷建立工具中做好的履歷，接續上次的進度。支援的格式為 PDF、Microsoft Word，以及來自 Reactive Resume 或 JSON Resume 的 JSON 檔案。"
-
-#: src/features/homepage/page.tsx
-msgid "Contribute code"
-msgstr "貢獻程式碼"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Conversation copied."
@@ -1999,21 +1967,10 @@ msgstr "捨棄未儲存的變更？"
 msgid "Disconnect"
 msgstr "中斷連結"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Discord"
-msgstr "Discord"
-
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Dismiss"
 msgstr "解僱"
 
-#: src/features/homepage/page.tsx
-msgid "Docs"
-msgstr "說明文件"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Documentation"
 msgstr "文件"
@@ -2603,10 +2560,6 @@ msgstr "驗證您的驗證碼失敗。請再試一次。"
 msgid "Fatal error"
 msgstr "嚴重錯誤"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Features"
-msgstr "功能"
-
 #: src/features/homepage/page.tsx
 msgid "Fifteen templates, all free. Pick one you like. You can change the type, color, and layout in the editor."
 msgstr "十五種範本，全部免費。挑一個你喜歡的，字體、顏色與版面都能在編輯器裡調整。"
@@ -2634,10 +2587,6 @@ msgstr "依標籤篩選"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Find the weak bullet points and rewrite them with stronger outcomes, numbers, scope, and sharper verbs."
 msgstr "找出比較弱的條列項目，用更明確的成果、數字、規模與更有力的動詞重寫。"
-
-#: src/features/homepage/page.tsx
-msgid "Find us on GitHub"
-msgstr "在 GitHub 上找到我們"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
@@ -2781,16 +2730,13 @@ msgid "Get a second opinion on your writing, share your resume, and keep track o
 msgstr "為你的文字取得第二意見、分享履歷，並追蹤你申請過的職缺。全都在同一個地方。"
 
 #: src/features/homepage/page.tsx
-#: src/features/homepage/site-footer.tsx
 msgid "Get Started"
 msgstr "開始使用"
 
 #. Authentication provider display name in account settings
 #. Brand name label for GitHub social sign-in button
 #: src/features/auth/components/social-auth.tsx
-#: src/features/homepage/site-footer.tsx
 #: src/features/settings/authentication/components/hooks.tsx
-#: src/routes/_home/-sections/footer.tsx
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -3341,10 +3287,6 @@ msgstr "離開去建立人工智慧提供者嗎？"
 msgid "Left Align"
 msgstr "靠左對齊"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Legal"
-msgstr "法律資訊"
-
 #: src/features/ats-checker/messages.ts
 msgid "Length is not a defect, and there is no universal one-page rule. Keep the pages that earn their place."
 msgstr "長度本身不是缺陷，也沒有放諸四海皆準的一頁規則。保留那些真正有價值的內容頁。"
@@ -3411,9 +3353,7 @@ msgstr "已連結的 Reactive Resume"
 #. Authentication provider display name in account settings
 #. Brand name label for LinkedIn social sign-in button
 #: src/features/auth/components/social-auth.tsx
-#: src/features/homepage/site-footer.tsx
 #: src/features/settings/authentication/components/hooks.tsx
-#: src/routes/_home/-sections/footer.tsx
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
@@ -3512,7 +3452,6 @@ msgstr "使用 Reactive Resume 製作"
 msgid "Main"
 msgstr "主要"
 
-#: src/features/homepage/page.tsx
 #: src/routes/_home/-sections/header.tsx
 msgid "Main navigation"
 msgstr "主導覽"
@@ -3574,10 +3513,6 @@ msgstr "缺少作業中的履歷"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Mistral AI"
 msgstr "米斯特拉爾人工智慧"
-
-#: src/features/homepage/site-footer.tsx
-msgid "MIT License"
-msgstr "MIT 授權"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Model"
@@ -4022,9 +3957,7 @@ msgstr "OpenRouter"
 msgid "Opens in a new tab"
 msgstr "在新分頁開啟"
 
-#: src/features/homepage/site-footer.tsx
 #: src/features/resume/stylesheet/editor.tsx
-#: src/routes/_home/-sections/footer.tsx
 msgid "opens in new tab"
 msgstr "在新分頁中開啟"
 
@@ -4365,17 +4298,9 @@ msgstr "主要顏色"
 msgid "Print or export the form to a flat PDF before sending it."
 msgstr "在傳送之前，把表單列印或匯出為平面化的 PDF。"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Privacy Policy"
-msgstr "隱私權政策"
-
 #: src/features/homepage/feature-explorer.tsx
 msgid "Private"
 msgstr "私密"
-
-#: src/features/homepage/site-footer.tsx
-msgid "Product"
-msgstr "產品"
 
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/feature-explorer.tsx
@@ -4493,10 +4418,6 @@ msgstr "Reactive Resume - 前往首頁"
 #: src/dialogs/resume/import.tsx
 msgid "Reactive Resume (JSON)"
 msgstr "反應式履歷 (JSON)"
-
-#: src/features/homepage/page.tsx
-msgid "Reactive Resume is free and open source. Amruth and a community of contributors keep it running. If you’d like to support the work, donations help cover hosting and development."
-msgstr "Reactive Resume 是免費且開放原始碼的。Amruth 與一群貢獻者社群共同維護著它。如果你想支持這份工作，捐款能協助支付主機與開發的費用。"
 
 #: src/components/ui/donation-toast.tsx
 msgid "Reactive Resume is free and open source. If it has helped you, please consider donating."
@@ -4711,18 +4632,9 @@ msgstr "用一般段落和清單取代表格。儲存格是按儲存順序擷取
 msgid "Replace the attached cover letter?"
 msgstr "取代已附加的求職信？"
 
-#: src/features/homepage/page.tsx
-msgid "Report a bug"
-msgstr "回報問題"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Report a Bug"
 msgstr "回報錯誤"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Report an issue"
-msgstr "回報問題"
 
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
@@ -4755,11 +4667,6 @@ msgstr "重設您的密碼"
 #: src/features/auth/pages/reset-password.tsx
 msgid "Resetting your password..."
 msgstr "正在重設您的密碼…"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Resources"
-msgstr "資源"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Responsible for working on the design system and helping other teams with their designs."
@@ -5534,8 +5441,6 @@ msgstr "排序依據…"
 msgid "Source"
 msgstr "來源"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Source Code"
 msgstr "原始碼"
@@ -5565,11 +5470,6 @@ msgstr "把月份拼寫出來，例如「2022 年 3 月」。"
 msgid "Sponsors"
 msgstr "贊助者"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Sponsorships"
-msgstr "贊助"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Spread pages"
 msgstr "攤開頁面"
@@ -5592,15 +5492,6 @@ msgstr "階段"
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Stage date"
 msgstr "階段日期"
-
-#: src/components/input/github-stars-button.tsx
-msgid "Star us on GitHub (opens in new tab)"
-msgstr "在 GitHub 上為我們加星（在新分頁中開啟）"
-
-#. placeholder {0}: starCount.toLocaleString()
-#: src/components/input/github-stars-button.tsx
-msgid "Star us on GitHub, currently {0} stars (opens in new tab)"
-msgstr "在 GitHub 上為我們加星，目前有 {0} 顆星（在新分頁中開啟）"
 
 #: src/routes/agent/$threadId.tsx
 msgid "Start a new thread"
@@ -5697,11 +5588,6 @@ msgstr "樣式與寄件人資訊已複製。日後對履歷的修改，只有在
 msgid "Styling and sender details refreshed from the selected resume."
 msgstr "已從所選履歷重新整理樣式與寄件人資訊。"
 
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "Subreddit"
-msgstr "Subreddit"
-
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Suggestions"
 msgstr "建議"
@@ -5719,10 +5605,6 @@ msgstr "摘要"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
 msgid "Support the app by doing what you can!"
 msgstr "盡您所能支持此應用程式！"
-
-#: src/features/homepage/page.tsx
-msgid "Support the project"
-msgstr "支持這個專案"
 
 #: src/features/ats-checker/messages.ts
 #: src/libs/resume/ats.ts
@@ -5790,10 +5672,6 @@ msgstr "範本"
 msgid "Template Gallery"
 msgstr "範本圖庫"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Templates"
-msgstr "範本"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Test"
 msgstr "測試"
@@ -5826,10 +5704,6 @@ msgstr "文字是逐個字元單獨寫入的。"
 #: src/features/ats-checker/messages.ts
 msgid "Text sits in the header or footer area."
 msgstr "文字位於頁首或頁尾區域。"
-
-#: src/features/homepage/page.tsx
-msgid "Thank you for helping keep it free."
-msgstr "感謝你幫忙讓它保持免費。"
 
 #: src/features/ats-checker/tool.tsx
 msgid "That file could not be read as a PDF."
@@ -5968,10 +5842,6 @@ msgstr "佈景主題"
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr "接著，請輸入應用程式提供的 6 位數驗證碼以繼續。"
-
-#: src/features/homepage/page.tsx
-msgid "There are other ways to pitch in."
-msgstr "還有其他方式可以出一份力。"
 
 #: src/features/ats-checker/messages.ts
 msgid "There is a gap between two dated roles."
@@ -7005,11 +6875,6 @@ msgstr "寫入完整位址，包括 https:// 。"
 #: src/features/ats-checker/messages.ts
 msgid "Writing"
 msgstr "文案"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-msgid "X (Twitter)"
-msgstr "X（推特）"
 
 #: src/features/auth/pages/login.tsx
 msgid "You can also sign in with your username."

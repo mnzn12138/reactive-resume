@@ -8,7 +8,6 @@ import { Spotlight } from "@/components/animation/spotlight";
 import { AiReviewCard } from "@/features/ats-checker/ai-review/ai-review-card";
 import { LockedAiCard } from "@/features/ats-checker/ai-review/locked-card";
 import { ParsePreview } from "@/features/ats-checker/parse-preview";
-import { Footer } from "./-sections/footer";
 
 const PAGE_TITLE = "ATS Checker - Reactive Resume";
 const PAGE_DESCRIPTION =
@@ -76,8 +75,6 @@ function RouteComponent() {
 							<HonestyPanel />
 						</aside>
 					</div>
-
-					<Footer />
 				</div>
 			</div>
 		</main>

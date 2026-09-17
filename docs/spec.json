@@ -28888,29 +28888,6 @@
 				}
 			}
 		},
-		"/statistics/github/stars": {
-			"get": {
-				"operationId": "getGitHubStarCount",
-				"summary": "Get GitHub star count",
-				"description": "Returns the number of GitHub stars for the Reactive Resume repository. The count is cached for up to 6 hours and falls back to a last-known value if the GitHub API is unavailable. No authentication required.",
-				"tags": [
-					"Platform Statistics"
-				],
-				"responses": {
-					"200": {
-						"description": "The number of GitHub stars for the Reactive Resume repository.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "number",
-									"description": "The number of GitHub stars."
-								}
-							}
-						}
-					}
-				}
-			}
-		},
 		"/resumes/{username}/{slug}/statistics/download": {
 			"post": {
 				"operationId": "recordResumeDownload",
