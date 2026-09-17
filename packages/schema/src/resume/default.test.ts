@@ -12,8 +12,8 @@ describe("defaultResumeData", () => {
 		expect(defaultResumeData.metadata.template).toBe("onyx");
 	});
 
-	it("uses en-US locale", () => {
-		expect(defaultResumeData.metadata.page.locale).toBe("en-US");
+	it("uses zh-CN locale", () => {
+		expect(defaultResumeData.metadata.page.locale).toBe("zh-CN");
 	});
 
 	it("uses A4 format by default", () => {

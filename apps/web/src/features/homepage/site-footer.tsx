@@ -49,7 +49,6 @@ const getColumns = (): FooterColumn[] => [
 		links: [
 			{ external: "https://discord.gg/aSyA5ZSxpb", label: t`Discord` },
 			{ external: "https://reddit.com/r/reactiveresume", label: t`Subreddit` },
-			{ external: "https://crowdin.com/project/reactive-resume", label: t`Translations` },
 			{ external: `${githubUrl}/issues`, label: t`Report an issue` },
 		],
 	},

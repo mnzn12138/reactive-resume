@@ -17,13 +17,13 @@ function fixture(locale: string) {
 
 describe("default PDF section title locale", () => {
 	it("localizes default headings without an injected browser translator", () => {
-		const data = fixture("es-ES");
-		expect(getResumeSectionTitle(data, "summary", "")).toBe("Resumen");
-		expect(getResumeSectionTitle(data, "experience", "")).toBe("Experiencia");
-		expect(getResumeSectionTitle(data, "education", "")).toBe("Formación académica");
+		const data = fixture("zh-CN");
+		expect(getResumeSectionTitle(data, "summary", "")).toBe("总结");
+		expect(getResumeSectionTitle(data, "experience", "")).toBe("工作经历");
+		expect(getResumeSectionTitle(data, "education", "")).toBe("教育经历");
 	});
 	it("preserves explicit titles and caller-provided translators", () => {
-		const data = fixture("es-ES");
+		const data = fixture("zh-CN");
 		data.summary.title = "My custom title";
 		expect(getResumeSectionTitle(data, "summary", "")).toBe("My custom title");
 		expect(getResumeSectionTitle({ ...data, resolveSectionTitle: () => "Custom translation" }, "experience", "")).toBe(
@@ -31,16 +31,16 @@ describe("default PDF section title locale", () => {
 		);
 	});
 	it("resolves custom sections by their type and preserves unknown-section fallbacks", () => {
-		const data = fixture("es-ES");
+		const data = fixture("zh-CN");
 		data.customSections = [{ ...data.sections.experience, id: "custom-experience", type: "experience" }];
-		expect(getResumeSectionTitle(data, "custom-experience", "")).toBe("Experiencia");
+		expect(getResumeSectionTitle(data, "custom-experience", "")).toBe("工作经历");
 		data.customSections = [{ ...data.sections.experience, id: "custom-summary", type: "summary", items: [] }];
-		expect(getResumeSectionTitle(data, "custom-summary", "")).toBe("Resumen");
+		expect(getResumeSectionTitle(data, "custom-summary", "")).toBe("总结");
 		expect(getResumeSectionTitle(data, "unknown", "Legacy label")).toBe("Legacy label");
 	});
 	it.each([
-		["es-ES", "Resumen"],
-		["fr-FR", "Résumé"],
+		["en-US", "Summary"],
+		["zh-TW", "摘要"],
 		["unknown-locale", "Summary"],
 	])("includes localized default headings in the actual server PDF: %s", async (locale, heading) => {
 		const data = fixture(locale);

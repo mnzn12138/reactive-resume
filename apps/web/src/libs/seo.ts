@@ -127,7 +127,7 @@ const homeFaqJsonLdItems = [
 	{
 		question: "Is Reactive Resume available in multiple languages?",
 		answer:
-			"Yes. Pick your language on the settings page, or with the language switcher in the top right corner. If your language is missing, or the existing translation could be better, you can contribute to the translations on Crowdin.",
+			"Yes. Pick your language on the settings page, or with the language switcher in the top right corner. English, Simplified Chinese, and Traditional Chinese are available.",
 	},
 	{
 		question: "What makes Reactive Resume different from other resume builders?",

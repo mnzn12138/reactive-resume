@@ -39,7 +39,7 @@ describe("Footer", () => {
 	it("renders the documented community links", () => {
 		const { container } = renderFooter();
 		const text = container.textContent ?? "";
-		for (const label of ["Report an issue", "Translations", "Subreddit", "Discord"]) {
+		for (const label of ["Report an issue", "Subreddit", "Discord"]) {
 			expect(text, label).toContain(label);
 		}
 	});

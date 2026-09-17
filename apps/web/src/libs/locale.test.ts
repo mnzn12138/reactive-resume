@@ -15,8 +15,8 @@ describe("isLocale", () => {
 		expect(isLocale("en-US")).toBe(true);
 	});
 
-	it("returns true for de-DE", () => {
-		expect(isLocale("de-DE")).toBe(true);
+	it("returns true for zh-TW", () => {
+		expect(isLocale("zh-TW")).toBe(true);
 	});
 
 	it("returns true for zh-CN", () => {
@@ -42,15 +42,15 @@ describe("isLocale", () => {
 
 describe("resolveLocale", () => {
 	it("returns the locale unchanged when valid", () => {
-		expect(resolveLocale("fr-FR")).toBe("fr-FR");
+		expect(resolveLocale("zh-TW")).toBe("zh-TW");
 	});
 
-	it("returns en-US default for invalid locale", () => {
-		expect(resolveLocale("xx-YY")).toBe("en-US");
+	it("returns zh-CN default for a locale whose catalog was removed", () => {
+		expect(resolveLocale("xx-YY")).toBe("zh-CN");
 	});
 
-	it("returns en-US default for empty string", () => {
-		expect(resolveLocale("")).toBe("en-US");
+	it("returns zh-CN default for empty string", () => {
+		expect(resolveLocale("")).toBe("zh-CN");
 	});
 });
 
@@ -75,9 +75,9 @@ describe("changeLocale", () => {
 	it("persists a valid locale and reloads", () => {
 		const reload = vi.spyOn(window.location, "reload").mockImplementation(() => undefined);
 
-		changeLocale("de-DE");
+		changeLocale("zh-TW");
 
-		expect(Cookies.get("locale")).toBe("de-DE");
+		expect(Cookies.get("locale")).toBe("zh-TW");
 		expect(reload).toHaveBeenCalledOnce();
 	});
 });

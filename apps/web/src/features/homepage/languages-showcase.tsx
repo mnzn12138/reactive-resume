@@ -2,22 +2,17 @@ import type { Locale } from "@reactive-resume/utils/locale";
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
-import { ArrowUpRightIcon, CheckIcon, DownloadSimpleIcon, PlusIcon } from "@phosphor-icons/react";
+import { CheckIcon, DownloadSimpleIcon, PlusIcon } from "@phosphor-icons/react";
 import { useState } from "react";
 import { cn } from "@reactive-resume/utils/style";
 import { changeLocale, isLocale, isRTL, localeMap, resolveLocale } from "@/libs/locale";
-import { section, sectionHeading, sectionText, sectionTitle, textLink, wrap } from "./classes";
+import { section, sectionHeading, sectionText, sectionTitle, wrap } from "./classes";
 import "./languages-showcase.css";
 
 const featuredLocales = [
+	{ locale: "zh-CN", name: "简体中文" },
+	{ locale: "zh-TW", name: "繁體中文" },
 	{ locale: "en-US", name: "English" },
-	{ locale: "de-DE", name: "Deutsch" },
-	{ locale: "fr-FR", name: "Français" },
-	{ locale: "es-ES", name: "Español" },
-	{ locale: "pt-BR", name: "Português" },
-	{ locale: "ar-SA", name: "العربية" },
-	{ locale: "ja-JP", name: "日本語" },
-	{ locale: "hi-IN", name: "हिन्दी" },
 ] satisfies { locale: Locale; name: string }[];
 
 // A locale name can exist before its catalog ships. Only offer files the app can load.
@@ -48,6 +43,9 @@ export default function LanguagesShowcase() {
 	const { i18n } = useLingui();
 	const selectedLocale = resolveLocale(i18n.locale);
 	const [instant, setInstant] = useState(false);
+	const extraLocales = availableLocales.filter(
+		(locale) => !featuredLocales.some((featured) => featured.locale === locale),
+	);
 
 	return (
 		<section
@@ -159,36 +157,34 @@ export default function LanguagesShowcase() {
 				</div>
 			</div>
 			<div className="grid grid-cols-[1fr_auto] items-start gap-10 pt-[25px] max-[760px]:grid-cols-1 max-[760px]:gap-[22px]">
-				<details className="group/all min-w-0">
-					<summary className="flex min-h-[44px] w-fit cursor-pointer list-none items-center justify-between gap-5 py-[5px] text-(--home-ink) text-[14px] focus-visible:outline-(--home-accent) focus-visible:outline-2 focus-visible:outline-offset-[5px] [&::-webkit-details-marker]:hidden">
-						<Trans>Show all languages</Trans>
-						<PlusIcon
-							className="transition-transform duration-[180ms] ease-[ease-out] group-open/all:rotate-45 group-data-[instant=true]/languages:transition-none"
-							size={18}
-							aria-hidden="true"
-						/>
-					</summary>
-					<fieldset
-						className="mt-[23px] grid min-w-0 grid-cols-3 gap-x-3 gap-y-1 group-data-[instant=false]/languages:group-open/all:animate-[home-language-unfold_220ms_ease-out_both] max-[420px]:grid-cols-2"
-						aria-label={t`All app languages`}
-					>
-						{availableLocales.map((locale) => (
-							<button
-								key={locale}
-								type="button"
-								className="min-h-[44px] rounded-[3px] border border-transparent bg-transparent px-[10px] py-[9px] text-start text-(--home-muted) text-[13px] leading-[1.5] hover:bg-[#242225] hover:text-(--home-ink) focus-visible:outline-(--home-accent) focus-visible:outline-2 focus-visible:outline-offset-[5px] aria-pressed:border-[#756253] aria-pressed:bg-[#211e1c] aria-pressed:text-[#d0b9a5] aria-pressed:hover:bg-[#242225] aria-pressed:hover:text-(--home-ink)"
-								aria-pressed={selectedLocale === locale}
-								onClick={() => changeLocale(locale)}
-							>
-								{i18n._(localeMap[locale])}
-							</button>
-						))}
-					</fieldset>
-				</details>
-				<a href="https://crowdin.com/project/reactive-resume" className={cn(textLink, "mt-[5px]")}>
-					<Trans>Help translate the app</Trans>
-					<ArrowUpRightIcon size={17} aria-hidden="true" />
-				</a>
+				{extraLocales.length > 0 && (
+					<details className="group/all min-w-0">
+						<summary className="flex min-h-[44px] w-fit cursor-pointer list-none items-center justify-between gap-5 py-[5px] text-(--home-ink) text-[14px] focus-visible:outline-(--home-accent) focus-visible:outline-2 focus-visible:outline-offset-[5px] [&::-webkit-details-marker]:hidden">
+							<Trans>Show all languages</Trans>
+							<PlusIcon
+								className="transition-transform duration-[180ms] ease-[ease-out] group-open/all:rotate-45 group-data-[instant=true]/languages:transition-none"
+								size={18}
+								aria-hidden="true"
+							/>
+						</summary>
+						<fieldset
+							className="mt-[23px] grid min-w-0 grid-cols-3 gap-x-3 gap-y-1 group-data-[instant=false]/languages:group-open/all:animate-[home-language-unfold_220ms_ease-out_both] max-[420px]:grid-cols-2"
+							aria-label={t`All app languages`}
+						>
+							{extraLocales.map((locale) => (
+								<button
+									key={locale}
+									type="button"
+									className="min-h-[44px] rounded-[3px] border border-transparent bg-transparent px-[10px] py-[9px] text-start text-(--home-muted) text-[13px] leading-[1.5] hover:bg-[#242225] hover:text-(--home-ink) focus-visible:outline-(--home-accent) focus-visible:outline-2 focus-visible:outline-offset-[5px] aria-pressed:border-[#756253] aria-pressed:bg-[#211e1c] aria-pressed:text-[#d0b9a5] aria-pressed:hover:bg-[#242225] aria-pressed:hover:text-(--home-ink)"
+									aria-pressed={selectedLocale === locale}
+									onClick={() => changeLocale(locale)}
+								>
+									{i18n._(localeMap[locale])}
+								</button>
+							))}
+						</fieldset>
+					</details>
+				)}
 			</div>
 		</section>
 	);

@@ -19,7 +19,7 @@ describe("getLocaleOptions", () => {
 		const options = getLocaleOptions();
 		const values = options.map((opt) => opt.value);
 		expect(values).toContain("en-US");
-		expect(values).toContain("de-DE");
+		expect(values).toContain("zh-CN");
 	});
 
 	it("makes each option searchable by translated name and ISO code", () => {

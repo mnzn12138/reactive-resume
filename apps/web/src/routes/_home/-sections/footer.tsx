@@ -33,7 +33,6 @@ const getResourceLinks = (): FooterLinkItem[] => [
 
 const getCommunityLinks = (): FooterLinkItem[] => [
 	{ url: "https://github.com/reactive-resume/reactive-resume/issues", label: t`Report an issue` },
-	{ url: "https://crowdin.com/project/reactive-resume", label: t`Translations` },
 	{ url: "https://reddit.com/r/reactiveresume", label: t`Subreddit` },
 	{ url: "https://discord.gg/aSyA5ZSxpb", label: t`Discord` },
 ];

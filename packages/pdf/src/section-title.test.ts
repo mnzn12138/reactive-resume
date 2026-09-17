@@ -2,6 +2,13 @@ import { describe, expect, it, vi } from "vitest";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 import { getResumeSectionTitle, resolveSectionTitle } from "./section-title";
 
+// The shipped default page locale is zh-CN, so the English-fallback assertions below
+// pin en-US explicitly and the last test covers the shipped default.
+const englishData = {
+	...defaultResumeData,
+	metadata: { ...defaultResumeData.metadata, page: { ...defaultResumeData.metadata.page, locale: "en-US" } },
+};
+
 describe("resolveSectionTitle", () => {
 	it("returns the trimmed user-provided title when non-empty", () => {
 		const result = resolveSectionTitle("My Title", {
@@ -78,12 +85,17 @@ describe("getResumeSectionTitle", () => {
 	});
 
 	it("uses default English title for summary when title is empty", () => {
-		expect(getResumeSectionTitle(defaultResumeData, "summary")).toBe("Summary");
+		expect(getResumeSectionTitle(englishData, "summary")).toBe("Summary");
 	});
 
 	it("uses default English title for built-in sections", () => {
-		expect(getResumeSectionTitle(defaultResumeData, "experience")).toBe("Experience");
-		expect(getResumeSectionTitle(defaultResumeData, "skills")).toBe("Skills");
+		expect(getResumeSectionTitle(englishData, "experience")).toBe("Experience");
+		expect(getResumeSectionTitle(englishData, "skills")).toBe("Skills");
+	});
+
+	it("uses the shipped zh-CN default locale for built-in sections", () => {
+		expect(getResumeSectionTitle(defaultResumeData, "summary")).toBe("总结");
+		expect(getResumeSectionTitle(defaultResumeData, "experience")).toBe("工作经历");
 	});
 
 	it("falls back to legacyFallback for unknown section ids", () => {
@@ -124,7 +136,7 @@ describe("getResumeSectionTitle", () => {
 
 	it("uses default English title 'Cover Letter' for cover-letter custom sections", () => {
 		const data = {
-			...defaultResumeData,
+			...englishData,
 			customSections: [
 				{
 					id: "ext-1",

@@ -1,5 +1,4 @@
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
-import type { Locale } from "@reactive-resume/utils/locale";
 import type { ReactNode } from "react";
 import type { SectionTitleResolver } from "./section-title";
 import { createContext, use, useMemo } from "react";
@@ -40,7 +39,7 @@ export const RenderProvider = ({
 			createHyphenationCallback({
 				locale: data.metadata.page.locale,
 				automatic: data.metadata.typography.hyphenation === true,
-				cjk: isCJKLocale(data.metadata.page.locale as Locale) || resumeContentContainsCJK(data),
+				cjk: isCJKLocale(data.metadata.page.locale) || resumeContentContainsCJK(data),
 			}),
 		[data],
 	);

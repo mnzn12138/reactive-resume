@@ -1,74 +1,24 @@
 import z from "zod";
 
-// ponytail: z.enum([...]) over 56 z.literal calls; same parse behavior, same inferred union type
-export const localeSchema = z.enum([
-	"af-ZA",
-	"am-ET",
-	"ar-SA",
-	"az-AZ",
-	"bg-BG",
-	"bn-BD",
-	"ca-ES",
-	"cs-CZ",
-	"da-DK",
-	"de-DE",
-	"el-GR",
-	"en-US",
-	"en-GB",
-	"es-ES",
-	"fa-IR",
-	"fi-FI",
-	"fr-FR",
-	"he-IL",
-	"hi-IN",
-	"hu-HU",
-	"id-ID",
-	"it-IT",
-	"ja-JP",
-	"km-KH",
-	"kn-IN",
-	"ko-KR",
-	"lt-LT",
-	"lv-LV",
-	"ml-IN",
-	"mr-IN",
-	"ms-MY",
-	"ne-NP",
-	"nl-NL",
-	"no-NO",
-	"or-IN",
-	"pl-PL",
-	"pt-BR",
-	"pt-PT",
-	"ro-RO",
-	"ru-RU",
-	"sk-SK",
-	"sl-SI",
-	"sq-AL",
-	"sr-SP",
-	"sv-SE",
-	"ta-IN",
-	"te-IN",
-	"th-TH",
-	"tr-TR",
-	"uk-UA",
-	"uz-UZ",
-	"vi-VN",
-	"zh-CN",
-	"zh-TW",
-	"zu-ZA",
-]);
+// This fork ships only the locales below. Keep this list, `apps/web/locales/*.po`,
+// `apps/web/lingui.config.ts`, and `localeMap` (apps/web/src/libs/locale.ts) in sync —
+// the app resolves a locale by looking for a matching catalog file.
+export const localeSchema = z.enum(["en-US", "zh-CN", "zh-TW"]);
 
 export type Locale = z.infer<typeof localeSchema>;
 
-export const defaultLocale: Locale = "en-US";
+export const defaultLocale: Locale = "zh-CN";
 
 export function isLocale(value: unknown): value is Locale {
 	return localeSchema.safeParse(value).success;
 }
 
-export function isCJKLocale(locale: Locale): boolean {
-	return locale === "zh-CN" || locale === "zh-TW" || locale === "ja-JP" || locale === "ko-KR";
+// Accepts a plain BCP-47 tag rather than `Locale`: a saved resume can still carry a
+// page locale from before the catalog trim, and the PDF keeps breaking those lines
+// like CJK even though the app no longer offers them in the language picker.
+export function isCJKLocale(locale: string): boolean {
+	const language = locale.split("-")[0]?.toLowerCase() ?? "";
+	return language === "zh" || language === "ja" || language === "ko";
 }
 
 // A writing system that needs a dedicated fallback font in the PDF renderer,
@@ -92,7 +42,7 @@ export function isCjkScript(script: Script): boolean {
 // The script a locale primarily uses, used to order the fallback stack so the
 // dominant language renders with its native font. Persian (fa-IR) uses the
 // Arabic script.
-export function getLocaleScript(locale?: Locale): Script | null {
+export function getLocaleScript(locale?: string): Script | null {
 	switch (locale) {
 		case "ko-KR":
 			return "hangul";

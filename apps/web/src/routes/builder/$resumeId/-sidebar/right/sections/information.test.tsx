@@ -39,9 +39,9 @@ describe("InformationSectionBuilder", () => {
 		expect(donateLink?.getAttribute("href")).toBe("http://opencollective.com/reactive-resume");
 	});
 
-	it("includes external resource links (docs, source, bugs, translations, sponsors)", () => {
+	it("includes external resource links (docs, source, bugs, sponsors)", () => {
 		renderInfo();
-		const labels = ["Documentation", "Source Code", "Report a Bug", "Translations", "Sponsors"];
+		const labels = ["Documentation", "Source Code", "Report a Bug", "Sponsors"];
 		for (const label of labels) {
 			expect(screen.getByText(label).closest("a"), label).not.toBeNull();
 		}

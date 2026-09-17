@@ -532,10 +532,6 @@ msgstr "先進的"
 msgid "Advice for the person reading it. None of this affects the score."
 msgstr "給讀者的建議。這些都不會影響分數。"
 
-#: src/libs/locale.ts
-msgid "Afrikaans"
-msgstr "南非荷蘭語"
-
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Against the job description"
 msgstr "對照職缺描述"
@@ -597,11 +593,6 @@ msgstr "AI 供應商需要配置 REDIS_URL 和 ENCRYPTION_SECRET。"
 msgid "AI, when you want it"
 msgstr "需要時才用 AI"
 
-#: src/libs/locale.ts
-msgid "Albanian"
-msgstr "阿爾巴尼亞語"
-
-#: src/features/homepage/languages-showcase.test.tsx
 #: src/features/homepage/languages-showcase.tsx
 msgid "All app languages"
 msgstr "所有應用程式語言"
@@ -629,10 +620,6 @@ msgstr "已涵蓋"
 #: src/features/auth/pages/register.tsx
 msgid "Already have an account? <0/>"
 msgstr "已有帳戶？<0/>"
-
-#: src/libs/locale.ts
-msgid "Amharic"
-msgstr "阿姆哈拉語"
 
 #: src/features/ats-checker/messages.ts
 msgid "An embedded font could not be read."
@@ -770,10 +757,6 @@ msgstr "核准"
 msgid "Approved, waiting for the agent…"
 msgstr "已核准，正在等待代理…"
 
-#: src/libs/locale.ts
-msgid "Arabic"
-msgstr "阿拉伯文"
-
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
@@ -904,10 +887,6 @@ msgstr "頒獎者"
 msgid "Awards"
 msgstr "獎項"
 
-#: src/libs/locale.ts
-msgid "Azerbaijani"
-msgstr "亞塞拜然語"
-
 #: src/features/homepage/export-playground.tsx
 msgid "BA"
 msgstr "BA"
@@ -943,10 +922,6 @@ msgstr "基本 URL"
 #: src/libs/resume/section.tsx
 msgid "Basics"
 msgstr "基本資料"
-
-#: src/libs/locale.ts
-msgid "Bengali"
-msgstr "孟加拉語"
 
 #: src/features/resume/export/download-dialog.tsx
 msgid "Best for applications, sharing, and printing."
@@ -997,10 +972,6 @@ msgstr "編輯器指令選單"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Built a design system used by six product teams."
 msgstr "建立了一套供六個產品團隊使用的設計系統。"
-
-#: src/libs/locale.ts
-msgid "Bulgarian"
-msgstr "保加利亞語"
 
 #: src/features/applications/components/table-view.tsx
 msgid "Bulk delete failed. Please try again."
@@ -1056,10 +1027,6 @@ msgstr "取消"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Cannot restore; the resume has changed since this edit was applied."
 msgstr "無法恢復；簡歷自此編輯後已發生更改。"
-
-#: src/libs/locale.ts
-msgid "Catalan"
-msgstr "加泰隆尼亞語"
 
 #: src/components/input/rich-input.tsx
 msgid "Center Align"
@@ -1816,14 +1783,6 @@ msgstr "自訂段落"
 msgid "Custom Styles"
 msgstr "自訂樣式"
 
-#: src/libs/locale.ts
-msgid "Czech"
-msgstr "捷克語"
-
-#: src/libs/locale.ts
-msgid "Danish"
-msgstr "丹麥語"
-
 #. Appearance theme option for dark mode
 #: src/features/user/dropdown-menu.tsx
 #: src/libs/theme.ts
@@ -2188,10 +2147,6 @@ msgstr "複製您的履歷，以建立一份與原本相同的新履歷。"
 msgid "Duplicating your resume..."
 msgstr "正在複製您的履歷…"
 
-#: src/libs/locale.ts
-msgid "Dutch"
-msgstr "荷蘭語"
-
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "Earlier versions are kept; the builder's undo history is reset."
 msgstr "保留早期版本；重置建構器的撤銷歷史記錄。"
@@ -2330,10 +2285,6 @@ msgstr "啟用雙重認證…"
 #: src/libs/locale.ts
 msgid "English"
 msgstr "英文"
-
-#: src/libs/locale.ts
-msgid "English (United Kingdom)"
-msgstr "英語（英國）"
 
 #: src/features/cover-letters/editor.tsx
 msgid "Enter a name for this cover letter."
@@ -2688,10 +2639,6 @@ msgstr "找出比較弱的條列項目，用更明確的成果、數字、規模
 msgid "Find us on GitHub"
 msgstr "在 GitHub 上找到我們"
 
-#: src/libs/locale.ts
-msgid "Finnish"
-msgstr "芬蘭語"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
 msgstr "煙火"
@@ -2791,7 +2738,6 @@ msgid "Free-form"
 msgstr "自由形式"
 
 #: src/features/homepage/resume-sculpture.tsx
-#: src/libs/locale.ts
 msgid "French"
 msgstr "法文"
 
@@ -2829,10 +2775,6 @@ msgstr "產生隨機名稱"
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Generating your PDF..."
 msgstr "正在產生您的 PDF…"
-
-#: src/libs/locale.ts
-msgid "German"
-msgstr "德文"
 
 #: src/features/homepage/page.tsx
 msgid "Get a second opinion on your writing, share your resume, and keep track of where you’ve applied. It’s all in one place."
@@ -2904,10 +2846,6 @@ msgstr "成績"
 msgid "Graphic Design"
 msgstr "平面設計"
 
-#: src/libs/locale.ts
-msgid "Greek"
-msgstr "希臘語"
-
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Grid"
 msgstr "網格"
@@ -2949,18 +2887,6 @@ msgstr "標題 6"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Headline"
 msgstr "標題"
-
-#: src/libs/locale.ts
-msgid "Hebrew"
-msgstr "希伯來語"
-
-#: src/features/homepage/languages-showcase.tsx
-msgid "Help translate the app"
-msgstr "協助翻譯這個應用程式"
-
-#: src/features/settings/pages/preferences.tsx
-msgid "Help translate the app to your language"
-msgstr "協助將此應用程式翻譯成您的語言"
 
 #: src/dialogs/api-key/create.tsx
 msgid "Here's your new API key"
@@ -3037,10 +2963,6 @@ msgstr "螢光標記"
 msgid "Highlight Color"
 msgstr "高亮顏色"
 
-#: src/libs/locale.ts
-msgid "Hindi"
-msgstr "印地語"
-
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "首頁"
@@ -3048,10 +2970,6 @@ msgstr "首頁"
 #: src/features/settings/pages/api-keys.tsx
 msgid "How do I use the API?"
 msgstr "我要如何使用 API？"
-
-#: src/libs/locale.ts
-msgid "Hungarian"
-msgstr "匈牙利語"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
@@ -3157,10 +3075,6 @@ msgstr "增加它們，使內容保持在可靠讀取的區域內。"
 msgid "Increase zoom"
 msgstr "放大"
 
-#: src/libs/locale.ts
-msgid "Indonesian"
-msgstr "印尼語"
-
 #: src/libs/resume/section.tsx
 msgid "Information"
 msgstr "詳細資訊"
@@ -3212,17 +3126,9 @@ msgstr "AI提供者配置無效。"
 msgid "Issuer"
 msgstr "發行者"
 
-#: src/libs/locale.ts
-msgid "Italian"
-msgstr "義大利語"
-
 #: src/components/input/rich-input.tsx
 msgid "Italic"
 msgstr "斜體"
-
-#: src/libs/locale.ts
-msgid "Japanese"
-msgstr "日文"
 
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Job"
@@ -3275,10 +3181,6 @@ msgstr "JSON 簡歷"
 #: src/components/input/rich-input.tsx
 msgid "Justify Align"
 msgstr "左右對齊"
-
-#: src/libs/locale.ts
-msgid "Kannada"
-msgstr "卡納達語"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Keep a backup of your content and settings. Import it into Reactive Resume later."
@@ -3350,17 +3252,9 @@ msgstr "關鍵詞版面"
 msgid "Keywords"
 msgstr "關鍵詞"
 
-#: src/libs/locale.ts
-msgid "Khmer"
-msgstr "高棉語"
-
 #: src/features/homepage/feature-explorer.tsx
 msgid "Know where things stand"
 msgstr "隨時掌握進度"
-
-#: src/libs/locale.ts
-msgid "Korean"
-msgstr "韓文"
 
 #. Short field label for custom display text associated with a URL
 #: src/components/input/url-input.tsx
@@ -3412,10 +3306,6 @@ msgstr "最後更新日期 {updatedAt}"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "上次檢視日期：{0}"
-
-#: src/libs/locale.ts
-msgid "Latvian"
-msgstr "拉脫維亞語"
 
 #: src/features/ats-checker/messages.ts
 msgid "Lay the text out horizontally. Rotated runs are often dropped or misplaced."
@@ -3543,10 +3433,6 @@ msgstr "列表"
 msgid "List the tools and technologies you use. Recruiters search skills more than any other field."
 msgstr "列出您使用的工具和技術。招募人員搜尋技能的頻率高於其他任何欄位。"
 
-#: src/libs/locale.ts
-msgid "Lithuanian"
-msgstr "立陶宛語"
-
 #: src/dialogs/resume/import.tsx
 msgid "Loading AI providers. Please try again in a moment."
 msgstr "正在加載人工智慧提供者。請稍後再試。"
@@ -3651,21 +3537,9 @@ msgstr "把它們改得明顯更大、更粗或全部大寫。"
 msgid "Make yourself <0/>look good<1/><2>on paper.</2>"
 msgstr "讓你<0/>在紙上<1/><2>脫穎而出。</2>"
 
-#: src/libs/locale.ts
-msgid "Malay"
-msgstr "馬來語"
-
-#: src/libs/locale.ts
-msgid "Malayalam"
-msgstr "馬拉雅拉姆語"
-
 #: src/features/ats-checker/messages.ts
 msgid "Many bullets start with the same phrase."
 msgstr "很多重點都以相同的詞句開頭。"
-
-#: src/libs/locale.ts
-msgid "Marathi"
-msgstr "馬拉提語"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Margin (Horizontal)"
@@ -3806,10 +3680,6 @@ msgstr "名稱能幫您分辨不同的金鑰，所以請依用途來命名。"
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Names help you tell passkeys apart if you register more than one."
 msgstr "如果您註冊了多個通行金鑰，名稱能幫您把它們分辨開來。"
-
-#: src/libs/locale.ts
-msgid "Nepali"
-msgstr "尼泊爾語"
 
 #: src/dialogs/resume/sections/profile.tsx
 msgid "Network"
@@ -4004,10 +3874,6 @@ msgstr "尚無對話串。"
 msgid "No work-experience section was found."
 msgstr "未找到工作經歷部分。"
 
-#: src/libs/locale.ts
-msgid "Norwegian"
-msgstr "挪威語"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Not connected"
 msgstr "未連接"
@@ -4053,10 +3919,6 @@ msgstr "沒有需要修復的內容。其餘頁面只是未被本報告涵蓋。
 #: src/features/ats-checker/report/report-view.tsx
 msgid "Nothing to suggest."
 msgstr "沒有可提供的建議。"
-
-#: src/libs/locale.ts
-msgid "Odia"
-msgstr "歐利亞語"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Offer"
@@ -4355,10 +4217,6 @@ msgstr "期間"
 msgid "Perplexity"
 msgstr "困惑"
 
-#: src/libs/locale.ts
-msgid "Persian"
-msgstr "波斯語"
-
 #: src/dialogs/resume/sections/reference.tsx
 #: src/features/ats-checker/parse-preview.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
@@ -4425,22 +4283,10 @@ msgstr "請上傳 PDF 檔案。"
 msgid "Plum"
 msgstr "Plum"
 
-#: src/libs/locale.ts
-msgid "Polish"
-msgstr "波蘭語"
-
 #. Preset button for setting picture aspect ratio to portrait orientation
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Portrait"
 msgstr "直向"
-
-#: src/libs/locale.ts
-msgid "Portuguese (Brazil)"
-msgstr "葡萄牙語（巴西）"
-
-#: src/libs/locale.ts
-msgid "Portuguese (Portugal)"
-msgstr "葡萄牙語（葡萄牙）"
 
 #: src/dialogs/resume/sections/experience.tsx
 #: src/dialogs/resume/sections/reference.tsx
@@ -5050,10 +4896,6 @@ msgstr "職位 A–Z"
 msgid "Role Progression"
 msgstr "職位晉升"
 
-#: src/libs/locale.ts
-msgid "Romanian"
-msgstr "羅馬尼亞語"
-
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Rotation"
 msgstr "旋轉"
@@ -5073,10 +4915,6 @@ msgstr "執行深度檢查"
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Running…"
 msgstr "執行中…"
-
-#: src/libs/locale.ts
-msgid "Russian"
-msgstr "俄文"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
@@ -5356,10 +5194,6 @@ msgstr "資深產品設計師"
 msgid "Separator"
 msgstr "分隔線"
 
-#: src/libs/locale.ts
-msgid "Serbian"
-msgstr "塞爾維亞語"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Serif"
 msgstr "Serif"
@@ -5606,14 +5440,6 @@ msgstr "跳過並上傳"
 msgid "Skip to main content"
 msgstr "跳至主要內容"
 
-#: src/libs/locale.ts
-msgid "Slovak"
-msgstr "斯洛伐克語"
-
-#: src/libs/locale.ts
-msgid "Slovenian"
-msgstr "斯洛維尼亞語"
-
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "標示碼"
@@ -5730,10 +5556,6 @@ msgstr "間距（水平）"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Spacing (Vertical)"
 msgstr "間距（垂直）"
-
-#: src/libs/locale.ts
-msgid "Spanish"
-msgstr "西班牙語"
 
 #: src/features/ats-checker/messages.ts
 msgid "Spell the month, as in \"Mar 2022\"."
@@ -5907,10 +5729,6 @@ msgstr "支持這個專案"
 msgid "Swap the start and end dates."
 msgstr "交換開始日期和結束日期。 」"
 
-#: src/libs/locale.ts
-msgid "Swedish"
-msgstr "瑞典語"
-
 #: src/features/theme/toggle-button.tsx
 msgid "Switch to dark theme"
 msgstr "切換至深色主題"
@@ -5962,14 +5780,6 @@ msgstr "調整失敗。"
 msgid "Take it<0/>with you."
 msgstr "把它<0/>帶著走。"
 
-#: src/libs/locale.ts
-msgid "Tamil"
-msgstr "泰米爾語"
-
-#: src/libs/locale.ts
-msgid "Telugu"
-msgstr "泰盧固語"
-
 #: src/features/cover-letters/editor-dialog.tsx
 #: src/features/cover-letters/library.tsx
 #: src/libs/resume/section.tsx
@@ -6016,10 +5826,6 @@ msgstr "文字是逐個字元單獨寫入的。"
 #: src/features/ats-checker/messages.ts
 msgid "Text sits in the header or footer area."
 msgstr "文字位於頁首或頁尾區域。"
-
-#: src/libs/locale.ts
-msgid "Thai"
-msgstr "泰文"
 
 #: src/features/homepage/page.tsx
 msgid "Thank you for helping keep it free."
@@ -6568,16 +6374,6 @@ msgstr "追蹤你的第一筆應徵紀錄"
 msgid "Track your resume's views and downloads"
 msgstr "追蹤履歷的檢視與下載次數"
 
-#: src/features/homepage/page.tsx
-msgid "Translate the app"
-msgstr "翻譯這個應用程式"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Translations"
-msgstr "翻譯"
-
 #: src/components/layout/error-screen.tsx
 #: src/features/homepage/ats-playground.tsx
 msgid "Try again"
@@ -6590,10 +6386,6 @@ msgstr "試試這些設定，看看訪客可以存取什麼。建立履歷時，
 #: src/features/homepage/ats-playground.tsx
 msgid "Try your PDF"
 msgstr "試試你的 PDF"
-
-#: src/libs/locale.ts
-msgid "Turkish"
-msgstr "土耳其語"
 
 #: src/features/ats-checker/messages.ts
 msgid "Turn off discretionary ligatures when exporting."
@@ -6679,10 +6471,6 @@ msgstr "字體"
 #: src/libs/resume/section.tsx
 msgid "Typography"
 msgstr "字體樣式"
-
-#: src/libs/locale.ts
-msgid "Ukrainian"
-msgstr "烏克蘭語"
 
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6951,10 +6739,6 @@ msgstr "使用者"
 msgid "Uses the name, template, color, and type you chose above."
 msgstr "使用你在上方選擇的名字、範本、顏色與字體。"
 
-#: src/libs/locale.ts
-msgid "Uzbek"
-msgstr "烏茲別克語"
-
 #: src/features/resume/stylesheet/status.tsx
 msgid "Valid"
 msgstr "有效"
@@ -7024,10 +6808,6 @@ msgstr "作為一份履歷，能擷取出的文字量非常少。"
 #: src/features/ats-checker/messages.ts
 msgid "Very little text was recovered for this many pages."
 msgstr "以這麼多頁數來說，能擷取出的文字非常少。"
-
-#: src/libs/locale.ts
-msgid "Vietnamese"
-msgstr "越南語"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Views"
@@ -7463,7 +7243,3 @@ msgstr "縮放等級"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Zoom out"
 msgstr "縮小"
-
-#: src/libs/locale.ts
-msgid "Zulu"
-msgstr "祖魯語"

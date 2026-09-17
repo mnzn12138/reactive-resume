@@ -49,8 +49,8 @@ describe("LanguageCommandPage", () => {
 	it("includes the documented set of locales (sample check)", () => {
 		useCommandPaletteStore.setState({ pages: ["language"] });
 		renderPage();
-		// Spot-check a couple of common locales.
-		for (const code of ["en-US", "de-DE", "ja-JP"]) {
+		// Spot-check every locale this fork ships.
+		for (const code of ["en-US", "zh-CN", "zh-TW"]) {
 			if (code in localeMap) {
 				expect(screen.getByText(code)).toBeInTheDocument();
 			}

@@ -294,10 +294,6 @@ export function Homepage() {
 							<Trans>There are other ways to pitch in.</Trans>
 						</p>
 						<div className="flex flex-wrap gap-x-7 max-[600px]:gap-x-5">
-							<a href="https://crowdin.com/project/reactive-resume" className={contributeLinkClass}>
-								<Trans>Translate the app</Trans>
-								<ArrowUpRightIcon size={15} aria-hidden="true" />
-							</a>
 							<a href={`${githubUrl}/issues`} className={contributeLinkClass}>
 								<Trans>Report a bug</Trans>
 								<ArrowUpRightIcon size={15} aria-hidden="true" />

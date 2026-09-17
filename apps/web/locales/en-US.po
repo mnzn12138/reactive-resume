@@ -527,10 +527,6 @@ msgstr "Advanced"
 msgid "Advice for the person reading it. None of this affects the score."
 msgstr "Advice for the person reading it. None of this affects the score."
 
-#: src/libs/locale.ts
-msgid "Afrikaans"
-msgstr "Afrikaans"
-
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Against the job description"
 msgstr "Against the job description"
@@ -592,11 +588,6 @@ msgstr "AI providers require REDIS_URL and ENCRYPTION_SECRET to be configured."
 msgid "AI, when you want it"
 msgstr "AI, when you want it"
 
-#: src/libs/locale.ts
-msgid "Albanian"
-msgstr "Albanian"
-
-#: src/features/homepage/languages-showcase.test.tsx
 #: src/features/homepage/languages-showcase.tsx
 msgid "All app languages"
 msgstr "All app languages"
@@ -624,10 +615,6 @@ msgstr "Already covered"
 #: src/features/auth/pages/register.tsx
 msgid "Already have an account? <0/>"
 msgstr "Already have an account? <0/>"
-
-#: src/libs/locale.ts
-msgid "Amharic"
-msgstr "Amharic"
 
 #: src/features/ats-checker/messages.ts
 msgid "An embedded font could not be read."
@@ -765,10 +752,6 @@ msgstr "Approve"
 msgid "Approved, waiting for the agent…"
 msgstr "Approved, waiting for the agent…"
 
-#: src/libs/locale.ts
-msgid "Arabic"
-msgstr "Arabic"
-
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
@@ -899,10 +882,6 @@ msgstr "Awarder"
 msgid "Awards"
 msgstr "Awards"
 
-#: src/libs/locale.ts
-msgid "Azerbaijani"
-msgstr "Azerbaijani"
-
 #: src/features/homepage/export-playground.tsx
 msgid "BA"
 msgstr "BA"
@@ -938,10 +917,6 @@ msgstr "Base URL"
 #: src/libs/resume/section.tsx
 msgid "Basics"
 msgstr "Basics"
-
-#: src/libs/locale.ts
-msgid "Bengali"
-msgstr "Bengali"
 
 #: src/features/resume/export/download-dialog.tsx
 msgid "Best for applications, sharing, and printing."
@@ -992,10 +967,6 @@ msgstr "Builder Command Palette"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Built a design system used by six product teams."
 msgstr "Built a design system used by six product teams."
-
-#: src/libs/locale.ts
-msgid "Bulgarian"
-msgstr "Bulgarian"
 
 #: src/features/applications/components/table-view.tsx
 msgid "Bulk delete failed. Please try again."
@@ -1051,10 +1022,6 @@ msgstr "Cancel"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Cannot restore; the resume has changed since this edit was applied."
 msgstr "Cannot restore; the resume has changed since this edit was applied."
-
-#: src/libs/locale.ts
-msgid "Catalan"
-msgstr "Catalan"
 
 #: src/components/input/rich-input.tsx
 msgid "Center Align"
@@ -1811,14 +1778,6 @@ msgstr "Custom Sections"
 msgid "Custom Styles"
 msgstr "Custom Styles"
 
-#: src/libs/locale.ts
-msgid "Czech"
-msgstr "Czech"
-
-#: src/libs/locale.ts
-msgid "Danish"
-msgstr "Danish"
-
 #. Appearance theme option for dark mode
 #: src/features/user/dropdown-menu.tsx
 #: src/libs/theme.ts
@@ -2183,10 +2142,6 @@ msgstr "Duplicate your resume to create a new one, just like the original."
 msgid "Duplicating your resume..."
 msgstr "Duplicating your resume..."
 
-#: src/libs/locale.ts
-msgid "Dutch"
-msgstr "Dutch"
-
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "Earlier versions are kept; the builder's undo history is reset."
 msgstr "Earlier versions are kept; the builder's undo history is reset."
@@ -2325,10 +2280,6 @@ msgstr "Enabling two-factor authentication…"
 #: src/libs/locale.ts
 msgid "English"
 msgstr "English"
-
-#: src/libs/locale.ts
-msgid "English (United Kingdom)"
-msgstr "English (United Kingdom)"
 
 #: src/features/cover-letters/editor.tsx
 msgid "Enter a name for this cover letter."
@@ -2683,10 +2634,6 @@ msgstr "Find the weak bullet points and rewrite them with stronger outcomes, num
 msgid "Find us on GitHub"
 msgstr "Find us on GitHub"
 
-#: src/libs/locale.ts
-msgid "Finnish"
-msgstr "Finnish"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
 msgstr "Fireworks"
@@ -2786,7 +2733,6 @@ msgid "Free-form"
 msgstr "Free-form"
 
 #: src/features/homepage/resume-sculpture.tsx
-#: src/libs/locale.ts
 msgid "French"
 msgstr "French"
 
@@ -2824,10 +2770,6 @@ msgstr "Generate a random name"
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Generating your PDF..."
 msgstr "Generating your PDF..."
-
-#: src/libs/locale.ts
-msgid "German"
-msgstr "German"
 
 #: src/features/homepage/page.tsx
 msgid "Get a second opinion on your writing, share your resume, and keep track of where you’ve applied. It’s all in one place."
@@ -2899,10 +2841,6 @@ msgstr "Grade"
 msgid "Graphic Design"
 msgstr "Graphic Design"
 
-#: src/libs/locale.ts
-msgid "Greek"
-msgstr "Greek"
-
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Grid"
 msgstr "Grid"
@@ -2944,18 +2882,6 @@ msgstr "Heading 6"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Headline"
 msgstr "Headline"
-
-#: src/libs/locale.ts
-msgid "Hebrew"
-msgstr "Hebrew"
-
-#: src/features/homepage/languages-showcase.tsx
-msgid "Help translate the app"
-msgstr "Help translate the app"
-
-#: src/features/settings/pages/preferences.tsx
-msgid "Help translate the app to your language"
-msgstr "Help translate the app to your language"
 
 #: src/dialogs/api-key/create.tsx
 msgid "Here's your new API key"
@@ -3032,10 +2958,6 @@ msgstr "Highlight"
 msgid "Highlight Color"
 msgstr "Highlight Color"
 
-#: src/libs/locale.ts
-msgid "Hindi"
-msgstr "Hindi"
-
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "Home"
@@ -3043,10 +2965,6 @@ msgstr "Home"
 #: src/features/settings/pages/api-keys.tsx
 msgid "How do I use the API?"
 msgstr "How do I use the API?"
-
-#: src/libs/locale.ts
-msgid "Hungarian"
-msgstr "Hungarian"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
@@ -3152,10 +3070,6 @@ msgstr "Increase them so content stays inside the reliably read area."
 msgid "Increase zoom"
 msgstr "Increase zoom"
 
-#: src/libs/locale.ts
-msgid "Indonesian"
-msgstr "Indonesian"
-
 #: src/libs/resume/section.tsx
 msgid "Information"
 msgstr "Information"
@@ -3207,17 +3121,9 @@ msgstr "Invalid AI provider configuration."
 msgid "Issuer"
 msgstr "Issuer"
 
-#: src/libs/locale.ts
-msgid "Italian"
-msgstr "Italian"
-
 #: src/components/input/rich-input.tsx
 msgid "Italic"
 msgstr "Italic"
-
-#: src/libs/locale.ts
-msgid "Japanese"
-msgstr "Japanese"
 
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Job"
@@ -3270,10 +3176,6 @@ msgstr "JSON Resume"
 #: src/components/input/rich-input.tsx
 msgid "Justify Align"
 msgstr "Justify Align"
-
-#: src/libs/locale.ts
-msgid "Kannada"
-msgstr "Kannada"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Keep a backup of your content and settings. Import it into Reactive Resume later."
@@ -3345,17 +3247,9 @@ msgstr "Keyword layout"
 msgid "Keywords"
 msgstr "Keywords"
 
-#: src/libs/locale.ts
-msgid "Khmer"
-msgstr "Khmer"
-
 #: src/features/homepage/feature-explorer.tsx
 msgid "Know where things stand"
 msgstr "Know where things stand"
-
-#: src/libs/locale.ts
-msgid "Korean"
-msgstr "Korean"
 
 #. Short field label for custom display text associated with a URL
 #: src/components/input/url-input.tsx
@@ -3407,10 +3301,6 @@ msgstr "Last updated on {updatedAt}"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last viewed on {0}"
 msgstr "Last viewed on {0}"
-
-#: src/libs/locale.ts
-msgid "Latvian"
-msgstr "Latvian"
 
 #: src/features/ats-checker/messages.ts
 msgid "Lay the text out horizontally. Rotated runs are often dropped or misplaced."
@@ -3538,10 +3428,6 @@ msgstr "List"
 msgid "List the tools and technologies you use. Recruiters search skills more than any other field."
 msgstr "List the tools and technologies you use. Recruiters search skills more than any other field."
 
-#: src/libs/locale.ts
-msgid "Lithuanian"
-msgstr "Lithuanian"
-
 #: src/dialogs/resume/import.tsx
 msgid "Loading AI providers. Please try again in a moment."
 msgstr "Loading AI providers. Please try again in a moment."
@@ -3646,21 +3532,9 @@ msgstr "Make them visibly larger, bolder or capitalised."
 msgid "Make yourself <0/>look good<1/><2>on paper.</2>"
 msgstr "Make yourself <0/>look good<1/><2>on paper.</2>"
 
-#: src/libs/locale.ts
-msgid "Malay"
-msgstr "Malay"
-
-#: src/libs/locale.ts
-msgid "Malayalam"
-msgstr "Malayalam"
-
 #: src/features/ats-checker/messages.ts
 msgid "Many bullets start with the same phrase."
 msgstr "Many bullets start with the same phrase."
-
-#: src/libs/locale.ts
-msgid "Marathi"
-msgstr "Marathi"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Margin (Horizontal)"
@@ -3801,10 +3675,6 @@ msgstr "Names help you tell keys apart, so name it after what you will use it fo
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Names help you tell passkeys apart if you register more than one."
 msgstr "Names help you tell passkeys apart if you register more than one."
-
-#: src/libs/locale.ts
-msgid "Nepali"
-msgstr "Nepali"
 
 #: src/dialogs/resume/sections/profile.tsx
 msgid "Network"
@@ -3999,10 +3869,6 @@ msgstr "No threads yet."
 msgid "No work-experience section was found."
 msgstr "No work-experience section was found."
 
-#: src/libs/locale.ts
-msgid "Norwegian"
-msgstr "Norwegian"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Not connected"
 msgstr "Not connected"
@@ -4048,10 +3914,6 @@ msgstr "Nothing to fix. The remaining pages were simply not covered by this repo
 #: src/features/ats-checker/report/report-view.tsx
 msgid "Nothing to suggest."
 msgstr "Nothing to suggest."
-
-#: src/libs/locale.ts
-msgid "Odia"
-msgstr "Odia"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Offer"
@@ -4350,10 +4212,6 @@ msgstr "Period"
 msgid "Perplexity"
 msgstr "Perplexity"
 
-#: src/libs/locale.ts
-msgid "Persian"
-msgstr "Persian"
-
 #: src/dialogs/resume/sections/reference.tsx
 #: src/features/ats-checker/parse-preview.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
@@ -4420,22 +4278,10 @@ msgstr "Please upload a PDF file."
 msgid "Plum"
 msgstr "Plum"
 
-#: src/libs/locale.ts
-msgid "Polish"
-msgstr "Polish"
-
 #. Preset button for setting picture aspect ratio to portrait orientation
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Portrait"
 msgstr "Portrait"
-
-#: src/libs/locale.ts
-msgid "Portuguese (Brazil)"
-msgstr "Portuguese (Brazil)"
-
-#: src/libs/locale.ts
-msgid "Portuguese (Portugal)"
-msgstr "Portuguese (Portugal)"
 
 #: src/dialogs/resume/sections/experience.tsx
 #: src/dialogs/resume/sections/reference.tsx
@@ -5045,10 +4891,6 @@ msgstr "Role A–Z"
 msgid "Role Progression"
 msgstr "Role Progression"
 
-#: src/libs/locale.ts
-msgid "Romanian"
-msgstr "Romanian"
-
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Rotation"
 msgstr "Rotation"
@@ -5068,10 +4910,6 @@ msgstr "Run deep check"
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Running…"
 msgstr "Running…"
-
-#: src/libs/locale.ts
-msgid "Russian"
-msgstr "Russian"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
@@ -5351,10 +5189,6 @@ msgstr "Senior product designer"
 msgid "Separator"
 msgstr "Separator"
 
-#: src/libs/locale.ts
-msgid "Serbian"
-msgstr "Serbian"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Serif"
 msgstr "Serif"
@@ -5601,14 +5435,6 @@ msgstr "Skip and Upload"
 msgid "Skip to main content"
 msgstr "Skip to main content"
 
-#: src/libs/locale.ts
-msgid "Slovak"
-msgstr "Slovak"
-
-#: src/libs/locale.ts
-msgid "Slovenian"
-msgstr "Slovenian"
-
 #: src/dialogs/resume/index.tsx
 msgid "Slug"
 msgstr "Slug"
@@ -5725,10 +5551,6 @@ msgstr "Spacing (Horizontal)"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Spacing (Vertical)"
 msgstr "Spacing (Vertical)"
-
-#: src/libs/locale.ts
-msgid "Spanish"
-msgstr "Spanish"
 
 #: src/features/ats-checker/messages.ts
 msgid "Spell the month, as in \"Mar 2022\"."
@@ -5902,10 +5724,6 @@ msgstr "Support the project"
 msgid "Swap the start and end dates."
 msgstr "Swap the start and end dates."
 
-#: src/libs/locale.ts
-msgid "Swedish"
-msgstr "Swedish"
-
 #: src/features/theme/toggle-button.tsx
 msgid "Switch to dark theme"
 msgstr "Switch to dark theme"
@@ -5957,14 +5775,6 @@ msgstr "Tailoring failed."
 msgid "Take it<0/>with you."
 msgstr "Take it<0/>with you."
 
-#: src/libs/locale.ts
-msgid "Tamil"
-msgstr "Tamil"
-
-#: src/libs/locale.ts
-msgid "Telugu"
-msgstr "Telugu"
-
 #: src/features/cover-letters/editor-dialog.tsx
 #: src/features/cover-letters/library.tsx
 #: src/libs/resume/section.tsx
@@ -6011,10 +5821,6 @@ msgstr "Text is written one character at a time."
 #: src/features/ats-checker/messages.ts
 msgid "Text sits in the header or footer area."
 msgstr "Text sits in the header or footer area."
-
-#: src/libs/locale.ts
-msgid "Thai"
-msgstr "Thai"
 
 #: src/features/homepage/page.tsx
 msgid "Thank you for helping keep it free."
@@ -6563,16 +6369,6 @@ msgstr "Track your first application"
 msgid "Track your resume's views and downloads"
 msgstr "Track your resume's views and downloads"
 
-#: src/features/homepage/page.tsx
-msgid "Translate the app"
-msgstr "Translate the app"
-
-#: src/features/homepage/site-footer.tsx
-#: src/routes/_home/-sections/footer.tsx
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Translations"
-msgstr "Translations"
-
 #: src/components/layout/error-screen.tsx
 #: src/features/homepage/ats-playground.tsx
 msgid "Try again"
@@ -6585,10 +6381,6 @@ msgstr "Try the settings to see what visitors can access. When you create your r
 #: src/features/homepage/ats-playground.tsx
 msgid "Try your PDF"
 msgstr "Try your PDF"
-
-#: src/libs/locale.ts
-msgid "Turkish"
-msgstr "Turkish"
 
 #: src/features/ats-checker/messages.ts
 msgid "Turn off discretionary ligatures when exporting."
@@ -6674,10 +6466,6 @@ msgstr "Typeface"
 #: src/libs/resume/section.tsx
 msgid "Typography"
 msgstr "Typography"
-
-#: src/libs/locale.ts
-msgid "Ukrainian"
-msgstr "Ukrainian"
 
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -6946,10 +6734,6 @@ msgstr "Users"
 msgid "Uses the name, template, color, and type you chose above."
 msgstr "Uses the name, template, color, and type you chose above."
 
-#: src/libs/locale.ts
-msgid "Uzbek"
-msgstr "Uzbek"
-
 #: src/features/resume/stylesheet/status.tsx
 msgid "Valid"
 msgstr "Valid"
@@ -7019,10 +6803,6 @@ msgstr "Very few words were recovered for a resume."
 #: src/features/ats-checker/messages.ts
 msgid "Very little text was recovered for this many pages."
 msgstr "Very little text was recovered for this many pages."
-
-#: src/libs/locale.ts
-msgid "Vietnamese"
-msgstr "Vietnamese"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Views"
@@ -7458,7 +7238,3 @@ msgstr "Zoom level"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Zoom out"
 msgstr "Zoom out"
-
-#: src/libs/locale.ts
-msgid "Zulu"
-msgstr "Zulu"

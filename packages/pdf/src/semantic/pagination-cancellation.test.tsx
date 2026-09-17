@@ -42,6 +42,8 @@ const flowProps = (node: HostNode | undefined) => ({
 
 const buildFixture = (value: string): ResumeData => {
 	const data = structuredClone(defaultResumeData);
+	// Pin the locale: this fixture asserts pagination bookkeeping, not CJK line breaking.
+	data.metadata.page.locale = "en-US";
 	data.picture.hidden = true;
 	data.basics.name = "";
 	data.basics.headline = "";

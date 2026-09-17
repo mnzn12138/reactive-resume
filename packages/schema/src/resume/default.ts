@@ -78,7 +78,7 @@ export const defaultResumeData: ResumeData = {
 			marginX: 14,
 			marginY: 12,
 			format: "a4",
-			locale: "en-US",
+			locale: "zh-CN",
 			hideLinkUnderline: false,
 			hideIcons: false,
 			hideSectionIcons: true,

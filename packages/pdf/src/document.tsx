@@ -1,6 +1,5 @@
 import type { LayoutPage, ResumeData, Typography } from "@reactive-resume/schema/resume/data";
 import type { Template } from "@reactive-resume/schema/templates";
-import type { Locale } from "@reactive-resume/utils/locale";
 import type { ComponentType } from "react";
 import type { ResumeRenderOptions } from "./context";
 import type { SectionTitleResolver } from "./section-title";
@@ -47,12 +46,7 @@ export const ResumeDocument = ({
 	const creationDate = useMemo(() => new Date(), []);
 	const hasCjkContent = useMemo(() => resumeContentContainsCJK(data), [data]);
 	const scripts = useMemo(() => resumeContentScripts(data), [data]);
-	const typography = registerFonts(
-		data.metadata.typography,
-		data.metadata.page.locale as Locale,
-		hasCjkContent,
-		scripts,
-	) as Typography;
+	const typography = registerFonts(data.metadata.typography, data.metadata.page.locale, hasCjkContent, scripts) as Typography;
 
 	// `registerFonts` widens `fontFamily` to `string | string[]` for CJK
 	// fallback (#2986); the cast carries that wider runtime value through

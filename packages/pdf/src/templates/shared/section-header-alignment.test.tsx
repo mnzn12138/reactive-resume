@@ -10,6 +10,8 @@ import { ResumeDocument } from "../../document";
 
 const fixture = (): ResumeData => {
 	const data = structuredClone(defaultResumeData);
+	// Pin the locale: this fixture asserts header alignment, not CJK line breaking.
+	data.metadata.page.locale = "en-US";
 	data.picture.hidden = true;
 	data.metadata.page.marginX = 30;
 	data.metadata.typography.body.fontFamily = "Helvetica";

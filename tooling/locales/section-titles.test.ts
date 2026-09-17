@@ -10,5 +10,5 @@ it("keeps PDF headings synchronized with the source Lingui catalogs", async () =
 		await readFile(new URL("../../packages/pdf/src/section-title-catalog.json", import.meta.url), "utf8"),
 	);
 	expect(committed, "Run pnpm pdf:translations after updating translations.").toEqual(generated);
-	expect(generated["es-ES"]?.Experience).toBe("Experiencia");
+	expect(generated["zh-CN"]?.Experience).toBe("工作经历");
 });

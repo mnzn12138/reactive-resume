@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { defaultLocale, isLocale, isRTL } from "./locale";
 
 describe("defaultLocale", () => {
-	it("is en-US", () => {
-		expect(defaultLocale).toBe("en-US");
+	it("is zh-CN", () => {
+		expect(defaultLocale).toBe("zh-CN");
 	});
 });
 

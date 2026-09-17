@@ -38,6 +38,8 @@ const findTexts = (node: HostNode, text: string): HostNode[] => [
 
 const fixture = (mode: "legacy" | "semantic", section: "experience" | "education", rule = ""): ResumeData => {
 	const data = structuredClone(defaultResumeData);
+	// Pin the locale: this fixture asserts raster/layout parity, not CJK line breaking.
+	data.metadata.page.locale = "en-US";
 	data.picture.hidden = true;
 	data.basics.name = "Ada Lovelace";
 	data.basics.email = "";
@@ -150,6 +152,8 @@ const CombinedFieldRasterDocument = ({
 	preSplit: boolean;
 }) => {
 	const data = structuredClone(defaultResumeData);
+	// Pin the locale so the raster comparison is not sensitive to CJK line breaking.
+	data.metadata.page.locale = "en-US";
 
 	return (
 		<Document>
