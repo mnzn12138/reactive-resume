@@ -27,8 +27,8 @@ planned. Follow the [Docker Compose quickstart](#quickstart-using-docker-compose
 
 You can pull the latest app image from:
 
-- Docker Hub: `amruthpillai/reactive-resume:latest`
-- GitHub Container Registry: `ghcr.io/reactive-resume/reactive-resume:latest`
+- Docker Hub: `mnzn12138/reactive-resume:latest`
+- GitHub Container Registry: `ghcr.io/mnzn12138/reactive-resume:latest`
 
 ## Minimum requirements
 
@@ -190,8 +190,8 @@ services:
       retries: 10
 
   reactive-resume:
-    image: amruthpillai/reactive-resume:latest
-    # image: ghcr.io/reactive-resume/reactive-resume:latest
+    image: mnzn12138/reactive-resume:latest
+    # image: ghcr.io/mnzn12138/reactive-resume:latest
     restart: unless-stopped
     ports:
       - "3000:3000"
@@ -216,7 +216,7 @@ volumes:
     </CodeGroup>
 
     <Tip>
-      Prefer pulling from Docker Hub? Keep <code>amruthpillai/reactive-resume:latest</code>. Prefer GHCR? Swap it to <code>ghcr.io/reactive-resume/reactive-resume:latest</code>.
+      Prefer pulling from Docker Hub? Keep <code>mnzn12138/reactive-resume:latest</code>. Prefer GHCR? Swap it to <code>ghcr.io/mnzn12138/reactive-resume:latest</code>.
     </Tip>
 
     <Note>
@@ -254,7 +254,7 @@ docker compose logs -f reactive-resume
 Use your platform's generic container configuration to create two separately managed containers: one for Reactive
 Resume and one for PostgreSQL. No official Unraid Community Applications template is provided.
 
-- Use the official `amruthpillai/reactive-resume:latest` or `ghcr.io/reactive-resume/reactive-resume:latest` image for the
+- Use the official `mnzn12138/reactive-resume:latest` or `ghcr.io/mnzn12138/reactive-resume:latest` image for the
   app container.
 - Map the app's container port `3000` to the host port you want to use.
 - Connect both containers to a private container network. Set the host in `DATABASE_URL` to the PostgreSQL container or

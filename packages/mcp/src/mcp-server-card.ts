@@ -76,21 +76,6 @@ export function buildMcpServerCard(appVersion: string) {
 	];
 
 	return {
-		/**
-		 * Optional session fields for gateways. OAuth is primary; API key is optional for clients that support custom headers.
-		 */
-		configurationSchema: {
-			type: "object",
-			properties: {
-				apiKey: {
-					type: "string",
-					title: "API key",
-					description:
-						"Optional. Create a key under Account → API Keys. Forwarded as the x-api-key header when not using OAuth.",
-					"x-from": { header: "x-api-key" },
-				},
-			},
-		},
 		serverInfo: {
 			name: "reactive-resume",
 			version: appVersion,

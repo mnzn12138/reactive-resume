@@ -1,4 +1,4 @@
-import { auth, verifyOAuthToken } from "@reactive-resume/auth/config";
+import { verifyOAuthToken } from "@reactive-resume/auth/config";
 
 const OAUTH_WARN_THROTTLE_MS = 60_000;
 let lastOAuthWarnAt = 0;
@@ -32,17 +32,6 @@ export async function authenticateRequest(request: Request): Promise<void> {
 			warnOAuthThrottled("[MCP] OAuth token verified but missing `sub` claim");
 		} catch (error) {
 			warnOAuthThrottled("[MCP] OAuth token verification failed:", error);
-		}
-	}
-
-	const apiKey = request.headers.get("x-api-key");
-
-	if (apiKey) {
-		try {
-			const result = await auth.api.verifyApiKey({ body: { key: apiKey } });
-			if (result.valid) return;
-		} catch {
-			// Invalid or malformed key; fall through to AuthError.
 		}
 	}
 

@@ -14,11 +14,11 @@ describe("useDialogStore", () => {
 
 	describe("openDialog", () => {
 		it("opens a dialog and sets activeDialog", () => {
-			useDialogStore.getState().openDialog("api-key.create", undefined);
+			useDialogStore.getState().openDialog("auth.change-password", undefined);
 
 			const state = useDialogStore.getState();
 			expect(state.open).toBe(true);
-			expect(state.activeDialog?.type).toBe("api-key.create");
+			expect(state.activeDialog?.type).toBe("auth.change-password");
 		});
 
 		it("clears any existing onBeforeClose handler", () => {
@@ -44,7 +44,7 @@ describe("useDialogStore", () => {
 		it("immediately sets open to false", () => {
 			useDialogStore.setState({
 				open: true,
-				activeDialog: { type: "api-key.create", data: undefined },
+				activeDialog: { type: "auth.change-password", data: undefined },
 			});
 
 			useDialogStore.getState().closeDialog();
@@ -54,7 +54,7 @@ describe("useDialogStore", () => {
 		it("clears activeDialog after 300ms (animation finished)", () => {
 			useDialogStore.setState({
 				open: true,
-				activeDialog: { type: "api-key.create", data: undefined },
+				activeDialog: { type: "auth.change-password", data: undefined },
 			});
 
 			useDialogStore.getState().closeDialog();
@@ -76,7 +76,7 @@ describe("useDialogStore", () => {
 		});
 
 		it("closes immediately when no onBeforeClose handler", () => {
-			useDialogStore.setState({ open: true, activeDialog: { type: "api-key.create", data: undefined } });
+			useDialogStore.setState({ open: true, activeDialog: { type: "auth.change-password", data: undefined } });
 			useDialogStore.getState().onOpenChange(false);
 
 			expect(useDialogStore.getState().open).toBe(false);
@@ -86,7 +86,7 @@ describe("useDialogStore", () => {
 			const handler = vi.fn().mockResolvedValue(true);
 			useDialogStore.setState({
 				open: true,
-				activeDialog: { type: "api-key.create", data: undefined },
+				activeDialog: { type: "auth.change-password", data: undefined },
 				onBeforeClose: handler,
 			});
 
@@ -99,7 +99,7 @@ describe("useDialogStore", () => {
 			const cancel = vi.fn();
 			useDialogStore.setState({
 				open: true,
-				activeDialog: { type: "api-key.create", data: undefined },
+				activeDialog: { type: "auth.change-password", data: undefined },
 				onBeforeClose: handler,
 			});
 

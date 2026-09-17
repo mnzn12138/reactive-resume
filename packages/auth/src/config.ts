@@ -1,6 +1,5 @@
 import type { GenericOAuthConfig, GenericOAuthUserInfo } from "better-auth/plugins";
 import type { JWTPayload } from "jose";
-import { apiKey } from "@better-auth/api-key";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter";
 import { dash } from "@better-auth/infra";
 import { oauthProvider } from "@better-auth/oauth-provider";
@@ -295,13 +294,6 @@ const getAuthConfig = () => {
 			passkey(),
 			genericOAuth({ config: authConfigs }),
 			twoFactor({ issuer: "Reactive Resume" }),
-			apiKey({
-				enableSessionForAPIKeys: true,
-				rateLimit: {
-					...rateLimitConfig.betterAuth.apiKey,
-					enabled: isRateLimitEnabled,
-				},
-			}),
 			oauthProvider({
 				loginPage: "/api/auth/oauth",
 				consentPage: "/auth/consent",

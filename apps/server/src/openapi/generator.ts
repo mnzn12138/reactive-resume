@@ -85,7 +85,6 @@ export async function generateOpenApiSpec({ appUrl, version }: GenerateOpenApiSp
 			version,
 			description: "Reactive Resume API",
 			license: { name: "MIT", url: "https://github.com/reactive-resume/reactive-resume/blob/main/LICENSE" },
-			contact: { name: "Amruth Pillai", email: "hello@amruthpillai.com", url: "https://amruthpillai.com" },
 		},
 		servers: [{ url: `${appUrl}/api/openapi` }],
 		paths: {
@@ -114,17 +113,6 @@ export async function generateOpenApiSpec({ appUrl, version }: GenerateOpenApiSp
 		commonSchemas: {
 			ResumeData: { schema: writableResumeDataSchema, strategy: "input" },
 		},
-		components: {
-			securitySchemes: {
-				apiKey: {
-					type: "apiKey",
-					name: "x-api-key",
-					in: "header",
-					description: "The API key to authenticate requests.",
-				},
-			},
-		},
-		security: [{ apiKey: [] }],
 		filter: ({ contract }) => !contract["~orpc"].route.tags?.includes("Internal"),
 	});
 }

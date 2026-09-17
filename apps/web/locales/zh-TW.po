@@ -139,10 +139,6 @@ msgstr "{sectionTitle} · 項目 {itemNumber} "
 msgid "<0>Free forever and open source.</0><1/>No ads, paywalls, or tracking."
 msgstr "<0>永久免費，開放原始碼。</0><1/>沒有廣告、付費牆或追蹤。"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "<0>Thank you for using Reactive Resume. I build this app mostly in my spare time, with help from open-source contributors around the world.</0><1>If it has been useful to you and you'd like to keep it free and open for everyone, please consider donating. Any amount helps.</1>"
-msgstr "<0>感謝您使用 Reactive Resume。這個應用程式主要是我利用空閒時間開發的，也得到世界各地開放原始碼貢獻者的協助。</0><1>如果它對您有幫助，而您希望它對所有人保持免費與開放，歡迎考慮捐款。多少都有幫助。</1>"
-
 #: src/features/homepage/export-playground.tsx
 msgid "<p>I design software for teams, from early research to the details people use every day.</p>"
 msgstr "<p>我為團隊設計軟體，從早期研究到人們每天使用的細節。</p>"
@@ -159,14 +155,6 @@ msgstr "<ul><li>主導協作規劃工具的研究與介面設計。</li><li>與�
 msgid "1 Column / Inline"
 msgstr "1 欄 / 行內"
 
-#: src/dialogs/api-key/create.tsx
-msgid "1 month"
-msgstr "1 個月"
-
-#: src/dialogs/api-key/create.tsx
-msgid "1 year"
-msgstr "1 年"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "2015 to 2019"
 msgstr "2015 至 2019"
@@ -182,14 +170,6 @@ msgstr "2022 至今"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "2022 to now"
 msgstr "2022 至今"
-
-#: src/dialogs/api-key/create.tsx
-msgid "3 months"
-msgstr "3 個月"
-
-#: src/dialogs/api-key/create.tsx
-msgid "6 months"
-msgstr "6 個月"
 
 #: src/features/ats-checker/messages.ts
 msgid "A date is in the future."
@@ -250,14 +230,6 @@ msgstr "數字格式的日期在不同國家的讀法不同。"
 #: src/features/ats-checker/messages.ts
 msgid "A page is rotated."
 msgstr "有一頁被旋轉了。"
-
-#: src/features/homepage/site-footer.tsx
-msgid "A passion project by <0>Amruth Pillai</0>"
-msgstr "一個由 <0>Amruth Pillai</0> 發起的熱血專案"
-
-#: src/components/ui/copyright.tsx
-msgid "A passion project by <0>Amruth Pillai</0>."
-msgstr "一個由 <0>Amruth Pillai</0> 發起的熱血專案。"
 
 #: src/features/homepage/page.tsx
 msgid "A PDF for the application. A Word file for a few more edits. Download a sample using your choices."
@@ -641,27 +613,13 @@ msgstr "任何擁有該連結的人都可以檢視這份履歷。"
 msgid "Anyone with the public URL will be able to view your resume without a password."
 msgstr "任何擁有該公開 URL 的人，都可以不需密碼檢視您的履歷。"
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "API and MCP access"
-msgstr "API 與 MCP 存取"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API Key"
-msgstr "API Key"
-
-#: src/features/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
-msgid "API Keys"
 msgstr "API Key"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API keys are encrypted on the server and never shown again after saving."
 msgstr "API金鑰在伺服器上進行加密，儲存後將不再顯示。"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "API Reference"
-msgstr "API 參考文件"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "App"
@@ -755,10 +713,6 @@ msgstr "已封存"
 #: src/hooks/use-form-blocker.tsx
 msgid "Are you sure you want to close this dialog?"
 msgstr "確定要關閉此對話框嗎？"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Are you sure you want to delete this API key?"
-msgstr "確定要刪除此 API Key 嗎？"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 msgid "Are you sure you want to delete this custom section?"
@@ -971,13 +925,6 @@ msgstr "項目符號清單"
 msgid "Bulleted list"
 msgstr "項目符號清單"
 
-#. Tagline shown in app footer/about area
-#: src/components/ui/copyright.tsx
-#: src/features/homepage/site-footer.tsx
-msgid "By the community, for the community."
-msgstr "來自社區，服務社區。"
-
-#. API key deletion confirmation dialog cancel action in settings
 #. Account deletion confirmation dialog cancel action in account settings
 #. Confirmation dialog button label to abort deleting a custom section in resume builder
 #. Confirmation dialog button label to abort deleting a section item in resume builder
@@ -995,7 +942,6 @@ msgstr "來自社區，服務社區。"
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
-#: src/features/settings/pages/api-keys.tsx
 #: src/features/settings/pages/profile.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -1249,8 +1195,6 @@ msgid "Compress or remove large images to keep uploads quick."
 msgstr "壓縮或移除較大的圖片，以保持上傳速度。"
 
 #. Account deletion confirmation dialog confirm action in account settings
-#. Create API key dialog acknowledgment action after copying
-#: src/dialogs/api-key/create.tsx
 #: src/features/settings/pages/account.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -1269,10 +1213,6 @@ msgstr "連結"
 #: src/features/auth/pages/consent.tsx
 msgid "Connect an application"
 msgstr "連接應用程式"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Connect through MCP to create and update resumes in a conversation. Or use the API to build your own workflow."
-msgstr "透過 MCP 連接，在對話中建立與更新履歷。或使用 API 打造你自己的工作流程。"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Connect your own AI provider to get a review of the writing. The checks above need no provider and no account."
@@ -1396,10 +1336,6 @@ msgstr "從職缺公告中複製完整的職缺描述並貼到下方。我們會
 #: src/features/ats-checker/messages.ts
 msgid "Copy the text out of the exported file and read it through; fix anything that arrives in the wrong place."
 msgstr "把匯出檔案中的文字複製出來通讀一遍；修正任何位置錯亂的內容。"
-
-#: src/dialogs/api-key/create.tsx
-msgid "Copy this secret key and use it in your applications to access your data."
-msgstr "複製這組私密金鑰，並在您的應用程式中使用它來存取您的資料。"
 
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -1560,8 +1496,6 @@ msgstr "求職信草稿"
 msgid "Cover Letters"
 msgstr "求職信"
 
-#. Create API key dialog submit action
-#: src/dialogs/api-key/create.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -1590,11 +1524,6 @@ msgstr "建立一份針對此職缺調整的副本"
 #: src/features/auth/pages/register.tsx
 msgid "Create a new account"
 msgstr "建立一個新帳戶"
-
-#: src/dialogs/api-key/create.tsx
-#: src/features/settings/pages/api-keys.tsx
-msgid "Create a new API key"
-msgstr "建立新的 API Key"
 
 #: src/dialogs/resume/sections/award.tsx
 msgid "Create a new award"
@@ -1698,10 +1627,6 @@ msgstr "建立日期"
 msgid "Created \"{0}\" and linked it to this application."
 msgstr "已建立「{0}」並連結到此應徵紀錄。"
 
-#: src/dialogs/api-key/create.tsx
-msgid "Creating your API key..."
-msgstr "正在建立您的 API Key…"
-
 #: src/dialogs/resume/index.tsx
 msgid "Creating your resume..."
 msgstr "正在建立您的履歷…"
@@ -1804,7 +1729,6 @@ msgstr "預設範本"
 msgid "Degree"
 msgstr "學位"
 
-#. API key deletion confirmation dialog confirm action in settings
 #. Destructive confirmation button label when deleting a custom section in resume builder
 #. Destructive confirmation button label when deleting a section item in resume builder
 #. Passkey row action to remove the selected passkey
@@ -1815,7 +1739,6 @@ msgstr "學位"
 #: src/features/applications/components/table-view.tsx
 #: src/features/cover-letters/editor-dialog.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
-#: src/features/settings/pages/api-keys.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -1877,10 +1800,6 @@ msgstr "已刪除 {0} 個應徵紀錄。"
 #: src/features/settings/pages/account.tsx
 msgid "Deleting your account..."
 msgstr "正在刪除您的帳戶…"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Deleting your API key..."
-msgstr "正在刪除您的 API Key…"
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
@@ -1971,10 +1890,6 @@ msgstr "中斷連結"
 msgid "Dismiss"
 msgstr "解僱"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Documentation"
-msgstr "文件"
-
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Documents sent"
 msgstr "已送出的文件"
@@ -1986,10 +1901,6 @@ msgstr "沒有帳戶？<0/>"
 #: src/components/ui/donation-toast.tsx
 msgid "Donate"
 msgstr "捐"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Donate to Reactive Resume"
-msgstr "捐助 Reactive Resume"
 
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Done"
@@ -2325,15 +2236,6 @@ msgstr "退出全螢幕"
 msgid "Experience"
 msgstr "經歷"
 
-#: src/dialogs/api-key/create.tsx
-msgid "Expires in"
-msgstr "到期時間"
-
-#. placeholder {0}: key.expiresAt.toLocaleDateString()
-#: src/features/settings/pages/api-keys.tsx
-msgid "Expires on {0}"
-msgstr "將於 {0} 到期"
-
 #: src/features/homepage/feature-explorer.tsx
 msgid "Explore features"
 msgstr "探索功能"
@@ -2395,11 +2297,6 @@ msgstr "失敗"
 msgid "Failed to archive thread."
 msgstr "對話串封存失敗。"
 
-#. Fallback toast when creating an API key fails
-#: src/dialogs/api-key/create.tsx
-msgid "Failed to create API key. Please try again."
-msgstr "建立 API 金鑰失敗。請再試一次。"
-
 #. Fallback toast when account registration fails without a server error message
 #: src/features/auth/pages/register.tsx
 msgid "Failed to create your account. Please try again."
@@ -2413,11 +2310,6 @@ msgstr "刪除通行金鑰失敗。請再試一次。"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Failed to delete provider."
 msgstr "刪除提供者失敗。"
-
-#. Fallback toast when deleting an API key fails
-#: src/features/settings/pages/api-keys.tsx
-msgid "Failed to delete the API key. Please try again."
-msgstr "刪除 API 金鑰失敗。請再試一次。"
 
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
@@ -2599,10 +2491,6 @@ msgstr "顯示方式"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Fit to view"
 msgstr "適合觀看"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Fits into your workflow"
-msgstr "融入你的工作流程"
 
 #: src/features/ats-checker/messages.ts
 msgid "Flatten the form so the text is part of the page."
@@ -2834,10 +2722,6 @@ msgstr "標題 6"
 msgid "Headline"
 msgstr "標題"
 
-#: src/dialogs/api-key/create.tsx
-msgid "Here's your new API key"
-msgstr "這是您的新 API Key"
-
 #: src/components/level/combobox.tsx
 #: src/dialogs/resume/sections/language.tsx
 #: src/dialogs/resume/sections/skill.tsx
@@ -2912,10 +2796,6 @@ msgstr "高亮顏色"
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "首頁"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "How do I use the API?"
-msgstr "我要如何使用 API？"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
@@ -3020,10 +2900,6 @@ msgstr "增加它們，使內容保持在可靠讀取的區域內。"
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Increase zoom"
 msgstr "放大"
-
-#: src/libs/resume/section.tsx
-msgid "Information"
-msgstr "詳細資訊"
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/skill-keyword-layout-menu.tsx
 msgid "Inline"
@@ -3306,10 +3182,6 @@ msgstr "等級"
 msgid "Level {level} of 5"
 msgstr "5 個等級中的第 {level} 級"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "以 <0>MIT</0> 授權。"
-
 #: src/features/ats-checker/messages.ts
 msgid "Ligatures can drop letters out of words such as \"workflow\"."
 msgstr "連字（ligature）可能會讓「workflow」這樣的單字掉字母。"
@@ -3587,7 +3459,6 @@ msgid "Must start with https://"
 msgstr "必須從 https:// 開始"
 
 #. Label for full name input on registration form
-#: src/dialogs/api-key/create.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/interest.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -3608,10 +3479,6 @@ msgstr "名稱"
 msgid "Name the resume after the position you are applying for."
 msgstr "用您要應徵的職位來為這份履歷命名。"
 
-#: src/dialogs/api-key/create.tsx
-msgid "Names help you tell keys apart, so name it after what you will use it for."
-msgstr "名稱能幫您分辨不同的金鑰，所以請依用途來命名。"
-
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Names help you tell passkeys apart if you register more than one."
 msgstr "如果您註冊了多個通行金鑰，名稱能幫您把它們分辨開來。"
@@ -3619,10 +3486,6 @@ msgstr "如果您註冊了多個通行金鑰，名稱能幫您把它們分辨開
 #: src/dialogs/resume/sections/profile.tsx
 msgid "Network"
 msgstr "網路"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Never expires"
-msgstr "永不過期"
 
 #: src/features/auth/pages/error.tsx
 msgid "New account sign-ups are currently disabled on this server."
@@ -3862,10 +3725,6 @@ msgstr "錄取"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Ollama Cloud"
 msgstr "奧拉瑪雲"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Once deleted, the key can no longer access your data. This cannot be undone."
-msgstr "刪除後，該金鑰將無法再存取您的資料。此操作無法復原。"
 
 #: src/features/auth/pages/consent.tsx
 msgid "Only allow applications you trust. This application will be able to:"
@@ -4123,10 +3982,6 @@ msgstr "補丁已回滾"
 msgid "Patch rolled back."
 msgstr "補丁已回滾。"
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "Pause data flow animation"
-msgstr "暫停資料流動畫"
-
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "PDF snapshot attached to the application."
 msgstr "PDF 快照已附加至這筆應徵紀錄。"
@@ -4199,10 +4054,6 @@ msgstr "將其放置在「佈局」面板中的頁面上，或者如果您想將
 #: src/features/resume/export/download-dialog.tsx
 msgid "Plain text, for AI tools and quick edits."
 msgstr "純文字，適合 AI 工具與快速編輯。"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Play data flow animation"
-msgstr "播放資料流動畫"
 
 #: src/components/ui/donation-toast.tsx
 msgid "Please support the project"
@@ -4542,10 +4393,6 @@ msgstr "推薦人…、要強調的事項等"
 msgid "Register New Device"
 msgstr "註冊新裝置"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Released under the <0>MIT License</0>."
-msgstr "以 <0>MIT 授權</0> 發布。"
-
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "Reload latest version"
 msgstr "重新載入最新版本"
@@ -4631,10 +4478,6 @@ msgstr "用一般段落和清單取代表格。儲存格是按儲存順序擷取
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "Replace the attached cover letter?"
 msgstr "取代已附加的求職信？"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Report a Bug"
-msgstr "回報錯誤"
 
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
@@ -5009,10 +4852,6 @@ msgstr "各部分"
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "See how this resume matches the posting"
 msgstr "查看這份履歷與職缺公告的適配情況"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "See how to connect"
-msgstr "瞭解如何連接"
 
 #: src/features/homepage/page.tsx
 msgid "See what<0/>software reads."
@@ -5441,10 +5280,6 @@ msgstr "排序依據…"
 msgid "Source"
 msgstr "來源"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Source Code"
-msgstr "原始碼"
-
 #. placeholder {0}: operation.from
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Source: {0}"
@@ -5465,10 +5300,6 @@ msgstr "間距（垂直）"
 #: src/features/ats-checker/messages.ts
 msgid "Spell the month, as in \"Mar 2022\"."
 msgstr "把月份拼寫出來，例如「2022 年 3 月」。"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Sponsors"
-msgstr "贊助者"
 
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Spread pages"
@@ -5602,10 +5433,6 @@ msgstr "建議"
 msgid "Summary"
 msgstr "摘要"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Support the app by doing what you can!"
-msgstr "盡您所能支持此應用程式！"
-
 #: src/features/ats-checker/messages.ts
 #: src/libs/resume/ats.ts
 msgid "Swap the start and end dates."
@@ -5733,14 +5560,6 @@ msgstr "該登入提供者在此伺服器上已無法使用。"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "The agent needs your input."
 msgstr "經紀人需要您的意見。"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "The API documentation shows how to connect Reactive Resume to your own applications. It covers the endpoints, the request format, and authentication."
-msgstr "API 文件說明如何將 Reactive Resume 串接到您自己的應用程式，內容涵蓋端點、請求格式與驗證。"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "The API key has been deleted."
-msgstr "已刪除該 API 金鑰。"
 
 #: src/features/auth/pages/error.tsx
 msgid "The application that sent you here made an invalid authorization request."
@@ -5908,10 +5727,6 @@ msgstr "此連線請求無效或已過期。"
 msgid "This cover letter changed elsewhere. Your edits are still here. Reload the latest version before saving again."
 msgstr "這封求職信在別處被變更過。您的編輯仍然保留。請先重新載入最新版本，再儲存一次。"
 
-#: src/dialogs/api-key/create.tsx
-msgid "This creates a new API key, which lets other programs read and change your resume data through the Reactive Resume API."
-msgstr "這會建立一組新的 API 金鑰，讓其他程式可以透過 Reactive Resume API 讀取與修改您的履歷資料。"
-
 #: src/libs/resume/ats.ts
 msgid "This date will not be read correctly."
 msgstr "該日期將無法正確讀取。"
@@ -6011,10 +5826,6 @@ msgstr "這是一個 XFA 表單，大多數軟體只能讀取到空殼。"
 #: src/features/ats-checker/messages.ts
 msgid "This is not a common resume page size."
 msgstr "這不是履歷常用的頁面尺寸。"
-
-#: src/dialogs/api-key/create.tsx
-msgid "This key is shown only once. Copy it before you close this dialog."
-msgstr "這組金鑰只會顯示一次。關閉這個對話方塊前請先複製起來。"
 
 #: src/libs/resume/ats.ts
 msgid "This link is missing its protocol."
@@ -6832,10 +6643,6 @@ msgstr "您的時間軸是否能夠被還原出來。"
 msgid "Words run together when the text is extracted."
 msgstr "文字擷取出來後，單字會連在一起。"
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "Work on your resume from your AI app."
-msgstr "在你的 AI 應用程式中編輯履歷。"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Work OpenAI"
 msgstr "OpenAI"
@@ -6909,17 +6716,9 @@ msgstr "你有新郵件"
 msgid "Your account has been deleted."
 msgstr "您的帳戶已刪除。"
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "Your AI app"
-msgstr "你的 AI 應用程式"
-
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Your AI provider could not be reached. Check its settings and try again."
 msgstr "無法連接到您的 AI 提供者。請檢查其設定後重試。"
-
-#: src/dialogs/api-key/create.tsx
-msgid "Your API key has been copied to the clipboard."
-msgstr "您的 API Key 已複製到剪貼簿。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Your applications, together"
@@ -7083,10 +6882,6 @@ msgstr "您儲存的求職信內容將保持不變。"
 #: src/features/homepage/ats-playground.tsx
 msgid "Your selected file"
 msgstr "你選擇的檔案"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Your tools, connected"
-msgstr "你的工具已連線"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Your words as a plain-text document, with headings, lists, and links."

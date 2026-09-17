@@ -185,51 +185,6 @@ export const passkey = pg.pgTable(
 	(t) => [pg.index().on(t.userId)],
 );
 
-export const apikey = pg.pgTable(
-	"apikey",
-	{
-		id: pg
-			.text("id")
-			.notNull()
-			.primaryKey()
-			.$defaultFn(() => generateId()),
-		name: pg.text("name"),
-		start: pg.text("start"),
-		prefix: pg.text("prefix"),
-		key: pg.text("key").notNull(),
-		configId: pg.text("config_id").notNull().default("default"),
-		referenceId: pg
-			.text("reference_id")
-			.notNull()
-			.references(() => user.id, { onDelete: "cascade" }),
-		refillInterval: pg.integer("refill_interval"),
-		refillAmount: pg.integer("refill_amount"),
-		lastRefillAt: pg.timestamp("last_refill_at", { withTimezone: true }),
-		enabled: pg.boolean("enabled").notNull().default(true),
-		rateLimitEnabled: pg.boolean("rate_limit_enabled").notNull().default(false),
-		rateLimitTimeWindow: pg.integer("rate_limit_time_window").default(86400000),
-		rateLimitMax: pg.integer("rate_limit_max").default(10),
-		requestCount: pg.integer("request_count").notNull().default(0),
-		remaining: pg.integer("remaining"),
-		lastRequest: pg.timestamp("last_request", { withTimezone: true }),
-		expiresAt: pg.timestamp("expires_at", { withTimezone: true }),
-		createdAt: pg.timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-		updatedAt: pg
-			.timestamp("updated_at", { withTimezone: true })
-			.notNull()
-			.defaultNow()
-			.$onUpdate(() => /* @__PURE__ */ new Date()),
-		permissions: pg.text("permissions"),
-		metadata: pg.jsonb("metadata"),
-	},
-	(t) => [
-		pg.index().on(t.referenceId),
-		pg.index().on(t.key),
-		pg.index().on(t.configId),
-		pg.index().on(t.enabled, t.referenceId),
-	],
-);
-
 export const jwks = pg.pgTable("jwks", {
 	id: pg
 		.text("id")

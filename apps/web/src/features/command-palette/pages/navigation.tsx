@@ -5,7 +5,6 @@ import {
 	ChatCircleDotsIcon,
 	GearIcon,
 	HouseSimpleIcon,
-	KeyIcon,
 	OpenAiLogoIcon,
 	PlusIcon,
 	ReadCvLogoIcon,
@@ -127,15 +126,6 @@ export function NavigationCommandGroup() {
 				>
 					<ShieldCheckIcon />
 					<Trans>Authentication</Trans>
-				</CommandItem>
-
-				<CommandItem
-					keywords={[t`API Keys`]}
-					value="navigation.settings.api-keys"
-					onSelect={() => onNavigate("/dashboard/settings/api-keys")}
-				>
-					<KeyIcon />
-					<Trans>API Keys</Trans>
 				</CommandItem>
 
 				<CommandItem

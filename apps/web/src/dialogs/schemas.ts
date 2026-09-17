@@ -36,7 +36,6 @@ export type DialogSchema =
 			| "auth.change-password"
 			| "auth.two-factor.enable"
 			| "auth.two-factor.disable"
-			| "api-key.create"
 			| "resume.create"
 			| "resume.import"
 			| "resume.template.gallery"

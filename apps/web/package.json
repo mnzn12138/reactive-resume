@@ -18,7 +18,6 @@
 	"dependencies": {
 		"@ai-sdk/react": "^4.0.100",
 		"@base-ui/react": "^1.8.0",
-		"@better-auth/api-key": "^1.7.3",
 		"@better-auth/infra": "^0.4.8",
 		"@better-auth/oauth-provider": "^1.7.3",
 		"@better-auth/passkey": "^1.7.3",

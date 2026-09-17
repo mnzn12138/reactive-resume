@@ -134,10 +134,6 @@ msgstr "{sectionTitle} · Item {itemNumber}"
 msgid "<0>Free forever and open source.</0><1/>No ads, paywalls, or tracking."
 msgstr "<0>Free forever and open source.</0><1/>No ads, paywalls, or tracking."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "<0>Thank you for using Reactive Resume. I build this app mostly in my spare time, with help from open-source contributors around the world.</0><1>If it has been useful to you and you'd like to keep it free and open for everyone, please consider donating. Any amount helps.</1>"
-msgstr "<0>Thank you for using Reactive Resume. I build this app mostly in my spare time, with help from open-source contributors around the world.</0><1>If it has been useful to you and you'd like to keep it free and open for everyone, please consider donating. Any amount helps.</1>"
-
 #: src/features/homepage/export-playground.tsx
 msgid "<p>I design software for teams, from early research to the details people use every day.</p>"
 msgstr "<p>I design software for teams, from early research to the details people use every day.</p>"
@@ -154,14 +150,6 @@ msgstr "<ul><li>Led research and interface design for a collaborative planning t
 msgid "1 Column / Inline"
 msgstr "1 Column / Inline"
 
-#: src/dialogs/api-key/create.tsx
-msgid "1 month"
-msgstr "1 month"
-
-#: src/dialogs/api-key/create.tsx
-msgid "1 year"
-msgstr "1 year"
-
 #: src/features/homepage/resume-sculpture.tsx
 msgid "2015 to 2019"
 msgstr "2015 to 2019"
@@ -177,14 +165,6 @@ msgstr "2022 - Present"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "2022 to now"
 msgstr "2022 to now"
-
-#: src/dialogs/api-key/create.tsx
-msgid "3 months"
-msgstr "3 months"
-
-#: src/dialogs/api-key/create.tsx
-msgid "6 months"
-msgstr "6 months"
 
 #: src/features/ats-checker/messages.ts
 msgid "A date is in the future."
@@ -245,14 +225,6 @@ msgstr "A numeric date reads differently in different countries."
 #: src/features/ats-checker/messages.ts
 msgid "A page is rotated."
 msgstr "A page is rotated."
-
-#: src/features/homepage/site-footer.tsx
-msgid "A passion project by <0>Amruth Pillai</0>"
-msgstr "A passion project by <0>Amruth Pillai</0>"
-
-#: src/components/ui/copyright.tsx
-msgid "A passion project by <0>Amruth Pillai</0>."
-msgstr "A passion project by <0>Amruth Pillai</0>."
 
 #: src/features/homepage/page.tsx
 msgid "A PDF for the application. A Word file for a few more edits. Download a sample using your choices."
@@ -636,27 +608,13 @@ msgstr "Anyone with the link can view the resume."
 msgid "Anyone with the public URL will be able to view your resume without a password."
 msgstr "Anyone with the public URL will be able to view your resume without a password."
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "API and MCP access"
-msgstr "API and MCP access"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API Key"
 msgstr "API Key"
 
-#: src/features/command-palette/pages/navigation.tsx
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/settings/api-keys.tsx
-msgid "API Keys"
-msgstr "API Keys"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API keys are encrypted on the server and never shown again after saving."
 msgstr "API keys are encrypted on the server and never shown again after saving."
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "API Reference"
-msgstr "API Reference"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "App"
@@ -750,10 +708,6 @@ msgstr "Archived"
 #: src/hooks/use-form-blocker.tsx
 msgid "Are you sure you want to close this dialog?"
 msgstr "Are you sure you want to close this dialog?"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Are you sure you want to delete this API key?"
-msgstr "Are you sure you want to delete this API key?"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 msgid "Are you sure you want to delete this custom section?"
@@ -966,13 +920,6 @@ msgstr "Bullet List"
 msgid "Bulleted list"
 msgstr "Bulleted list"
 
-#. Tagline shown in app footer/about area
-#: src/components/ui/copyright.tsx
-#: src/features/homepage/site-footer.tsx
-msgid "By the community, for the community."
-msgstr "By the community, for the community."
-
-#. API key deletion confirmation dialog cancel action in settings
 #. Account deletion confirmation dialog cancel action in account settings
 #. Confirmation dialog button label to abort deleting a custom section in resume builder
 #. Confirmation dialog button label to abort deleting a section item in resume builder
@@ -990,7 +937,6 @@ msgstr "By the community, for the community."
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
-#: src/features/settings/pages/api-keys.tsx
 #: src/features/settings/pages/profile.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -1244,8 +1190,6 @@ msgid "Compress or remove large images to keep uploads quick."
 msgstr "Compress or remove large images to keep uploads quick."
 
 #. Account deletion confirmation dialog confirm action in account settings
-#. Create API key dialog acknowledgment action after copying
-#: src/dialogs/api-key/create.tsx
 #: src/features/settings/pages/account.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -1264,10 +1208,6 @@ msgstr "Connect"
 #: src/features/auth/pages/consent.tsx
 msgid "Connect an application"
 msgstr "Connect an application"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Connect through MCP to create and update resumes in a conversation. Or use the API to build your own workflow."
-msgstr "Connect through MCP to create and update resumes in a conversation. Or use the API to build your own workflow."
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Connect your own AI provider to get a review of the writing. The checks above need no provider and no account."
@@ -1391,10 +1331,6 @@ msgstr "Copy the entire job description from the posting and paste it below. We'
 #: src/features/ats-checker/messages.ts
 msgid "Copy the text out of the exported file and read it through; fix anything that arrives in the wrong place."
 msgstr "Copy the text out of the exported file and read it through; fix anything that arrives in the wrong place."
-
-#: src/dialogs/api-key/create.tsx
-msgid "Copy this secret key and use it in your applications to access your data."
-msgstr "Copy this secret key and use it in your applications to access your data."
 
 #: src/routes/builder/$resumeId/-components/dock.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -1555,8 +1491,6 @@ msgstr "Cover letter draft"
 msgid "Cover Letters"
 msgstr "Cover Letters"
 
-#. Create API key dialog submit action
-#: src/dialogs/api-key/create.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -1585,11 +1519,6 @@ msgstr "Create a copy tuned to this job"
 #: src/features/auth/pages/register.tsx
 msgid "Create a new account"
 msgstr "Create a new account"
-
-#: src/dialogs/api-key/create.tsx
-#: src/features/settings/pages/api-keys.tsx
-msgid "Create a new API key"
-msgstr "Create a new API key"
 
 #: src/dialogs/resume/sections/award.tsx
 msgid "Create a new award"
@@ -1693,10 +1622,6 @@ msgstr "Created"
 msgid "Created \"{0}\" and linked it to this application."
 msgstr "Created \"{0}\" and linked it to this application."
 
-#: src/dialogs/api-key/create.tsx
-msgid "Creating your API key..."
-msgstr "Creating your API key..."
-
 #: src/dialogs/resume/index.tsx
 msgid "Creating your resume..."
 msgstr "Creating your resume..."
@@ -1799,7 +1724,6 @@ msgstr "Default template"
 msgid "Degree"
 msgstr "Degree"
 
-#. API key deletion confirmation dialog confirm action in settings
 #. Destructive confirmation button label when deleting a custom section in resume builder
 #. Destructive confirmation button label when deleting a section item in resume builder
 #. Passkey row action to remove the selected passkey
@@ -1810,7 +1734,6 @@ msgstr "Degree"
 #: src/features/applications/components/table-view.tsx
 #: src/features/cover-letters/editor-dialog.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
-#: src/features/settings/pages/api-keys.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -1872,10 +1795,6 @@ msgstr "Deleted {0} application(s)."
 #: src/features/settings/pages/account.tsx
 msgid "Deleting your account..."
 msgstr "Deleting your account..."
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Deleting your API key..."
-msgstr "Deleting your API key..."
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
@@ -1966,10 +1885,6 @@ msgstr "Disconnect"
 msgid "Dismiss"
 msgstr "Dismiss"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Documentation"
-msgstr "Documentation"
-
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Documents sent"
 msgstr "Documents sent"
@@ -1981,10 +1896,6 @@ msgstr "Don't have an account? <0/>"
 #: src/components/ui/donation-toast.tsx
 msgid "Donate"
 msgstr "Donate"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Donate to Reactive Resume"
-msgstr "Donate to Reactive Resume"
 
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Done"
@@ -2320,15 +2231,6 @@ msgstr "Exit Fullscreen"
 msgid "Experience"
 msgstr "Experience"
 
-#: src/dialogs/api-key/create.tsx
-msgid "Expires in"
-msgstr "Expires in"
-
-#. placeholder {0}: key.expiresAt.toLocaleDateString()
-#: src/features/settings/pages/api-keys.tsx
-msgid "Expires on {0}"
-msgstr "Expires on {0}"
-
 #: src/features/homepage/feature-explorer.tsx
 msgid "Explore features"
 msgstr "Explore features"
@@ -2390,11 +2292,6 @@ msgstr "Failed"
 msgid "Failed to archive thread."
 msgstr "Failed to archive thread."
 
-#. Fallback toast when creating an API key fails
-#: src/dialogs/api-key/create.tsx
-msgid "Failed to create API key. Please try again."
-msgstr "Failed to create API key. Please try again."
-
 #. Fallback toast when account registration fails without a server error message
 #: src/features/auth/pages/register.tsx
 msgid "Failed to create your account. Please try again."
@@ -2408,11 +2305,6 @@ msgstr "Failed to delete passkey. Please try again."
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Failed to delete provider."
 msgstr "Failed to delete provider."
-
-#. Fallback toast when deleting an API key fails
-#: src/features/settings/pages/api-keys.tsx
-msgid "Failed to delete the API key. Please try again."
-msgstr "Failed to delete the API key. Please try again."
 
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
@@ -2594,10 +2486,6 @@ msgstr "Fit"
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Fit to view"
 msgstr "Fit to view"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Fits into your workflow"
-msgstr "Fits into your workflow"
 
 #: src/features/ats-checker/messages.ts
 msgid "Flatten the form so the text is part of the page."
@@ -2829,10 +2717,6 @@ msgstr "Heading 6"
 msgid "Headline"
 msgstr "Headline"
 
-#: src/dialogs/api-key/create.tsx
-msgid "Here's your new API key"
-msgstr "Here's your new API key"
-
 #: src/components/level/combobox.tsx
 #: src/dialogs/resume/sections/language.tsx
 #: src/dialogs/resume/sections/skill.tsx
@@ -2907,10 +2791,6 @@ msgstr "Highlight Color"
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Home"
 msgstr "Home"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "How do I use the API?"
-msgstr "How do I use the API?"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
@@ -3015,10 +2895,6 @@ msgstr "Increase them so content stays inside the reliably read area."
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Increase zoom"
 msgstr "Increase zoom"
-
-#: src/libs/resume/section.tsx
-msgid "Information"
-msgstr "Information"
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/skill-keyword-layout-menu.tsx
 msgid "Inline"
@@ -3301,10 +3177,6 @@ msgstr "Level"
 msgid "Level {level} of 5"
 msgstr "Level {level} of 5"
 
-#: src/components/ui/copyright.tsx
-msgid "Licensed under <0>MIT</0>."
-msgstr "Licensed under <0>MIT</0>."
-
 #: src/features/ats-checker/messages.ts
 msgid "Ligatures can drop letters out of words such as \"workflow\"."
 msgstr "Ligatures can drop letters out of words such as \"workflow\"."
@@ -3582,7 +3454,6 @@ msgid "Must start with https://"
 msgstr "Must start with https://"
 
 #. Label for full name input on registration form
-#: src/dialogs/api-key/create.tsx
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/interest.tsx
 #: src/dialogs/resume/sections/project.tsx
@@ -3603,10 +3474,6 @@ msgstr "Name"
 msgid "Name the resume after the position you are applying for."
 msgstr "Name the resume after the position you are applying for."
 
-#: src/dialogs/api-key/create.tsx
-msgid "Names help you tell keys apart, so name it after what you will use it for."
-msgstr "Names help you tell keys apart, so name it after what you will use it for."
-
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Names help you tell passkeys apart if you register more than one."
 msgstr "Names help you tell passkeys apart if you register more than one."
@@ -3614,10 +3481,6 @@ msgstr "Names help you tell passkeys apart if you register more than one."
 #: src/dialogs/resume/sections/profile.tsx
 msgid "Network"
 msgstr "Network"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Never expires"
-msgstr "Never expires"
 
 #: src/features/auth/pages/error.tsx
 msgid "New account sign-ups are currently disabled on this server."
@@ -3857,10 +3720,6 @@ msgstr "Offer"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Ollama Cloud"
 msgstr "Ollama Cloud"
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "Once deleted, the key can no longer access your data. This cannot be undone."
-msgstr "Once deleted, the key can no longer access your data. This cannot be undone."
 
 #: src/features/auth/pages/consent.tsx
 msgid "Only allow applications you trust. This application will be able to:"
@@ -4118,10 +3977,6 @@ msgstr "Patch rolled back"
 msgid "Patch rolled back."
 msgstr "Patch rolled back."
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "Pause data flow animation"
-msgstr "Pause data flow animation"
-
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "PDF snapshot attached to the application."
 msgstr "PDF snapshot attached to the application."
@@ -4194,10 +4049,6 @@ msgstr "Place it on a page from the Layout panel, or hide it if you meant to par
 #: src/features/resume/export/download-dialog.tsx
 msgid "Plain text, for AI tools and quick edits."
 msgstr "Plain text, for AI tools and quick edits."
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Play data flow animation"
-msgstr "Play data flow animation"
 
 #: src/components/ui/donation-toast.tsx
 msgid "Please support the project"
@@ -4537,10 +4388,6 @@ msgstr "Referred by…, things to emphasize, etc."
 msgid "Register New Device"
 msgstr "Register New Device"
 
-#: src/features/homepage/site-footer.tsx
-msgid "Released under the <0>MIT License</0>."
-msgstr "Released under the <0>MIT License</0>."
-
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "Reload latest version"
 msgstr "Reload latest version"
@@ -4626,10 +4473,6 @@ msgstr "Replace tables with plain paragraphs and lists. Cells extract in storage
 #: src/features/cover-letters/editor-dialog.tsx
 msgid "Replace the attached cover letter?"
 msgstr "Replace the attached cover letter?"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Report a Bug"
-msgstr "Report a Bug"
 
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
@@ -5004,10 +4847,6 @@ msgstr "Sections"
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "See how this resume matches the posting"
 msgstr "See how this resume matches the posting"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "See how to connect"
-msgstr "See how to connect"
 
 #: src/features/homepage/page.tsx
 msgid "See what<0/>software reads."
@@ -5436,10 +5275,6 @@ msgstr "Sort by…"
 msgid "Source"
 msgstr "Source"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Source Code"
-msgstr "Source Code"
-
 #. placeholder {0}: operation.from
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Source: {0}"
@@ -5460,10 +5295,6 @@ msgstr "Spacing (Vertical)"
 #: src/features/ats-checker/messages.ts
 msgid "Spell the month, as in \"Mar 2022\"."
 msgstr "Spell the month, as in \"Mar 2022\"."
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Sponsors"
-msgstr "Sponsors"
 
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Spread pages"
@@ -5597,10 +5428,6 @@ msgstr "Suggestions"
 msgid "Summary"
 msgstr "Summary"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx
-msgid "Support the app by doing what you can!"
-msgstr "Support the app by doing what you can!"
-
 #: src/features/ats-checker/messages.ts
 #: src/libs/resume/ats.ts
 msgid "Swap the start and end dates."
@@ -5728,14 +5555,6 @@ msgstr "That sign-in provider is no longer available on this server."
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "The agent needs your input."
 msgstr "The agent needs your input."
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "The API documentation shows how to connect Reactive Resume to your own applications. It covers the endpoints, the request format, and authentication."
-msgstr "The API documentation shows how to connect Reactive Resume to your own applications. It covers the endpoints, the request format, and authentication."
-
-#: src/features/settings/pages/api-keys.tsx
-msgid "The API key has been deleted."
-msgstr "The API key has been deleted."
 
 #: src/features/auth/pages/error.tsx
 msgid "The application that sent you here made an invalid authorization request."
@@ -5903,10 +5722,6 @@ msgstr "This connection request is invalid or has expired."
 msgid "This cover letter changed elsewhere. Your edits are still here. Reload the latest version before saving again."
 msgstr "This cover letter changed elsewhere. Your edits are still here. Reload the latest version before saving again."
 
-#: src/dialogs/api-key/create.tsx
-msgid "This creates a new API key, which lets other programs read and change your resume data through the Reactive Resume API."
-msgstr "This creates a new API key, which lets other programs read and change your resume data through the Reactive Resume API."
-
 #: src/libs/resume/ats.ts
 msgid "This date will not be read correctly."
 msgstr "This date will not be read correctly."
@@ -6006,10 +5821,6 @@ msgstr "This is an XFA form, so most software reads only the empty shell."
 #: src/features/ats-checker/messages.ts
 msgid "This is not a common resume page size."
 msgstr "This is not a common resume page size."
-
-#: src/dialogs/api-key/create.tsx
-msgid "This key is shown only once. Copy it before you close this dialog."
-msgstr "This key is shown only once. Copy it before you close this dialog."
 
 #: src/libs/resume/ats.ts
 msgid "This link is missing its protocol."
@@ -6827,10 +6638,6 @@ msgstr "Whether your timeline can be reconstructed."
 msgid "Words run together when the text is extracted."
 msgstr "Words run together when the text is extracted."
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "Work on your resume from your AI app."
-msgstr "Work on your resume from your AI app."
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Work OpenAI"
 msgstr "Work OpenAI"
@@ -6904,17 +6711,9 @@ msgstr "You've got mail!"
 msgid "Your account has been deleted."
 msgstr "Your account has been deleted."
 
-#: src/features/homepage/feature-explorer.tsx
-msgid "Your AI app"
-msgstr "Your AI app"
-
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Your AI provider could not be reached. Check its settings and try again."
 msgstr "Your AI provider could not be reached. Check its settings and try again."
-
-#: src/dialogs/api-key/create.tsx
-msgid "Your API key has been copied to the clipboard."
-msgstr "Your API key has been copied to the clipboard."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Your applications, together"
@@ -7078,10 +6877,6 @@ msgstr "Your saved cover letter will remain unchanged."
 #: src/features/homepage/ats-playground.tsx
 msgid "Your selected file"
 msgstr "Your selected file"
-
-#: src/features/homepage/feature-explorer.tsx
-msgid "Your tools, connected"
-msgstr "Your tools, connected"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Your words as a plain-text document, with headings, lists, and links."

@@ -41,37 +41,16 @@ async function getUserFromHeaders(headers: Headers): Promise<User | null> {
 	}
 }
 
-async function getUserFromApiKey(apiKey: string): Promise<User | null> {
-	try {
-		const result = await auth.api.verifyApiKey({ body: { key: apiKey } });
-		if (!result.key || !result.valid) return null;
-
-		const [userResult] = await db.select().from(user).where(eq(user.id, result.key.referenceId)).limit(1);
-		if (!userResult) return null;
-
-		return userResult;
-	} catch (error) {
-		console.warn("API key verification failed:", error);
-		return null;
-	}
-}
-
 /**
- * Resolve the authenticated user from the same headers oRPC uses (`x-api-key`,
- * `Authorization: Bearer`, or session cookies). Tries each auth method in
+ * Resolve the authenticated user from the same headers oRPC uses
+ * (`Authorization: Bearer` or session cookies). Tries each auth method in
  * priority order and returns the first valid identity. Used directly by
  * oRPC's `publicProcedure` and by callers outside oRPC handlers (e.g. MCP
  * tools) where `context.user` is not in scope.
  */
 export async function resolveUserFromRequestHeaders(headers: Headers): Promise<User | null> {
-	const apiKey = headers.get("x-api-key");
-	if (apiKey) {
-		const apiKeyUser = await getUserFromApiKey(apiKey);
-		if (apiKeyUser) return apiKeyUser;
-	} else {
-		const bearerUser = await getUserFromBearerToken(headers);
-		if (bearerUser) return bearerUser;
-	}
+	const bearerUser = await getUserFromBearerToken(headers);
+	if (bearerUser) return bearerUser;
 
 	return getUserFromHeaders(headers);
 }

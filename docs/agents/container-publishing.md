@@ -1,8 +1,8 @@
 # Container publishing
 
 The repository is `reactive-resume/reactive-resume`. Docker Hub remains
-`docker.io/amruthpillai/reactive-resume`; GHCR follows the repository as
-`ghcr.io/reactive-resume/reactive-resume`. Do not derive Docker Hub's image name from `github.repository`.
+`docker.io/mnzn12138/reactive-resume`; GHCR follows the repository as
+`ghcr.io/mnzn12138/reactive-resume`. Do not derive Docker Hub's image name from `github.repository`.
 
 ## Builds and release safety
 
@@ -52,11 +52,11 @@ Docker configuration with explicit empty registry credentials to prove anonymous
 (a completely empty directory can still discover a system credential helper):
 
 ```bash
-docker buildx imagetools inspect ghcr.io/reactive-resume/reactive-resume:v5.3.0
+docker buildx imagetools inspect ghcr.io/mnzn12138/reactive-resume:v5.3.0
 registry_config=$(mktemp -d)
 printf '%s\n' '{"auths":{"ghcr.io":{}}}' > "$registry_config/config.json"
-docker --config "$registry_config" pull --platform linux/amd64 ghcr.io/reactive-resume/reactive-resume:v5.3.0
-docker --config "$registry_config" pull --platform linux/arm64 ghcr.io/reactive-resume/reactive-resume:v5.3.0
+docker --config "$registry_config" pull --platform linux/amd64 ghcr.io/mnzn12138/reactive-resume:v5.3.0
+docker --config "$registry_config" pull --platform linux/arm64 ghcr.io/mnzn12138/reactive-resume:v5.3.0
 rm -r "$registry_config"
 ```
 
@@ -83,7 +83,7 @@ historical v5.3.0 with its original workflow identity, even at its new registry 
 
 ```bash
 cosign verify \
-  --certificate-identity https://github.com/amruthpillai/reactive-resume/.github/workflows/docker-build.yml@refs/heads/main \
+  --certificate-identity https://github.com/mnzn12138/reactive-resume/.github/workflows/docker-build.yml@refs/heads/main \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   ghcr.io/reactive-resume/app@sha256:c487ec5edcfe054bcb312fcd498f868e56f274756d0046b01c83f210855017ab
 ```
@@ -94,8 +94,8 @@ OIDC trust policies; the repository URL alone does not describe the subject.
 
 ## Independent migration items
 
-- GitHub Sponsors stays `AmruthPillai`; Open Collective stays `reactive-resume`.
-- `server.json` keeps MCP registry identifier `io.github.amruthpillai/reactive-resume`.
+- GitHub Sponsors stays `mnzn12138`; Open Collective stays `reactive-resume`.
+- `server.json` keeps MCP registry identifier `io.github.mnzn12138/reactive-resume`.
   Changing that identifier creates a separate registry identity and requires its own migration.
 - The old GitHub repository redirects to the new repository. Never recreate the old repository.
 - The old Pages address `https://amruthpillai.github.io/reactive-resume/` returned 404 on

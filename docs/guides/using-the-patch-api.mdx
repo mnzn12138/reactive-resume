@@ -23,7 +23,7 @@ This is based on the [JSON Patch (RFC 6902)](https://datatracker.ietf.org/doc/ht
 
 ## Authentication
 
-All requests require your API key in the `x-api-key` header. See [Using the API](/guides/using-the-api) for how to create one.
+All requests require an OAuth2 access token in the `Authorization: Bearer` header. See [Using the API](/guides/using-the-api) for how to obtain one.
 
 <Info>
   If you're self-hosting, replace `https://rxresu.me` with your instance URL. The API is served under `/api/openapi`.
@@ -62,7 +62,7 @@ Update the resume holder's name and headline:
 
 ```bash
 curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
-  -H "x-api-key: YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "operations": [
@@ -78,7 +78,7 @@ Append a new item to the experience section:
 
 ```bash
 curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
-  -H "x-api-key: YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "operations": [
@@ -111,7 +111,7 @@ Remove the second skill (index `1`) from the skills section:
 
 ```bash
 curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
-  -H "x-api-key: YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "operations": [
@@ -126,7 +126,7 @@ Switch the template and update the primary color:
 
 ```bash
 curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
-  -H "x-api-key: YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "operations": [
@@ -142,7 +142,7 @@ The `test` operation checks that a value matches before the rest of the patch ru
 
 ```bash
 curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
-  -H "x-api-key: YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "operations": [
@@ -160,7 +160,7 @@ Move the first experience item to the third position:
 
 ```bash
 curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
-  -H "x-api-key: YOUR_API_KEY" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "operations": [
@@ -174,7 +174,7 @@ curl -X PATCH "https://rxresu.me/api/openapi/resume/YOUR_RESUME_ID" \
 | Status | Error Code                 | Description                                                                                                               |
 | ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `400`  | `INVALID_PATCH_OPERATIONS` | The operations are structurally invalid, target a non-existent path, or produce resume data that fails schema validation. |
-| `401`  | `UNAUTHORIZED`             | Missing or invalid API key.                                                                                               |
+| `401`  | `UNAUTHORIZED`             | Missing, expired, or invalid access token.                                                                                |
 | `404`  | `NOT_FOUND`                | The resume does not exist or does not belong to the authenticated user.                                                   |
 | `403`  | `RESUME_LOCKED`            | The resume is locked and cannot be modified. Unlock it first.                                                             |
 

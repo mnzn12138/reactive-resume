@@ -31,11 +31,6 @@ export const rateLimitConfig = {
 			revoke: { window: 60, max: 30 },
 			userinfo: { window: 60, max: 60 },
 		},
-		apiKey: {
-			enabled: true,
-			timeWindow: 60 * 60 * 1000,
-			maxRequests: 1000,
-		},
 	},
 	orpc: {
 		resumePassword: { maxRequests: 5, window: 10 * 60 * 1000 },

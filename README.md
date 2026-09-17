@@ -1,9 +1,3 @@
-> [!IMPORTANT]
-> **Repository moved:** Reactive Resume now lives at **[`reactive-resume/reactive-resume`](https://github.com/reactive-resume/reactive-resume)** on GitHub.
-> **Docker Hub stays at `amruthpillai/reactive-resume`.** GHCR builds now publish to `ghcr.io/reactive-resume/reactive-resume`.
-> Verified image tags: `latest`, `v5`, `v5.3`, and `v5.3.0` (AMD64 and ARM64). The current version was rebuilt and production redeployed for this rename; no new GitHub release or version bump was made. See [migration details](https://github.com/reactive-resume/reactive-resume/issues/3503).
-> GitHub Sponsors and Open Collective funding links remain unchanged.
-
 <div align="center">
   <a href="https://rxresu.me">
     <img src="apps/web/public/opengraph/banner.jpg" alt="Reactive Resume" />
@@ -23,10 +17,10 @@
     <img src="https://img.shields.io/github/package-json/v/reactive-resume/reactive-resume?style=flat-square" alt="Reactive Resume Version">
     <img src="https://img.shields.io/github/stars/reactive-resume/reactive-resume?style=flat-square" alt="GitHub Stars">
     <img src="https://img.shields.io/github/license/reactive-resume/reactive-resume?style=flat-square" alt="License" />
-    <img src="https://img.shields.io/docker/pulls/amruthpillai/reactive-resume?style=flat-square" alt="Docker Pulls" />
+    <img src="https://img.shields.io/docker/pulls/mnzn12138/reactive-resume?style=flat-square" alt="Docker Pulls" />
     <a href="https://discord.gg/aSyA5ZSxpb"><img src="https://img.shields.io/discord/1173518977851473940?style=flat-square&label=discord" alt="Discord" /></a>
     <a href="https://crowdin.com/project/reactive-resume"><img src="https://badges.crowdin.net/reactive-resume/localized.svg?style=flat-square" alt="Crowdin" /></a>
-    <a href="https://github.com/sponsors/AmruthPillai"><img src="https://img.shields.io/github/sponsors/AmruthPillai?style=flat-square&label=sponsors" alt="Sponsors" /></a>
+    <a href="https://github.com/sponsors/mnzn12138"><img src="https://img.shields.io/github/sponsors/mnzn12138?style=flat-square&label=sponsors" alt="Sponsors" /></a>
     <a href="https://opencollective.com/reactive-resume/donate"><img src="https://img.shields.io/opencollective/backers/reactive-resume?style=flat-square&label=donations" alt="Donations" /></a>
   </p>
 </div>
@@ -200,10 +194,10 @@ Pull the latest image from Docker Hub or GitHub Container Registry:
 
 ```bash
 # Docker Hub
-docker pull amruthpillai/reactive-resume:latest
+docker pull mnzn12138/reactive-resume:latest
 
 # GitHub Container Registry
-docker pull ghcr.io/reactive-resume/reactive-resume:latest
+docker pull ghcr.io/mnzn12138/reactive-resume:latest
 ```
 
 See the [self-hosting guide](https://docs.rxresu.me/self-hosting/docker) for complete instructions.
@@ -213,7 +207,7 @@ See the [self-hosting guide](https://docs.rxresu.me/self-hosting/docker) for com
 Reactive Resume is and always will be free and open source. If it has helped you land a job or saved you time, please consider supporting continued development:
 
 <p>
-  <a href="https://github.com/sponsors/AmruthPillai">
+  <a href="https://github.com/sponsors/mnzn12138">
     <img src="https://img.shields.io/badge/GitHub%20Sponsors-Support-ea4aaa?style=flat-square&logo=github-sponsors" alt="GitHub Sponsors" />
   </a>
   <a href="https://opencollective.com/reactive-resume/donate">

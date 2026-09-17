@@ -8,7 +8,6 @@ import {
 	ChatCircleDotsIcon,
 	EnvelopeSimpleIcon,
 	GearSixIcon,
-	KeyIcon,
 	MagnifyingGlassIcon,
 	ReadCvLogoIcon,
 	SealCheckIcon,
@@ -90,11 +89,6 @@ const settingsSidebarItems = [
 		icon: <ShieldCheckIcon />,
 		label: msg`Authentication`,
 		href: "/dashboard/settings/authentication",
-	},
-	{
-		icon: <KeyIcon />,
-		label: msg`API Keys`,
-		href: "/dashboard/settings/api-keys",
 	},
 	{
 		icon: <BrainIcon />,

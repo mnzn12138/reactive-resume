@@ -1,6 +1,6 @@
 {
 	"$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-	"name": "io.github.amruthpillai/reactive-resume",
+	"name": "io.github.mnzn12138/reactive-resume",
 	"title": "Reactive Resume",
 	"description": "Free open-source resume builder with remote MCP tools for resumes and job applications.",
 	"websiteUrl": "https://rxresu.me",

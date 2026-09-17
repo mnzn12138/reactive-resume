@@ -47,7 +47,7 @@ export function createMcpServer(request: Request) {
 		{
 			instructions: [
 				"You are connected to Reactive Resume over MCP.",
-				"Authenticate with OAuth (recommended) or an API key (`x-api-key`).",
+				"Authenticate with OAuth (`Authorization: Bearer`).",
 				`Discover resume IDs with \`${MCP_TOOL_NAME.listResumes}\` (not \`resources/list\`).`,
 				`List distinct tags with \`${MCP_TOOL_NAME.listResumeTags}\`.`,
 				`Read schema at \`resume://_meta/schema\`; read resume JSON via \`resume://{id}\` or \`${MCP_TOOL_NAME.getResume}\`.`,

@@ -21,19 +21,6 @@ const renderCopyright = (props?: React.ComponentProps<typeof Copyright>) =>
 	);
 
 describe("Copyright", () => {
-	it("renders the MIT license link", () => {
-		renderCopyright();
-		const link = screen.getByRole("link", { name: "MIT" });
-		expect(link.getAttribute("href")).toBe("https://github.com/reactive-resume/reactive-resume/blob/main/LICENSE");
-		expect(link.getAttribute("rel")).toBe("noopener noreferrer");
-	});
-
-	it("renders the Amruth Pillai attribution link", () => {
-		renderCopyright();
-		const link = screen.getByRole("link", { name: "Amruth Pillai" });
-		expect(link.getAttribute("href")).toBe("https://amruthpillai.com");
-	});
-
 	it("includes the app version string", () => {
 		renderCopyright();
 		// The version is wrapped in <bdi> for RTL isolation, so it is its own text node.
@@ -47,10 +34,8 @@ describe("Copyright", () => {
 		expect(wrapper.className).toContain("text-muted-foreground");
 	});
 
-	it("opens external links in a new tab", () => {
+	it("renders no external attribution links", () => {
 		renderCopyright();
-		for (const link of screen.getAllByRole("link")) {
-			expect(link.getAttribute("target")).toBe("_blank");
-		}
+		expect(screen.queryAllByRole("link")).toHaveLength(0);
 	});
 });

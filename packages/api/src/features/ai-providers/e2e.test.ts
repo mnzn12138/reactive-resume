@@ -56,7 +56,6 @@ vi.mock("@reactive-resume/auth/config", () => ({
 	auth: {
 		api: {
 			getSession: async () => ({ user: { id: "user-1", email: "kaushik@example.test" } }),
-			verifyApiKey: async () => ({ valid: false, key: null }),
 		},
 	},
 	verifyOAuthToken: async () => null,

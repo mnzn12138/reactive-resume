@@ -79,9 +79,8 @@ describe("buildMcpServerCard", () => {
 		expect(card.resources.some((r) => r.mimeType === "application/json")).toBe(true);
 	});
 
-	it("documents an optional apiKey in the configuration schema", () => {
-		const props = card.configurationSchema.properties as Record<string, unknown>;
-		expect(props.apiKey).toBeDefined();
+	it("does not document an API key configuration field", () => {
+		expect(card.configurationSchema).toBeUndefined();
 	});
 
 	it("matches the create/update application archived contract", () => {

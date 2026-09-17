@@ -69,14 +69,6 @@ describe("rateLimitConfig", () => {
 		});
 	});
 
-	describe("betterAuth.apiKey", () => {
-		it("is enabled with hourly window of 1000 requests", () => {
-			expect(rateLimitConfig.betterAuth.apiKey.enabled).toBe(true);
-			expect(rateLimitConfig.betterAuth.apiKey.timeWindow).toBe(60 * 60 * 1000);
-			expect(rateLimitConfig.betterAuth.apiKey.maxRequests).toBe(1000);
-		});
-	});
-
 	describe("orpc", () => {
 		it("limits resume password reset to 5 per 10 minutes", () => {
 			expect(rateLimitConfig.orpc.resumePassword).toEqual({ maxRequests: 5, window: 10 * 60 * 1000 });

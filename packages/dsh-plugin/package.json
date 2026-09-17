@@ -10,7 +10,6 @@
 		"resume"
 	],
 	"license": "MIT",
-	"author": "Amruth Pillai",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/reactive-resume/reactive-resume.git",

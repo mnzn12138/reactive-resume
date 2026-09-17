@@ -19,7 +19,7 @@ concurrency:
 
 env:
   GHCR_IMAGE: ghcr.io/${{ github.repository }}
-  DOCKER_IMAGE: docker.io/amruthpillai/reactive-resume
+  DOCKER_IMAGE: docker.io/mnzn12138/reactive-resume
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
@@ -236,7 +236,7 @@ jobs:
             --annotation "index:org.opencontainers.image.licenses=MIT" \
             --annotation "index:org.opencontainers.image.title=Reactive Resume" \
             --annotation "index:org.opencontainers.image.description=A free and open-source resume builder." \
-            --annotation "index:org.opencontainers.image.vendor=Amruth Pillai" \
+            --annotation "index:org.opencontainers.image.vendor=MnZn" \
             --annotation "index:org.opencontainers.image.url=https://rxresu.me" \
             --annotation "index:org.opencontainers.image.documentation=https://docs.rxresu.me" \
             --annotation "index:org.opencontainers.image.source=https://github.com/${{ github.repository }}" \

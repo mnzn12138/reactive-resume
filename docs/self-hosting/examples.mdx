@@ -100,7 +100,7 @@ services:
       retries: 5
 
   reactive_resume:
-    image: amruthpillai/reactive-resume:latest
+    image: mnzn12138/reactive-resume:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
@@ -185,7 +185,7 @@ services:
       retries: 5
 
   reactive_resume:
-    image: amruthpillai/reactive-resume:latest
+    image: mnzn12138/reactive-resume:latest
     restart: unless-stopped
     environment:
       - APP_URL=https://resume.${DOMAIN}
@@ -352,7 +352,7 @@ services:
       replicas: 1
 
   reactive_resume:
-    image: ghcr.io/reactive-resume/reactive-resume:latest
+    image: ghcr.io/mnzn12138/reactive-resume:latest
     networks:
       - traefik_network
       - reactive_resume_network

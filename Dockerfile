@@ -41,11 +41,11 @@ RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store,sharing=locked \
 
 FROM node:${NODE_VERSION}-slim AS runtime
 
-LABEL maintainer="amruthpillai"
+LABEL maintainer="mnzn12138"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Reactive Resume"
 LABEL org.opencontainers.image.description="A free and open-source resume builder."
-LABEL org.opencontainers.image.vendor="Amruth Pillai"
+LABEL org.opencontainers.image.vendor="MnZn"
 LABEL org.opencontainers.image.url="https://rxresu.me"
 LABEL org.opencontainers.image.documentation="https://docs.rxresu.me"
 LABEL org.opencontainers.image.source="https://github.com/reactive-resume/reactive-resume"

@@ -3,20 +3,15 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import {
 	ArrowRightIcon,
-	ArrowUpRightIcon,
 	CheckIcon,
-	CodeIcon,
 	GlobeIcon,
 	KanbanIcon,
 	LockSimpleIcon,
-	PauseIcon,
 	PencilSimpleIcon,
-	PlayIcon,
 } from "@phosphor-icons/react";
-import { useInView, useReducedMotion } from "motion/react";
-import { useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
+import { useState } from "react";
 import { cn } from "@reactive-resume/utils/style";
-import { textLink } from "./classes";
 
 const demoClass =
 	"min-h-[492px] animate-[home-feature-enter_220ms_cubic-bezier(0.23,1,0.32,1)_both] px-[30px] py-6 group-data-[instant=true]/explorer:animate-none max-[1100px]:p-[23px] max-[900px]:p-[27px] max-[540px]:px-4 max-[540px]:py-5";
@@ -26,9 +21,6 @@ const pressTransition =
 	"[transition:transform_140ms_cubic-bezier(0.23,1,0.32,1),background-color_180ms_ease,color_180ms_ease] active:transform-[scale(0.97)]";
 const jobCardClass =
 	"min-h-[191px] rounded-[4px] border px-3 py-[14px] max-[540px]:min-h-[183px] max-[540px]:px-2 max-[540px]:py-[13px]";
-const toolBoxClass =
-	"flex h-[122px] w-[132px] shrink-0 flex-col items-center justify-center gap-[15px] rounded-[4px] border border-[#4d4d50] bg-[#242426] shadow-[0_5px_0_#111112,0_6px_0_#3b3b3f] max-[540px]:h-[105px] max-[540px]:w-[110px]";
-const toolLabelClass = "text-[11px] max-[540px]:text-[10px]";
 const stageDotColors = ["bg-[#8898b7]", "bg-[#d9b67b]", "bg-[#9cbd9e]"];
 
 export function FeatureExplorer() {
@@ -37,9 +29,6 @@ export function FeatureExplorer() {
 	const [sharing, setSharing] = useState("public");
 	const [stage, setStage] = useState(0);
 	const [instant, setInstant] = useState(false);
-	const [flowPlaying, setFlowPlaying] = useState(true);
-	const ref = useRef<HTMLDivElement>(null);
-	const visible = useInView(ref);
 	const reducedMotion = useReducedMotion();
 	const revisedText = t`Designed a shared component library that six product teams use to build consistent interfaces.`;
 	const sharingOptions = [
@@ -51,12 +40,10 @@ export function FeatureExplorer() {
 		{ id: "writing", label: t`A hand with the writing`, hint: t`AI, when you want it`, icon: PencilSimpleIcon },
 		{ id: "sharing", label: t`A link worth sharing`, hint: t`Choose who can see it`, icon: GlobeIcon },
 		{ id: "tracking", label: t`Know where things stand`, hint: t`Your applications, together`, icon: KanbanIcon },
-		{ id: "tools", label: t`Fits into your workflow`, hint: t`API and MCP access`, icon: CodeIcon },
 	];
 	const stages = [t`Applied`, t`Interview`, t`Offer`];
 	return (
 		<div
-			ref={ref}
 			className="group/explorer grid grid-cols-[320px_minmax(0,1fr)] gap-[55px] max-[1100px]:grid-cols-[280px_minmax(0,1fr)] max-[900px]:grid-cols-1 max-[1100px]:gap-[26px] max-[900px]:gap-6"
 			data-instant={instant || reducedMotion}
 			onClickCapture={(event) => setInstant(event.detail === 0)}
@@ -314,59 +301,6 @@ export function FeatureExplorer() {
 								in the app.
 							</Trans>
 						</p>
-					</div>
-				)}
-				{feature === "tools" && (
-					<div className={demoClass}>
-						<div className={demoTopClass}>
-							<span>
-								<Trans>Your tools, connected</Trans>
-							</span>
-							{!reducedMotion && (
-								<button
-									type="button"
-									className={`-my-3 grid min-h-11 min-w-11 place-items-center rounded-[4px] px-2 py-1 text-(--home-muted) ${pressTransition} hover:bg-[#323235]`}
-									aria-label={flowPlaying ? t`Pause data flow animation` : t`Play data flow animation`}
-									onClick={() => setFlowPlaying(!flowPlaying)}
-								>
-									{flowPlaying ? <PauseIcon size={16} aria-hidden="true" /> : <PlayIcon size={16} aria-hidden="true" />}
-								</button>
-							)}
-						</div>
-						<div className="mx-auto mt-[55px] mb-[38px] flex max-w-[410px] items-center">
-							<div className={toolBoxClass}>
-								<CodeIcon size={32} weight="light" aria-hidden="true" />
-								<span className={toolLabelClass}>
-									<Trans>Your AI app</Trans>
-								</span>
-							</div>
-							<div className="group/wire relative h-px flex-1 bg-[#66666d]" data-playing={flowPlaying && visible}>
-								<span className={`absolute -top-[25px] w-full text-center text-(--home-muted) ${toolLabelClass}`}>
-									MCP
-								</span>
-								<i
-									className="absolute inset-x-0 -top-[3px] h-[7px] animate-[home-data-flow_3.5s_cubic-bezier(0.45,0,0.55,1)_infinite_alternate_paused] after:-ml-[3px] after:block after:size-[7px] after:rounded-full after:bg-[#ddc8eb] after:shadow-[0_0_0_4px_#c5a4db14,0_0_11px_#c5a4db50] after:content-[''] group-data-[playing=true]/wire:[animation-play-state:running]"
-									aria-hidden="true"
-								/>
-							</div>
-							<div className={toolBoxClass}>
-								<img src="/icon/dark.svg" width="38" height="38" alt="" />
-								<span className={toolLabelClass}>Reactive Resume</span>
-							</div>
-						</div>
-						<h3 className="font-[Manrope_Variable,sans-serif] font-medium text-[23px] leading-[1.3] tracking-[-0.035em] max-[540px]:text-[22px]">
-							<Trans>Work on your resume from your AI app.</Trans>
-						</h3>
-						<p className="mt-[15px] text-(--home-muted) text-[14px] leading-[1.7]">
-							<Trans>
-								Connect through MCP to create and update resumes in a conversation. Or use the API to build your own
-								workflow.
-							</Trans>
-						</p>
-						<a href="https://docs.rxresu.me/guides/using-the-mcp-server" className={cn(textLink, "mt-4")}>
-							<Trans>See how to connect</Trans>
-							<ArrowUpRightIcon size={17} aria-hidden="true" />
-						</a>
 					</div>
 				)}
 			</div>

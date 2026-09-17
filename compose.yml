@@ -78,7 +78,9 @@ services:
         condition: service_healthy
 
   reactive_resume:
-    # image: ghcr.io/reactive-resume/reactive-resume:latest
+    # 镜像推送到 Docker Hub / GHCR 之后,可注释掉下面的 build 段并启用 image 直接拉取:
+    # image: mnzn12138/reactive-resume:latest
+    # image: ghcr.io/mnzn12138/reactive-resume:latest
     build:
       context: .
       dockerfile: Dockerfile

@@ -15,7 +15,6 @@
 		"test:agent": "vitest run --reporter=agent --reporter=json --outputFile.json=reports/vitest-results.json --passWithNoTests"
 	},
 	"dependencies": {
-		"@better-auth/api-key": "^1.7.3",
 		"@better-auth/drizzle-adapter": "^1.7.3",
 		"@better-auth/infra": "^0.4.8",
 		"@better-auth/oauth-provider": "^1.7.3",

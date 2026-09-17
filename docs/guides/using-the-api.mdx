@@ -1,63 +1,53 @@
 ---
 title: "Using the API"
-description: "Create Reactive Resume API keys, authenticate REST requests with bearer tokens, and integrate resume data into your own scripts, apps, or automations."
+description: "Authenticate REST requests with an OAuth2 access token and integrate resume data into your own scripts, apps, or automations."
 ---
+
+The Reactive Resume API is the same API the dashboard and the MCP server use. Every instance publishes its own OpenAPI 3.1 specification, so the reference always matches the deployment you are talking to.
+
+<Info>
+  The API is served under `/api/openapi`. If you're self-hosting, replace `https://rxresu.me` with your instance URL.
+</Info>
 
 <Steps>
   <Step title="Sign in to the dashboard">
     Head over to [https://rxresu.me](https://rxresu.me) and sign in with your account credentials.
   </Step>
 
-<Step title="Navigate to API Keys settings">
-  In the dashboard sidebar on the left, under <Badge>Settings</Badge>, click the <Badge>API Keys</Badge> link.
-</Step>
-
-  <Step title="Open the API reference">
-    On the API Keys page, click <Badge>API Documentation</Badge> to open the API reference.
+  <Step title="Review the API reference">
+    Open the [API Reference](https://docs.rxresu.me/api-reference) to see every route, its parameters, and its response schema.
 
     <Tip>
-      You can also open it directly here: [API Reference](https://docs.rxresu.me/api-reference).
+      Self-hosted instances serve their own spec at `/api/openapi/spec.json`. Point your tooling at that URL to generate a client for your deployment.
     </Tip>
 
   </Step>
 
-  <Step title="Create a new API key">
-    Click <Badge>Create a new API key</Badge>. Fill in:
+  <Step title="Obtain an access token">
+    Requests are authenticated with an OAuth2 access token sent as `Authorization: Bearer <token>`. Tokens are issued by the same OAuth2 authorization server that MCP clients use, so any OAuth2 client that supports dynamic client registration (RFC 7591) and PKCE can get one.
 
-    - **Name**: A label to help you identify what you use this key for
-    - **Expires in**: How long the key should remain valid
-
-  </Step>
-
-  <Step title="Copy the API key (important)">
-    The secret key is shown once, right after you create it. Copy it and store it somewhere safe.
-
-    <Warning>
-      For security reasons, your API key is only displayed once. If you lose it, you must create a new one.
-    </Warning>
+    - Authorization server metadata: `/.well-known/oauth-authorization-server`
+    - Protected resource metadata: `/.well-known/oauth-protected-resource`
+    - Login and consent: `/api/auth/oauth`
 
   </Step>
 
-  <Step title="Authenticate requests with x-api-key">
-    To authenticate API requests, include your key in the <Badge>x-api-key</Badge> header.
-
-    <Info>
-      If you're self-hosting, replace <code>https://rxresu.me</code> with your instance URL. The API is served under <code>/api/openapi</code>.
-    </Info>
+  <Step title="Authenticate requests with the token">
+    Include the token in the <Badge>Authorization</Badge> header:
 
     ```bash
     curl "https://rxresu.me/api/openapi/resumes" \
-      -H "x-api-key: YOUR_API_KEY"
+      -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
     ```
 
   </Step>
 
-  <Step title="Delete an API key (optional)">
-    In the API Keys list, click the trash icon next to a key and confirm deletion.
-
-    <Warning>
-      Deleted API keys stop working immediately, and the action cannot be undone.
-    </Warning>
+  <Step title="Handle expired tokens">
+    Access tokens expire, and a user can revoke a client at any time. When a request comes back with `401`, run the OAuth2 flow again to get a fresh token and retry.
 
   </Step>
 </Steps>
+
+<Note>
+  Managing connections through an AI client instead of writing code? See [Using the MCP server](/guides/using-the-mcp-server) — your client performs the same OAuth2 flow for you.
+</Note>

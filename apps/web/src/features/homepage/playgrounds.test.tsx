@@ -51,9 +51,4 @@ it("lets visitors undo edits, change sharing previews, and reset the example app
 	expect(getByRole("status")).toHaveTextContent("Offer");
 	fireEvent.click(getByRole("button", { name: "Reset" }));
 	expect(getByRole("status")).toHaveTextContent("Applied");
-	fireEvent.click(getByRole("button", { name: /Fits into your workflow/ }));
-	fireEvent.click(getByRole("button", { name: "Pause data flow animation" }));
-	expect(getByRole("button", { name: "Play data flow animation" })).toBeVisible();
-	fireEvent.click(getByRole("button", { name: "Play data flow animation" }));
-	expect(getByRole("button", { name: "Pause data flow animation" })).toBeVisible();
 });

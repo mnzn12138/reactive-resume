@@ -1,6 +1,6 @@
 ---
 title: "API and MCP resume automation"
-description: "Automate resume workflows in Reactive Resume with API keys, the Patch API, the MCP server, AI agent tools, and the JSON resume schema."
+description: "Automate resume workflows in Reactive Resume with the REST API, the Patch API, the MCP server, AI agent tools, and the JSON resume schema."
 ---
 
 Reactive Resume supports automation through authenticated API access and an MCP server, so compatible tools can work with your resumes and job applications. Agents can list, read, create, import, duplicate, and patch resumes. They can also track applications, move opportunities through stages, add notes and follow-ups, attach sent documents, and run Application Copilot actions.
@@ -37,7 +37,7 @@ Start with the Patch API for targeted resume updates. It is the safest option be
 
 ## Authentication and scope
 
-API requests use API keys. MCP can use OAuth2 in clients that support it, with API keys as a fallback. If you self-host, use your own instance URL for the API and MCP endpoints.
+Both the REST API and the MCP server authenticate with OAuth2: clients send an access token as `Authorization: Bearer <token>`. If you self-host, use your own instance URL for the API and MCP endpoints.
 
 <Info>
   Automation changes affect the resumes available to the authenticated account or instance. Test workflows on a copy of a
@@ -50,4 +50,4 @@ Do not reach for API or MCP automation when you only need to edit one resume by 
 
 ## Next action
 
-For scripts and integrations, create an API key with [Using the API](/guides/using-the-api), then use [Using the patch API](/guides/using-the-patch-api) for targeted edits. For agent workflows, start with [Using the MCP server](/guides/using-the-mcp-server).
+For scripts and integrations, get an access token with [Using the API](/guides/using-the-api), then use [Using the patch API](/guides/using-the-patch-api) for targeted edits. For agent workflows, start with [Using the MCP server](/guides/using-the-mcp-server).

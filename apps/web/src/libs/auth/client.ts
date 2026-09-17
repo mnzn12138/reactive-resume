@@ -1,5 +1,4 @@
 import type { auth } from "@reactive-resume/auth/config";
-import { apiKeyClient } from "@better-auth/api-key/client";
 import { dashClient } from "@better-auth/infra/client";
 import { oauthProviderClient } from "@better-auth/oauth-provider/client";
 import { oauthProviderResourceClient } from "@better-auth/oauth-provider/resource-client";
@@ -12,7 +11,6 @@ export const authClient = createAuthClient({
 	plugins: [
 		dashClient(),
 		adminClient(),
-		apiKeyClient(),
 		passkeyClient(),
 		usernameClient(),
 		twoFactorClient({
