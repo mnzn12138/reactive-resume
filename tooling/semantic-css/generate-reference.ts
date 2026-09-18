@@ -168,7 +168,9 @@ export function renderSchemaReference(schema: JsonSchema) {
 
 export async function buildGeneratedDocumentation(paths: Partial<DocumentationPaths> = {}) {
 	const resolvedPaths = { ...defaultPaths, ...paths };
-	const jsonSchemaSource = await readFile(resolvedPaths.jsonSchemaGuide, "utf8");
+	// Windows checkouts with `core.autocrlf` hand back CRLF, while the generated block is always LF.
+	// Normalize on read so regenerating never leaves a document with mixed line endings behind.
+	const jsonSchemaSource = (await readFile(resolvedPaths.jsonSchemaGuide, "utf8")).replace(/\r\n/g, "\n");
 	const schema = createResumeDataJsonSchema() as JsonSchema;
 	const fullSchemaBlock = ["```json /schema.json lines expandable", JSON.stringify(schema, null, "\t"), "```"].join(
 		"\n",

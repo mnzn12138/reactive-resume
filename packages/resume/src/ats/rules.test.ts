@@ -354,20 +354,28 @@ describe("layout rules", () => {
 });
 
 describe("title rules", () => {
+	// `titleRules` only inspects English resumes, and `defaultResumeData` ships
+	// with a zh-CN locale, so the locale has to be set explicitly here.
+	const makeEnglishResume = (mutate: (data: ResumeData) => void = () => undefined) =>
+		makeResume((resume) => {
+			resume.metadata.page.locale = "en-US";
+			mutate(resume);
+		});
+
 	it("flags an unconventional heading", () => {
-		const data = makeResume((resume) => (resume.sections.experience.title = "Where I've Been"));
+		const data = makeEnglishResume((resume) => (resume.sections.experience.title = "Where I've Been"));
 		expect(codesOf(data)).toContain("NON_STANDARD_SECTION_TITLE");
 	});
 
 	it("accepts a conventional heading regardless of case", () => {
-		const data = makeResume((resume) => (resume.sections.experience.title = "Work Experience"));
+		const data = makeEnglishResume((resume) => (resume.sections.experience.title = "Work Experience"));
 		expect(codesOf(data)).not.toContain("NON_STANDARD_SECTION_TITLE");
 	});
 
 	it("stays quiet on a localized resume", () => {
 		const data = makeResume((resume) => {
-			resume.sections.experience.title = "Berufserfahrung";
-			resume.metadata.page.locale = "de-DE";
+			resume.sections.experience.title = "工作经历";
+			resume.metadata.page.locale = "zh-CN";
 		});
 		expect(codesOf(data)).not.toContain("NON_STANDARD_SECTION_TITLE");
 	});

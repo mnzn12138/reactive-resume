@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
 import z from "zod";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 import { createResumeDataJsonSchema } from "@reactive-resume/schema/resume/json-schema";
@@ -27,6 +27,13 @@ type GeneratedSpecView = {
 // Building the spec walks every router and resume JSON schema, which costs seconds. It is
 // deterministic and every test here only reads it, so generate it once for the whole file —
 // regenerating per test made the first case time out under a loaded machine.
+//
+// The very first build also pays for importing the whole oRPC router tree (auth, db, storage).
+// Turbo runs packages in parallel, so on a loaded machine that cold import alone blows past the
+// default 5s test / 10s hook timeout. Warm it up in `beforeAll` with a generous budget so no
+// individual case is charged for it.
+const COLD_BUILD_TIMEOUT = 60_000;
+
 let specPromise: ReturnType<typeof generateOnce> | undefined;
 
 async function generateOnce() {
@@ -71,7 +78,11 @@ function findImpossibleRequestSchemas(spec: GeneratedSpecView) {
 	return impossibleRequests;
 }
 
-describe("generateOpenApiSpec", () => {
+describe("generateOpenApiSpec", { timeout: COLD_BUILD_TIMEOUT }, () => {
+	beforeAll(async () => {
+		await generateSpec();
+	}, COLD_BUILD_TIMEOUT);
+
 	it("uses caller-provided application URL and version", async () => {
 		const spec = await generateSpec();
 

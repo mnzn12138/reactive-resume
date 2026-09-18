@@ -58,14 +58,14 @@ function baselineAt(rows: { y: number }[], index: number) {
 describe("font baselines in generated PDFs (#3249)", () => {
 	it.each(["Roboto", "Roboto Condensed"])(
 		"aligns %s with Roboto Flex's matching vertical metrics",
-		{ timeout: 30_000 },
+		{ timeout: 60_000 },
 		async (family) => {
 			const rows = await baselines([family, "Roboto Flex"]);
 			expect(rows).toHaveLength(2);
 			expect(baselineAt(rows, 0) - 20).toBeCloseTo(baselineAt(rows, 1) - 120, 3);
 		},
 	);
-	it("aligns IBM Plex Sans Condensed with IBM Plex Sans", { timeout: 30_000 }, async () => {
+	it("aligns IBM Plex Sans Condensed with IBM Plex Sans", { timeout: 60_000 }, async () => {
 		const rows = await baselines(["IBM Plex Sans Condensed", "IBM Plex Sans"]);
 		expect(rows).toHaveLength(2);
 		expect(baselineAt(rows, 0) - 20).toBeCloseTo(baselineAt(rows, 1) - 120, 3);
@@ -75,7 +75,7 @@ describe("font baselines in generated PDFs (#3249)", () => {
 		["Roboto Flex", 18.554688],
 		["Geist", 20.1],
 		["Ropa Sans", 16.82],
-	] as const)("preserves %s's existing baseline", { timeout: 30_000 }, async (family, expected) => {
+	] as const)("preserves %s's existing baseline", { timeout: 60_000 }, async (family, expected) => {
 		const rows = await baselines([family]);
 		expect(baselineAt(rows, 0) - 20).toBeCloseTo(expected, 3);
 	});

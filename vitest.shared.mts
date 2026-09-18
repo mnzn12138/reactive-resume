@@ -44,6 +44,13 @@ export const createVitestProjectConfig = ({
 			include: ["src/**/*.{test,spec}.?(c|m)[jt]s?(x)"],
 			exclude: ["node_modules", "dist", ".output", "coverage", "reports"],
 			pool: "threads",
+			// Turbo runs every package at once, so on a loaded machine most of a file's wall time is
+			// spent importing (the web suite spends ~66% of it there) rather than running tests. The
+			// 5s test / 10s hook defaults then flag healthy suites as failures and make the failing
+			// set random from run to run. Give the shared defaults room for that contention; tests
+			// that are genuinely slow still say so explicitly with their own timeout.
+			testTimeout: 30_000,
+			hookTimeout: 60_000,
 			// Isolation stays on: without it, test files in a worker share one module registry, so a
 			// `vi.mock` in one file leaks into another and whichever file imported a module first wins.
 			// That made every suite mocking `@reactive-resume/env/server` order-dependent and flaky.

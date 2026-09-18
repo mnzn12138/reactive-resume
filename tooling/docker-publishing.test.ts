@@ -5,7 +5,12 @@ import { join } from "node:path";
 import { expect, it } from "vitest";
 
 it("keeps smoke dispatches out of release publishing and production deployment", () => {
-	const workflow = readFileSync(new URL("../.github/workflows/docker-build.yml", import.meta.url), "utf8");
+	// Normalize line endings: the workflow is stored with LF, but a Windows checkout with
+	// `core.autocrlf` hands back CRLF and would defeat the indentation-anchored regex below.
+	const workflow = readFileSync(new URL("../.github/workflows/docker-build.yml", import.meta.url), "utf8").replace(
+		/\r\n/g,
+		"\n",
+	);
 	const mode = workflow.match(/ {8}run: \|\n([\s\S]*?)\n {2}build:/)?.[1];
 	if (!mode) throw new Error("Publishing mode script is missing");
 	const directory = mkdtempSync(join(tmpdir(), "docker-publishing-"));

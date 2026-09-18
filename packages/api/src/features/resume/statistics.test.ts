@@ -12,14 +12,20 @@ vi.mock("../../context", async () => {
 });
 vi.mock("./service", () => ({ resumeService: { statistics: { recordDownload: mocks.recordDownload } } }));
 
-beforeAll(() => {
+// Loading `./statistics` drags in oRPC, drizzle and the rate limiter. That cold
+// load alone can outlast vitest's 5s default when several packages run in
+// parallel, so the hooks and cases here get a generous ceiling.
+const COLD_LOAD_TIMEOUT = 60_000;
+
+beforeAll(async () => {
 	vi.stubEnv("NODE_ENV", "production");
-});
+	await import("./statistics");
+}, COLD_LOAD_TIMEOUT);
 beforeEach(() => {
 	mocks.recordDownload.mockClear();
 });
 
-describe("public download statistics procedure", () => {
+describe("public download statistics procedure", { timeout: COLD_LOAD_TIMEOUT }, () => {
 	const makeClient = async (user: { id: string } | null = null, ip = "127.0.0.1") => {
 		const { resumeStatisticsRouter } = await import("./statistics");
 		mocks.user = user;

@@ -46,7 +46,12 @@ export const ResumeDocument = ({
 	const creationDate = useMemo(() => new Date(), []);
 	const hasCjkContent = useMemo(() => resumeContentContainsCJK(data), [data]);
 	const scripts = useMemo(() => resumeContentScripts(data), [data]);
-	const typography = registerFonts(data.metadata.typography, data.metadata.page.locale, hasCjkContent, scripts) as Typography;
+	const typography = registerFonts(
+		data.metadata.typography,
+		data.metadata.page.locale,
+		hasCjkContent,
+		scripts,
+	) as Typography;
 
 	// `registerFonts` widens `fontFamily` to `string | string[]` for CJK
 	// fallback (#2986); the cast carries that wider runtime value through

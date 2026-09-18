@@ -1,6 +1,12 @@
 import "@testing-library/jest-dom/vitest";
-import { cleanup } from "@testing-library/react";
+import { cleanup, configure } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
+
+// `findBy*` and `waitFor` give up after 1s by default. With turbo running every package at once,
+// an asynchronously rendered component (a Base UI portal, the PDF preview) regularly needs longer
+// on a loaded machine, which surfaced as random "unable to find element" failures that moved from
+// run to run. Give the async matchers a budget that reflects that contention.
+configure({ asyncUtilTimeout: 10_000 });
 
 // Several units under test transitively import the validated server env, which throws at import
 // time when a required variable is missing. Tests are expected to run without a .env, so seed the

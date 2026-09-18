@@ -26,8 +26,10 @@ afterEach(async () => {
 	await Promise.all(temporaryDirectories.splice(0).map((path) => rm(path, { recursive: true, force: true })));
 });
 
+// The committed documents are stored with LF, but a Windows checkout with `core.autocrlf` hands
+// back CRLF while the generator always writes LF. Normalize so the comparison stays about content.
 const readTargets = (paths: typeof defaultDocumentationPaths) =>
-	Promise.all(Object.values(paths).map((path) => readFile(path, "utf8")));
+	Promise.all(Object.values(paths).map(async (path) => (await readFile(path, "utf8")).replace(/\r\n/g, "\n")));
 
 function extractSemanticCssExamples(source: string): SemanticCssExample[] {
 	const examples: SemanticCssExample[] = [];

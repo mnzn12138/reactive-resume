@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import type { CompileWorkerRequest, CompileWorkerResponse } from "./protocol";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 
 function request(source: string): CompileWorkerRequest {
@@ -29,9 +29,18 @@ function request(source: string): CompileWorkerRequest {
 	};
 }
 
-describe("stylesheet worker", () => {
+// Importing the worker pulls in the whole stylesheet compiler. `vi.resetModules()` below re-runs it
+// for every case, and the very first run pays the cold-import cost — with turbo running packages in
+// parallel that alone blows past the default 10s hook budget. Warm it up once with room to breathe.
+const COLD_LOAD_TIMEOUT = 60_000;
+
+describe("stylesheet worker", { timeout: COLD_LOAD_TIMEOUT }, () => {
 	let handleMessage: ((event: MessageEvent<CompileWorkerRequest>) => void) | undefined;
 	const postMessage = vi.fn();
+
+	beforeAll(async () => {
+		await import("./stylesheet.worker");
+	}, COLD_LOAD_TIMEOUT);
 
 	beforeEach(async () => {
 		handleMessage = undefined;
@@ -44,7 +53,7 @@ describe("stylesheet worker", () => {
 			postMessage,
 		});
 		await import("./stylesheet.worker");
-	});
+	}, COLD_LOAD_TIMEOUT);
 
 	it("returns diagnostics from variable resolution", () => {
 		handleMessage?.(

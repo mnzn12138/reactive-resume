@@ -42,6 +42,11 @@ msgstr "{0, plural, one {# 项目} other {# 项目}}"
 msgid "{0, plural, one {# role} other {# roles}}"
 msgstr "{0, plural, one {#角色} other {#角色}}"
 
+#. placeholder {0}: target.email
+#: src/routes/admin/-components/users-table.tsx
+msgid "{0} and everything they own — resumes, cover letters and applications — will be permanently deleted. This can't be undone."
+msgstr ""
+
 #. placeholder {0}: insights.total
 #: src/features/applications/components/insights-view.tsx
 msgid "{0} applications tracked"
@@ -286,12 +291,17 @@ msgid "Account menu"
 msgstr "帳戶選單"
 
 #: src/features/applications/components/table-view.tsx
+#: src/routes/admin/-components/users-table.tsx
 msgid "Actions"
 msgstr "動作"
 
 #: src/features/resume/stylesheet/legacy-banner.tsx
 msgid "Activate Semantic CSS"
 msgstr "啟用語意化 CSS"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Active"
+msgstr ""
 
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Actual size (100%)"
@@ -478,6 +488,20 @@ msgstr "在「基本資訊」下新增您的全名。"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Adjust the resume for a remote-first role that values async communication and ownership."
 msgstr "調整履歷，使其更適合遠端優先、重視非同步溝通和自主性的職位。"
+
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Admin"
+msgstr ""
+
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Admin Console"
+msgstr ""
+
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Administration"
+msgstr ""
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Advanced"
@@ -798,6 +822,11 @@ msgstr "依戀"
 msgid "Attachment uploaded."
 msgstr "附件已上傳。"
 
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/audit.tsx
+msgid "Audit Log"
+msgstr ""
+
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/settings/authentication/index.tsx
@@ -832,6 +861,10 @@ msgstr "BA"
 msgid "Back to authentication settings"
 msgstr "返回驗證設定"
 
+#: src/routes/admin/-components/sidebar.tsx
+msgid "Back to dashboard"
+msgstr ""
+
 #: src/routes/agent/-components/thread-sidebar.tsx
 msgid "Back to resumes"
 msgstr "返回簡歷頁面"
@@ -850,6 +883,18 @@ msgstr "背景顏色"
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Backup codes copied to clipboard."
 msgstr "備份代碼已複製到剪貼簿。"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Ban this account?"
+msgstr ""
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Ban user"
+msgstr ""
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Banned"
+msgstr ""
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Base URL"
@@ -944,6 +989,7 @@ msgstr "項目符號清單"
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
 #: src/hooks/use-prompt.tsx
+#: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
@@ -1618,6 +1664,7 @@ msgstr "立即建立"
 msgid "Create resume with options"
 msgstr "使用選項建立履歷表"
 
+#: src/routes/admin/-components/users-table.tsx
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Created"
 msgstr "建立日期"
@@ -1739,6 +1786,7 @@ msgstr "學位"
 #: src/features/applications/components/table-view.tsx
 #: src/features/cover-letters/editor-dialog.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
+#: src/routes/admin/-components/users-table.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -1748,6 +1796,10 @@ msgstr "學位"
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
 msgid "Delete"
 msgstr "刪除"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Delete account"
+msgstr ""
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/features/settings/pages/account.tsx
@@ -1769,6 +1821,10 @@ msgstr "刪除圖片"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Delete provider"
 msgstr "刪除提供者"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Delete this account?"
+msgstr ""
 
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
@@ -1805,6 +1861,10 @@ msgstr "正在刪除您的帳戶…"
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
 msgid "Deleting your resume..."
 msgstr "正在刪除您的履歷…"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Demote to user"
+msgstr ""
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Denied, waiting for the agent…"
@@ -2476,6 +2536,10 @@ msgstr "篩選條件"
 msgid "Filter by tags"
 msgstr "依標籤篩選"
 
+#: src/routes/admin/resumes.tsx
+msgid "Find resumes across all accounts, lock or remove them."
+msgstr ""
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Find the weak bullet points and rewrite them with stronger outcomes, numbers, scope, and sharper verbs."
 msgstr "找出比較弱的條列項目，用更明確的成果、數字、規模與更有力的動詞重寫。"
@@ -2919,6 +2983,10 @@ msgstr "深入分析"
 msgid "Inspecting page {0} of {1}…"
 msgstr "正在檢查第 {0} 頁，共 {1} 頁…"
 
+#: src/routes/admin/overview.tsx
+msgid "Instance-wide totals and signup trends for this deployment."
+msgstr ""
+
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/settings/integrations/route.tsx
@@ -3106,6 +3174,10 @@ msgstr "語言"
 msgid "Languages"
 msgstr "語言"
 
+#: src/routes/admin/-components/users-table.tsx
+msgid "Last active"
+msgstr ""
+
 #. placeholder {0}: statistics.lastDownloadedAt.toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Last downloaded on {0}"
@@ -3151,6 +3223,10 @@ msgstr "離開"
 msgid "Leave at least half an inch around the page."
 msgstr "頁面四周至少留出半英吋的邊界。"
 
+#: src/routes/admin/-components/users-table.tsx
+msgid "Leave empty for a permanent ban."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Leave empty to reset the title to the original."
 msgstr "留空則會將標題重設為原始值。"
@@ -3181,6 +3257,14 @@ msgstr "等級"
 #: src/components/level/display.tsx
 msgid "Level {level} of 5"
 msgstr "5 個等級中的第 {level} 級"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Lift ban"
+msgstr ""
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Lifts at (optional)"
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Ligatures can drop letters out of words such as \"workflow\"."
@@ -3470,6 +3554,7 @@ msgstr "必須從 https:// 開始"
 #: src/features/cover-letters/editor.tsx
 #: src/features/cover-letters/library.tsx
 #: src/features/settings/pages/profile.tsx
+#: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Name"
@@ -3668,6 +3753,10 @@ msgstr "找不到文字"
 msgid "No threads yet."
 msgstr "尚無對話串。"
 
+#: src/routes/admin/users.tsx
+msgid "No users match these filters."
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 msgid "No work-experience section was found."
 msgstr "未找到工作經歷部分。"
@@ -3860,6 +3949,15 @@ msgstr "原始表格格式已保留。由於無法安全編輯，此內容為唯
 #: src/features/ats-checker/report/score-header.tsx
 msgid "out of 100"
 msgstr "滿分 100"
+
+#: src/routes/admin/settings.tsx
+msgid "Override instance-wide feature flags at runtime."
+msgstr ""
+
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/overview.tsx
+msgid "Overview"
+msgstr ""
 
 #: src/libs/resume/section.tsx
 msgid "Page"
@@ -4190,6 +4288,10 @@ msgstr "進度條"
 msgid "Projects"
 msgstr "專案"
 
+#: src/routes/admin/-components/users-table.tsx
+msgid "Promote to admin"
+msgstr ""
+
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Protect your resume with a password"
 msgstr "用密碼保護您的履歷"
@@ -4357,6 +4459,10 @@ msgstr "準備啟動並發出警告"
 #: src/features/homepage/page.tsx
 msgid "Ready to put your name on it?"
 msgstr "準備好署上你的名字了嗎？"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Reason"
+msgstr ""
 
 #: src/dialogs/resume/sections/cover-letter.tsx
 #: src/features/cover-letters/editor.tsx
@@ -4583,6 +4689,8 @@ msgstr "適合不同職業與喜好的履歷範本。挑一款適合您的。"
 #: src/features/command-palette/pages/resumes.tsx
 #: src/features/homepage/community-stats.tsx
 #: src/features/homepage/languages-showcase.tsx
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/resumes.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Resumes"
@@ -4629,6 +4737,10 @@ msgstr "Rhyhorn 範例履歷"
 #: src/components/input/rich-input.tsx
 msgid "Right Align"
 msgstr "靠右對齊"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Role"
+msgstr ""
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Role (optional)"
@@ -4791,9 +4903,17 @@ msgstr "正在評估你的適配度…"
 msgid "Search"
 msgstr "搜尋"
 
+#: src/routes/admin/users.tsx
+msgid "Search accounts, change roles, ban or delete them."
+msgstr ""
+
 #: src/routes/dashboard/applications/index.tsx
 msgid "Search applications…"
 msgstr "搜尋應徵紀錄…"
+
+#: src/routes/admin/users.tsx
+msgid "Search by name, email or username"
+msgstr ""
 
 #. Accessible label for command palette search input
 #: src/features/command-palette/index.tsx
@@ -4821,6 +4941,10 @@ msgstr "搜尋…"
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Search resumes..."
 msgstr "搜尋履歷…"
+
+#: src/routes/admin/users.tsx
+msgid "Search users"
+msgstr ""
 
 #: src/components/ui/combobox.tsx
 msgid "Search..."
@@ -4979,6 +5103,8 @@ msgid "Set up an AI provider to chat about this resume and apply edits automatic
 msgstr "設定人工智慧服務供應商，使其能夠就這份履歷進行交流並自動進行修改。"
 
 #: src/features/command-palette/pages/navigation.tsx
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/settings.tsx
 #: src/routes/agent/-components/new-thread-setup.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Settings"
@@ -5073,6 +5199,10 @@ msgstr "在求職信上顯示相同的首頁頁首。"
 #: src/features/applications/components/table-view.tsx
 msgid "Showing {0} of {1}"
 msgstr "顯示 {0} / {1}"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Shown to other administrators"
+msgstr ""
 
 #. Layout editor column label for the secondary sidebar area
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
@@ -5180,6 +5310,7 @@ msgstr "跳過並上傳"
 
 #: src/features/homepage/page.tsx
 #: src/routes/_home/route.tsx
+#: src/routes/admin/route.tsx
 #: src/routes/builder/$resumeId/-components/desktop-builder-shell.tsx
 #: src/routes/builder/$resumeId/-components/mobile-builder-shell.tsx
 #: src/routes/dashboard/route.tsx
@@ -5257,6 +5388,7 @@ msgstr "登入時發生錯誤。請再試一次。"
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Something went wrong. Please try again."
 msgstr "發生錯誤。請再試一次。"
@@ -5373,6 +5505,10 @@ msgstr "開始對話串"
 #: src/libs/resume/section.tsx
 msgid "Statistics"
 msgstr "統計資料"
+
+#: src/routes/admin/-components/users-table.tsx
+msgid "Status"
+msgstr ""
 
 #: src/dialogs/resume/import.tsx
 #: src/hooks/use-form-blocker.tsx
@@ -5686,6 +5822,10 @@ msgstr "這些檢查會在您輸入時執行，而且不會離開您的瀏覽器
 msgid "These dates will not be read correctly."
 msgstr "這些日期將無法正確讀取。 」"
 
+#: src/routes/admin/-components/users-table.tsx
+msgid "They will be signed out everywhere and unable to sign back in until the ban is lifted."
+msgstr ""
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Thinking"
 msgstr "思維"
@@ -5912,6 +6052,10 @@ msgstr "這個角色沒有描述。"
 #: src/libs/resume/ats.ts
 msgid "This section has content but never appears."
 msgstr "該部分有內容但從未出現。"
+
+#: src/routes/admin/-components/placeholder.tsx
+msgid "This section is not built yet."
+msgstr ""
 
 #: src/libs/resume/ats.ts
 msgid "This section is split across columns."
@@ -6400,6 +6544,10 @@ msgstr "使用這段文字"
 msgid "Use your editor's normal bullet list, so stray glyphs do not land mid-sentence."
 msgstr "使用編輯器自帶的一般項目符號清單功能，避免出現落在句子中間的雜散符號。"
 
+#: src/routes/admin/-components/users-table.tsx
+msgid "User"
+msgstr ""
+
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/resume-sculpture.tsx
 msgid "User research"
@@ -6413,6 +6561,8 @@ msgid "Username"
 msgstr "使用者名稱"
 
 #: src/features/homepage/community-stats.tsx
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/users.tsx
 msgid "Users"
 msgstr "使用者"
 
@@ -6638,6 +6788,10 @@ msgstr "您的姓名、電子郵件、電話和日期是否能完整保留下來
 #: src/features/ats-checker/messages.ts
 msgid "Whether your timeline can be reconstructed."
 msgstr "您的時間軸是否能夠被還原出來。"
+
+#: src/routes/admin/audit.tsx
+msgid "Who changed what, and when, across the admin console."
+msgstr ""
 
 #: src/features/ats-checker/messages.ts
 msgid "Words run together when the text is extracted."

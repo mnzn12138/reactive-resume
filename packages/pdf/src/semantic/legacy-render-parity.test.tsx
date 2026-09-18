@@ -208,6 +208,10 @@ const comparePdfRasters = async (legacy: Uint8Array, semantic: Uint8Array): Prom
 	return { pixelDiffRatio: pixels === 0 ? (mismatches.length > 0 ? 1 : 0) : changed / pixels, mismatches };
 };
 
+// Each case renders and rasterizes two real PDFs. 30s was enough on an idle machine but not with
+// turbo running every package at once, where a single rasterization lands right on the boundary.
+const RASTER_TIMEOUT = 120_000;
+
 describe("legacy activation raster parity", () => {
 	it.each(fixtureNames)(
 		"has zero real-PDF pixel drift for %s",
@@ -220,7 +224,7 @@ describe("legacy activation raster parity", () => {
 				mismatches: [],
 			});
 		},
-		30_000,
+		RASTER_TIMEOUT,
 	);
 
 	it.each(templates)(
@@ -234,7 +238,7 @@ describe("legacy activation raster parity", () => {
 				mismatches: [],
 			});
 		},
-		30_000,
+		RASTER_TIMEOUT,
 	);
 
 	it.each(["onyx", "meowth"] as const)(
@@ -248,6 +252,6 @@ describe("legacy activation raster parity", () => {
 				mismatches: [],
 			});
 		},
-		30_000,
+		RASTER_TIMEOUT,
 	);
 });

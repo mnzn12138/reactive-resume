@@ -80,7 +80,9 @@ describe("buildMcpServerCard", () => {
 	});
 
 	it("does not document an API key configuration field", () => {
-		expect(card.configurationSchema).toBeUndefined();
+		// Assert by name: `buildMcpServerCard` does not declare the field, so a direct property
+		// access would not type-check even though "absent" is exactly what this case guards.
+		expect(card).not.toHaveProperty("configurationSchema");
 	});
 
 	it("matches the create/update application archived contract", () => {

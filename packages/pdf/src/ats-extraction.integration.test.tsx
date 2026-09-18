@@ -152,7 +152,7 @@ describe("a resume rendered by this app", () => {
 });
 
 describe("adversarial files", () => {
-	it("calls a scan what it is", { timeout: 30_000 }, async () => {
+	it("calls a scan what it is", { timeout: 60_000 }, async () => {
 		const { report } = await analyze(fixture("image-only-scan.pdf"), { name: "scan.pdf" });
 		const codes = failedCodes(report);
 
@@ -161,7 +161,7 @@ describe("adversarial files", () => {
 		expect(report.score).toBeLessThanOrEqual(10);
 	});
 
-	it("reads a Type 3 font off the font object", { timeout: 30_000 }, async () => {
+	it("reads a Type 3 font off the font object", { timeout: 60_000 }, async () => {
 		const { raw, report } = await analyze(fixture("type3-font.pdf"), { name: "type3.pdf" });
 
 		expect(raw.fonts.some((font) => font.isType3)).toBe(true);
@@ -169,7 +169,7 @@ describe("adversarial files", () => {
 		expect(report.score).toBeLessThanOrEqual(25);
 	});
 
-	it("sees nothing in text that was converted to outlines", { timeout: 30_000 }, async () => {
+	it("sees nothing in text that was converted to outlines", { timeout: 60_000 }, async () => {
 		const { raw, report } = await analyze(fixture("outlined-text.pdf"), { name: "outlined.pdf" });
 
 		expect(raw.pages[0]?.items).toHaveLength(0);

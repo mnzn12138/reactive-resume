@@ -86,8 +86,10 @@ describe("list marker pagination (#3344)", () => {
 				{
 					cwd: fileURLToPath(new URL("../../../", import.meta.url)),
 					env: { ...process.env, RR_LIST_PRESENCE_PROBE: "1" },
-					// Include cold imports when the full suite competes for workers.
-					timeout: 60000,
+					// Include cold imports when the full suite competes for workers. The nested run
+					// pays for them twice (vitest boot plus the renderer), so 60s was not enough once
+					// every package runs at once — it has to stay below this test's own timeout.
+					timeout: 150_000,
 					killSignal: "SIGKILL",
 				},
 			);
@@ -114,7 +116,7 @@ describe("list marker pagination (#3344)", () => {
 				).toHaveLength(30);
 			}
 		}
-	}, 70000);
+	}, 180_000);
 	it("moves a bullet with its first paragraph when the paragraph cannot start on this page", async () => {
 		const result = await listPages(194);
 		expect(result.first).toBe(1);

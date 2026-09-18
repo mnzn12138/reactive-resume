@@ -4,6 +4,7 @@
 	"type": "module",
 	"private": true,
 	"scripts": {
+		"admin:promote": "tsx database/promote-admin.ts",
 		"db:reset": "tsx database/reset.ts",
 		"docs:gen": "tsx semantic-css/generate-reference.ts",
 		"fonts:generate": "tsx fonts/generate.ts",
@@ -18,6 +19,7 @@
 	"devDependencies": {
 		"@lingui/format-po": "^6.6.0",
 		"@reactive-resume/config": "workspace:*",
+		"@reactive-resume/db": "workspace:*",
 		"@reactive-resume/docx": "workspace:*",
 		"@reactive-resume/env": "workspace:*",
 		"@reactive-resume/pdf": "workspace:*",

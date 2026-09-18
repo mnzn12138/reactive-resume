@@ -8,7 +8,10 @@ import { convertLegacyStyleRules } from "./legacy-converter";
 
 const fixtureUrl = (name: string) => new URL(`./__fixtures__/legacy/${name}`, import.meta.url);
 const readFixture = (name: string): unknown => JSON.parse(readFileSync(fixtureUrl(`${name}.json`), "utf8"));
-const readExpected = (name: string): string => readFileSync(fixtureUrl(`${name}.expected.css`), "utf8");
+// The fixtures are stored with LF, but a Windows checkout with `core.autocrlf` hands back CRLF while
+// the converter always emits LF. Normalize so the comparison is about the generated CSS, not EOLs.
+const readExpected = (name: string): string =>
+	readFileSync(fixtureUrl(`${name}.expected.css`), "utf8").replace(/\r\n/g, "\n");
 
 const dataWithRules = (name: string): ResumeData => {
 	const data = structuredClone(defaultResumeData);

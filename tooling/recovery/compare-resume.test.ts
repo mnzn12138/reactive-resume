@@ -2,10 +2,13 @@ import { describe, expect, it } from "vitest";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 import { compareResumeRecovery } from "./compare-resume";
 
-const SYNTHETIC_SOURCE_HASH = "33bd2901474d077a37ed73f0646ac2812a0fbb6ca8ca7bd5825c56ec4c598b8c";
-const RECOVERED_COPY_HASH = "1c0e1eefac8375d15b5d0d5fc040a970d1f10242c31a224f3c2a0ea5750c719e";
-const CURRENT_COPY_HASH = "0e8a2e90ccb44068f500a92bc0d312b4290269f1b68ba925fdfe6109a15e739e";
-const DEFAULT_RESUME_HASH = "1870f56666738b8748ac2769f5c79fe7b19863efecc07142a34c425254d871d8";
+// Hand-checked against the canonical serialization of `defaultResumeData`. They move whenever the
+// default resume shape changes — most recently when the default `metadata.page.locale` became
+// zh-CN, which is part of the resume payload and therefore part of every hash below.
+const SYNTHETIC_SOURCE_HASH = "9bd6793b2551c43402888c54dec781faa779524fc4cb3887a7f9698358ec639b";
+const RECOVERED_COPY_HASH = "40f979060669521afae88e1a43bd0800c20239566bd8ce956a2eeb122c31e2ba";
+const CURRENT_COPY_HASH = "18836a03a821026ceaa2eda49c3b2d6b351e14fa518851674d14092ca4dacbfc";
+const DEFAULT_RESUME_HASH = "ea1726e9fc8ca7bada28175413166f2cba46c4164c454ecec328357c7d2ca599";
 
 const FORMAT_CHARACTERS = [
 	["zero-width space (U+200B)", "\u200B"],

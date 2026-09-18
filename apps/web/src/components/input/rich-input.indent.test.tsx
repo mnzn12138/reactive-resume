@@ -35,7 +35,12 @@ const increase = () => fireEvent.click(screen.getByTitle("Increase indent"));
 const decrease = () => fireEvent.click(screen.getByTitle("Decrease indent"));
 const levels = (editor: Editor) => editor.getJSON().content?.map((node) => node.attrs?.indent ?? 0);
 
-describe("RichInput paragraph indentation (#3397)", () => {
+// The first case pays for mounting TipTap under happy-dom. Turbo runs packages in parallel, so on a
+// loaded machine that one mount can exceed the default 5s test budget even though the suite is fast
+// once warm. Give the whole block a realistic ceiling instead of timing out the unlucky first test.
+const COLD_RENDER_TIMEOUT = 60_000;
+
+describe("RichInput paragraph indentation (#3397)", { timeout: COLD_RENDER_TIMEOUT }, () => {
 	it("indents the entire paragraph and emits round-trippable HTML", async () => {
 		const { editor, onChange } = await input("<p>First</p>");
 		expect(screen.getByTitle("Decrease indent")).toBeDisabled();

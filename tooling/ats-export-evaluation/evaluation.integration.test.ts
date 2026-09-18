@@ -149,7 +149,9 @@ describe("current unchanged PDF and DOCX exports", () => {
 		]);
 	});
 
-	it("measures two-column and full-width synthetic corpus without mutating input", { timeout: 120_000 }, async () => {
+	// Renders a full PDF + DOCX corpus. Turbo runs packages in parallel, so a loaded machine needs
+	// far more than the default budget even though the work itself is CPU-bound and deterministic.
+	it("measures two-column and full-width synthetic corpus without mutating input", { timeout: 300_000 }, async () => {
 		await mkdir(outputDirectory, { recursive: true });
 		const results = [await measureVariant("two-column"), await measureVariant("full-width")];
 		const report = {

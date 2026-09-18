@@ -39,6 +39,7 @@ import { getInitials } from "@reactive-resume/utils/string";
 import { Copyright } from "@/components/ui/copyright";
 import { useCommandPaletteStore } from "@/features/command-palette/store";
 import { UserDropdownMenu } from "@/features/user/dropdown-menu";
+import { authClient } from "@/libs/auth/client";
 
 type SidebarItem = {
 	icon: React.ReactNode;
@@ -102,6 +103,14 @@ const settingsSidebarItems = [
 	},
 ] as const satisfies SidebarItem[];
 
+const adminSidebarItems = [
+	{
+		icon: <ShieldCheckIcon />,
+		label: msg`Admin Console`,
+		href: "/admin/overview",
+	},
+] as const satisfies SidebarItem[];
+
 type SidebarItemListProps = {
 	items: readonly SidebarItem[];
 };
@@ -152,6 +161,11 @@ function SidebarSearchButton() {
 export function DashboardSidebar() {
 	const { i18n } = useLingui();
 	const { state } = useSidebarState();
+	const { data: session } = authClient.useSession();
+
+	// The console route itself re-checks the role, this only decides whether the
+	// shortcut is offered.
+	const isAdmin = session?.user.role === "admin";
 
 	return (
 		<Sidebar variant="floating" collapsible="icon">
@@ -193,6 +207,17 @@ export function DashboardSidebar() {
 						<SidebarItemList items={settingsSidebarItems} />
 					</SidebarGroupContent>
 				</SidebarGroup>
+
+				{isAdmin && (
+					<SidebarGroup>
+						<SidebarGroupLabel>
+							<Trans>Administration</Trans>
+						</SidebarGroupLabel>
+						<SidebarGroupContent>
+							<SidebarItemList items={adminSidebarItems} />
+						</SidebarGroupContent>
+					</SidebarGroup>
+				)}
 			</SidebarContent>
 
 			<SidebarSeparator />

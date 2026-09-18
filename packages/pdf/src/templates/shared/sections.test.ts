@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 import { getTemplateMetrics } from "./metrics";
 import { getSectionHeadingTextStyle, getSkillsItemStyle } from "./sections";
 
-const source = readFileSync(fileURLToPath(new URL("./sections.tsx", import.meta.url)), "utf8");
+// Normalize line endings: the source is stored with LF, but a Windows checkout with `core.autocrlf`
+// hands back CRLF and would break every multi-line snippet assertion below.
+const source = readFileSync(fileURLToPath(new URL("./sections.tsx", import.meta.url)), "utf8").replace(/\r\n/g, "\n");
 
 describe("ExperienceSection", () => {
 	it("does not hide the item position header when role progression is present", () => {

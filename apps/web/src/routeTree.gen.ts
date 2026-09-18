@@ -10,12 +10,19 @@
 
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as HomeRouteRouteImport } from "./routes/_home/route";
+import { Route as AdminRouteRouteImport } from "./routes/admin/route";
 import { Route as AgentRouteRouteImport } from "./routes/agent/route";
 import { Route as AuthRouteRouteImport } from "./routes/auth/route";
 import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
 import { Route as UsernameSlugRouteImport } from "./routes/$username/$slug";
 import { Route as HomeIndexRouteImport } from "./routes/_home/index";
 import { Route as HomeAtsCheckerRouteImport } from "./routes/_home/ats-checker";
+import { Route as AdminIndexRouteImport } from "./routes/admin/index";
+import { Route as AdminAuditRouteImport } from "./routes/admin/audit";
+import { Route as AdminOverviewRouteImport } from "./routes/admin/overview";
+import { Route as AdminResumesRouteImport } from "./routes/admin/resumes";
+import { Route as AdminSettingsRouteImport } from "./routes/admin/settings";
+import { Route as AdminUsersRouteImport } from "./routes/admin/users";
 import { Route as AgentIndexRouteImport } from "./routes/agent/index";
 import { Route as AgentThreadIdRouteImport } from "./routes/agent/$threadId";
 import { Route as AgentNewRouteImport } from "./routes/agent/new";
@@ -47,6 +54,11 @@ const HomeRouteRoute = HomeRouteRouteImport.update({
   id: "/_home",
   getParentRoute: () => rootRouteImport,
 } as any);
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: "/admin",
+  path: "/admin",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const AgentRouteRoute = AgentRouteRouteImport.update({
   id: "/agent",
   path: "/agent",
@@ -76,6 +88,36 @@ const HomeAtsCheckerRoute = HomeAtsCheckerRouteImport.update({
   id: "/ats-checker",
   path: "/ats-checker",
   getParentRoute: () => HomeRouteRoute,
+} as any);
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: "/",
+  path: "/",
+  getParentRoute: () => AdminRouteRoute,
+} as any);
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: "/audit",
+  path: "/audit",
+  getParentRoute: () => AdminRouteRoute,
+} as any);
+const AdminOverviewRoute = AdminOverviewRouteImport.update({
+  id: "/overview",
+  path: "/overview",
+  getParentRoute: () => AdminRouteRoute,
+} as any);
+const AdminResumesRoute = AdminResumesRouteImport.update({
+  id: "/resumes",
+  path: "/resumes",
+  getParentRoute: () => AdminRouteRoute,
+} as any);
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: "/settings",
+  path: "/settings",
+  getParentRoute: () => AdminRouteRoute,
+} as any);
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: "/users",
+  path: "/users",
+  getParentRoute: () => AdminRouteRoute,
 } as any);
 const AgentIndexRoute = AgentIndexRouteImport.update({
   id: "/",
@@ -217,12 +259,18 @@ const DashboardSettingsAuthenticationIndexRoute =
 
 export interface FileRoutesByFullPath {
   "/": typeof HomeIndexRoute;
+  "/admin": typeof AdminRouteRouteWithChildren;
   "/agent": typeof AgentRouteRouteWithChildren;
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/ats-checker": typeof HomeAtsCheckerRoute;
+  "/admin/audit": typeof AdminAuditRoute;
+  "/admin/overview": typeof AdminOverviewRoute;
+  "/admin/resumes": typeof AdminResumesRoute;
+  "/admin/settings": typeof AdminSettingsRoute;
+  "/admin/users": typeof AdminUsersRoute;
   "/agent/$threadId": typeof AgentThreadIdRoute;
   "/agent/new": typeof AgentNewRoute;
   "/auth/consent": typeof AuthConsentRoute;
@@ -236,6 +284,7 @@ export interface FileRoutesByFullPath {
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/dashboard/cover-letters": typeof DashboardCoverLettersRoute;
   "/templates/$": typeof TemplatesSplatRoute;
+  "/admin/": typeof AdminIndexRoute;
   "/agent/": typeof AgentIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -252,6 +301,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/$username/$slug": typeof UsernameSlugRoute;
   "/ats-checker": typeof HomeAtsCheckerRoute;
+  "/admin/audit": typeof AdminAuditRoute;
+  "/admin/overview": typeof AdminOverviewRoute;
+  "/admin/resumes": typeof AdminResumesRoute;
+  "/admin/settings": typeof AdminSettingsRoute;
+  "/admin/users": typeof AdminUsersRoute;
   "/agent/$threadId": typeof AgentThreadIdRoute;
   "/agent/new": typeof AgentNewRoute;
   "/auth/consent": typeof AuthConsentRoute;
@@ -266,6 +320,7 @@ export interface FileRoutesByTo {
   "/dashboard/cover-letters": typeof DashboardCoverLettersRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/": typeof HomeIndexRoute;
+  "/admin": typeof AdminIndexRoute;
   "/agent": typeof AgentIndexRoute;
   "/auth": typeof AuthIndexRoute;
   "/dashboard": typeof DashboardIndexRoute;
@@ -282,12 +337,18 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   "/_home": typeof HomeRouteRouteWithChildren;
+  "/admin": typeof AdminRouteRouteWithChildren;
   "/agent": typeof AgentRouteRouteWithChildren;
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/_home/ats-checker": typeof HomeAtsCheckerRoute;
+  "/admin/audit": typeof AdminAuditRoute;
+  "/admin/overview": typeof AdminOverviewRoute;
+  "/admin/resumes": typeof AdminResumesRoute;
+  "/admin/settings": typeof AdminSettingsRoute;
+  "/admin/users": typeof AdminUsersRoute;
   "/agent/$threadId": typeof AgentThreadIdRoute;
   "/agent/new": typeof AgentNewRoute;
   "/auth/consent": typeof AuthConsentRoute;
@@ -302,6 +363,7 @@ export interface FileRoutesById {
   "/dashboard/cover-letters": typeof DashboardCoverLettersRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/_home/": typeof HomeIndexRoute;
+  "/admin/": typeof AdminIndexRoute;
   "/agent/": typeof AgentIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -319,12 +381,18 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | "/"
+    | "/admin"
     | "/agent"
     | "/auth"
     | "/dashboard"
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/ats-checker"
+    | "/admin/audit"
+    | "/admin/overview"
+    | "/admin/resumes"
+    | "/admin/settings"
+    | "/admin/users"
     | "/agent/$threadId"
     | "/agent/new"
     | "/auth/consent"
@@ -338,6 +406,7 @@ export interface FileRouteTypes {
     | "/auth/verify-2fa-backup"
     | "/dashboard/cover-letters"
     | "/templates/$"
+    | "/admin/"
     | "/agent/"
     | "/auth/"
     | "/dashboard/"
@@ -354,6 +423,11 @@ export interface FileRouteTypes {
   to:
     | "/$username/$slug"
     | "/ats-checker"
+    | "/admin/audit"
+    | "/admin/overview"
+    | "/admin/resumes"
+    | "/admin/settings"
+    | "/admin/users"
     | "/agent/$threadId"
     | "/agent/new"
     | "/auth/consent"
@@ -368,6 +442,7 @@ export interface FileRouteTypes {
     | "/dashboard/cover-letters"
     | "/templates/$"
     | "/"
+    | "/admin"
     | "/agent"
     | "/auth"
     | "/dashboard"
@@ -383,12 +458,18 @@ export interface FileRouteTypes {
   id:
     | "__root__"
     | "/_home"
+    | "/admin"
     | "/agent"
     | "/auth"
     | "/dashboard"
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/_home/ats-checker"
+    | "/admin/audit"
+    | "/admin/overview"
+    | "/admin/resumes"
+    | "/admin/settings"
+    | "/admin/users"
     | "/agent/$threadId"
     | "/agent/new"
     | "/auth/consent"
@@ -403,6 +484,7 @@ export interface FileRouteTypes {
     | "/dashboard/cover-letters"
     | "/templates/$"
     | "/_home/"
+    | "/admin/"
     | "/agent/"
     | "/auth/"
     | "/dashboard/"
@@ -419,6 +501,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   HomeRouteRoute: typeof HomeRouteRouteWithChildren;
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren;
   AgentRouteRoute: typeof AgentRouteRouteWithChildren;
   AuthRouteRoute: typeof AuthRouteRouteWithChildren;
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
@@ -434,6 +517,13 @@ declare module "@tanstack/react-router" {
       path: "";
       fullPath: "/";
       preLoaderRoute: typeof HomeRouteRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/admin": {
+      id: "/admin";
+      path: "/admin";
+      fullPath: "/admin";
+      preLoaderRoute: typeof AdminRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/agent": {
@@ -477,6 +567,48 @@ declare module "@tanstack/react-router" {
       fullPath: "/ats-checker";
       preLoaderRoute: typeof HomeAtsCheckerRouteImport;
       parentRoute: typeof HomeRouteRoute;
+    };
+    "/admin/": {
+      id: "/admin/";
+      path: "/";
+      fullPath: "/admin/";
+      preLoaderRoute: typeof AdminIndexRouteImport;
+      parentRoute: typeof AdminRouteRoute;
+    };
+    "/admin/audit": {
+      id: "/admin/audit";
+      path: "/audit";
+      fullPath: "/admin/audit";
+      preLoaderRoute: typeof AdminAuditRouteImport;
+      parentRoute: typeof AdminRouteRoute;
+    };
+    "/admin/overview": {
+      id: "/admin/overview";
+      path: "/overview";
+      fullPath: "/admin/overview";
+      preLoaderRoute: typeof AdminOverviewRouteImport;
+      parentRoute: typeof AdminRouteRoute;
+    };
+    "/admin/resumes": {
+      id: "/admin/resumes";
+      path: "/resumes";
+      fullPath: "/admin/resumes";
+      preLoaderRoute: typeof AdminResumesRouteImport;
+      parentRoute: typeof AdminRouteRoute;
+    };
+    "/admin/settings": {
+      id: "/admin/settings";
+      path: "/settings";
+      fullPath: "/admin/settings";
+      preLoaderRoute: typeof AdminSettingsRouteImport;
+      parentRoute: typeof AdminRouteRoute;
+    };
+    "/admin/users": {
+      id: "/admin/users";
+      path: "/users";
+      fullPath: "/admin/users";
+      preLoaderRoute: typeof AdminUsersRouteImport;
+      parentRoute: typeof AdminRouteRoute;
     };
     "/agent/": {
       id: "/agent/";
@@ -677,6 +809,28 @@ const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
   HomeRouteRouteChildren,
 );
 
+interface AdminRouteRouteChildren {
+  AdminAuditRoute: typeof AdminAuditRoute;
+  AdminOverviewRoute: typeof AdminOverviewRoute;
+  AdminResumesRoute: typeof AdminResumesRoute;
+  AdminSettingsRoute: typeof AdminSettingsRoute;
+  AdminUsersRoute: typeof AdminUsersRoute;
+  AdminIndexRoute: typeof AdminIndexRoute;
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminAuditRoute: AdminAuditRoute,
+  AdminOverviewRoute: AdminOverviewRoute,
+  AdminResumesRoute: AdminResumesRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+};
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+);
+
 interface AgentRouteRouteChildren {
   AgentThreadIdRoute: typeof AgentThreadIdRoute;
   AgentNewRoute: typeof AgentNewRoute;
@@ -768,6 +922,7 @@ const BuilderResumeIdRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   HomeRouteRoute: HomeRouteRouteWithChildren,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   AgentRouteRoute: AgentRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
