@@ -67,7 +67,6 @@ const ITEM_HEADER_FIELDS = {
 	volunteer: ["organization", "location", "period"],
 	references: [],
 	summary: [],
-	"cover-letter": [],
 } as const satisfies Readonly<Record<CustomSectionType | "experience-role", readonly string[]>>;
 
 const RICH_TEXT_FIELDS = new Set(["content", "description", "recipient"]);
@@ -434,24 +433,21 @@ const buildSection = ({
 	const key = semanticNodeKeys.section(regionKey, keyIncludesOrigin ? `${origin}:${descriptor.id}` : descriptor.id);
 	const headingKey = semanticNodeKeys.sectionHeading(key);
 	const sectionIcon = getResumeSectionIcon(data, descriptor.id);
-	const heading =
-		descriptor.type === "cover-letter"
-			? undefined
-			: semanticNode({
-					key: headingKey,
-					kind: "section-heading",
-					roles: ["section-title"],
-					children:
-						sectionIcon && !data.metadata.page.hideSectionIcons
-							? [
-									semanticNode({
-										key: semanticNodeKeys.icon(headingKey, "section"),
-										kind: "icon",
-										roles: ["decoration"],
-									}),
-								]
-							: [],
-				});
+	const heading = semanticNode({
+		key: headingKey,
+		kind: "section-heading",
+		roles: ["section-title"],
+		children:
+			sectionIcon && !data.metadata.page.hideSectionIcons
+				? [
+						semanticNode({
+							key: semanticNodeKeys.icon(headingKey, "section"),
+							kind: "icon",
+							roles: ["decoration"],
+						}),
+					]
+				: [],
+	});
 	const itemsKey = semanticNodeKeys.sectionItems(key);
 	const requireItemHeaderPrimitive = manifest.parts.some(
 		(part) =>
@@ -999,7 +995,6 @@ export function buildSemanticTree({
 }
 
 export type { TemplateSemanticManifest } from "./template-manifest";
-export { shouldShowResumeHeader } from "../templates/shared/cover-letter";
 export { createBindingInventory, STANDARD_FIELD_REGISTRY, STANDARD_ROLE_REGISTRY } from "./binding-inventory";
 export { semanticNodeKeys } from "./node-keys";
 export {

@@ -1,4 +1,4 @@
-import type { CoverLetterItem, CustomSection, SectionItem, SummaryItem } from "@reactive-resume/schema/resume/data";
+import type { CustomSection, SectionItem, SummaryItem } from "@reactive-resume/schema/resume/data";
 
 type EmptyDialog<T extends string> = { [K in T]: { type: K; data?: undefined } }[T];
 
@@ -16,7 +16,6 @@ type SectionItems = {
 	volunteer: SectionItem<"volunteer">;
 	references: SectionItem<"references">;
 	summary: SummaryItem;
-	"cover-letter": CoverLetterItem;
 };
 
 type SectionDialog = {

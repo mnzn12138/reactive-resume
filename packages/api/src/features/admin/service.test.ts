@@ -67,7 +67,6 @@ vi.mock("@reactive-resume/db/client", () => ({ db: dbMock }));
 vi.mock("@reactive-resume/db/schema", () => ({
 	user: { __table: "user" },
 	resume: { __table: "resume" },
-	coverLetter: { __table: "coverLetter" },
 	application: { __table: "application" },
 	session: { __table: "session" },
 	adminAuditLog: { __table: "adminAuditLog" },

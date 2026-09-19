@@ -16,7 +16,6 @@ import {
 } from "docx";
 import { parseColorString } from "@reactive-resume/utils/color";
 import { isRTL } from "@reactive-resume/utils/locale";
-import { shouldShowResumeHeader } from "./cover-letter";
 import { toSafeDocxLink } from "./link-utils";
 import { renderBuiltInSection, renderCustomSection, renderSummary, setRenderConfig } from "./section-renderers";
 
@@ -391,10 +390,9 @@ export function buildDocument(data: ResumeData, resolveTitle?: SectionTitleResol
 		textColorHex,
 		primaryColorHex: colorHex,
 	};
-	const showHeader = shouldShowResumeHeader(data);
 
 	// Header placement depends on template
-	if (templateConfig.headerPosition === "full-width" && showHeader) {
+	if (templateConfig.headerPosition === "full-width") {
 		setRenderConfig(mainConfig);
 		documentChildren.push(...buildHeader(data, colorHex, textColorHex));
 	}
@@ -413,7 +411,7 @@ export function buildDocument(data: ResumeData, resolveTitle?: SectionTitleResol
 			setRenderConfig(mainConfig);
 
 			const mainParagraphs: Paragraph[] = [];
-			if (templateConfig.headerPosition === "main-only" && showHeader) {
+			if (templateConfig.headerPosition === "main-only") {
 				mainParagraphs.push(...buildHeader(data, colorHex, textColorHex));
 			}
 			for (const sectionId of layoutPage.main) {
@@ -424,7 +422,7 @@ export function buildDocument(data: ResumeData, resolveTitle?: SectionTitleResol
 			setRenderConfig({ ...mainConfig, textColorHex: sidebarTextColorHex, primaryColorHex: sidebarHeadingColorHex });
 
 			const sidebarParagraphs: Paragraph[] = [];
-			if (templateConfig.headerPosition === "sidebar-only" && showHeader) {
+			if (templateConfig.headerPosition === "sidebar-only") {
 				sidebarParagraphs.push(...buildHeader(data, sidebarHeadingColorHex, sidebarTextColorHex));
 			}
 			for (const sectionId of layoutPage.sidebar) {

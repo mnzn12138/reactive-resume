@@ -51,7 +51,7 @@ Reactive Resume 是一个 pnpm monorepo(Turborepo),包含两个可部署应用:`
 |------|------|
 | Web 路由、loader、面向用户的工作流 | `apps/web/src/routes`、`apps/web/src/features`(基于文件,切勿手改 `routeTree.gen.ts`) |
 | 服务端 HTTP 路由/适配器、启动检查、静态处理、MCP 传输层、OpenAPI/well-known | `apps/server/src/{http,rpc,mcp,openapi,static,startup}` |
-| 需鉴权的 API 契约与业务逻辑 | `packages/api/src/features/*`(现有 `agent`、`ai`、`ai-providers`、`applications`、`auth`、`cover-letters`、`flags`、`resume`、`statistics`、`storage`;oRPC 路由、DTO、限流;在 `@reactive-resume/api/routers` 聚合后供 `/api/rpc` 使用) |
+| 需鉴权的 API 契约与业务逻辑 | `packages/api/src/features/*`(现有 `agent`、`ai`、`ai-providers`、`applications`、`auth`、`flags`、`resume`、`statistics`、`storage`;oRPC 路由、DTO、限流;在 `@reactive-resume/api/routers` 聚合后供 `/api/rpc` 使用) |
 | 鉴权 | `packages/auth`(Better Auth 配置/辅助/类型;`apps/server/src/http/auth.ts` 委托给 `auth.handler`) |
 | 数据库客户端与 schema | `packages/db`(Drizzle;迁移位于仓库根 `migrations/`) |
 | 服务端环境变量校验 | `packages/env`(自动加载根目录 `.env`) |

@@ -5,7 +5,6 @@ import {
 	ArrowsClockwiseIcon,
 	CaretRightIcon,
 	CopyIcon,
-	EnvelopeSimpleIcon,
 	MagicWandIcon,
 	PaperPlaneTiltIcon,
 	SparkleIcon,
@@ -15,7 +14,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { cn } from "@reactive-resume/utils/style";
-import { CoverLetterEditorDialog } from "@/features/cover-letters/editor-dialog";
 import { orpc } from "@/libs/orpc/client";
 import { applicationsListQueryKey } from "../queries";
 
@@ -102,8 +100,7 @@ type Props = { application: Application };
 
 export function ApplicationAiCopilot({ application }: Props) {
 	const queryClient = useQueryClient();
-	const [draft, setDraft] = useState<{ kind: string; text: string } | null>(null);
-	const [coverLetterId, setCoverLetterId] = useState<string | null>(null);
+	const [draft, setDraft] = useState<{ text: string } | null>(null);
 
 	const invalidate = () => {
 		void queryClient.invalidateQueries({ queryKey: applicationsListQueryKey() });
@@ -129,14 +126,8 @@ export function ApplicationAiCopilot({ application }: Props) {
 	);
 	const draftMessage = useMutation(
 		orpc.applications.ai.draftMessage.mutationOptions({
-			onSuccess: (result, variables) => {
-				if (result.coverLetterId) {
-					setDraft(null);
-					setCoverLetterId(result.coverLetterId);
-					void queryClient.invalidateQueries({ queryKey: orpc.coverLetters.list.key() });
-				} else {
-					setDraft({ kind: variables.kind, text: result.text });
-				}
+			onSuccess: (result) => {
+				setDraft({ text: result.text });
 			},
 			onError: (error) => toast.add({ type: "error", description: error.message || t`Drafting failed.` }),
 		}),
@@ -239,20 +230,12 @@ export function ApplicationAiCopilot({ application }: Props) {
 					onClick={() => tailorResume.mutate({ id: application.id })}
 				/>
 				<ActionRow
-					icon={<EnvelopeSimpleIcon />}
-					title={<Trans>Draft a cover letter</Trans>}
-					description={t`From your resume and the posting`}
-					disabled={draftMessage.isPending}
-					pending={draftMessage.isPending && draftMessage.variables?.kind === "cover-letter"}
-					onClick={() => draftMessage.mutate({ id: application.id, kind: "cover-letter" })}
-				/>
-				<ActionRow
 					icon={<PaperPlaneTiltIcon />}
 					title={<Trans>Draft a follow-up</Trans>}
 					description={t`A friendly nudge for the recruiter`}
 					disabled={draftMessage.isPending}
-					pending={draftMessage.isPending && draftMessage.variables?.kind === "follow-up"}
-					onClick={() => draftMessage.mutate({ id: application.id, kind: "follow-up" })}
+					pending={draftMessage.isPending}
+					onClick={() => draftMessage.mutate({ id: application.id })}
 				/>
 			</div>
 
@@ -260,7 +243,7 @@ export function ApplicationAiCopilot({ application }: Props) {
 				<div className="border-primary/10 border-t bg-card/60 p-3">
 					<div className="mb-1.5 flex items-center justify-between">
 						<span className="font-medium text-xs">
-							{draft.kind === "cover-letter" ? <Trans>Cover letter draft</Trans> : <Trans>Follow-up draft</Trans>}
+							<Trans>Follow-up draft</Trans>
 						</span>
 						<div className="flex gap-1">
 							<button
@@ -284,7 +267,6 @@ export function ApplicationAiCopilot({ application }: Props) {
 					</p>
 				</div>
 			)}
-			{coverLetterId && <CoverLetterEditorDialog letterId={coverLetterId} onClose={() => setCoverLetterId(null)} />}
 		</section>
 	);
 }

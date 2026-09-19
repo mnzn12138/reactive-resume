@@ -200,7 +200,7 @@ export function ApplicationDetailSheet({ application, onOpenChange, onEdit }: Pr
 						</Section>
 					)}
 
-					{/* documents: linked resume + cover letter */}
+					{/* documents: linked resume + uploaded resume file */}
 					<Section title={t`Documents sent`}>
 						{current.resumeId ? (
 							<Link
@@ -235,23 +235,6 @@ export function ApplicationDetailSheet({ application, onOpenChange, onEdit }: Pr
 									id: current.id,
 									resumeFileUrl: value?.url ?? null,
 									resumeFileName: value?.name ?? null,
-								})
-							}
-						/>
-
-						<FileAttachmentField
-							value={
-								current.coverLetterUrl
-									? { url: current.coverLetterUrl, name: current.coverLetterName || t`Cover letter` }
-									: null
-							}
-							attachLabel={t`Attach a cover letter (PDF)`}
-							disabled={update.isPending}
-							onChange={(value) =>
-								update.mutate({
-									id: current.id,
-									coverLetterUrl: value?.url ?? null,
-									coverLetterName: value?.name ?? null,
 								})
 							}
 						/>

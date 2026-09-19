@@ -146,7 +146,6 @@ it("names every custom-section item shape by its type key", () => {
 		publications: "publicationItemSchema",
 		volunteer: "volunteerItemSchema",
 		references: "referenceItemSchema",
-		"cover-letter": "coverLetterItemSchema",
 	};
 
 	for (const [type, schemaName] of Object.entries(expectedSchemas)) {

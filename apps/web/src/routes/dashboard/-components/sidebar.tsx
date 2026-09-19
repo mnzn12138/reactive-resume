@@ -6,7 +6,6 @@ import {
 	BrainIcon,
 	BriefcaseIcon,
 	ChatCircleDotsIcon,
-	EnvelopeSimpleIcon,
 	GearSixIcon,
 	MagnifyingGlassIcon,
 	ReadCvLogoIcon,
@@ -57,11 +56,6 @@ const appSidebarItems = [
 		icon: <BriefcaseIcon />,
 		label: msg`Applications`,
 		href: "/dashboard/applications",
-	},
-	{
-		icon: <EnvelopeSimpleIcon />,
-		label: msg`Cover Letters`,
-		href: "/dashboard/cover-letters",
 	},
 	{
 		icon: <ChatCircleDotsIcon />,

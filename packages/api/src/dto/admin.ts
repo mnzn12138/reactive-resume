@@ -33,7 +33,6 @@ const adminUserDetailSchema = adminUserSchema.extend({
 	stats: z
 		.object({
 			resumes: z.number().describe("Number of resumes owned by the user."),
-			coverLetters: z.number().describe("Number of cover letters owned by the user."),
 			applications: z.number().describe("Number of job applications tracked by the user."),
 		})
 		.describe("Content counts, useful before deleting an account."),

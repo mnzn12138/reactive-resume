@@ -3,7 +3,7 @@ import { ZodError } from "zod";
 import { resumeDataSchema, sectionTypeSchema } from "@reactive-resume/schema/resume/data";
 import { rethrowAsImportError } from "./error";
 
-const BUILT_IN_LAYOUT_SECTION_IDS = sectionTypeSchema.options.filter((section) => section !== "cover-letter");
+const BUILT_IN_LAYOUT_SECTION_IDS = sectionTypeSchema.options;
 
 function normalizeBuiltInSectionsInLayout(data: ResumeData): ResumeData {
 	const pages = data.metadata.layout.pages;

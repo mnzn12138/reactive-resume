@@ -14,7 +14,6 @@ export const defaultSectionIconNames = {
 	publications: "books",
 	volunteer: "hand-heart",
 	references: "phone",
-	"cover-letter": "envelope-simple",
 } as const satisfies Record<CustomSectionType, string>;
 
 export const getDefaultSectionIconName = (sectionType: CustomSectionType): string =>

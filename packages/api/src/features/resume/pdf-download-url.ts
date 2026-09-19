@@ -1,4 +1,3 @@
-import type { ResumeExportTarget } from "@reactive-resume/resume/export-sections";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { env } from "@reactive-resume/env/server";
 
@@ -8,7 +7,6 @@ type PdfDownloadTokenPayload = {
 	v: 1;
 	resumeId: string;
 	userId: string;
-	target?: ResumeExportTarget;
 	expiresAt: number;
 	issuedAt: number;
 };
@@ -17,7 +15,6 @@ type CreateResumePdfDownloadUrlInput = {
 	resumeId: string;
 	userId: string;
 	now?: Date;
-	target?: ResumeExportTarget;
 	ttlSeconds?: number;
 };
 
@@ -32,7 +29,6 @@ type VerifyResumePdfDownloadTokenResult =
 			ok: true;
 			resumeId: string;
 			userId: string;
-			target?: ResumeExportTarget;
 			expiresAt: string;
 	  }
 	| {
@@ -71,7 +67,6 @@ function parsePayload(value: unknown): PdfDownloadTokenPayload | null {
 	if (payload.v !== 1) return null;
 	if (typeof payload.resumeId !== "string" || payload.resumeId.length === 0) return null;
 	if (typeof payload.userId !== "string" || payload.userId.length === 0) return null;
-	if (payload.target !== undefined && payload.target !== "resume" && payload.target !== "cover-letter") return null;
 	if (typeof payload.expiresAt !== "number" || !Number.isFinite(payload.expiresAt)) return null;
 	if (typeof payload.issuedAt !== "number" || !Number.isFinite(payload.issuedAt)) return null;
 
@@ -82,7 +77,6 @@ export function createResumePdfDownloadUrl({
 	resumeId,
 	userId,
 	now = new Date(),
-	target,
 	ttlSeconds,
 }: CreateResumePdfDownloadUrlInput) {
 	const expiresInSeconds = resolveTtlSeconds(ttlSeconds);
@@ -91,14 +85,12 @@ export function createResumePdfDownloadUrl({
 		v: 1,
 		resumeId,
 		userId,
-		target: target ?? "resume",
 		expiresAt: expiresAt.getTime(),
 		issuedAt: now.getTime(),
 	} satisfies PdfDownloadTokenPayload);
 	const token = `${payload}.${sign(payload)}`;
 	const url = new URL(`/api/resumes/${encodeURIComponent(resumeId)}/pdf`, env.APP_URL);
 	url.searchParams.set("token", token);
-	if (target) url.searchParams.set("target", target);
 
 	return {
 		url: url.toString(),
@@ -126,7 +118,6 @@ export function verifyResumePdfDownloadToken({
 			ok: true,
 			resumeId: parsed.resumeId,
 			userId: parsed.userId,
-			...(parsed.target ? { target: parsed.target } : {}),
 			expiresAt: new Date(parsed.expiresAt).toISOString(),
 		};
 	} catch {

@@ -84,12 +84,12 @@ describe("applicationDto document uploads", () => {
 	});
 
 	it("rejects non-PDF application documents", () => {
-		const file = new File(["hello"], "cover.txt", { type: "text/plain" });
+		const file = new File(["hello"], "notes.txt", { type: "text/plain" });
 
 		expect(() =>
 			applicationDto.attachDocument.input.parse({
 				id: "application-1",
-				kind: "cover-letter",
+				kind: "resume",
 				file,
 			}),
 		).toThrow();

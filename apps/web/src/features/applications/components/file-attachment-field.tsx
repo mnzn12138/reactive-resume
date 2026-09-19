@@ -12,12 +12,12 @@ type Props = {
 	// The uploaded file, or null when nothing is attached yet.
 	value: FileAttachment | null;
 	onChange: (value: FileAttachment | null) => void;
-	// Copy for the empty-state button, e.g. "Attach a cover letter (PDF)".
+	// Copy for the empty-state button, e.g. "Attach a resume (PDF)".
 	attachLabel: string;
 	disabled?: boolean;
 };
 
-// PDF-only upload to the shared storage route, used for both the resume file and cover letter.
+// PDF-only upload to the shared storage route, used for the resume file attachment.
 // Handles upload + best-effort delete; persistence of the returned URL is the parent's job.
 export function FileAttachmentField({ value, onChange, attachLabel, disabled }: Props) {
 	const inputRef = useRef<HTMLInputElement>(null);

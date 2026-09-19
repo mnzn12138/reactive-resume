@@ -3,7 +3,6 @@ import { CreateResumeDialog, DuplicateResumeDialog, UpdateResumeDialog } from ".
 import { ImportResumeDialog } from "./import";
 import { CreateAwardDialog, UpdateAwardDialog } from "./sections/award";
 import { CreateCertificationDialog, UpdateCertificationDialog } from "./sections/certification";
-import { CreateCoverLetterDialog, UpdateCoverLetterDialog } from "./sections/cover-letter";
 import { CreateCustomSectionDialog, UpdateCustomSectionDialog } from "./sections/custom";
 import { CreateEducationDialog, UpdateEducationDialog } from "./sections/education";
 import { CreateExperienceDialog, UpdateExperienceDialog } from "./sections/experience";
@@ -56,8 +55,6 @@ export const resumeDialogRenderers: readonly AnyDialogRendererEntry[] = [
 	{ type: "resume.sections.references.update", render: ({ data }) => <UpdateReferenceDialog data={data} /> },
 	{ type: "resume.sections.summary.create", render: ({ data }) => <CreateSummaryItemDialog data={data} /> },
 	{ type: "resume.sections.summary.update", render: ({ data }) => <UpdateSummaryItemDialog data={data} /> },
-	{ type: "resume.sections.cover-letter.create", render: ({ data }) => <CreateCoverLetterDialog data={data} /> },
-	{ type: "resume.sections.cover-letter.update", render: ({ data }) => <UpdateCoverLetterDialog data={data} /> },
 	{ type: "resume.sections.custom.create", render: ({ data }) => <CreateCustomSectionDialog data={data} /> },
 	{ type: "resume.sections.custom.update", render: ({ data }) => <UpdateCustomSectionDialog data={data} /> },
 ];

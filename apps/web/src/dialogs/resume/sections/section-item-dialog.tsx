@@ -21,7 +21,7 @@ type SectionItemDialogProps = {
 	isSubmitting: boolean;
 	/** Button label: <Trans>Create</Trans> or <Trans>Save Changes</Trans> */
 	submitLabel: ReactNode;
-	/** When true, uses a single-column form layout (cover-letter, summary-item) */
+	/** When true, uses a single-column form layout (summary-item) */
 	singleColumn?: boolean;
 	children: ReactNode;
 };

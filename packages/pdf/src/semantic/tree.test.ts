@@ -281,7 +281,6 @@ const buildCompleteFixture = (): ResumeData => {
 		"publications",
 		"volunteer",
 		"references",
-		"cover-letter",
 	] as const;
 
 	data.customSections = customTypes.map((type) => ({
@@ -296,17 +295,10 @@ const buildCompleteFixture = (): ResumeData => {
 		items: [
 			type === "summary"
 				? { id: `custom-item/${type}`, hidden: false, content: "<p>Custom summary</p>" }
-				: type === "cover-letter"
-					? {
-							id: `custom-item/${type}`,
-							hidden: false,
-							recipient: "<p>Recipient</p>",
-							content: "<p>Letter</p>",
-						}
-					: {
-							...structuredClone(builtInItems[type]),
-							id: `custom-item/${type}`,
-						},
+				: {
+						...structuredClone(builtInItems[type]),
+						id: `custom-item/${type}`,
+					},
 		],
 	})) as ResumeData["customSections"];
 	data.customSections.push({
@@ -429,12 +421,7 @@ describe("buildSemanticTree", () => {
 				findNode(tree, (node) => node.kind === "section" && node.id === customSection.id),
 				customSection.id,
 			);
-			const expected =
-				customSection.type === "cover-letter"
-					? ["recipient", "content"]
-					: customSection.type === "summary"
-						? ["content"]
-						: expectedFields[customSection.type];
+			const expected = customSection.type === "summary" ? ["content"] : expectedFields[customSection.type];
 			const names = new Set(findNodes(section, (node) => node.kind === "field").map((node) => node.attributes.name));
 			for (const field of expected) expect(names.has(field), `${customSection.id}.${field}`).toBe(true);
 		}
@@ -444,7 +431,6 @@ describe("buildSemanticTree", () => {
 		expect(findNode(tree, (node) => node.id === "project/invalid")).toBeUndefined();
 		expect(findNode(tree, (node) => node.id === "role/hidden")).toBeUndefined();
 		expect(findNode(tree, (node) => node.kind === "picture")).toBeDefined();
-		expect(findNode(tree, (node) => node.id === "custom/cover-letter~%")?.children[0]?.kind).toBe("section-items");
 		expect(findNodes(tree, (node) => node.kind === "contact-item").map((node) => node.attributes.name)).toEqual(
 			expect.arrayContaining(["email", "phone", "location", "website", "custom"]),
 		);

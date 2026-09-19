@@ -16,7 +16,6 @@ const titles = [
 	"Publications",
 	"Volunteer",
 	"References",
-	"Cover Letter",
 ];
 
 /** Only default resume headings are needed by the PDF renderer, not the entire application catalog. */

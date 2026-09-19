@@ -1,7 +1,6 @@
 import type { LayoutPage, ResumeData, Typography } from "@reactive-resume/schema/resume/data";
 import type { Template } from "@reactive-resume/schema/templates";
 import type { ComponentType } from "react";
-import type { ResumeRenderOptions } from "./context";
 import type { SectionTitleResolver } from "./section-title";
 import type { ResolvedResumeRuntime } from "./semantic";
 import { useMemo } from "react";
@@ -11,7 +10,6 @@ import { registerFonts, resumeContentContainsCJK, resumeContentScripts } from ".
 import { SemanticRenderProvider } from "./semantic/context";
 import { resolveResumeRuntime, resolveStylesheetMode } from "./semantic/resolve";
 import { getTemplatePage } from "./templates";
-import { shouldShowResumeHeader } from "./templates/shared/cover-letter";
 import { getTemplatePageMinHeightStyle, getTemplatePageSize } from "./templates/shared/page-size";
 
 export type TemplatePageProps = {
@@ -27,7 +25,6 @@ export type TemplatePage = ComponentType<TemplatePageProps>;
 type ResumeDocumentProps = {
 	data: ResumeData;
 	template: Template;
-	renderOptions?: ResumeRenderOptions | undefined;
 	resolveSectionTitle?: SectionTitleResolver | undefined;
 	semanticRuntime?: ResolvedResumeRuntime | undefined;
 };
@@ -35,13 +32,7 @@ type ResumeDocumentProps = {
 const getLayoutPageKey = (page: LayoutPage, pageIndex: number) =>
 	`${page.fullWidth ? "full" : "split"}:${page.main.join(",")}:${page.sidebar.join(",")}:${pageIndex}`;
 
-export const ResumeDocument = ({
-	data,
-	template,
-	renderOptions,
-	resolveSectionTitle,
-	semanticRuntime,
-}: ResumeDocumentProps) => {
+export const ResumeDocument = ({ data, template, resolveSectionTitle, semanticRuntime }: ResumeDocumentProps) => {
 	const TemplatePageComponent = getTemplatePage(template);
 	const creationDate = useMemo(() => new Date(), []);
 	const hasCjkContent = useMemo(() => resumeContentContainsCJK(data), [data]);
@@ -59,7 +50,6 @@ export const ResumeDocument = ({
 	const resumeData = useMemo(() => ({ ...data, metadata: { ...data.metadata, typography } }), [data, typography]);
 	const pageSize = getTemplatePageSize(resumeData.metadata.page.format);
 	const pageMinHeightStyle = getTemplatePageMinHeightStyle(resumeData.metadata.page.format);
-	const headerResumeData = renderOptions ? { ...resumeData, renderOptions } : resumeData;
 	const stylesheetMode = resolveStylesheetMode(resumeData);
 	const runtime = useMemo(
 		() => semanticRuntime ?? resolveResumeRuntime({ data: resumeData, template, mode: stylesheetMode }),
@@ -74,7 +64,7 @@ export const ResumeDocument = ({
 			sourceTree={runtime.sourceTree}
 			renderTree={runtime.renderTree}
 		>
-			<RenderProvider data={resumeData} resolveSectionTitle={resolveSectionTitle} renderOptions={renderOptions}>
+			<RenderProvider data={resumeData} resolveSectionTitle={resolveSectionTitle}>
 				<Document
 					pageMode="useNone"
 					creationDate={creationDate}
@@ -91,7 +81,7 @@ export const ResumeDocument = ({
 							page={page}
 							pageSize={pageSize}
 							pageMinHeightStyle={pageMinHeightStyle}
-							showHeader={shouldShowResumeHeader(headerResumeData, index)}
+							showHeader={index === 0}
 							pageNumber={index + 1}
 						/>
 					))}

@@ -283,13 +283,6 @@ export const volunteerItemSchema = baseItemSchema.extend({
 		.describe("The description of the volunteer experience. This should be a HTML-formatted string."),
 });
 
-export const coverLetterItemSchema = baseItemSchema.extend({
-	recipient: z.string().describe("The recipient's address block as HTML (name, title, company, address, email)."),
-	content: z.string().describe("The cover letter body as HTML (salutation, paragraphs, closing, signature)."),
-});
-
-export type CoverLetterItem = z.infer<typeof coverLetterItemSchema>;
-
 export const baseSectionSchema = z.object({
 	title: z.string().describe("The title of the section."),
 	icon: z
@@ -383,15 +376,12 @@ export const sectionTypeSchema = z.enum([
 	"publications",
 	"volunteer",
 	"references",
-	"cover-letter",
 ]);
 
 export type CustomSectionType = z.infer<typeof sectionTypeSchema>;
 
 // Correlation protects renderer requirements; it does not make otherwise-overlapping item shapes exclusive.
-// Keep cover-letter before summary so the overlapping content shapes retain their established precedence.
 export const customSectionItemDefinitionByType = {
-	"cover-letter": { schemaName: "coverLetterItemSchema", schema: coverLetterItemSchema.catchall(z.any()) },
 	summary: { schemaName: "summaryItemSchema", schema: summaryItemSchema.catchall(z.any()) },
 	profiles: { schemaName: "profileItemSchema", schema: profileItemSchema.catchall(z.any()) },
 	experience: { schemaName: "experienceItemSchema", schema: experienceItemSchema.catchall(z.any()) },

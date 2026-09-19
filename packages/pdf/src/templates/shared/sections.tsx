@@ -2,7 +2,6 @@ import type { Style } from "@react-pdf/types";
 import type {
 	AwardItem,
 	CertificationItem,
-	CoverLetterItem,
 	CustomSectionType,
 	EducationItem,
 	ExperienceItem,
@@ -139,10 +138,6 @@ type CustomSummarySectionProps = {
 type ItemSectionProps<T> = {
 	sectionId?: string;
 	sectionData?: ItemSection<T>;
-};
-
-type CoverLetterSectionProps = {
-	section: CustomItemSection<CoverLetterItem>;
 };
 
 type CustomSectionProps = {
@@ -1492,25 +1487,6 @@ const ReferencesSection = ({ sectionId = "references", sectionData }: ItemSectio
 	);
 };
 
-const CoverLetterSection = ({ section }: CoverLetterSectionProps) => {
-	const items = getVisibleItems(section);
-
-	if (items.length === 0) return null;
-
-	return (
-		<SectionShell sectionId={section.id} title={section.title} showHeading={false}>
-			<SectionItems>
-				{items.map((item) => (
-					<SectionItem key={item.id} itemId={item.id}>
-						<RichText semanticField="recipient">{item.recipient}</RichText>
-						<RichText semanticField="content">{item.content}</RichText>
-					</SectionItem>
-				))}
-			</SectionItems>
-		</SectionShell>
-	);
-};
-
 const CustomSection = ({ sectionId, showHeading = true }: CustomSectionProps) => {
 	const data = useRender();
 	const customSection = data.customSections.find((section) => section.id === sectionId);
@@ -1557,7 +1533,6 @@ const CustomSection = ({ sectionId, showHeading = true }: CustomSectionProps) =>
 		references: () => (
 			<ReferencesSection sectionId={sectionId} sectionData={customSection as CustomItemSection<ReferenceItem>} />
 		),
-		"cover-letter": () => <CoverLetterSection section={customSection as CustomItemSection<CoverLetterItem>} />,
 	} satisfies Record<CustomSectionType, () => ReactNode>;
 
 	return customSectionMap[customSection.type]();
@@ -1583,7 +1558,7 @@ export const Section = ({ section, placement, showHeading = true }: SectionProps
 		publications: () => <PublicationsSection />,
 		volunteer: () => <VolunteerSection />,
 		references: () => <ReferencesSection />,
-	} satisfies Record<Exclude<CustomSectionType, "cover-letter">, () => ReactNode>;
+	} satisfies Record<CustomSectionType, () => ReactNode>;
 
 	const render = (builtInSectionMap as Record<string, (() => ReactNode) | undefined>)[section];
 

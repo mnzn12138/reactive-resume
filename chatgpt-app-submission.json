@@ -4,7 +4,7 @@
 	"app_info": {
 		"display_name": "Reactive Resume",
 		"subtitle": "Build resumes, track jobs",
-		"description": "Reactive Resume helps users create, import, edit, duplicate, organize, share, and export resumes, and track job applications with contacts, notes, timelines, follow-ups, and PDF attachments. Users can request AI-assisted job extraction, match assessments, tailored resume summaries, and message drafts through their configured AI provider. AI features send job context and, where applicable, full resume data to that provider. Cover-letter drafts are saved; recruiter follow-up drafts are not sent. Uploaded application PDFs are accessible to anyone with their file URL.",
+		"description": "Reactive Resume helps users create, import, edit, duplicate, organize, share, and export resumes, and track job applications with contacts, notes, timelines, follow-ups, and PDF attachments. Users can request AI-assisted job extraction, match assessments, tailored resume summaries, and message drafts through their configured AI provider. AI features send job context and, where applicable, full resume data to that provider. Recruiter follow-up drafts are generated but not sent. Uploaded application PDFs are accessible to anyone with their file URL.",
 		"category": "PRODUCTIVITY"
 	},
 	"tools": {
@@ -51,9 +51,9 @@
 				"destructiveHint": false
 			},
 			"justifications": {
-				"read_only_justification": "Computes a signed, ten-minute PDF download URL for an owned resume or visible cover letter without saving a file or changing the resume.",
+				"read_only_justification": "Computes a signed, ten-minute PDF download URL for an owned resume without saving a file or changing the resume.",
 				"open_world_justification": "Returns a temporary download URL without changing public resume visibility or invoking a third-party service.",
-				"destructive_justification": "Does not delete or overwrite the resume or cover letter."
+				"destructive_justification": "Does not delete or overwrite the resume."
 			}
 		},
 		"create_resume": {
@@ -387,9 +387,9 @@
 				"destructiveHint": false
 			},
 			"justifications": {
-				"read_only_justification": "Generates message text and, in cover-letter mode, saves a new cover letter linked to the application.",
+				"read_only_justification": "Generates an unsent recruiter follow-up draft from application context and the linked resume.",
 				"open_world_justification": "Sends application context and the full linked resume when available to the user’s configured AI provider without sending the resulting message to a recruiter.",
-				"destructive_justification": "Creates a new cover letter or returns a follow-up draft without deleting or overwriting existing documents."
+				"destructive_justification": "Returns a follow-up draft without deleting or overwriting existing documents."
 			}
 		}
 	},
@@ -403,11 +403,11 @@
 			"expected_output_url": null
 		},
 		{
-			"description": "Import synthetic resume data, publish the imported resume, and export PDFs; the source resume has no visible cover letter.",
-			"user_prompt": "Find my Submission Review Copy resume, read its data, and import that data as a new resume. Rename the imported resume Submission Review Public, set its slug to submission-review-public, and make it public. Give me its share link and a resume PDF download link, then try exporting its cover letter.",
+			"description": "Import synthetic resume data, publish the imported resume, and export PDFs.",
+			"user_prompt": "Find my Submission Review Copy resume, read its data, and import that data as a new resume. Rename the imported resume Submission Review Public, set its slug to submission-review-public, and make it public. Give me its share link and a resume PDF download link.",
 			"file_attachment_urls": null,
 			"tools_triggered": "list_resumes, read_resume, import_resume, update_resume, download_resume_pdf",
-			"expected_output": "Creates a separate resume, explicitly reports that it is public, returns its share link and a PDF link expiring in ten minutes, and reports that no visible cover letter is available without inventing a document.",
+			"expected_output": "Creates a separate resume, explicitly reports that it is public, returns its share link and a PDF link expiring in ten minutes,.",
 			"expected_output_url": null
 		},
 		{
@@ -428,10 +428,10 @@
 		},
 		{
 			"description": "Exercise AI assistance with an enabled, tested default provider and a synthetic resume; use an application with job text and linked resume.",
-			"user_prompt": "Extract fields from this posting: Example Company seeks a Software Engineer in Berlin to build TypeScript web applications. Create a saved application from those fields and keep that posting as its job description. Link my Submission Review Copy resume, score the match, and make a tailored resume copy for this job. Draft a cover letter and a recruiter follow-up. I authorize sending the job and full resume data to my configured AI provider, replacing this application’s resume link with the tailored copy, and saving the cover letter; do not send either message.",
+			"user_prompt": "Extract fields from this posting: Example Company seeks a Software Engineer in Berlin to build TypeScript web applications. Create a saved application from those fields and keep that posting as its job description. Link my Submission Review Copy resume, score the match, and make a tailored resume copy for this job. Draft a recruiter follow-up. I authorize sending the job and full resume data to my configured AI provider, replacing this application’s resume link with the tailored copy; do not send the message.",
 			"file_attachment_urls": null,
 			"tools_triggered": "autofill_application_from_job, create_application, list_resumes, update_application, score_application_match, tailor_resume_for_application, draft_application_message",
-			"expected_output": "Extracts stated fields without inventing salary, saves the application and match assessment, creates a private copy with a rewritten summary and replaces the resume link, saves a new cover letter, and returns an unsent follow-up draft.",
+			"expected_output": "Extracts stated fields without inventing salary, saves the application and match assessment, creates a private copy with a rewritten summary and replaces the resume link, and returns an unsent follow-up draft.",
 			"expected_output_url": null
 		}
 	],
@@ -446,7 +446,7 @@
 		},
 		{
 			"description": "Do not invoke the app to send a message or submit an application.",
-			"user_prompt": "Email this finished cover letter to the recruiter and submit my application on the employer’s website; no drafting or tracking changes are needed.",
+			"user_prompt": "Email this finished message to the recruiter and submit my application on the employer’s website; no drafting or tracking changes are needed.",
 			"file_attachment_urls": null,
 			"tools_triggered": null,
 			"expected_output": "The app should not be invoked because it cannot send recruiter messages or submit external application forms.",

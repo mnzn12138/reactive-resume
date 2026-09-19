@@ -47,7 +47,7 @@ const applicationIdSchema = z
 	.min(1)
 	.describe(`Application ID. Use \`${T.listApplications}\` to find valid IDs.`);
 const applicationTimelineEntryIdSchema = z.string().min(1).describe("Timeline entry ID from an application response.");
-const applicationDocumentKindSchema = z.enum(["resume", "cover-letter"]);
+const applicationDocumentKindSchema = z.enum(["resume"]);
 const timelineDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must use YYYY-MM-DD format.");
 const httpUrlSchema = z
 	.string()
@@ -74,8 +74,6 @@ const applicationMutableFieldsSchema = {
 	resumeId: z.string().nullable().optional(),
 	resumeFileUrl: z.string().nullable().optional(),
 	resumeFileName: z.string().nullable().optional(),
-	coverLetterUrl: z.string().nullable().optional(),
-	coverLetterName: z.string().nullable().optional(),
 	followUpAt: z
 		.string()
 		.datetime({ offset: true })
@@ -150,20 +148,12 @@ export const TOOL_META = {
 	[T.downloadResumePdf]: {
 		title: "Download Resume PDF",
 		description: [
-			"Create a short-lived authenticated URL for downloading a resume or its visible cover letter as a PDF.",
+			"Create a short-lived authenticated URL for downloading a resume as a PDF.",
 			"The URL expires in 10 minutes and should be used immediately.",
-			"Set target to `cover-letter` to export the visible cover letter separately; omit it (or use `resume`) for the resume.",
-			"Returns JSON containing: resumeId, target, name, downloadUrl, expiresAt, expiresInSeconds, contentType.",
+			"Returns JSON containing: resumeId, name, downloadUrl, expiresAt, expiresInSeconds, contentType.",
 			`Use \`${T.listResumes}\` first to find valid IDs.`,
 		].join("\n"),
-		inputSchema: z.object({
-			id: resumeIdSchema,
-			target: z
-				.enum(["resume", "cover-letter"])
-				.optional()
-				.default("resume")
-				.describe("Document to export. Default: resume."),
-		}),
+		inputSchema: z.object({ id: resumeIdSchema }),
 		annotations: READ_NON_IDEMPOTENT,
 	},
 	[T.createResume]: {
@@ -428,7 +418,7 @@ export const TOOL_META = {
 	[T.attachApplicationDocument]: {
 		title: "Attach Application Document",
 		description:
-			"Upload and attach a resume or cover-letter PDF using base64-encoded PDF bytes (maximum 10MB). Anyone with the resulting file URL can download it without signing in. Replaces the existing attachment of that kind and deletes its owned file if no other application references it. Does not send the document to an employer.",
+			"Upload and attach a resume PDF using base64-encoded PDF bytes (maximum 10MB). Anyone with the resulting file URL can download it without signing in. Replaces the existing attachment and deletes its owned file if no other application references it. Does not send the document to an employer.",
 		inputSchema: z.object({
 			id: applicationIdSchema,
 			kind: applicationDocumentKindSchema,
@@ -441,7 +431,7 @@ export const TOOL_META = {
 	[T.removeApplicationDocument]: {
 		title: "Remove Application Document",
 		description:
-			"Clear a resume or cover-letter attachment and delete its owned uploaded file if no other application references it, removing access through its public file URL.",
+			"Clear the resume attachment and delete its owned uploaded file if no other application references it, removing access through its public file URL.",
 		inputSchema: z.object({ id: applicationIdSchema, kind: applicationDocumentKindSchema }),
 		annotations: { ...WRITE_DESTRUCTIVE, openWorldHint: true },
 	},
@@ -469,8 +459,8 @@ export const TOOL_META = {
 	[T.draftApplicationMessage]: {
 		title: "Draft Application Message",
 		description:
-			"Send application context and the full linked resume, when available, to your configured AI provider to draft a cover letter or recruiter follow-up. Requires an enabled, tested default AI provider. Cover-letter mode saves a new cover letter and returns text plus coverLetterId; follow-up mode returns text without saving it. Neither mode sends a message to a recruiter.",
-		inputSchema: z.object({ id: applicationIdSchema, kind: z.enum(["cover-letter", "follow-up"]) }),
+			"Send application context and the full linked resume, when available, to your configured AI provider to draft a recruiter follow-up message. Requires an enabled, tested default AI provider. The draft is returned as text without saving it and is never sent to a recruiter.",
+		inputSchema: z.object({ id: applicationIdSchema }),
 		annotations: { ...WRITE_NON_IDEMPOTENT, openWorldHint: true },
 	},
 } as const;

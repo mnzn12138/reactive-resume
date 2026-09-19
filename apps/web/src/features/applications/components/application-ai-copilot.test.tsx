@@ -9,7 +9,6 @@ import { I18nProvider } from "@lingui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const mocks = vi.hoisted(() => ({ draft: vi.fn(), other: vi.fn() }));
-type MockEditorDialogProps = { letterId: string };
 vi.mock("@/libs/orpc/client", () => ({
 	orpc: {
 		applications: {
@@ -19,11 +18,7 @@ vi.mock("@/libs/orpc/client", () => ({
 				draftMessage: { mutationOptions: (options: object) => ({ ...options, mutationFn: mocks.draft }) },
 			},
 		},
-		coverLetters: { list: { key: () => ["cover-letters"] } },
 	},
-}));
-vi.mock("@/features/cover-letters/editor-dialog", () => ({
-	CoverLetterEditorDialog: ({ letterId }: MockEditorDialogProps) => <div role="dialog">Saved letter {letterId}</div>,
 }));
 
 const { ApplicationAiCopilot } = await import("./application-ai-copilot");
@@ -44,8 +39,6 @@ const application: Application = {
 	notes: null,
 	resumeFileUrl: null,
 	resumeFileName: null,
-	coverLetterUrl: null,
-	coverLetterName: null,
 	followUpAt: null,
 	followUpNote: null,
 	tags: [],
@@ -60,8 +53,8 @@ beforeAll(() => i18n.loadAndActivate({ locale: "en", messages: {} }));
 beforeEach(() => vi.resetAllMocks());
 
 function draftRequest() {
-	let resolve!: (result: { text: string; coverLetterId?: string }) => void;
-	const promise = new Promise<{ text: string; coverLetterId?: string }>((accept) => {
+	let resolve!: (result: { text: string }) => void;
+	const promise = new Promise<{ text: string }>((accept) => {
 		resolve = accept;
 	});
 	return { promise, resolve };
@@ -77,49 +70,37 @@ function renderCopilot() {
 	);
 }
 
-it.each(["cover-letter", "follow-up"] as const)(
-	"blocks both draft actions while the first %s is pending",
-	async (kind) => {
-		const request = draftRequest();
-		mocks.draft.mockReturnValue(request.promise);
-		renderCopilot();
-		const coverLetter = screen.getByRole("button", { name: /Draft a cover letter/ });
-		const followUp = screen.getByRole("button", { name: /Draft a follow-up/ });
-		await userEvent.click(kind === "cover-letter" ? coverLetter : followUp);
-		await waitFor(() => expect(mocks.draft).toHaveBeenCalledTimes(1));
-		expect(coverLetter).toBeDisabled();
-		expect(followUp).toBeDisabled();
-		await userEvent.click(coverLetter);
-		await userEvent.click(followUp);
-		expect(mocks.draft).toHaveBeenCalledTimes(1);
-		await act(async () =>
-			request.resolve(
-				kind === "cover-letter" ? { text: "Letter", coverLetterId: "letter-one" } : { text: "Follow-up" },
-			),
-		);
-		if (kind === "cover-letter") expect(await screen.findByRole("dialog")).toHaveTextContent("letter-one");
-		else expect(await screen.findByText("Follow-up")).toBeVisible();
-		expect(coverLetter).toBeEnabled();
-		expect(followUp).toBeEnabled();
-	},
-);
-
-it("prevents duplicate saved letters after an earlier follow-up completed", async () => {
-	mocks.draft.mockResolvedValueOnce({ text: "Earlier follow-up" });
+it("blocks the follow-up action while a draft is pending", async () => {
 	const request = draftRequest();
-	mocks.draft.mockReturnValueOnce(request.promise);
+	mocks.draft.mockReturnValue(request.promise);
 	renderCopilot();
-	const coverLetter = screen.getByRole("button", { name: /Draft a cover letter/ });
 	const followUp = screen.getByRole("button", { name: /Draft a follow-up/ });
+
+	await userEvent.click(followUp);
+	await waitFor(() => expect(mocks.draft).toHaveBeenCalledTimes(1));
+	// TanStack Query additionally passes an internal context object to the mutation function.
+	expect(mocks.draft.mock.calls[0]?.[0]).toEqual({ id: application.id });
+	expect(followUp).toBeDisabled();
+
+	// Clicking again must not fire a second request while the first is in flight.
+	await userEvent.click(followUp);
+	expect(mocks.draft).toHaveBeenCalledTimes(1);
+
+	await act(async () => request.resolve({ text: "Follow-up" }));
+	expect(await screen.findByText("Follow-up")).toBeVisible();
+	expect(followUp).toBeEnabled();
+});
+
+it("replaces an earlier draft once a newer follow-up completes", async () => {
+	mocks.draft.mockResolvedValueOnce({ text: "Earlier follow-up" });
+	mocks.draft.mockResolvedValueOnce({ text: "Latest follow-up" });
+	renderCopilot();
+	const followUp = screen.getByRole("button", { name: /Draft a follow-up/ });
+
 	await userEvent.click(followUp);
 	await screen.findByText("Earlier follow-up");
-	await userEvent.click(coverLetter);
-	await waitFor(() => expect(mocks.draft).toHaveBeenCalledTimes(2));
-	expect(coverLetter).toBeDisabled();
-	expect(followUp).toBeDisabled();
-	await userEvent.click(coverLetter);
-	expect(mocks.draft).toHaveBeenCalledTimes(2);
-	await act(async () => request.resolve({ text: "Saved letter", coverLetterId: "letter-two" }));
-	expect(await screen.findByRole("dialog")).toHaveTextContent("letter-two");
+
+	await userEvent.click(followUp);
+	expect(await screen.findByText("Latest follow-up")).toBeVisible();
 	expect(screen.queryByText("Earlier follow-up")).not.toBeInTheDocument();
 });

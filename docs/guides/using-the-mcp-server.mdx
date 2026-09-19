@@ -170,7 +170,7 @@ Tool names use canonical unprefixed `snake_case` names.
 | `list_resumes`          | List all resumes with IDs, names, tags, and status. Supports filtering by tags and sorting by last updated, creation date, or name |
 | `list_resume_tags`      | List every distinct tag in use across your resumes (sorted)                                                                        |
 | `read_resume`           | Get the full data of a specific resume by ID                                                                                       |
-| `download_resume_pdf`   | Create a 10-minute authenticated PDF download URL. Defaults to the resume; set `target: "cover-letter"` for its visible cover letter |
+| `download_resume_pdf`   | Create a 10-minute authenticated PDF download URL for a resume by ID                                                                 |
 | `create_resume`         | Create a new, empty resume with a name and slug. Optionally pre-fill with sample data                                              |
 | `import_resume`         | Create a resume from a full ResumeData JSON export (random name/slug). Large files may exceed client limits                        |
 | `duplicate_resume`      | Create a copy of an existing resume with a new name and slug                                                                       |
@@ -191,12 +191,12 @@ Tool names use canonical unprefixed `snake_case` names.
 | `bulk_update_applications` | Move, archive/unarchive, or add tags to multiple applications                                                                   |
 | `bulk_delete_applications` | Permanently delete multiple applications                                                                                        |
 | `import_applications`   | Bulk-create parsed application rows, up to 500 items                                                                               |
-| `attach_application_document` | Attach a sent resume or cover-letter PDF from base64-encoded PDF bytes                                                       |
-| `remove_application_document` | Remove a sent resume or cover-letter PDF                                                                                     |
+| `attach_application_document` | Attach the sent resume PDF from base64-encoded PDF bytes                                                                        |
+| `remove_application_document` | Remove the sent resume PDF                                                                                                     |
 | `autofill_application_from_job` | Use AI to extract job details from a URL or pasted job description                                                         |
 | `score_application_match` | Score the linked resume against the application job description                                                                  |
 | `tailor_resume_for_application` | Create and link a tailored resume copy for an application                                                                  |
-| `draft_application_message` | Draft a cover letter or recruiter follow-up from application and resume context                                                |
+| `draft_application_message` | Draft a recruiter follow-up from application and resume context                                                                  |
 
 ### Breaking change (tool names)
 
@@ -268,7 +268,6 @@ For a complete workflow and prompt library, see [Managing applications with MCP]
 - "Lock my finalized resume so it can't be accidentally edited"
 - "Delete my old draft resume"
 - "Download a PDF of my Software Engineer resume"
-- "Download the visible cover letter from my Software Engineer resume as a PDF"
 
 ### Editing
 

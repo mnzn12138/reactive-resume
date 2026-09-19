@@ -18,7 +18,7 @@ const fields = [
 			"Language & localization": "area: localization",
 			"Self-hosting": "area: self-hosting",
 			"API & integrations": "area: integrations",
-			"Applications & cover letters": "area: applications",
+			Applications: "area: applications",
 		},
 	],
 ];

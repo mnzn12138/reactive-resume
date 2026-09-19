@@ -230,31 +230,11 @@ describe("semantic binding inventory", () => {
 				roles: [],
 			},
 		];
-		data.customSections = [
-			{
-				id: "cover",
-				type: "cover-letter",
-				title: "Cover Letter",
-				icon: "article",
-				columns: 1,
-				hidden: false,
-				keepTogether: false,
-				showHeading: true,
-				startOnNewPage: false,
-				items: [
-					{
-						id: "cover/1",
-						hidden: false,
-						recipient: "<p>Recipient</p>",
-						content: "<p>Letter</p>",
-					},
-				],
-			},
-		];
+		data.customSections = [];
 		const tree = buildSemanticTree({
 			data,
 			template: "onyx",
-			page: { fullWidth: true, main: ["summary", "experience", "cover"], sidebar: [] },
+			page: { fullWidth: true, main: ["summary", "experience"], sidebar: [] },
 			pageNumber: 1,
 			showHeader: false,
 		});
@@ -262,8 +242,6 @@ describe("semantic binding inventory", () => {
 		const cases = [
 			["summary", "content"],
 			["experience", "description"],
-			["cover", "recipient"],
-			["cover", "content"],
 		] as const;
 
 		for (const [sectionId, fieldName] of cases) {

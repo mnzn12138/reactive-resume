@@ -22,12 +22,7 @@ import { BookOpenIcon } from "@phosphor-icons/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { convertLegacyStyleRules } from "@reactive-resume/pdf/semantic-legacy";
-import {
-	buildSemanticTree,
-	getTemplateSemanticManifest,
-	semanticNodeKeys,
-	shouldShowResumeHeader,
-} from "@reactive-resume/pdf/semantic-tree";
+import { buildSemanticTree, getTemplateSemanticManifest, semanticNodeKeys } from "@reactive-resume/pdf/semantic-tree";
 import { isFatalStylesheetDiagnostic } from "@reactive-resume/resume/stylesheet";
 import { PopoverTrigger } from "@reactive-resume/ui/components/popover";
 import { Sheet, SheetContent, SheetTitle } from "@reactive-resume/ui/components/sheet";
@@ -364,7 +359,7 @@ const createEditorMetadata = (data: ResumeData): SemanticCssEditorMetadata => {
 			template: data.metadata.template,
 			page,
 			pageNumber: index + 1,
-			showHeader: shouldShowResumeHeader(data, index),
+			showHeader: index === 0,
 		}),
 	);
 	const semanticTree: SemanticNode = {

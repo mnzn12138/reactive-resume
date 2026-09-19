@@ -89,33 +89,11 @@ function getItemTitle(type: CustomSectionType, item: CustomSectionItemType): str
 			message: "Summary",
 		});
 	}
-	if (type === "cover-letter") {
-		if ("recipient" in item) {
-			return (
-				truncateHtml(item.recipient) ||
-				t({
-					comment: "Fallback title for a custom cover letter item in resume builder when recipient is empty",
-					message: "Cover Letter",
-				})
-			);
-		}
-		return t({
-			comment: "Fallback title for a custom cover letter item in resume builder when recipient is unavailable",
-			message: "Cover Letter",
-		});
-	}
 	const field = TITLE_FIELD[type];
 	return field && field in item ? String((item as Record<string, unknown>)[field]) : "";
 }
 
 function getItemSubtitle(type: CustomSectionType, item: CustomSectionItemType): string | undefined {
-	if (type === "cover-letter") {
-		if ("content" in item) {
-			const result = truncateHtml(item.content);
-			return result || undefined;
-		}
-		return undefined;
-	}
 	const field = SUBTITLE_FIELD[type];
 	if (!field || !(field in item)) return undefined;
 	const value = (item as Record<string, unknown>)[field];

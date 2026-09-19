@@ -59,7 +59,6 @@ const SECTION_TYPE_OPTIONS: { value: CustomSectionType; label: MessageDescriptor
 	{ value: "publications", label: msg`Publications` },
 	{ value: "volunteer", label: msg`Volunteer` },
 	{ value: "references", label: msg`References` },
-	{ value: "cover-letter", label: msg`Cover Letter` },
 ];
 
 function isCustomSectionType(value: string | null | undefined): value is CustomSectionType {

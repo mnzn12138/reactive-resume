@@ -29,7 +29,6 @@ const defaultEnglishSectionTitles: Record<"summary" | SectionType, string> = {
 
 const defaultEnglishCustomSectionTitles: Record<string, string> = {
 	summary: "Summary",
-	"cover-letter": "Cover Letter",
 };
 
 const catalogs: Record<string, Record<string, string>> = sectionTitleCatalog;

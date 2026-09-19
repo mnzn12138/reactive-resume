@@ -11,7 +11,7 @@ import {
 const MAX_APPLICATION_JOB_DESCRIPTION_CHARS = 20_000;
 const MAX_APPLICATION_DOCUMENT_BYTES = 10 * 1024 * 1024;
 
-const applicationDocumentKindSchema = z.enum(["resume", "cover-letter"]);
+const applicationDocumentKindSchema = z.enum(["resume"]);
 const timelineDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date must use YYYY-MM-DD format.");
 
 const applicationDocumentFileSchema = z
@@ -46,11 +46,6 @@ const applicationSchema = createSelectSchema(schema.application, {
 		.refine((value) => /^(https?:\/\/|\/)/.test(value), "Resume file URL must be http(s) or a relative path.")
 		.nullable(),
 	resumeFileName: z.string().nullable(),
-	coverLetterUrl: z
-		.string()
-		.refine((value) => /^(https?:\/\/|\/)/.test(value), "Cover letter URL must be http(s) or a relative path.")
-		.nullable(),
-	coverLetterName: z.string().nullable(),
 	followUpAt: z.date().nullable(),
 	followUpNote: z.string().trim().nullable(),
 	tags: z.array(z.string()),
@@ -75,8 +70,6 @@ const editableSchema = applicationSchema.pick({
 	notes: true,
 	resumeFileUrl: true,
 	resumeFileName: true,
-	coverLetterUrl: true,
-	coverLetterName: true,
 	followUpAt: true,
 	followUpNote: true,
 	contacts: true,

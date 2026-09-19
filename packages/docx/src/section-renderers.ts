@@ -517,20 +517,6 @@ export function renderCustomSection(section: CustomSection, colorHex: string): P
 		return paragraphs;
 	}
 
-	// Cover letter type — render recipient + content
-	if (sectionType === "cover-letter") {
-		const paragraphs: Paragraph[] = [];
-		for (const item of visibleItems) {
-			if ("recipient" in item && item.recipient) {
-				paragraphs.push(...htmlToParagraphs(item.recipient, getHtmlStyle()));
-			}
-			if ("content" in item && item.content) {
-				paragraphs.push(...htmlToParagraphs(item.content, getHtmlStyle()));
-			}
-		}
-		return paragraphs;
-	}
-
 	// Build a synthetic section matching the built-in type for the renderer
 	const sectionKey = sectionType as SectionType;
 	if (sectionKey in sectionRenderers) {

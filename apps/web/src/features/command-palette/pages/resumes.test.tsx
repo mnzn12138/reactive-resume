@@ -111,8 +111,7 @@ describe("ResumesCommandGroup", () => {
 			if (entity === "resumes") return [{ id: "resume-1", name: "Evil Apricot Pike", slug: "apricot" }];
 			if (entity === "applications")
 				return [{ id: "application-1", company: "Umbrella", role: "Staff Engineer", archived: false }];
-			if (entity === "threads")
-				return [{ id: "thread-1", title: "Cover letter rewrite", resumeName: "Product Resume" }];
+			if (entity === "threads") return [{ id: "thread-1", title: "Summary rewrite", resumeName: "Product Resume" }];
 			return [];
 		});
 
@@ -129,14 +128,13 @@ describe("ResumesCommandGroup", () => {
 	it.each([
 		["resumes", "", "Create a new resume", "Evil Apricot Pike"],
 		["applications", "{ArrowDown}", "New Application", "Umbrella"],
-		["threads", "{ArrowDown}{ArrowDown}", "New Thread", "Cover letter rewrite"],
+		["threads", "{ArrowDown}{ArrowDown}", "New Thread", "Summary rewrite"],
 	])("keeps arrow-key navigation active on the %s list page", async (_page, keys, createLabel, itemLabel) => {
 		mockUseQueryData((entity) => {
 			if (entity === "resumes") return [{ id: "resume-1", name: "Evil Apricot Pike", slug: "apricot" }];
 			if (entity === "applications")
 				return [{ id: "application-1", company: "Umbrella", role: "Staff Engineer", archived: false }];
-			if (entity === "threads")
-				return [{ id: "thread-1", title: "Cover letter rewrite", resumeName: "Product Resume" }];
+			if (entity === "threads") return [{ id: "thread-1", title: "Summary rewrite", resumeName: "Product Resume" }];
 			return [];
 		});
 
@@ -249,21 +247,21 @@ describe("ResumesCommandGroup", () => {
 	it("loads threads on agent pages", () => {
 		useCommandPaletteStore.setState({ pages: ["threads"] });
 		mockUseQueryData((entity) =>
-			entity === "threads" ? [{ id: "thread-1", title: "Cover letter rewrite", resumeName: "Product Resume" }] : [],
+			entity === "threads" ? [{ id: "thread-1", title: "Summary rewrite", resumeName: "Product Resume" }] : [],
 		);
 
 		renderGroup();
 
-		expect(screen.getByText("Cover letter rewrite")).toBeInTheDocument();
+		expect(screen.getByText("Summary rewrite")).toBeInTheDocument();
 		expect(screen.getByText("Product Resume")).toBeInTheDocument();
 	});
 
 	it("filters thread results from the command palette search", () => {
-		useCommandPaletteStore.setState({ pages: ["threads"], search: "cover" });
+		useCommandPaletteStore.setState({ pages: ["threads"], search: "rewrite" });
 		mockUseQueryData((entity) =>
 			entity === "threads"
 				? [
-						{ id: "thread-1", title: "Cover letter rewrite", resumeName: "Product Resume" },
+						{ id: "thread-1", title: "Summary rewrite", resumeName: "Product Resume" },
 						{ id: "thread-2", title: "Resume cleanup", resumeName: "Staff Resume" },
 					]
 				: [],
@@ -271,7 +269,7 @@ describe("ResumesCommandGroup", () => {
 
 		renderGroup();
 
-		expect(screen.getByText("Cover letter rewrite")).toBeInTheDocument();
+		expect(screen.getByText("Summary rewrite")).toBeInTheDocument();
 		expect(screen.queryByText("Resume cleanup")).not.toBeInTheDocument();
 	});
 });

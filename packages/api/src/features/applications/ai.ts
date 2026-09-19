@@ -1,14 +1,12 @@
 import { ORPCError } from "@orpc/client";
 import { APICallError, generateText, RetryError } from "ai";
 import z from "zod";
-import { coverLetterTextToHtml } from "@reactive-resume/resume/cover-letter";
 import { generateId, slugify } from "@reactive-resume/utils/string";
 import { protectedProcedure } from "../../context";
 import { aiRequestRateLimit } from "../../middleware/rate-limit";
 import { generateJson as sharedGenerateJson } from "../ai/generate-json";
 import { getModel } from "../ai/service";
 import { aiProvidersService } from "../ai-providers/service";
-import { coverLetterService } from "../cover-letters/service";
 import { resumeService } from "../resume/service";
 import { applicationService } from "./service";
 
@@ -176,7 +174,7 @@ export const aiRouter = {
 			return result;
 		}),
 
-	// Generate a cover letter or recruiter follow-up from the application + resume context.
+	// Generate a recruiter follow-up from the application + resume context.
 	draftMessage: protectedProcedure
 		.route({
 			method: "POST",
@@ -184,9 +182,9 @@ export const aiRouter = {
 			operationId: "aiDraftApplicationMessage",
 			...reserved,
 		})
-		.input(z.object({ id: z.string(), kind: z.enum(["cover-letter", "follow-up"]) }))
+		.input(z.object({ id: z.string() }))
 		.use(aiRequestRateLimit)
-		.output(z.object({ text: z.string(), coverLetterId: z.string().optional() }))
+		.output(z.object({ text: z.string() }))
 		.errors(aiErrors)
 		.handler(async ({ context, input }) => {
 			const application = await applicationService.getById({ id: input.id, userId: context.user.id });
@@ -197,21 +195,9 @@ export const aiRouter = {
 
 			const context_ = `ROLE: ${application.role} at ${application.company}${application.location ? ` (${application.location})` : ""}\n${application.jobDescription ? `JOB DESCRIPTION:\n${application.jobDescription}\n` : ""}${resume ? `CANDIDATE RESUME:\n${JSON.stringify(resume.data)}` : ""}`;
 
-			const prompt =
-				input.kind === "cover-letter"
-					? `Write a concise, specific cover letter (250-350 words, no placeholders like [Name]) for this application, drawing on the resume. Return only the letter text.\n\n${context_}`
-					: `Write a short, polite follow-up message (80-120 words) to a recruiter checking in on this application. Warm but not pushy. Return only the message text.\n\n${context_}`;
+			const prompt = `Write a short, polite follow-up message (80-120 words) to a recruiter checking in on this application. Warm but not pushy. Return only the message text.\n\n${context_}`;
 
-			const text = await generatePlainText(model, prompt);
-			if (input.kind === "follow-up") return { text };
-			const letter = await coverLetterService.create({
-				userId: context.user.id,
-				name: `${application.company} — ${application.role}`.slice(0, 100),
-				content: coverLetterTextToHtml(text),
-				applicationId: input.id,
-				...(resume ? { resumeId: resume.id } : {}),
-			});
-			return { text, coverLetterId: letter.id };
+			return { text: await generatePlainText(model, prompt) };
 		}),
 
 	// Create a tailored copy of the linked resume (job-specific summary) and link it to the application.

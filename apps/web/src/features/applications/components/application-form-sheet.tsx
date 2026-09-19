@@ -50,7 +50,6 @@ const emptyForm = () => ({
 	followUpNote: "",
 	notes: "",
 	resumeFile: null as FileAttachment | null,
-	coverLetter: null as FileAttachment | null,
 });
 
 type FormState = ReturnType<typeof emptyForm>;
@@ -75,7 +74,6 @@ function toForm(app: Application): FormState {
 		followUpNote: app.followUpNote ?? "",
 		notes: app.notes ?? "",
 		resumeFile: toAttachment(app.resumeFileUrl, app.resumeFileName),
-		coverLetter: toAttachment(app.coverLetterUrl, app.coverLetterName),
 	};
 }
 
@@ -187,8 +185,6 @@ export function ApplicationFormSheet({ open, onOpenChange, application }: Props)
 			followUpAt: form.followUpAt ? new Date(form.followUpAt) : null,
 			resumeFileUrl: form.resumeFile?.url ?? null,
 			resumeFileName: form.resumeFile?.name ?? null,
-			coverLetterUrl: form.coverLetter?.url ?? null,
-			coverLetterName: form.coverLetter?.name ?? null,
 		};
 		if (application) update.mutate({ id: application.id, ...payload });
 		else create.mutate({ ...payload, stageEnteredAt: form.stageEnteredAt || undefined });
@@ -352,14 +348,6 @@ export function ApplicationFormSheet({ open, onOpenChange, application }: Props)
 								<Trans>Link a Reactive Resume to use AI match scoring and tailoring.</Trans>
 							</p>
 						</div>
-					</Field>
-
-					<Field label={t`Cover letter`}>
-						<FileAttachmentField
-							value={form.coverLetter}
-							attachLabel={t`Attach a cover letter (PDF)`}
-							onChange={(value) => set("coverLetter", value)}
-						/>
 					</Field>
 
 					<Field label={t`Tags`}>

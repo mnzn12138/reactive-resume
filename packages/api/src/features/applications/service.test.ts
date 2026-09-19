@@ -23,7 +23,6 @@ vi.mock("@reactive-resume/db/schema", () => ({
 		appliedAt: "applied_at",
 		updatedAt: "updated_at",
 		resumeFileUrl: "resume_file_url",
-		coverLetterUrl: "cover_letter_url",
 	},
 }));
 vi.mock("drizzle-orm", () => ({
@@ -56,7 +55,6 @@ const existing = {
 	appliedAt: new Date("2026-07-01T12:00:00.000Z"),
 	createdAt: new Date("2026-07-01T12:00:00.000Z"),
 	resumeFileUrl: "http://localhost:3000/api/uploads/user-1/pictures/resume.pdf",
-	coverLetterUrl: "/api/uploads/user-1/pictures/cover.pdf",
 };
 
 const createSelectChain = (rows: unknown[]) => ({
@@ -387,7 +385,6 @@ describe("applicationService.delete", () => {
 		await applicationService.delete({ id: "app-1", userId: "user-1" });
 
 		expect(storageDeleteMock).toHaveBeenCalledWith("uploads/user-1/pictures/resume.pdf");
-		expect(storageDeleteMock).toHaveBeenCalledWith("uploads/user-1/pictures/cover.pdf");
 	});
 });
 
@@ -424,8 +421,8 @@ describe("applicationService.attachDocument", () => {
 			applicationService.attachDocument({
 				id: "app-1",
 				userId: "user-1",
-				kind: "cover-letter",
-				fileName: "cover.txt",
+				kind: "resume",
+				fileName: "notes.txt",
 				contentType: "text/plain",
 				data: new Uint8Array([1]),
 			}),
@@ -442,7 +439,6 @@ describe("applicationService.attachDocument", () => {
 				{
 					id: "app-2",
 					resumeFileUrl: existing.resumeFileUrl,
-					coverLetterUrl: null,
 				},
 			],
 		);
@@ -463,20 +459,20 @@ describe("applicationService.attachDocument", () => {
 });
 
 describe("applicationService.removeDocument", () => {
-	it("clears and deletes an owned cover letter document", async () => {
+	it("clears and deletes an owned resume document", async () => {
 		setSelectResults([{ ...existing }], [{ ...existing }], []);
 		const set = vi.fn(() => ({ where: () => ({ returning: () => Promise.resolve([{ ...existing }]) }) }));
 		dbMock.update.mockReturnValue({ set });
 
-		await applicationService.removeDocument({ id: "app-1", userId: "user-1", kind: "cover-letter" });
+		await applicationService.removeDocument({ id: "app-1", userId: "user-1", kind: "resume" });
 
 		expect(set).toHaveBeenCalledWith(
 			expect.objectContaining({
-				coverLetterUrl: null,
-				coverLetterName: null,
+				resumeFileUrl: null,
+				resumeFileName: null,
 			}),
 		);
-		expect(storageDeleteMock).toHaveBeenCalledWith("uploads/user-1/pictures/cover.pdf");
+		expect(storageDeleteMock).toHaveBeenCalledWith("uploads/user-1/pictures/resume.pdf");
 	});
 
 	it("does not delete a removed upload while another application still references it", async () => {
@@ -486,17 +482,16 @@ describe("applicationService.removeDocument", () => {
 			[
 				{
 					id: "app-2",
-					resumeFileUrl: null,
-					coverLetterUrl: existing.coverLetterUrl,
+					resumeFileUrl: existing.resumeFileUrl,
 				},
 			],
 		);
 		const set = vi.fn(() => ({ where: () => ({ returning: () => Promise.resolve([{ ...existing }]) }) }));
 		dbMock.update.mockReturnValue({ set });
 
-		await applicationService.removeDocument({ id: "app-1", userId: "user-1", kind: "cover-letter" });
+		await applicationService.removeDocument({ id: "app-1", userId: "user-1", kind: "resume" });
 
-		expect(storageDeleteMock).not.toHaveBeenCalledWith("uploads/user-1/pictures/cover.pdf");
+		expect(storageDeleteMock).not.toHaveBeenCalledWith("uploads/user-1/pictures/resume.pdf");
 	});
 });
 
@@ -509,7 +504,6 @@ describe("applicationService.bulkDelete", () => {
 					...existing,
 					id: "app-2",
 					resumeFileUrl: "http://localhost:3000/api/uploads/user-2/pictures/ignored.pdf",
-					coverLetterUrl: null,
 				},
 			],
 			[],
@@ -522,7 +516,6 @@ describe("applicationService.bulkDelete", () => {
 
 		expect(result).toEqual({ deleted: 2 });
 		expect(storageDeleteMock).toHaveBeenCalledWith("uploads/user-1/pictures/resume.pdf");
-		expect(storageDeleteMock).toHaveBeenCalledWith("uploads/user-1/pictures/cover.pdf");
 		expect(storageDeleteMock).not.toHaveBeenCalledWith("uploads/user-2/pictures/ignored.pdf");
 	});
 });

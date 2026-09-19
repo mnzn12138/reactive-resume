@@ -12,8 +12,7 @@
 		"Certifications": "Certifications",
 		"Publications": "Publications",
 		"Volunteer": "Volunteer",
-		"References": "References",
-		"Cover Letter": "Cover Letter"
+		"References": "References"
 	},
 	"zh-CN": {
 		"Summary": "总结",
@@ -28,8 +27,7 @@
 		"Certifications": "证书",
 		"Publications": "出版物",
 		"Volunteer": "志愿者经历",
-		"References": "推荐人",
-		"Cover Letter": "求职信"
+		"References": "推荐人"
 	},
 	"zh-TW": {
 		"Summary": "摘要",
@@ -44,7 +42,6 @@
 		"Certifications": "證照",
 		"Publications": "出版品",
 		"Volunteer": "志工服務",
-		"References": "推薦人",
-		"Cover Letter": "求職信"
+		"References": "推薦人"
 	}
 }

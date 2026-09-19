@@ -289,29 +289,6 @@ describe("structure rules", () => {
 	});
 });
 
-describe("cover letter sections", () => {
-	it("exempts cover letters from resume rules", () => {
-		const data = makeResume((resume) => {
-			resume.customSections = [
-				{
-					id: "cover",
-					type: "cover-letter",
-					title: "Cover Letter",
-					icon: "envelope-simple",
-					columns: 1,
-					hidden: false,
-					keepTogether: false,
-					startOnNewPage: false,
-					items: [{ id: "c1", hidden: false, recipient: "<p>Hiring Manager</p>", content: "<p>Dear team,</p>" }],
-				},
-			];
-			resume.metadata.layout.pages = [{ fullWidth: false, main: ["experience", "cover"], sidebar: [] }];
-		});
-
-		expect(lint(data).findings.filter((item) => item.pointer.startsWith("/customSections"))).toEqual([]);
-	});
-});
-
 describe("layout rules", () => {
 	it("flags a prose section split into columns", () => {
 		const data = makeResume((resume) => (resume.sections.experience.columns = 2));

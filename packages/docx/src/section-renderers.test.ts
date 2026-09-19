@@ -179,24 +179,6 @@ describe("renderCustomSection", () => {
 
 		expect(renderCustomSection(section, HEX)).toHaveLength(1);
 	});
-
-	it("renders recipient + content for a cover-letter custom section", () => {
-		const section: CustomSection = {
-			...baseCustom,
-			type: "cover-letter",
-			title: "Cover Letter",
-			items: [
-				{
-					id: "x",
-					hidden: false,
-					recipient: "<p>Dear Jane,</p>",
-					content: "<p>Body</p>",
-				} as never,
-			],
-		};
-		const paragraphs = renderCustomSection(section, HEX);
-		expect(paragraphs).toHaveLength(2);
-	});
 });
 
 describe("setRenderConfig", () => {

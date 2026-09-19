@@ -11,17 +11,8 @@ import { ScrollArea } from "@reactive-resume/ui/components/scroll-area";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@reactive-resume/ui/components/tooltip";
 import { getInitials } from "@reactive-resume/utils/string";
-import {
-	useCurrentBuilderResumeSelector,
-	useCurrentResume,
-	useIsResumeLocked,
-	usePatchResume,
-} from "@/features/resume/builder/draft";
-import {
-	focusCustomSidebarSection,
-	focusLeftSidebarSection,
-	SectionEditorList,
-} from "@/features/resume/builder/section-recovery";
+import { useCurrentResume, useIsResumeLocked, usePatchResume } from "@/features/resume/builder/draft";
+import { focusLeftSidebarSection, SectionEditorList } from "@/features/resume/builder/section-recovery";
 import { UserDropdownMenu } from "@/features/user/dropdown-menu";
 import { getResumeErrorMessage } from "@/libs/error-message";
 import { orpc } from "@/libs/orpc/client";
@@ -128,25 +119,11 @@ function LockBanner() {
 
 function SidebarEdge() {
 	const { toggleSidebar } = useBuilderSidebar();
-	const coverLetterSectionId = useCurrentBuilderResumeSelector(
-		(resume) => resume.data.customSections.find((section) => section.type === "cover-letter")?.id ?? null,
-	);
-	type SidebarRailSection = LeftSidebarSection | "cover-letter";
-	type SidebarRailItem = { key: string; section: SidebarRailSection; target: string };
-	const railSections = leftSidebarSections.flatMap<SidebarRailItem>((section) => {
-		if (section !== "custom" || !coverLetterSectionId) return [{ key: section, section, target: section }];
-
-		return [
-			{ key: "cover-letter", section: "cover-letter" as const, target: coverLetterSectionId },
-			{ key: section, section, target: section },
-		];
-	});
 
 	const scrollToSection = useCallback(
-		(section: LeftSidebarSection | "cover-letter", target: LeftSidebarSection | string) => {
+		(section: LeftSidebarSection) => {
 			toggleSidebar("left", true);
-			if (section === "cover-letter") focusCustomSidebarSection(target);
-			else focusLeftSidebarSection(section);
+			focusLeftSidebarSection(section);
 		},
 		[toggleSidebar],
 	);
@@ -156,15 +133,15 @@ function SidebarEdge() {
 			<div className="flex min-h-0 w-full flex-1 flex-col items-center gap-y-2 overflow-hidden">
 				<div className="no-scrollbar min-h-0 w-full flex-1 overflow-y-auto overflow-x-hidden">
 					<div className="flex min-h-full flex-col items-center justify-center gap-y-2">
-						{railSections.map(({ key, section, target }) => (
-							<Tooltip key={key}>
+						{leftSidebarSections.map((section) => (
+							<Tooltip key={section}>
 								<TooltipTrigger
 									render={
 										<Button
 											size="icon"
 											variant="ghost"
 											aria-label={getSectionTitle(section)}
-											onClick={() => scrollToSection(section, target)}
+											onClick={() => scrollToSection(section)}
 										>
 											{getSectionIcon(section)}
 										</Button>

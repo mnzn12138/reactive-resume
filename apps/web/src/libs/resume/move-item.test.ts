@@ -21,7 +21,7 @@ describe("getSourceSectionTitle", () => {
 		const data = produce(defaultResumeData, (draft) => {
 			draft.customSections.push({
 				id: "ext-1",
-				type: "cover-letter",
+				type: "references",
 				title: "My Custom Title",
 				icon: "",
 				columns: 1,
@@ -31,7 +31,7 @@ describe("getSourceSectionTitle", () => {
 				items: [],
 			});
 		});
-		expect(getSourceSectionTitle(data, "cover-letter", "ext-1")).toBe("My Custom Title");
+		expect(getSourceSectionTitle(data, "references", "ext-1")).toBe("My Custom Title");
 	});
 
 	it("returns localized default title when customSectionId is undefined", () => {
@@ -55,8 +55,8 @@ describe("getCompatibleMoveTargets", () => {
 		const data = produce(defaultResumeData, (draft) => {
 			draft.customSections.push({
 				id: "ext-1",
-				type: "cover-letter",
-				title: "Cover Letter",
+				type: "references",
+				title: "References",
 				icon: "",
 				columns: 1,
 				hidden: false,
@@ -67,14 +67,14 @@ describe("getCompatibleMoveTargets", () => {
 			draft.metadata.layout.pages[0].main.push("ext-1");
 		});
 
-		// Source is also a cover-letter custom section, but with different id
-		const targets = getCompatibleMoveTargets(data, "cover-letter", "different-id");
+		// Source is also a references custom section, but with different id
+		const targets = getCompatibleMoveTargets(data, "references", "different-id");
 		expect(targets[0]?.sections.find((s) => s.sectionId === "ext-1")).toBeDefined();
 	});
 
 	it("returns empty per page when no compatible targets", () => {
-		const targets = getCompatibleMoveTargets(defaultResumeData, "cover-letter", undefined);
-		// No custom sections of cover-letter type in default
+		const targets = getCompatibleMoveTargets(defaultResumeData, "references", undefined);
+		// No custom sections of references type in default
 		for (const page of targets) {
 			expect(page.sections).toHaveLength(0);
 		}
@@ -124,7 +124,7 @@ describe("removeItemFromSource", () => {
 		const initial = produce(defaultResumeData, (draft) => {
 			draft.customSections.push({
 				id: "ext-1",
-				type: "cover-letter",
+				type: "references",
 				title: "",
 				icon: "",
 				columns: 1,
@@ -137,7 +137,7 @@ describe("removeItemFromSource", () => {
 
 		let removedId: string | undefined;
 		const result = produce(initial, (draft) => {
-			const removed = removeItemFromSource(draft, "i1", "cover-letter", "ext-1");
+			const removed = removeItemFromSource(draft, "i1", "references", "ext-1");
 			removedId = (removed as { id?: string } | null)?.id;
 		});
 
@@ -148,7 +148,7 @@ describe("removeItemFromSource", () => {
 	it("returns null when custom section does not exist", () => {
 		let removed: unknown;
 		produce(defaultResumeData, (draft) => {
-			removed = removeItemFromSource(draft, "i1", "cover-letter", "non-existent");
+			removed = removeItemFromSource(draft, "i1", "references", "non-existent");
 		});
 		expect(removed).toBeNull();
 	});
@@ -178,7 +178,7 @@ describe("addItemToSection", () => {
 		const initial = produce(defaultResumeData, (draft) => {
 			draft.customSections.push({
 				id: "ext-1",
-				type: "cover-letter",
+				type: "references",
 				title: "",
 				icon: "",
 				columns: 1,
@@ -190,7 +190,7 @@ describe("addItemToSection", () => {
 		});
 
 		const result = produce(initial, (draft) => {
-			addItemToSection(draft, { id: "i1" } as never, "ext-1", "cover-letter");
+			addItemToSection(draft, { id: "i1" } as never, "ext-1", "references");
 		});
 
 		expect(result.customSections[0]?.items).toHaveLength(1);
@@ -208,7 +208,7 @@ describe("createCustomSectionWithItem", () => {
 	it("creates a new custom section and adds it to the target page main", () => {
 		let newSectionId = "";
 		const result = produce(defaultResumeData, (draft) => {
-			newSectionId = createCustomSectionWithItem(draft, { id: "i1" } as never, "cover-letter", "My Section", 0);
+			newSectionId = createCustomSectionWithItem(draft, { id: "i1" } as never, "references", "My Section", 0);
 		});
 
 		expect(result.customSections).toHaveLength(1);
@@ -221,7 +221,7 @@ describe("createCustomSectionWithItem", () => {
 	it("returns the generated section id", () => {
 		let newSectionId = "";
 		produce(defaultResumeData, (draft) => {
-			newSectionId = createCustomSectionWithItem(draft, { id: "i1" } as never, "cover-letter", "X", 0);
+			newSectionId = createCustomSectionWithItem(draft, { id: "i1" } as never, "references", "X", 0);
 		});
 		expect(newSectionId.length).toBeGreaterThan(0);
 	});
@@ -229,7 +229,7 @@ describe("createCustomSectionWithItem", () => {
 	it("does not crash on out-of-range page index (no main column to push to)", () => {
 		// targetPageIndex=99 — page does not exist; section should still be created
 		const result = produce(defaultResumeData, (draft) => {
-			createCustomSectionWithItem(draft, { id: "i1" } as never, "cover-letter", "X", 99);
+			createCustomSectionWithItem(draft, { id: "i1" } as never, "references", "X", 99);
 		});
 		expect(result.customSections).toHaveLength(1);
 	});
@@ -239,7 +239,7 @@ describe("createPageWithSection", () => {
 	it("creates a new page with the new custom section in main", () => {
 		const initialPageCount = defaultResumeData.metadata.layout.pages.length;
 		const result = produce(defaultResumeData, (draft) => {
-			createPageWithSection(draft, { id: "i1" } as never, "cover-letter", "My New Page");
+			createPageWithSection(draft, { id: "i1" } as never, "references", "My New Page");
 		});
 		expect(result.metadata.layout.pages).toHaveLength(initialPageCount + 1);
 
@@ -251,7 +251,7 @@ describe("createPageWithSection", () => {
 
 	it("adds the custom section to customSections array", () => {
 		const result = produce(defaultResumeData, (draft) => {
-			createPageWithSection(draft, { id: "i1" } as never, "cover-letter", "My Section");
+			createPageWithSection(draft, { id: "i1" } as never, "references", "My Section");
 		});
 		expect(result.customSections).toHaveLength(1);
 		expect(result.customSections[0]?.title).toBe("My Section");

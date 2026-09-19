@@ -1,45 +1,18 @@
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
 
-export type ResumeExportTarget = "resume" | "cover-letter";
-
-const isCoverLetterSection = (section: ResumeData["customSections"][number]) => section.type === "cover-letter";
-
-const isVisibleCoverLetterSection = (section: ResumeData["customSections"][number]) =>
-	isCoverLetterSection(section) && !section.hidden && section.items.some((item) => !item.hidden);
-
-export const getVisibleCoverLetterSectionIds = (data: ResumeData) =>
-	data.customSections.filter(isVisibleCoverLetterSection).map((section) => section.id);
-
-export const resumeHasCoverLetter = (data: ResumeData) => getVisibleCoverLetterSectionIds(data).length > 0;
-
-export function getResumeExportData(data: ResumeData, target: ResumeExportTarget): ResumeData {
-	const allCoverLetterIds = new Set(data.customSections.filter(isCoverLetterSection).map((section) => section.id));
-	const visibleCoverLetterIds = new Set(getVisibleCoverLetterSectionIds(data));
-	const keepSection =
-		target === "cover-letter"
-			? (id: string) => visibleCoverLetterIds.has(id)
-			: (id: string) => !allCoverLetterIds.has(id);
-
-	const pages = data.metadata.layout.pages
-		.map((page) => {
-			if (target === "cover-letter") {
-				return { fullWidth: true, main: [...page.main, ...page.sidebar].filter(keepSection), sidebar: [] };
-			}
-
-			return { ...page, main: page.main.filter(keepSection), sidebar: page.sidebar.filter(keepSection) };
-		})
-		.filter((page) => page.main.length > 0 || page.sidebar.length > 0);
-
-	if (target === "cover-letter" && pages.length === 0 && visibleCoverLetterIds.size > 0) {
-		for (const id of visibleCoverLetterIds) pages.push({ fullWidth: true, main: [id], sidebar: [] });
-	}
+/**
+ * Normalise a resume for export.
+ *
+ * A layout page can end up listing no section at all (every section it
+ * referenced was deleted, for instance); those are dropped here so the
+ * renderer never emits a blank page. When every page is empty a single empty
+ * page is kept, which is what the PDF/DOCX templates expect.
+ */
+export function getResumeExportData(data: ResumeData): ResumeData {
+	const pages = data.metadata.layout.pages.filter((page) => page.main.length > 0 || page.sidebar.length > 0);
 
 	return {
 		...data,
-		customSections:
-			target === "cover-letter"
-				? data.customSections.filter((section) => visibleCoverLetterIds.has(section.id))
-				: data.customSections.filter((section) => !isCoverLetterSection(section)),
 		metadata: {
 			...data.metadata,
 			layout: {

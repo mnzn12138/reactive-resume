@@ -44,38 +44,17 @@ describe("resume PDF signed download URLs", () => {
 			ok: true,
 			resumeId: "resume-1",
 			userId: "user-1",
-			target: "resume",
 			expiresAt: "2026-06-01T10:10:00.000Z",
 		});
 	});
 
-	it("binds the cover letter target to the signed token", () => {
-		const result = createResumePdfDownloadUrl({
-			resumeId: "resume-1",
-			userId: "user-1",
-			target: "cover-letter",
-			now: new Date("2026-06-01T10:00:00.000Z"),
-		});
-		const url = new URL(result.url);
-		const token = url.searchParams.get("token");
-
-		expect(url.searchParams.get("target")).toBe("cover-letter");
-		if (!token) throw new Error("Expected signed URL token");
-		expect(
-			verifyResumePdfDownloadToken({
-				resumeId: "resume-1",
-				token,
-				now: new Date("2026-06-01T10:01:00.000Z"),
-			}),
-		).toMatchObject({ ok: true, target: "cover-letter" });
-	});
-
-	it("accepts still-valid legacy tokens without a target", () => {
+	it("accepts still-valid legacy tokens that still carry a target", () => {
 		const payload = Buffer.from(
 			JSON.stringify({
 				v: 1,
 				resumeId: "resume-1",
 				userId: "user-1",
+				target: "cover-letter",
 				expiresAt: new Date("2026-06-01T10:10:00.000Z").getTime(),
 				issuedAt: new Date("2026-06-01T10:00:00.000Z").getTime(),
 			}),

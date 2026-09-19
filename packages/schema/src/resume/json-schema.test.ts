@@ -74,9 +74,5 @@ describe("createCustomSectionItemJsonSchemas", () => {
 				required: ["id", "hidden", "company", "position", "location", "period", "website", "description", "roles"],
 			},
 		});
-		expect(schemas["cover-letter"]).toMatchObject({
-			schemaName: "coverLetterItemSchema",
-			schema: { required: ["id", "hidden", "recipient", "content"] },
-		});
 	});
 });

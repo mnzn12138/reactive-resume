@@ -16,8 +16,8 @@ describe("createSectionItem", () => {
 		const initial = produce(defaultResumeData, (draft) => {
 			draft.customSections.push({
 				id: "custom-1",
-				type: "cover-letter",
-				title: "Cover Letter",
+				type: "references",
+				title: "References",
 				icon: "",
 				columns: 1,
 				hidden: false,
@@ -76,7 +76,7 @@ describe("updateSectionItem", () => {
 		const initial = produce(defaultResumeData, (draft) => {
 			draft.customSections.push({
 				id: "custom-1",
-				type: "cover-letter",
+				type: "references",
 				title: "",
 				icon: "",
 				columns: 1,

@@ -96,8 +96,7 @@ export const crudRouter = {
 			tags: ["Applications"],
 			operationId: "attachApplicationDocument",
 			summary: "Attach an application document",
-			description:
-				"Uploads and attaches a PDF document to an application. Kind must be either resume or cover-letter. Requires authentication.",
+			description: "Uploads and attaches a resume PDF to an application. Kind must be resume. Requires authentication.",
 			successDescription: "The updated application.",
 			spec: (current) => {
 				const requestBody = current.requestBody;
@@ -139,7 +138,7 @@ export const crudRouter = {
 			operationId: "removeApplicationDocument",
 			summary: "Remove an application document",
 			description:
-				"Removes a resume or cover-letter PDF from an application and clears the stored document fields. Requires authentication.",
+				"Removes the resume PDF from an application and clears the stored document fields. Requires authentication.",
 			successDescription: "The updated application.",
 		})
 		.input(applicationDto.removeDocument.input)

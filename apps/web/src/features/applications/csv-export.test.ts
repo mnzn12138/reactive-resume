@@ -29,8 +29,6 @@ const application: Application = {
 	aiMetadata: null,
 	resumeFileUrl: null,
 	resumeFileName: null,
-	coverLetterUrl: null,
-	coverLetterName: null,
 	followUpAt: null,
 	followUpNote: null,
 };

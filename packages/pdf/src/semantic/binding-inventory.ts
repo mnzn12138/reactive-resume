@@ -42,7 +42,6 @@ export const STANDARD_FIELD_REGISTRY = {
 		phone: ["secondary-text"],
 		description: [],
 	},
-	"cover-letter": { recipient: [], content: [] },
 } as const satisfies Readonly<Record<string, StandardFieldDefinition>>;
 
 export const STANDARD_ROLE_REGISTRY = [

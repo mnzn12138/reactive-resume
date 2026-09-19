@@ -6,33 +6,21 @@ import { isCJKLocale, isRTL } from "@reactive-resume/utils/locale";
 import { resumeContentContainsCJK } from "./hooks/use-register-fonts";
 import { createHyphenationCallback } from "./hyphenation";
 
-export type ResumeRenderOptions = {
-	includeCoverLetterHeader?: boolean;
-};
-
 type RenderContextValue = ResumeData & {
 	resolveSectionTitle?: SectionTitleResolver | undefined;
-	renderOptions: ResumeRenderOptions;
 	rtl: boolean;
 	hyphenationCallback: ReturnType<typeof createHyphenationCallback>;
 };
 
 const RenderContext = createContext<RenderContextValue | null>(null);
-const defaultRenderOptions: ResumeRenderOptions = {};
 
 type RenderProviderProps = {
 	data: ResumeData;
 	resolveSectionTitle?: SectionTitleResolver | undefined;
-	renderOptions?: ResumeRenderOptions | undefined;
 	children: ReactNode;
 };
 
-export const RenderProvider = ({
-	data,
-	resolveSectionTitle,
-	renderOptions = defaultRenderOptions,
-	children,
-}: RenderProviderProps) => {
+export const RenderProvider = ({ data, resolveSectionTitle, children }: RenderProviderProps) => {
 	const rtl = isRTL(data.metadata.page.locale);
 	const hyphenationCallback = useMemo(
 		() =>
@@ -44,8 +32,8 @@ export const RenderProvider = ({
 		[data],
 	);
 	const contextValue = useMemo<RenderContextValue>(
-		() => ({ ...data, resolveSectionTitle, renderOptions, rtl, hyphenationCallback }),
-		[data, resolveSectionTitle, renderOptions, rtl, hyphenationCallback],
+		() => ({ ...data, resolveSectionTitle, rtl, hyphenationCallback }),
+		[data, resolveSectionTitle, rtl, hyphenationCallback],
 	);
 
 	return <RenderContext.Provider value={contextValue}>{children}</RenderContext.Provider>;

@@ -38,7 +38,7 @@ body:
         - Language & localization
         - Self-hosting
         - API & integrations
-        - Applications & cover letters
+        - Applications
         - Other / unsure
     validations:
       required: true

@@ -9,7 +9,7 @@ beforeAll(() => {
 	i18n.loadAndActivate({ locale: "en", messages: {} });
 });
 
-const ALL_SECTIONS = [...leftSidebarSections, ...rightSidebarSections, "cover-letter"] as const;
+const ALL_SECTIONS = [...leftSidebarSections, ...rightSidebarSections] as const;
 
 describe("getSectionTitle", () => {
 	it("returns a non-empty string for every known sidebar section", () => {

@@ -4,7 +4,7 @@ import type { AuditAction } from "./actions";
 import { ORPCError } from "@orpc/server";
 import { and, asc, count, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from "@reactive-resume/db/client";
-import { application, coverLetter, resume, session, user } from "@reactive-resume/db/schema";
+import { application, resume, session, user } from "@reactive-resume/db/schema";
 import { assertUserRole, parseUserRole } from "../../roles";
 import { getStorageService } from "../storage";
 import { recordAudit } from "./audit";
@@ -64,8 +64,8 @@ async function requireUser(id: string) {
 
 /** Count rows in `table` owned by `targetId`. The count query returns rows, so the first one is unwrapped here. */
 async function countOwnedRows(
-	table: typeof resume | typeof coverLetter | typeof application,
-	ownerColumn: typeof resume.userId | typeof coverLetter.userId | typeof application.userId,
+	table: typeof resume | typeof application,
+	ownerColumn: typeof resume.userId | typeof application.userId,
 	targetId: string,
 ): Promise<number> {
 	const [row] = await db.select({ value: count() }).from(table).where(eq(ownerColumn, targetId));
@@ -73,13 +73,12 @@ async function countOwnedRows(
 }
 
 async function countOwned(targetId: string) {
-	const [resumes, coverLetters, applications] = await Promise.all([
+	const [resumes, applications] = await Promise.all([
 		countOwnedRows(resume, resume.userId, targetId),
-		countOwnedRows(coverLetter, coverLetter.userId, targetId),
 		countOwnedRows(application, application.userId, targetId),
 	]);
 
-	return { resumes, coverLetters, applications };
+	return { resumes, applications };
 }
 
 async function list(input: AdminUserListInput) {
@@ -231,7 +230,7 @@ async function remove(input: { id: string; actorId: string }) {
 	await deleteStorageObjects(input.id);
 
 	// Every table referencing `user.id` is `on delete cascade`, so this also
-	// clears sessions, resumes, cover letters, applications and OAuth grants.
+	// clears sessions, resumes, applications and OAuth grants.
 	await db.delete(user).where(eq(user.id, input.id));
 
 	await recordAudit({

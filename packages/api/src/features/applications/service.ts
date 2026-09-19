@@ -95,8 +95,6 @@ type EditableFields = {
 	notes?: string | null | undefined;
 	resumeFileUrl?: string | null | undefined;
 	resumeFileName?: string | null | undefined;
-	coverLetterUrl?: string | null | undefined;
-	coverLetterName?: string | null | undefined;
 	followUpAt?: Date | null | undefined;
 	followUpNote?: string | null | undefined;
 	contacts?: Contact[] | undefined;
@@ -141,34 +139,20 @@ function storageKeyFromApplicationUrl(userId: string, value: string | null | und
 	return key.startsWith(`uploads/${userId}/`) ? key : null;
 }
 
-async function deleteApplicationAttachments(
-	userId: string,
-	applications: { resumeFileUrl?: string | null; coverLetterUrl?: string | null }[],
-) {
+async function deleteApplicationAttachments(userId: string, applications: { resumeFileUrl?: string | null }[]) {
 	const candidateKeys = [
-		...new Set(
-			applications.flatMap((application) => [
-				storageKeyFromApplicationUrl(userId, application.resumeFileUrl),
-				storageKeyFromApplicationUrl(userId, application.coverLetterUrl),
-			]),
-		),
+		...new Set(applications.map((application) => storageKeyFromApplicationUrl(userId, application.resumeFileUrl))),
 	].filter((key): key is string => !!key);
 
 	if (candidateKeys.length === 0) return;
 
 	const remainingApplications = await db
-		.select({
-			resumeFileUrl: schema.application.resumeFileUrl,
-			coverLetterUrl: schema.application.coverLetterUrl,
-		})
+		.select({ resumeFileUrl: schema.application.resumeFileUrl })
 		.from(schema.application)
 		.where(eq(schema.application.userId, userId));
 
 	const referencedKeys = new Set(
-		remainingApplications.flatMap((application) => [
-			storageKeyFromApplicationUrl(userId, application.resumeFileUrl),
-			storageKeyFromApplicationUrl(userId, application.coverLetterUrl),
-		]),
+		remainingApplications.map((application) => storageKeyFromApplicationUrl(userId, application.resumeFileUrl)),
 	);
 	const keys = candidateKeys.filter((key) => !referencedKeys.has(key));
 
@@ -177,16 +161,9 @@ async function deleteApplicationAttachments(
 	await Promise.allSettled(keys.map((key) => storageService.delete(key)));
 }
 
-function documentFields(kind: ApplicationDocumentKind) {
-	return kind === "resume"
-		? ({
-				url: "resumeFileUrl",
-				name: "resumeFileName",
-			} as const)
-		: ({
-				url: "coverLetterUrl",
-				name: "coverLetterName",
-			} as const);
+// Only resumes can be attached to an application.
+function documentFields(_kind: ApplicationDocumentKind) {
+	return { url: "resumeFileUrl", name: "resumeFileName" } as const;
 }
 
 const stripUserId = <T extends { userId: string; activity?: ApplicationTimelineEntry[] }>(row: T) => {
@@ -348,12 +325,7 @@ export const applicationService = {
 				[fields.name]: input.fileName,
 			});
 
-			await deleteApplicationAttachments(input.userId, [
-				{
-					resumeFileUrl: fields.url === "resumeFileUrl" ? existing.resumeFileUrl : null,
-					coverLetterUrl: fields.url === "coverLetterUrl" ? existing.coverLetterUrl : null,
-				},
-			]);
+			await deleteApplicationAttachments(input.userId, [{ resumeFileUrl: existing.resumeFileUrl }]);
 
 			return updated;
 		} catch (error) {
@@ -374,12 +346,7 @@ export const applicationService = {
 			[fields.name]: null,
 		});
 
-		await deleteApplicationAttachments(input.userId, [
-			{
-				resumeFileUrl: fields.url === "resumeFileUrl" ? existing.resumeFileUrl : null,
-				coverLetterUrl: fields.url === "coverLetterUrl" ? existing.coverLetterUrl : null,
-			},
-		]);
+		await deleteApplicationAttachments(input.userId, [{ resumeFileUrl: existing.resumeFileUrl }]);
 
 		return updated;
 	},

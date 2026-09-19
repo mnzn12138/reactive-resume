@@ -27,7 +27,6 @@ Choose one coherent shape for each union value. Required fields are local to tha
 | `customSections[]` | `publications` | `publicationItemSchema` | `{ id, hidden, title, publisher, date, website, description }` |
 | `customSections[]` | `volunteer` | `volunteerItemSchema` | `{ id, hidden, organization, location, period, website, description }` |
 | `customSections[]` | `references` | `referenceItemSchema` | `{ id, hidden, name, position, website, phone, description }` |
-| `customSections[]` | `cover-letter` | `coverLetterItemSchema` | `{ id, hidden, recipient, content }` |
 
 ## Field catalog
 
@@ -313,7 +312,7 @@ Choose one coherent shape for each union value. Required fields are local to tha
 | `sections.references.items[].phone` | `string` | yes | — | The phone number of the reference. |
 | `sections.references.items[].description` | `string` | yes | — | The description of the reference. Can be used to display a quote, a testimonial, etc. This should be a HTML-formatted string. |
 | `customSections` | `array` | yes | — | Custom sections of the resume, such as a custom section for notes, etc. |
-| `customSections[]` | `object or object or object or object or object or object or object or object or object or object or object or object or object or object` | — | — | — |
+| `customSections[]` | `object or object or object or object or object or object or object or object or object or object or object or object or object` | — | — | — |
 | `customSections[]` | `object` | — (type summary, schema summaryItemSchema at customSections[]) | — | — |
 | `customSections[].title` | `string` | yes (type summary, schema summaryItemSchema at customSections[]) | — | The title of the section. |
 | `customSections[].icon` | `string` | yes (type summary, schema summaryItemSchema at customSections[]) | default: "" | Phosphor icon name to display before the section title in the PDF output. Empty string uses the default section icon; 'none' hides the icon. |
@@ -606,23 +605,6 @@ Choose one coherent shape for each union value. Required fields are local to tha
 | `customSections[].items[].website.inlineLink` | `boolean` | yes (type references, schema referenceItemSchema at customSections[]) | default: false | If true, the website URL is rendered as a hyperlink on the title instead of a separate link at the bottom. |
 | `customSections[].items[].phone` | `string` | yes (type references, schema referenceItemSchema at customSections[]) | — | The phone number of the reference. |
 | `customSections[].items[].description` | `string` | yes (type references, schema referenceItemSchema at customSections[]) | — | The description of the reference. Can be used to display a quote, a testimonial, etc. This should be a HTML-formatted string. |
-| `customSections[]` | `object` | — (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | — |
-| `customSections[].title` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The title of the section. |
-| `customSections[].icon` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | default: "" | Phosphor icon name to display before the section title in the PDF output. Empty string uses the default section icon; 'none' hides the icon. |
-| `customSections[].columns` | `integer` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | minimum: 1; maximum: 6; default: 1 | The number of columns the section should span across. |
-| `customSections[].hidden` | `boolean` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | Whether to hide the section from the resume. |
-| `customSections[].showHeading` | `boolean` | no (type cover-letter, schema coverLetterItemSchema at customSections[]) | default: true | Whether to show the section heading, icon, and decoration while retaining section content. |
-| `customSections[].keepTogether` | `boolean` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | default: false | If true, the section is kept on a single page instead of splitting across a page break. |
-| `customSections[].startOnNewPage` | `boolean` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | default: false | If true, the section always begins on a new page. |
-| `customSections[].keywordLayout` | `any` | no (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | — |
-| `customSections[].id` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The unique identifier for the custom section. Usually generated as a UUID. |
-| `customSections[].type` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The type of items this custom section contains. Determines which item schema and form fields to use. |
-| `customSections[].items` | `array` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The items to display in the custom section. Items follow the schema of the section type. |
-| `customSections[].items[]` | `object` | — (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | — |
-| `customSections[].items[].id` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The unique identifier for the item. Usually generated as a UUID. |
-| `customSections[].items[].hidden` | `boolean` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | Whether to hide the item from the resume. |
-| `customSections[].items[].recipient` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The recipient's address block as HTML (name, title, company, address, email). |
-| `customSections[].items[].content` | `string` | yes (type cover-letter, schema coverLetterItemSchema at customSections[]) | — | The cover letter body as HTML (salutation, paragraphs, closing, signature). |
 | `metadata` | `object` | yes | — | Metadata for the resume, such as template, layout, typography, etc. This section describes the overall design and appearance of the resume. |
 | `metadata.template` | `string` | yes | enum: ["azurill","bronzor","chikorita","ditgar","ditto","gengar","glalie","kakuna","lapras","leafish","meowth","onyx","pikachu","rhyhorn","scizor"]; default: "onyx" | The template to use for the resume. Determines the overall design and appearance of the resume. |
 | `metadata.layout` | `object` | yes | — | The layout of the resume. Determines the structure and arrangement of the sections on the resume. |

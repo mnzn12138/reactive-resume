@@ -30,7 +30,7 @@ Use this guide when you want an AI client to manage the **Application Tracker** 
 Have the agent inspect your current pipeline first. That gives it valid application IDs and avoids duplicate records.
 
 ```text
-List my active applications grouped by stage. Include company, role, tags, follow-up date, linked resume name, and whether a resume or cover-letter PDF is attached.
+List my active applications grouped by stage. Include company, role, tags, follow-up date, linked resume name, and whether a resume PDF is attached.
 ```
 
 Useful review prompts:
@@ -119,14 +119,14 @@ Archive every rejected application older than 30 days, but show me the list and 
 
 ## Attach sent documents
 
-Use document attachment when you want the tracker to store the exact resume PDF or cover-letter PDF you sent for an application.
+Use document attachment when you want the tracker to store the exact resume PDF you sent for an application.
 
 ```text
 Attach this PDF as the sent resume for the Acme application, then confirm the application now has a resume document.
 ```
 
 ```text
-Attach this cover letter PDF to the Globex Staff Engineer application.
+Attach this PDF as the sent resume for the Globex Staff Engineer application.
 ```
 
 ```text
@@ -134,7 +134,7 @@ Replace the resume PDF on the Stripe application with this updated PDF. Add a no
 ```
 
 ```text
-Remove the cover-letter PDF from the Acme application, but keep the application record and timeline.
+Remove the resume PDF from the Acme application, but keep the application record and timeline.
 ```
 
 <Info>
@@ -154,7 +154,7 @@ Create a tailored resume copy for the Globex Staff Engineer application. Keep th
 ```
 
 ```text
-Draft a cover letter for the Stripe application using the linked resume and job description. Keep it concise and specific to the role.
+Draft a follow-up message for the Stripe application using the linked resume and job description. Keep it concise and specific to the role.
 ```
 
 ```text
@@ -166,7 +166,7 @@ Review all interview-stage applications with linked resumes. For each one, score
 ```
 
 <Warning>
-  Review AI-generated resumes, cover letters, and messages before sending them. MCP tools can draft and save context, but you are responsible for the final content.
+  Review AI-generated resumes and messages before sending them. MCP tools can draft and save context, but you are responsible for the final content.
 </Warning>
 
 ## Maintain your pipeline
@@ -208,7 +208,7 @@ Show my active applications in table form with company, role, stage, source, tag
 ```
 
 ```text
-Which applications are missing job descriptions, contacts, sent resume PDFs, or cover-letter PDFs?
+Which applications are missing job descriptions, contacts, or sent resume PDFs?
 ```
 
 ### Research and capture
@@ -272,7 +272,7 @@ Show applications by stage and tell me where the pipeline is blocked.
 Add this to your MCP client's project or session instructions when you want the agent to manage applications safely:
 
 ```text
-Use Reactive Resume MCP for application tracking. Start by calling list_applications before creating a new record so you do not duplicate existing applications. Confirm before delete_application, bulk_delete_applications, bulk_update_applications, replacing attached documents, or archiving more than five applications. Prefer add_application_note for timeline updates. Use Application Copilot tools only when the application has enough context, and never present AI-generated cover letters or follow-ups as sent messages.
+Use Reactive Resume MCP for application tracking. Start by calling list_applications before creating a new record so you do not duplicate existing applications. Confirm before delete_application, bulk_delete_applications, bulk_update_applications, replacing attached documents, or archiving more than five applications. Prefer add_application_note for timeline updates. Use Application Copilot tools only when the application has enough context, and never present AI-generated follow-ups as sent messages.
 ```
 
 ## Troubleshooting

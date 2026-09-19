@@ -23,18 +23,18 @@ describe("createSectionTitleResolver", () => {
 	});
 
 	it("returns the translated message for a custom section by its type", () => {
-		const translator = makeTranslator((d) => (d.message === "Cover Letter" ? "Anschreiben" : (d.message ?? "")));
+		const translator = makeTranslator((d) => (d.message === "References" ? "Referenzen" : (d.message ?? "")));
 		const resolve = createSectionTitleResolver(translator);
 
 		const result = resolve({
 			sectionId: "custom-1",
 			locale: "en-US",
 			sectionKind: "custom",
-			customSectionType: "cover-letter",
-			defaultEnglishTitle: "Cover Letter",
+			customSectionType: "references",
+			defaultEnglishTitle: "References",
 		});
 
-		expect(result).toBe("Anschreiben");
+		expect(result).toBe("Referenzen");
 	});
 
 	it("falls back to defaultEnglishTitle when the section type is unknown", () => {

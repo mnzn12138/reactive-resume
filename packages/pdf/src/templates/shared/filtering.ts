@@ -5,7 +5,7 @@ type HiddenItem = {
 	[key: string]: unknown;
 };
 
-type TitleBackedSectionType = Exclude<CustomSectionType, "summary" | "cover-letter">;
+type TitleBackedSectionType = Exclude<CustomSectionType, "summary">;
 
 type ItemSectionLike<T extends HiddenItem = HiddenItem> = {
 	hidden: boolean;

@@ -44,7 +44,7 @@ msgstr "{0, plural, one {#角色} other {#角色}}"
 
 #. placeholder {0}: target.email
 #: src/routes/admin/-components/users-table.tsx
-msgid "{0} and everything they own — resumes, cover letters and applications — will be permanently deleted. This can't be undone."
+msgid "{0} and everything they own — resumes and applications — will be permanently deleted. This can't be undone."
 msgstr ""
 
 #. placeholder {0}: insights.total
@@ -653,10 +653,6 @@ msgstr "應用程式"
 msgid "App language"
 msgstr "應用程式語言"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Application"
-msgstr "應徵紀錄"
-
 #: src/features/applications/components/application-actions-menu.tsx
 msgid "Application actions"
 msgstr "應徵操作"
@@ -798,21 +794,12 @@ msgid "ATS Checker"
 msgstr "ATS 檢查工具"
 
 #: src/features/applications/components/application-detail-sheet.tsx
-#: src/features/applications/components/application-form-sheet.tsx
-msgid "Attach a cover letter (PDF)"
-msgstr "附加求職信 (PDF)"
-
-#: src/features/applications/components/application-detail-sheet.tsx
 msgid "Attach a resume file (PDF)"
 msgstr "附加履歷檔案 (PDF)"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Attach files"
 msgstr "附加文件"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Attach PDF"
-msgstr "附加 PDF"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Attachment"
@@ -1032,10 +1019,6 @@ msgstr "改主題為…"
 msgid "Changed your mind? Rename your resume to something more descriptive."
 msgstr "改變主意了嗎？將履歷重新命名成更具描述性的名稱吧。"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Changes are shared between your library and the resume builder."
-msgstr "變更會在您的求職信庫與履歷建構器之間同步。"
-
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Chat"
@@ -1090,10 +1073,6 @@ msgstr "中文（繁體）"
 msgid "Choose {0}"
 msgstr "選擇 {0}"
 
-#: src/features/cover-letters/library.tsx
-msgid "Choose a cover letter"
-msgstr "選擇求職信"
-
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Choose a model and resume draft."
 msgstr "選擇一款履歷表範本並撰寫履歷草稿。"
@@ -1112,8 +1091,6 @@ msgstr "選擇一個 PDF 檔案來讀取其中的文字。"
 msgid "Choose a preset or custom shade."
 msgstr "選擇預設或自訂燈罩。"
 
-#: src/features/cover-letters/editor-dialog.tsx
-#: src/features/cover-letters/library.tsx
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Choose a resume"
 msgstr "選擇一份履歷"
@@ -1122,17 +1099,9 @@ msgstr "選擇一份履歷"
 msgid "Choose a resume template"
 msgstr "選擇履歷範本"
 
-#: src/dialogs/resume/sections/cover-letter.tsx
-msgid "Choose a saved cover letter"
-msgstr "選擇已儲存的求職信"
-
 #: src/features/homepage/template-shelf.tsx
 msgid "Choose a template"
 msgstr "選擇範本"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Choose an application"
-msgstr "選擇應徵紀錄"
 
 #: src/features/homepage/languages-showcase.test.tsx
 #: src/features/homepage/languages-showcase.tsx
@@ -1140,8 +1109,8 @@ msgid "Choose app language"
 msgstr "選擇應用程式語言"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Choose PDF, DOCX, Markdown, or JSON. Export your resume and cover letter separately when available."
-msgstr "選擇 PDF、DOCX、Markdown 或 JSON 格式。如有履歷和求職信，請分別匯出。"
+msgid "Choose PDF, DOCX, Markdown, or JSON."
+msgstr ""
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Choose who can see it"
@@ -1177,11 +1146,6 @@ msgstr "按這裡選擇要匯入的檔案"
 #: src/features/auth/pages/consent.tsx
 msgid "Client ID"
 msgstr "用戶端 ID"
-
-#: src/features/cover-letters/editor-dialog.tsx
-#: src/features/cover-letters/editor.tsx
-msgid "Close"
-msgstr "關閉"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Close AI assistant"
@@ -1292,9 +1256,7 @@ msgstr "聯絡人"
 msgid "Contain"
 msgstr "完整顯示"
 
-#: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
-#: src/features/cover-letters/editor.tsx
 msgid "Content"
 msgstr "內容"
 
@@ -1342,10 +1304,6 @@ msgstr "已複製到剪貼簿。"
 msgid "Copy"
 msgstr "複製"
 
-#: src/features/cover-letters/library.tsx
-msgid "Copy an existing letter from a resume"
-msgstr "從履歷複製現有的求職信"
-
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Copy and store these backup codes in case you lose your device."
 msgstr "請複製並妥善保存這些備份代碼，以防您遺失裝置。"
@@ -1354,17 +1312,9 @@ msgstr "請複製並妥善保存這些備份代碼，以防您遺失裝置。"
 msgid "Copy Backup Codes"
 msgstr "複製備份代碼"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Copy from resume"
-msgstr "從履歷複製"
-
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Copy JSON"
 msgstr "複製 JSON"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Copy saved to your cover-letter library."
-msgstr "副本已儲存至您的求職信庫。"
 
 #. Accessible label for the button that copies the two-factor secret key
 #: src/dialogs/auth/enable-two-factor.tsx
@@ -1396,11 +1346,6 @@ msgstr "更正年份，或對正在進行的工作使用“現在”。"
 msgid "Correct the year, or write \"Present\" for ongoing work."
 msgstr "更正年份，或為仍在進行的工作寫上「現在」。"
 
-#: src/features/cover-letters/editor-dialog.tsx
-#: src/features/cover-letters/library.tsx
-msgid "Could not complete this action. Please try again."
-msgstr "無法完成此操作，請再試一次。"
-
 #: src/features/auth/pages/consent.tsx
 msgid "Could not complete this connection. Restart the connection from your client and try again."
 msgstr "無法完成這次連線。請從您的用戶端重新發起連線後再試一次。"
@@ -1418,18 +1363,6 @@ msgstr "無法產生 DOCX。請再試一次。"
 msgid "Could not generate the PDF. Please try again."
 msgstr "無法產生 PDF。請再試一次。"
 
-#: src/features/cover-letters/library.tsx
-msgid "Could not load cover letters."
-msgstr "無法載入求職信。"
-
-#: src/features/cover-letters/library.tsx
-msgid "Could not load the selected resume."
-msgstr "無法載入所選履歷。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Could not load this cover letter."
-msgstr "無法載入這封求職信。"
-
 #: src/features/homepage/export-playground.tsx
 msgid "Could not prepare the sample. Please try again."
 msgstr "無法準備範例，請再試一次。"
@@ -1446,10 +1379,6 @@ msgstr "無法連絡 AI 提供者。請再試一次。"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Could not restore this patch."
 msgstr "無法恢復此補丁。"
-
-#: src/features/cover-letters/editor.tsx
-msgid "Could not save the cover letter. Please try again."
-msgstr "無法儲存求職信，請再試一次。"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Could not set up two-factor authentication."
@@ -1517,35 +1446,9 @@ msgstr "與解析分數分開計算。涵蓋率並不預測任何事情。"
 msgid "Cover"
 msgstr "裁切填滿"
 
-#: src/features/applications/components/application-detail-sheet.tsx
-#: src/features/applications/components/application-form-sheet.tsx
-#: src/features/cover-letters/library.tsx
-#: src/features/resume/export/download-dialog.tsx
-msgid "Cover letter"
-msgstr "求職信"
-
-#. Fallback title for a custom cover letter item in resume builder when recipient is empty
-#. Fallback title for a custom cover letter item in resume builder when recipient is unavailable
-#: src/dialogs/resume/sections/custom.tsx
-#: src/libs/resume/section-title.ts
-#: src/libs/resume/section.tsx
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
-msgid "Cover Letter"
-msgstr "求職信"
-
-#: src/features/applications/components/application-ai-copilot.tsx
-msgid "Cover letter draft"
-msgstr "求職信草稿"
-
-#: src/routes/dashboard/-components/sidebar.tsx
-#: src/routes/dashboard/cover-letters.tsx
-msgid "Cover Letters"
-msgstr "求職信"
-
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
-#: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
@@ -1558,7 +1461,6 @@ msgstr "求職信"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
-#: src/features/cover-letters/library.tsx
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Create"
 msgstr "建立"
@@ -1578,10 +1480,6 @@ msgstr "建立新的得獎紀錄"
 #: src/dialogs/resume/sections/certification.tsx
 msgid "Create a new certification"
 msgstr "建立新的證照"
-
-#: src/dialogs/resume/sections/cover-letter.tsx
-msgid "Create a new cover letter"
-msgstr "建立新的求職信"
 
 #: src/dialogs/resume/sections/custom.tsx
 msgid "Create a new custom section"
@@ -1645,10 +1543,6 @@ msgstr "建立履歷"
 #: src/dialogs/resume/index.tsx
 msgid "Create a Sample Resume"
 msgstr "建立履歷範例"
-
-#: src/features/cover-letters/library.tsx
-msgid "Create cover letter"
-msgstr "建立求職信"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Create from scratch"
@@ -1768,10 +1662,6 @@ msgstr "深度檢查"
 msgid "DeepSeek"
 msgstr "深潛"
 
-#: src/features/cover-letters/library.tsx
-msgid "Default template"
-msgstr "預設範本"
-
 #: src/dialogs/resume/sections/education.tsx
 msgid "Degree"
 msgstr "學位"
@@ -1784,7 +1674,6 @@ msgstr "學位"
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
-#: src/features/cover-letters/editor-dialog.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/agent/-components/agent-chat.tsx
@@ -1835,10 +1724,6 @@ msgstr "刪除此代理對話串？"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this application?"
 msgstr "刪除此申請？"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Delete this cover letter?"
-msgstr "刪除這封求職信？"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this timeline entry?"
@@ -1933,14 +1818,6 @@ msgstr "停用雙因子驗證"
 msgid "Disabling two-factor authentication..."
 msgstr "正在停用雙因子驗證…"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Discard"
-msgstr "捨棄"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Discard unsaved changes?"
-msgstr "捨棄未儲存的變更？"
-
 #. Authentication settings action to unlink a connected social login provider
 #: src/features/settings/authentication/components/social-provider.tsx
 msgid "Disconnect"
@@ -1993,7 +1870,6 @@ msgstr "下載 CSV"
 msgid "Download options"
 msgstr "下載選項"
 
-#: src/features/cover-letters/editor-dialog.tsx
 #: src/features/resume/public/public-resume.tsx
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Download PDF"
@@ -2018,10 +1894,6 @@ msgstr "下載範例 PDF"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
 msgstr "下載"
-
-#: src/features/applications/components/application-ai-copilot.tsx
-msgid "Draft a cover letter"
-msgstr "撰寫求職信草稿"
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Draft a follow-up"
@@ -2050,7 +1922,6 @@ msgstr "去掉人稱代名詞，直接以動詞開頭。這是大多數地區通
 #. Resume card context menu action to create a copy
 #. Resume card dropdown action to create a copy
 #: src/dialogs/resume/index.tsx
-#: src/features/cover-letters/editor-dialog.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
@@ -2086,11 +1957,6 @@ msgstr "保留早期版本；重置建構器的撤銷歷史記錄。"
 msgid "Edit"
 msgstr "編輯"
 
-#. placeholder {0}: letter.name
-#: src/features/cover-letters/library.tsx
-msgid "Edit {0}"
-msgstr "編輯{0}"
-
 #. Screen reader label for button that edits a keyword chip. Variable is the current keyword text.
 #: src/components/input/chip-input.tsx
 msgid "Edit {chip}"
@@ -2109,10 +1975,6 @@ msgstr "編輯顏色 {0}"
 #: src/components/input/rich-input.tsx
 msgid "Edit content in fullscreen mode"
 msgstr "在全螢幕模式下編輯內容"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Edit cover letter"
-msgstr "編輯求職信"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Edit date"
@@ -2213,10 +2075,6 @@ msgstr "啟用雙重認證…"
 #: src/libs/locale.ts
 msgid "English"
 msgstr "英文"
-
-#: src/features/cover-letters/editor.tsx
-msgid "Enter a name for this cover letter."
-msgstr "請為這封求職信輸入名稱。"
 
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Enter a name for your passkey."
@@ -2323,10 +2181,6 @@ msgstr "匯出資料"
 #: src/features/ats-checker/messages.ts
 msgid "Export from the original document instead of scanning or screenshotting it."
 msgstr "從原始文件匯出，而不是掃描或截圖。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Export JSON"
-msgstr "匯出 JSON"
 
 #: src/features/settings/pages/account.tsx
 msgid "Export my data"
@@ -2642,10 +2496,6 @@ msgstr "自由形式"
 msgid "French"
 msgstr "法文"
 
-#: src/features/applications/components/application-ai-copilot.tsx
-msgid "From your resume and the posting"
-msgstr "來自你的履歷與職缺公告"
-
 #: src/features/resume/export/download-dialog.tsx
 msgid "Full resume data for backup or import."
 msgstr "用於備份或匯入的完整履歷資料。"
@@ -2837,10 +2687,6 @@ msgstr "隱藏密碼"
 msgid "Hide picture"
 msgstr "隱藏圖片"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Hide preview"
-msgstr "隱藏預覽"
-
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Hide Section Icons"
 msgstr "隱藏版塊圖標"
@@ -2898,10 +2744,6 @@ msgstr "匯入 {0}"
 msgid "Import an existing resume"
 msgstr "匯入現有履歷"
 
-#: src/features/cover-letters/library.tsx
-msgid "Import cover letter JSON"
-msgstr "匯入求職信 JSON"
-
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import CSV"
 msgstr "匯入 CSV"
@@ -2914,14 +2756,6 @@ msgstr "匯入失敗。請檢查 CSV 後再試一次。"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Import from CSV"
 msgstr "從 CSV 匯入"
-
-#: src/dialogs/resume/sections/cover-letter.tsx
-msgid "Import from library"
-msgstr "從庫中匯入"
-
-#: src/features/cover-letters/library.tsx
-msgid "Import JSON"
-msgstr "匯入 JSON"
 
 #. placeholder {0}: result.imported
 #: src/features/applications/components/import-applications-sheet.tsx
@@ -2944,10 +2778,6 @@ msgstr "正在導入…"
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "In {0}"
 msgstr "在 {0} 中"
-
-#: src/features/resume/export/download-dialog.tsx
-msgid "Include resume header"
-msgstr "包含履歷頁首"
 
 #: src/components/input/rich-input.tsx
 msgid "Increase indent"
@@ -3083,10 +2913,6 @@ msgstr "只保留一個地址，讓軟體不必猜要用哪一個。"
 #: src/features/auth/pages/consent.tsx
 msgid "Keep access when you are not using the application."
 msgstr "在您未使用該應用程式時保持存取權限。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Keep editing"
-msgstr "繼續編輯"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Keep editing in Word, Google Docs, or Pages. Layout may differ from the PDF."
@@ -3551,8 +3377,6 @@ msgstr "必須從 https:// 開始"
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/ats-checker/parse-preview.tsx
 #: src/features/auth/pages/register.tsx
-#: src/features/cover-letters/editor.tsx
-#: src/features/cover-letters/library.tsx
 #: src/features/settings/pages/profile.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
@@ -3614,10 +3438,6 @@ msgstr "新對話串"
 msgid "New Thread"
 msgstr "新對話串"
 
-#: src/features/cover-letters/library.tsx
-msgid "Next"
-msgstr "下一頁"
-
 #: src/features/homepage/template-shelf.tsx
 msgid "Next template"
 msgstr "下一個範本"
@@ -3650,10 +3470,6 @@ msgstr "沒有符合搜尋的指令。"
 #: src/features/ats-checker/messages.ts
 msgid "No conventional section headings were found."
 msgstr "未找到常規的部分標題。"
-
-#: src/features/cover-letters/library.tsx
-msgid "No cover letters found. Create one or import an existing letter."
-msgstr "找不到求職信。請建立一封，或匯入現有的信件。"
 
 #. Error shown when AI import endpoint returns no parsed resume data
 #: src/dialogs/resume/import.tsx
@@ -3964,10 +3780,8 @@ msgid "Page"
 msgstr "頁"
 
 #. Layout editor page label with 1-based page number
-#. placeholder {0}: Math.floor(offset / 20) + 1
 #. placeholder {0}: pageIndex + 1
 #. placeholder {0}: targetPageIndex + 1
-#: src/features/cover-letters/library.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Page {0}"
@@ -4080,17 +3894,9 @@ msgstr "補丁已回滾"
 msgid "Patch rolled back."
 msgstr "補丁已回滾。"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "PDF snapshot attached to the application."
-msgstr "PDF 快照已附加至這筆應徵紀錄。"
-
 #: src/features/homepage/ats-playground.tsx
 msgid "PDF text layer"
 msgstr "PDF 文字圖層"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "PDFs already attached to applications will remain available."
-msgstr "已附加至應徵紀錄的 PDF 仍可繼續使用。"
 
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
@@ -4118,8 +3924,8 @@ msgid "Pick a conversation from the sidebar, or start a new thread to work on a 
 msgstr "從側邊欄選擇一段對話，或開啟新的對話串來處理草稿。"
 
 #: src/features/resume/export/download-dialog.tsx
-msgid "Pick a format for your resume or cover letter."
-msgstr "為您的履歷或求職信選擇一種格式。"
+msgid "Pick a format for your resume."
+msgstr ""
 
 #: src/features/homepage/languages-showcase.tsx
 msgid "Pick a language. See it on the page."
@@ -4226,14 +4032,6 @@ msgstr "預覽與匯出將改用基本樣式。"
 #: src/features/resume/stylesheet/status.tsx
 msgid "Preview and export keep valid styles and ignore invalid styles."
 msgstr "預覽與匯出會保留有效樣式並忽略無效樣式。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Preview PDF"
-msgstr "預覽 PDF"
-
-#: src/features/cover-letters/library.tsx
-msgid "Previous"
-msgstr "上一頁"
 
 #: src/features/homepage/template-shelf.tsx
 msgid "Previous template"
@@ -4464,11 +4262,6 @@ msgstr "準備好署上你的名字了嗎？"
 msgid "Reason"
 msgstr ""
 
-#: src/dialogs/resume/sections/cover-letter.tsx
-#: src/features/cover-letters/editor.tsx
-msgid "Recipient"
-msgstr "收件人"
-
 #: src/components/level/combobox.tsx
 msgid "Rectangle"
 msgstr "長方形"
@@ -4498,10 +4291,6 @@ msgstr "推薦人…、要強調的事項等"
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Register New Device"
 msgstr "註冊新裝置"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Reload latest version"
-msgstr "重新載入最新版本"
 
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Remember your password? <0/>"
@@ -4569,10 +4358,6 @@ msgstr "重新排序自訂字段"
 msgid "Repeated far more often than the posting itself uses them: {0}. Recruiters notice."
 msgstr "這些詞出現的頻率遠高於徵才啟事本身：{0}。招募人員會注意到這一點。"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Replace"
-msgstr "取代"
-
 #: src/features/ats-checker/messages.ts
 msgid "Replace icon fonts with plain text, then re-export."
 msgstr "用純文字取代圖示字體，然後重新匯出。"
@@ -4580,10 +4365,6 @@ msgstr "用純文字取代圖示字體，然後重新匯出。"
 #: src/features/ats-checker/messages.ts
 msgid "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 msgstr "用一般段落和清單取代表格。儲存格是按儲存順序擷取的，而不是按閱讀順序。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Replace the attached cover letter?"
-msgstr "取代已附加的求職信？"
 
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
@@ -4634,7 +4415,6 @@ msgid "Restore this version?"
 msgstr "恢復此版本？"
 
 #: src/features/applications/components/application-form-sheet.tsx
-#: src/features/resume/export/download-dialog.tsx
 #: src/routes/agent/-components/resume-pane.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Resume"
@@ -4696,8 +4476,6 @@ msgstr "適合不同職業與喜好的履歷範本。挑一款適合您的。"
 msgid "Resumes"
 msgstr "履歷"
 
-#: src/features/cover-letters/editor-dialog.tsx
-#: src/features/cover-letters/library.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Retry"
 msgstr "重試"
@@ -4828,7 +4606,6 @@ msgstr "儲存變更"
 #: src/dialogs/resume/index.tsx
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
-#: src/dialogs/resume/sections/cover-letter.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/education.tsx
 #: src/dialogs/resume/sections/experience.tsx
@@ -4841,27 +4618,13 @@ msgstr "儲存變更"
 #: src/dialogs/resume/sections/skill.tsx
 #: src/dialogs/resume/sections/summary-item.tsx
 #: src/dialogs/resume/sections/volunteer.tsx
-#: src/features/cover-letters/editor.tsx
 #: src/features/settings/pages/profile.tsx
 msgid "Save Changes"
 msgstr "儲存變更"
 
-#: src/features/cover-letters/editor.tsx
-msgid "Save changes before previewing, exporting, or changing styling."
-msgstr "預覽、匯出或變更樣式前，請先儲存變更。"
-
-#: src/features/cover-letters/library.tsx
-msgid "Save copy to library"
-msgstr "將副本儲存至庫"
-
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Save model"
 msgstr "保存模型"
-
-#: src/features/cover-letters/editor-dialog.tsx
-#: src/features/cover-letters/library.tsx
-msgid "Save resume changes before copying its content or styling."
-msgstr "複製履歷內容或樣式前，請先儲存履歷的變更。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Save the file with every page upright."
@@ -4919,14 +4682,6 @@ msgstr ""
 #: src/features/command-palette/index.tsx
 msgid "Search commands"
 msgstr "搜尋指令"
-
-#: src/features/cover-letters/library.tsx
-msgid "Search cover letters"
-msgstr "搜尋求職信"
-
-#: src/features/cover-letters/library.tsx
-msgid "Search cover letters..."
-msgstr "搜尋求職信…"
 
 #. Accessible label for icon picker search input
 #. Placeholder text in icon picker search input
@@ -5038,10 +4793,6 @@ msgstr "傳送重設密碼電子郵件"
 #: src/features/ats-checker/messages.ts
 msgid "Send the resume itself rather than a portfolio wrapper."
 msgstr "直接傳送履歷本身，而不是包在作品集外層的檔案。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Sender details"
-msgstr "寄件人資訊"
 
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Sending password reset email..."
@@ -5189,10 +4940,6 @@ msgstr "顯示密碼"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Show picture"
 msgstr "顯示圖片"
-
-#: src/features/resume/export/download-dialog.tsx
-msgid "Show the same first-page header on the cover letter."
-msgstr "在求職信上顯示相同的首頁頁首。"
 
 #. placeholder {0}: rows.length
 #. placeholder {1}: applications.length
@@ -5547,14 +5294,6 @@ msgstr "樣式表編輯器"
 msgid "Stylesheet has fatal errors"
 msgstr "樣式表含有嚴重錯誤"
 
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Styling and sender details are copied. Future resume edits apply only when you refresh."
-msgstr "樣式與寄件人資訊已複製。日後對履歷的修改，只有在您重新整理後才會套用。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Styling and sender details refreshed from the selected resume."
-msgstr "已從所選履歷重新整理樣式與寄件人資訊。"
-
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Suggestions"
 msgstr "建議"
@@ -5625,8 +5364,6 @@ msgstr "調整失敗。"
 msgid "Take it<0/>with you."
 msgstr "把它<0/>帶著走。"
 
-#: src/features/cover-letters/editor-dialog.tsx
-#: src/features/cover-letters/library.tsx
 #: src/libs/resume/section.tsx
 msgid "Template"
 msgstr "範本"
@@ -5717,10 +5454,6 @@ msgstr "匯入的檔案無法解析為有效的履歷。"
 #: src/features/ats-checker/messages.ts
 msgid "The order the text is stored in disagrees badly with the order it reads in."
 msgstr "文字的儲存順序與閱讀順序嚴重不一致。"
-
-#: src/features/cover-letters/library.tsx
-msgid "The original letter stays in your resume. Each copy can be edited independently."
-msgstr "原本的信件仍保留在您的履歷中。每份副本都可以獨立編輯。"
 
 #: src/components/layout/not-found-screen.tsx
 msgid "The page you're looking for may have been moved or no longer exists."
@@ -5862,10 +5595,6 @@ msgstr "此項檢查僅適用於以英文撰寫的履歷。"
 #: src/features/auth/pages/consent.tsx
 msgid "This connection request is invalid or has expired."
 msgstr "此連線請求無效或已過期。"
-
-#: src/features/cover-letters/editor.tsx
-msgid "This cover letter changed elsewhere. Your edits are still here. Reload the latest version before saving again."
-msgstr "這封求職信在別處被變更過。您的編輯仍然保留。請先重新載入最新版本，再儲存一次。"
 
 #: src/libs/resume/ats.ts
 msgid "This date will not be read correctly."
@@ -6012,10 +5741,6 @@ msgstr "這個時期在開始之前就結束了。"
 #: src/libs/resume/ats.ts
 msgid "This period starts in the future."
 msgstr "這個時期從未來開始。"
-
-#: src/features/cover-letters/library.tsx
-msgid "This resume has no embedded cover letters."
-msgstr "這份履歷沒有內嵌的求職信。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/index.tsx
 msgid "This resume is locked"
@@ -6350,10 +6075,6 @@ msgstr "更新現有的得獎紀錄"
 #: src/dialogs/resume/sections/certification.tsx
 msgid "Update an existing certification"
 msgstr "更新現有的證照"
-
-#: src/dialogs/resume/sections/cover-letter.tsx
-msgid "Update an existing cover letter"
-msgstr "更新現有求職信"
 
 #: src/dialogs/resume/sections/custom.tsx
 msgid "Update an existing custom section"
@@ -7028,10 +6749,6 @@ msgstr "您的履歷使用了「我」和「我的」這類詞。"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Your resume's public URL is protected by a password. Share the password only with people you trust."
 msgstr "您履歷的公開 URL 受密碼保護。請只把密碼分享給您信任的人。"
-
-#: src/features/cover-letters/editor-dialog.tsx
-msgid "Your saved cover letter will remain unchanged."
-msgstr "您儲存的求職信內容將保持不變。"
 
 #: src/features/homepage/ats-playground.tsx
 msgid "Your selected file"

@@ -66,7 +66,7 @@ const EXTENSION_BY_CONTENT_TYPE: Record<string, string> = {
 // Derive the stored key's extension from the content type so the static handler serves each
 // file correctly instead of mislabeling it. Images normally arrive as JPEG (sharp), but with
 // FLAG_DISABLE_IMAGE_PROCESSING they keep their original type — hence all image types are
-// mapped, not just JPEG. Non-image uploads (e.g. a cover-letter PDF) get their real extension.
+// mapped, not just JPEG. Non-image uploads (e.g. an attached resume PDF) get their real extension.
 function buildFileKey(userId: string, contentType: string): string {
 	const extension = EXTENSION_BY_CONTENT_TYPE[contentType] ?? "bin";
 	return `uploads/${userId}/pictures/${Date.now()}.${extension}`;

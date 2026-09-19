@@ -118,11 +118,9 @@ describe("registerTools", () => {
 		expect(mocks.createResumePdfDownloadUrl).toHaveBeenCalledWith({
 			resumeId: "resume-1",
 			userId: "user-1",
-			target: "resume",
 		});
 		expect(payload).toEqual({
 			resumeId: "resume-1",
-			target: "resume",
 			name: "Scizor",
 			downloadUrl: "https://example.com/api/resumes/resume-1/pdf?token=signed",
 			expiresAt: "2026-06-01T10:10:00.000Z",
@@ -130,61 +128,6 @@ describe("registerTools", () => {
 			contentType: "application/pdf",
 		});
 	});
-
-	it("creates a cover-letter PDF URL and reports cover-letter metadata", async () => {
-		clientMock.resume.getById.mockResolvedValueOnce({
-			id: "resume-1",
-			name: "Scizor",
-			data: { customSections: [{ type: "cover-letter", hidden: false, items: [{ hidden: false }] }] },
-		});
-		mocks.resolveUserFromRequestHeaders.mockResolvedValueOnce({ id: "user-1" });
-		mocks.createResumePdfDownloadUrl.mockReturnValueOnce({
-			url: "https://example.com/api/resumes/resume-1/pdf?token=signed&target=cover-letter",
-			expiresAt: "2026-06-01T10:10:00.000Z",
-			expiresInSeconds: 600,
-		});
-
-		const { server, registered } = makeFakeServer();
-		registerTools(server as never, clientMock as never, new Headers());
-
-		const tool = registered.find((item) => item.name === "download_resume_pdf")!;
-		const result = await tool.handler({ id: "resume-1", target: "cover-letter" });
-
-		expect(mocks.createResumePdfDownloadUrl).toHaveBeenCalledWith({
-			resumeId: "resume-1",
-			userId: "user-1",
-			target: "cover-letter",
-		});
-		expect(JSON.parse(result.content[0]!.text)).toEqual({
-			resumeId: "resume-1",
-			target: "cover-letter",
-			name: "Scizor Cover Letter",
-			downloadUrl: "https://example.com/api/resumes/resume-1/pdf?token=signed&target=cover-letter",
-			expiresAt: "2026-06-01T10:10:00.000Z",
-			expiresInSeconds: 600,
-			contentType: "application/pdf",
-		});
-	});
-
-	for (const [name, data] of [
-		["missing", { customSections: [] }],
-		["hidden", { customSections: [{ type: "cover-letter", hidden: true, items: [{ hidden: false }] }] }],
-	] as const) {
-		it(`does not create a cover-letter URL when the cover letter is ${name}`, async () => {
-			clientMock.resume.getById.mockResolvedValueOnce({ id: "resume-1", name: "Scizor", data });
-			mocks.resolveUserFromRequestHeaders.mockResolvedValueOnce({ id: "user-1" });
-
-			const { server, registered } = makeFakeServer();
-			registerTools(server as never, clientMock as never, new Headers());
-
-			const tool = registered.find((item) => item.name === "download_resume_pdf")!;
-			const result = await tool.handler({ id: "resume-1", target: "cover-letter" });
-
-			expect(result.isError).toBe(true);
-			expect(result.content[0]?.text).toContain("No visible cover letter found for this resume.");
-			expect(mocks.createResumePdfDownloadUrl).not.toHaveBeenCalled();
-		});
-	}
 
 	it("keeps the tool name stable", () => {
 		expect(MCP_TOOL_NAME.downloadResumePdf).toBe("download_resume_pdf");

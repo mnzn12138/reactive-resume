@@ -1,7 +1,6 @@
 import type {
 	AwardItem,
 	CertificationItem,
-	CoverLetterItem,
 	CustomSectionItem,
 	CustomSectionType,
 	EducationItem,
@@ -312,11 +311,6 @@ function renderItem(type: CustomSectionType, item: CustomSectionItem, keywordLay
 					website={it.website}
 				/>
 			);
-		}
-		case "cover-letter": {
-			const it = item as CoverLetterItem;
-
-			return <ItemBody description={joinInline(stripHtml(it.recipient), stripHtml(it.content))} />;
 		}
 		case "summary": {
 			const it = item as SummaryItem;

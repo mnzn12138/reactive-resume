@@ -34,9 +34,6 @@ Where a locale's normal word for this document is CV, use CV.
 
 **Resumes** — plural of the above. A list of the user's documents.
 
-**Cover letter** — the letter accompanying a resume. Stored as a resume section, not a separate
-document.
-
 **Builder** — the editor where a resume is composed. A tool, not a construction worker or a
 person who builds.
 

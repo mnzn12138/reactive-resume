@@ -59,6 +59,15 @@ function makeHiddenData(): ResumeData {
 	data.sections.experience.title = "Work History";
 	data.customSections[0].hidden = true;
 	data.customSections[0].title = "Earlier Roles";
+
+	// A second custom section stays visible, so tests can assert that only hidden children disappear.
+	const visibleCustomSection = structuredClone(data.customSections[0]);
+	visibleCustomSection.id = "019becaf-0b87-769d-98a6-46ccf558c0e9";
+	visibleCustomSection.hidden = false;
+	visibleCustomSection.title = "Volunteer Work";
+	visibleCustomSection.items = [];
+	data.customSections.push(visibleCustomSection);
+
 	return data;
 }
 
@@ -134,7 +143,7 @@ describe("hidden section recovery", () => {
 		);
 
 		expect(screen.queryByText("Earlier Roles")).not.toBeInTheDocument();
-		expect(screen.getAllByText("Cover Letter").length).toBeGreaterThan(0);
+		expect(screen.getByText("Volunteer Work")).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Add a new custom section" })).toBeInTheDocument();
 	});
 

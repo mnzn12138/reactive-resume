@@ -98,7 +98,7 @@ export function UsersTable({
 	const handleDelete = useCallback(
 		async (target: AdminUser) => {
 			const confirmed = await confirm(t`Delete this account?`, {
-				description: t`${target.email} and everything they own — resumes, cover letters and applications — will be permanently deleted. This can't be undone.`,
+				description: t`${target.email} and everything they own — resumes and applications — will be permanently deleted. This can't be undone.`,
 				confirmText: t`Delete`,
 			});
 			if (confirmed) remove.mutate({ id: target.id });

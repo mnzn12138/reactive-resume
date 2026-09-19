@@ -24,7 +24,7 @@ describe("buildMarkdown", () => {
 	// Section titles are stored empty and resolved by the caller; mimic that with a simple resolver.
 	const resolveTitle = (sectionId: string) =>
 		({ summary: "Summary", experience: "Experience", education: "Education" })[sectionId];
-	const md = buildMarkdown(getResumeExportData(sampleResumeData, "resume"), resolveTitle);
+	const md = buildMarkdown(getResumeExportData(sampleResumeData), resolveTitle);
 
 	it("emits the name as an H1 and headline as emphasis", () => {
 		expect(md.startsWith(`# ${sampleResumeData.basics.name}`)).toBe(true);
@@ -36,27 +36,12 @@ describe("buildMarkdown", () => {
 	});
 
 	it("falls back to the stored title when no resolver is given", () => {
-		const bare = buildMarkdown(getResumeExportData(sampleResumeData, "resume"));
+		const bare = buildMarkdown(getResumeExportData(sampleResumeData));
 		expect(bare).not.toContain("## Experience");
 	});
 
 	it("ends with a single trailing newline and never contains raw HTML tags", () => {
 		expect(md.endsWith("\n")).toBe(true);
 		expect(md).not.toMatch(/<[a-z][^>]*>/i);
-	});
-
-	it("excludes the cover letter from the resume scope and includes it in the cover-letter scope", () => {
-		const cover = buildMarkdown(getResumeExportData(sampleResumeData, "cover-letter"));
-		expect(cover.length).toBeGreaterThan(0);
-		expect(cover).not.toBe(md);
-	});
-
-	it("renders the cover-letter scope without resume header or section heading", () => {
-		const cover = buildMarkdown(getResumeExportData(sampleResumeData, "cover-letter"));
-
-		expect(cover).toContain("Dear Hiring Manager");
-		expect(cover).not.toContain(`# ${sampleResumeData.basics.name}`);
-		expect(cover).not.toContain(`_${sampleResumeData.basics.headline}_`);
-		expect(cover).not.toContain("## Cover Letter");
 	});
 });

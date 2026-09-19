@@ -58,7 +58,7 @@ describe("parseReactiveResumeJSON", () => {
 		expect(firstPage).toBeDefined();
 		const allIds = new Set([...(firstPage?.main ?? []), ...(firstPage?.sidebar ?? [])]);
 
-		// Every built-in section (except cover-letter) ends up somewhere on page 1.
+		// Every built-in section ends up somewhere on page 1.
 		for (const expected of ["education", "projects", "languages", "awards"]) {
 			expect(allIds.has(expected), expected).toBe(true);
 		}

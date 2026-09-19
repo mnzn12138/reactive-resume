@@ -32,8 +32,6 @@ function finding(code: AtsRuleCode, pointer: string, params?: AtsFindingParams):
 	return { code, severity: atsRuleSeverity(code), pointer, ...(params ? { params } : {}) };
 }
 
-const isCoverLetter = (section: WalkedSection) => section.type === "cover-letter";
-
 const hasText = (value: unknown) =>
 	typeof value === "string" &&
 	value
@@ -85,7 +83,7 @@ const urlRules: AtsRule = (context) => {
 	});
 
 	for (const section of context.sections) {
-		if (isCoverLetter(section) || !isRenderedSection(section)) continue;
+		if (!isRenderedSection(section)) continue;
 
 		for (const item of section.items) {
 			const itemWebsite = item.value.website as { url?: unknown } | undefined;
@@ -132,7 +130,7 @@ const dateRules: AtsRule = (context) => {
 	const findings: AtsFinding[] = [];
 
 	for (const section of context.sections) {
-		if (isCoverLetter(section) || !isRenderedSection(section)) continue;
+		if (!isRenderedSection(section)) continue;
 
 		for (const item of section.items) {
 			findings.push(...periodFindings(item.value.period, `${item.pointer}/period`, section.type, context));
@@ -158,7 +156,7 @@ const structureRules: AtsRule = (context) => {
 	// emits a heading, so an empty section produces nothing on the page rather than a bare title.
 	// Only content that can never render — placed on no page at all — is worth a finding.
 	for (const section of context.sections) {
-		if (isCoverLetter(section) || section.hidden) continue;
+		if (section.hidden) continue;
 
 		if (section.placement === "none" && section.items.length > 0) {
 			findings.push(finding("SECTION_MISSING_FROM_LAYOUT", section.pointer, { section: section.id }));
@@ -194,7 +192,7 @@ const titleRules: AtsRule = (context) => {
 	const findings: AtsFinding[] = [];
 
 	for (const section of context.sections) {
-		if (isCoverLetter(section) || !isRenderedSection(section)) continue;
+		if (!isRenderedSection(section)) continue;
 
 		const title = section.title.trim();
 		if (!title) continue;
@@ -212,7 +210,7 @@ const layoutRules: AtsRule = (context) => {
 	const findings: AtsFinding[] = [];
 
 	for (const section of context.sections) {
-		if (isCoverLetter(section) || !isRenderedSection(section)) continue;
+		if (!isRenderedSection(section)) continue;
 		if (!PROSE_SECTION_TYPES.has(section.type) || section.items.length === 0) continue;
 
 		if (section.columns > 1) {

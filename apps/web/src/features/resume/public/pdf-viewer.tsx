@@ -15,7 +15,6 @@ GlobalWorkerOptions.workerSrc = new URL("pdfjs-dist/legacy/build/pdf.worker.min.
 type PdfViewerProps = {
 	className?: string;
 	data: ResumeData;
-	includeCoverLetterHeader?: boolean;
 	publicResume?: {
 		username: string;
 		slug: string;
@@ -73,7 +72,7 @@ function pdfViewerReducer(state: PdfViewerState, action: PdfViewerAction): PdfVi
 	}
 }
 
-export function PdfViewer({ className, data, publicResume, includeCoverLetterHeader }: PdfViewerProps) {
+export function PdfViewer({ className, data, publicResume }: PdfViewerProps) {
 	const rootRef = useRef<HTMLDivElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const viewerRef = useRef<HTMLDivElement>(null);
@@ -91,9 +90,7 @@ export function PdfViewer({ className, data, publicResume, includeCoverLetterHea
 
 		const createPdf = () => {
 			if (publicResume) return resolvePublicResumePdfBlob({ data, publicResume });
-			return includeCoverLetterHeader
-				? createResumePdfBlob(data, undefined, { includeCoverLetterHeader: true })
-				: createResumePdfBlob(data);
+			return createResumePdfBlob(data);
 		};
 
 		void createPdf()
@@ -113,7 +110,7 @@ export function PdfViewer({ className, data, publicResume, includeCoverLetterHea
 		return () => {
 			isCancelled = true;
 		};
-	}, [data, publicResume, includeCoverLetterHeader]);
+	}, [data, publicResume]);
 
 	useEffect(() => {
 		void fileVersion;

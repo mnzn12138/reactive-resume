@@ -6,7 +6,6 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vite
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
-import { sampleResumeData } from "@reactive-resume/schema/resume/sample";
 
 const downloadWithAnchor = vi.hoisted(() => vi.fn());
 const buildDocx = vi.hoisted(() => vi.fn().mockResolvedValue(new Blob(["x"], { type: "application/x-docx" })));
@@ -73,9 +72,7 @@ const renderExport = () =>
 	);
 
 const openDialog = () => {
-	const trigger = screen.getByText(
-		"Choose PDF, DOCX, Markdown, or JSON. Export your resume and cover letter separately when available.",
-	);
+	const trigger = screen.getByText("Choose PDF, DOCX, Markdown, or JSON.");
 	fireEvent.click(trigger.closest("button") as HTMLButtonElement);
 };
 
@@ -136,23 +133,8 @@ describe("ExportSectionBuilder", () => {
 		await Promise.resolve();
 
 		expect(createResumePdfBlob).toHaveBeenCalledTimes(1);
-		expect(createResumePdfBlob).toHaveBeenCalledWith(resumeMock.resume?.data, undefined, undefined);
+		expect(createResumePdfBlob).toHaveBeenCalledWith(resumeMock.resume?.data);
 		expect(downloadWithAnchor).toHaveBeenCalledTimes(1);
 		expect(downloadWithAnchor.mock.calls[0]?.[1]).toBe("My Resume.pdf");
-	});
-
-	it("exports the cover letter when the scope is switched and a cover letter exists", async () => {
-		resumeMock.resume = { id: "r1", name: "My Resume", slug: "my-resume", data: sampleResumeData };
-		renderExport();
-		openDialog();
-
-		fireEvent.click(screen.getByRole("tab", { name: "Cover letter" }));
-		fireEvent.click(screen.getByRole("button", { name: "Download PDF" }));
-		await Promise.resolve();
-		await Promise.resolve();
-		await Promise.resolve();
-
-		expect(createResumePdfBlob).toHaveBeenCalledTimes(1);
-		expect(downloadWithAnchor.mock.calls[0]?.[1]).toBe("My Resume Cover Letter.pdf");
 	});
 });

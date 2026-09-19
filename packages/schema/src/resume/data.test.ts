@@ -82,12 +82,6 @@ const representativeCustomSectionItemByType = {
 		phone: "",
 		description: "",
 	},
-	"cover-letter": {
-		id: "cover-letter-item",
-		hidden: false,
-		recipient: "<p>Charles Babbage</p>",
-		content: "<p>Dear Charles,</p>",
-	},
 } as const satisfies Record<CustomSectionType, Record<string, unknown>>;
 
 const customSectionFixture = (type: CustomSectionType, item: Record<string, unknown>) => ({
@@ -150,22 +144,6 @@ describe("resumeDataSchema", () => {
 	it("rejects missing top-level keys", () => {
 		const partial = { ...defaultResumeData, basics: undefined };
 		expect(resumeDataSchema.safeParse(partial).success).toBe(false);
-	});
-
-	it("preserves cover-letter fields when parsing the overlapping content shape", () => {
-		const result = customSectionSchema.parse({
-			id: "cover-letter",
-			type: "cover-letter",
-			title: "Cover Letter",
-			icon: "",
-			columns: 1,
-			hidden: false,
-			keepTogether: false,
-			startOnNewPage: false,
-			items: [{ id: "item", hidden: false, recipient: "Ada Lovelace", content: "<p>Hello</p>" }],
-		});
-
-		expect(result.items[0]).toMatchObject({ recipient: "Ada Lovelace", content: "<p>Hello</p>" });
 	});
 
 	it("accepts overlapping item fields when the selected renderer requirements are satisfied", () => {
@@ -233,7 +211,6 @@ describe("customSectionItemDefinitionByType", () => {
 			publications: "publicationItemSchema",
 			volunteer: "volunteerItemSchema",
 			references: "referenceItemSchema",
-			"cover-letter": "coverLetterItemSchema",
 		});
 	});
 

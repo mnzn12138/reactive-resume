@@ -119,8 +119,8 @@ describe("getResumeSectionTitle", () => {
 			customSections: [
 				{
 					id: "ext-1",
-					type: "cover-letter" as const,
-					title: "My Cover Letter",
+					type: "summary" as const,
+					title: "My Section",
 					icon: "",
 					columns: 1,
 					hidden: false,
@@ -131,27 +131,6 @@ describe("getResumeSectionTitle", () => {
 				},
 			],
 		};
-		expect(getResumeSectionTitle(data, "ext-1")).toBe("My Cover Letter");
-	});
-
-	it("uses default English title 'Cover Letter' for cover-letter custom sections", () => {
-		const data = {
-			...englishData,
-			customSections: [
-				{
-					id: "ext-1",
-					type: "cover-letter" as const,
-					title: "",
-					icon: "",
-					columns: 1,
-					hidden: false,
-					showHeading: true,
-					keepTogether: false,
-					startOnNewPage: false,
-					items: [],
-				},
-			],
-		};
-		expect(getResumeSectionTitle(data, "ext-1")).toBe("Cover Letter");
+		expect(getResumeSectionTitle(data, "ext-1")).toBe("My Section");
 	});
 });

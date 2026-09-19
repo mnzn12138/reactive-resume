@@ -26,9 +26,7 @@ export function ExportSectionBuilder() {
 								<Trans>Download</Trans>
 							</h6>
 							<p className="text-muted-foreground text-xs leading-normal">
-								<Trans>
-									Choose PDF, DOCX, Markdown, or JSON. Export your resume and cover letter separately when available.
-								</Trans>
+								<Trans>Choose PDF, DOCX, Markdown, or JSON.</Trans>
 							</p>
 						</div>
 					</Button>

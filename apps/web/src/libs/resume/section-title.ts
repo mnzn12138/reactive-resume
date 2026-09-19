@@ -22,7 +22,6 @@ const sectionTitleMessages = {
 	publications: msg`Publications`,
 	volunteer: msg`Volunteer`,
 	references: msg`References`,
-	"cover-letter": msg`Cover Letter`,
 } satisfies Record<"summary" | SectionType | CustomSectionType, MessageDescriptor>;
 
 export const createSectionTitleResolver = (translator: SectionTranslator = i18n): SectionTitleResolver => {

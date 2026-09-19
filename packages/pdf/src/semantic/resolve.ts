@@ -5,7 +5,6 @@ import type { Template } from "@reactive-resume/schema/templates";
 import type { ResolvedResumePresentation } from "./context";
 import { compileStylesheet, isFatalStylesheetDiagnostic, resolveStylesheet } from "@reactive-resume/resume/stylesheet";
 import { EMPTY_SEMANTIC_CSS_SOURCE } from "@reactive-resume/schema/resume/stylesheet";
-import { shouldShowResumeHeader } from "../templates/shared/cover-letter";
 import { getTemplatePageSize } from "../templates/shared/page-size";
 import { adaptResolvedPdfNode } from "./adapter";
 import { buildPdfBaseStyles } from "./base-styles";
@@ -37,7 +36,7 @@ const mergeAuthoredPageTrees = (data: ResumeData, template: Template): SemanticN
 			template,
 			page,
 			pageNumber: index + 1,
-			showHeader: shouldShowResumeHeader(data, index),
+			showHeader: index === 0,
 		}),
 	);
 	const root = pageTrees[0];

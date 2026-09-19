@@ -16,7 +16,6 @@ const expectedFields = {
 	publications: ["title", "date", "publisher", "description"],
 	volunteer: ["organization", "location", "period", "description"],
 	references: ["name", "position", "phone", "description"],
-	"cover-letter": ["recipient", "content"],
 };
 
 describe("standard semantic fields", () => {
