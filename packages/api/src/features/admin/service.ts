@@ -8,6 +8,7 @@ import { application, resume, session, user } from "@reactive-resume/db/schema";
 import { assertUserRole, parseUserRole } from "../../roles";
 import { getStorageService } from "../storage";
 import { recordAudit } from "./audit";
+import { escapeLike } from "./sql";
 
 // Only columns the console is allowed to return — never credentials.
 const listColumns = {
@@ -42,12 +43,6 @@ const toAdminUser = <TRow extends { role: string | null; banned: boolean | null 
 	role: normaliseRole(row.role),
 	banned: row.banned ?? false,
 });
-
-/**
- * Escape LIKE wildcards so a user searching for "50%" matches literally instead
- * of turning into a wildcard. Postgres uses backslash as the default escape.
- */
-const escapeLike = (value: string) => value.replace(/[\\%_]/g, (char) => `\\${char}`);
 
 const sortColumnByField = {
 	createdAt: user.createdAt,

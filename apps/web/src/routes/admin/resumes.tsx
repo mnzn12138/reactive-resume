@@ -1,20 +1,151 @@
-import { msg } from "@lingui/core/macro";
+import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { createFileRoute } from "@tanstack/react-router";
-import { AdminPlaceholder } from "./-components/placeholder";
+import { Trans } from "@lingui/react/macro";
+import { MagnifyingGlassIcon } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
+import { createFileRoute, stripSearchParams, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import z from "zod";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@reactive-resume/ui/components/input-group";
+import { Combobox } from "@/components/ui/combobox";
+import { orpc } from "@/libs/orpc/client";
+import { createNoindexFollowMeta } from "@/libs/seo";
+import { ResumesTable } from "./-components/resumes-table";
+
+const PAGE_SIZE = 25;
+
+const searchSchema = z.object({
+	search: z.string().default(""),
+	isPublic: z.boolean().optional(),
+	isLocked: z.boolean().optional(),
+	sortBy: z.enum(["createdAt", "updatedAt", "name"]).default("createdAt"),
+	sortOrder: z.enum(["asc", "desc"]).default("desc"),
+	page: z.number().int().min(1).default(1),
+});
+
+type Search = z.output<typeof searchSchema>;
+
+const defaultSearch: Search = { search: "", sortBy: "createdAt", sortOrder: "desc", page: 1 };
 
 export const Route = createFileRoute("/admin/resumes")({
 	component: RouteComponent,
-	head: () => ({ meta: [{ title: "Resumes · Admin" }] }),
+	validateSearch: searchSchema,
+	search: { middlewares: [stripSearchParams(defaultSearch)] },
+	head: () => ({ meta: [createNoindexFollowMeta(), { title: "Resumes · Admin" }] }),
 });
+
+const VISIBILITY_OPTIONS = [
+	{ value: "all", label: "Any visibility" },
+	{ value: "public", label: "Public" },
+	{ value: "private", label: "Private" },
+];
+
+const STATUS_OPTIONS = [
+	{ value: "all", label: "Any status" },
+	{ value: "locked", label: "Locked" },
+	{ value: "unlocked", label: "Unlocked" },
+];
 
 function RouteComponent() {
 	const { i18n } = useLingui();
+	const { search, isPublic, isLocked, sortBy, sortOrder, page } = Route.useSearch();
+	const navigate = useNavigate({ from: Route.fullPath });
+
+	// Typing stays local so the input remains responsive; the URL — and so the
+	// query — only updates once typing settles.
+	const [searchDraft, setSearchDraft] = useState(search);
+
+	useEffect(() => {
+		if (searchDraft === search) return;
+		const timer = setTimeout(() => {
+			void navigate({ search: (prev: Search) => ({ ...prev, search: searchDraft, page: 1 }), replace: true });
+		}, 300);
+		return () => clearTimeout(timer);
+	}, [searchDraft, search, navigate]);
+
+	const query = useQuery(
+		orpc.admin.resumes.list.queryOptions({
+			input: {
+				...(search ? { search } : {}),
+				...(isPublic !== undefined ? { isPublic } : {}),
+				...(isLocked !== undefined ? { isLocked } : {}),
+				sortBy,
+				sortOrder,
+				limit: PAGE_SIZE,
+				offset: (page - 1) * PAGE_SIZE,
+			},
+		}),
+	);
+
+	const patchSearch = (patch: Partial<Search>) => {
+		void navigate({ search: (prev: Search) => ({ ...prev, ...patch, page: 1 }), replace: true });
+	};
 
 	return (
-		<AdminPlaceholder
-			title={i18n._(msg`Resumes`)}
-			description={i18n._(msg`Find resumes across all accounts, lock or remove them.`)}
-		/>
+		<div className="flex flex-col gap-4">
+			<div>
+				<h1 className="font-semibold text-2xl tracking-tight">
+					<Trans>Resumes</Trans>
+				</h1>
+				<p className="text-muted-foreground text-sm">
+					<Trans>Find resumes across all accounts, lock or remove them.</Trans>
+				</p>
+			</div>
+
+			<div className="flex flex-wrap items-center gap-2">
+				<InputGroup className="max-w-xs">
+					<InputGroupAddon>
+						<MagnifyingGlassIcon />
+					</InputGroupAddon>
+					<InputGroupInput
+						value={searchDraft}
+						onChange={(event) => setSearchDraft(event.target.value)}
+						placeholder={i18n._(t`Search by resume, slug or owner`)}
+						aria-label={i18n._(t`Search resumes`)}
+					/>
+				</InputGroup>
+
+				<Combobox
+					className="w-44"
+					options={VISIBILITY_OPTIONS}
+					value={isPublic === undefined ? "all" : isPublic ? "public" : "private"}
+					onValueChange={(value) => patchSearch({ isPublic: value === "all" ? undefined : value === "public" })}
+				/>
+
+				<Combobox
+					className="w-40"
+					options={STATUS_OPTIONS}
+					value={isLocked === undefined ? "all" : isLocked ? "locked" : "unlocked"}
+					onValueChange={(value) => patchSearch({ isLocked: value === "all" ? undefined : value === "locked" })}
+				/>
+			</div>
+
+			<ResumesTable
+				resumes={query.data?.items ?? []}
+				total={query.data?.total ?? 0}
+				isLoading={query.isLoading}
+				emptyMessage={i18n._(t`No resumes match these filters.`)}
+				pagination={{ pageIndex: page - 1, pageSize: PAGE_SIZE }}
+				onPaginationChange={(updater) => {
+					const next = typeof updater === "function" ? updater({ pageIndex: page - 1, pageSize: PAGE_SIZE }) : updater;
+					void navigate({ search: (prev: Search) => ({ ...prev, page: next.pageIndex + 1 }), replace: true });
+				}}
+				sorting={[{ id: sortBy, desc: sortOrder === "desc" }]}
+				onSortingChange={(updater) => {
+					const next = typeof updater === "function" ? updater([{ id: sortBy, desc: sortOrder === "desc" }]) : updater;
+					const first = next.at(0);
+					if (!first) return;
+					void navigate({
+						search: (prev: Search) => ({
+							...prev,
+							sortBy: first.id as Search["sortBy"],
+							sortOrder: first.desc ? "desc" : "asc",
+							page: 1,
+						}),
+						replace: true,
+					});
+				}}
+			/>
+		</div>
 	);
 }

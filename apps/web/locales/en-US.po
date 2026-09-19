@@ -22,6 +22,12 @@ msgstr ""
 msgid "\"{0} · {1}\" and its full timeline will be permanently deleted. This can't be undone."
 msgstr "\"{0} · {1}\" and its full timeline will be permanently deleted. This can't be undone."
 
+#. placeholder {0}: target.name
+#. placeholder {1}: target.owner.email
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "\"{0}\" by {1} will be permanently deleted, along with its saved versions. This can't be undone."
+msgstr "\"{0}\" by {1} will be permanently deleted, along with its saved versions. This can't be undone."
+
 #. placeholder {0}: selected.length
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "{0, plural, one {# application to export} other {# applications to export}}"
@@ -286,6 +292,7 @@ msgid "Account menu"
 msgstr "Account menu"
 
 #: src/features/applications/components/table-view.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 msgid "Actions"
 msgstr "Actions"
@@ -1670,6 +1677,7 @@ msgstr "Degree"
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
@@ -1706,6 +1714,10 @@ msgstr "Delete picture"
 msgid "Delete provider"
 msgstr "Delete provider"
 
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Delete resume"
+msgstr "Delete resume"
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "Delete this account?"
 msgstr "Delete this account?"
@@ -1719,6 +1731,10 @@ msgstr "Delete this agent thread?"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this application?"
 msgstr "Delete this application?"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Delete this resume?"
+msgstr "Delete this resume?"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this timeline entry?"
@@ -3207,6 +3223,14 @@ msgstr "Location"
 msgid "Lock"
 msgstr "Lock"
 
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Lock editing"
+msgstr "Lock editing"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Locked"
+msgstr "Locked"
+
 #: src/features/ats-checker/messages.ts
 msgid "Long stretches are set in capitals."
 msgstr "Long stretches are set in capitals."
@@ -3523,6 +3547,10 @@ msgstr "No results found."
 msgid "No resume linked."
 msgstr "No resume linked."
 
+#: src/routes/admin/resumes.tsx
+msgid "No resumes match these filters."
+msgstr "No resumes match these filters."
+
 #: src/routes/dashboard/resumes/-components/grid-view.tsx
 #: src/routes/dashboard/resumes/-components/list-view.tsx
 msgid "No resumes match your search."
@@ -3769,6 +3797,10 @@ msgstr "Override instance-wide feature flags at runtime."
 #: src/routes/admin/overview.tsx
 msgid "Overview"
 msgstr "Overview"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Owner"
+msgstr "Owner"
 
 #: src/libs/resume/section.tsx
 msgid "Page"
@@ -4041,6 +4073,7 @@ msgid "Print or export the form to a flat PDF before sending it."
 msgstr "Print or export the form to a flat PDF before sending it."
 
 #: src/features/homepage/feature-explorer.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 msgid "Private"
 msgstr "Private"
 
@@ -4107,6 +4140,7 @@ msgid "Provider model"
 msgstr "Provider model"
 
 #: src/features/homepage/feature-explorer.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 msgid "Public"
 msgstr "Public"
 
@@ -4410,6 +4444,7 @@ msgid "Restore this version?"
 msgstr "Restore this version?"
 
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/agent/-components/resume-pane.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Resume"
@@ -4673,6 +4708,10 @@ msgstr "Search applications…"
 msgid "Search by name, email or username"
 msgstr "Search by name, email or username"
 
+#: src/routes/admin/resumes.tsx
+msgid "Search by resume, slug or owner"
+msgstr "Search by resume, slug or owner"
+
 #. Accessible label for command palette search input
 #: src/features/command-palette/index.tsx
 msgid "Search commands"
@@ -4687,6 +4726,10 @@ msgstr "Search for an icon"
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Search for…"
 msgstr "Search for…"
+
+#: src/routes/admin/resumes.tsx
+msgid "Search resumes"
+msgstr "Search resumes"
 
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Search resumes..."
@@ -5130,6 +5173,7 @@ msgstr "Something went wrong while signing you in. Please try again."
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Something went wrong. Please try again."
@@ -5248,6 +5292,7 @@ msgstr "Start thread"
 msgid "Statistics"
 msgstr "Statistics"
 
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 msgid "Status"
 msgstr "Status"
@@ -6050,6 +6095,14 @@ msgstr "Unlinking your {providerName} account..."
 msgid "Unlock"
 msgstr "Unlock"
 
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Unlock editing"
+msgstr "Unlock editing"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Unlocked"
+msgstr "Unlocked"
+
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Unnamed passkey"
 msgstr "Unnamed passkey"
@@ -6148,6 +6201,10 @@ msgstr "Update this timeline note."
 #: src/dialogs/auth/change-password.tsx
 msgid "Update your password"
 msgstr "Update your password"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Updated"
+msgstr "Updated"
 
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
@@ -6359,6 +6416,10 @@ msgstr "Very little text was recovered for this many pages."
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Views"
 msgstr "Views"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Visibility"
+msgstr "Visibility"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Visitors need your password to open the resume."

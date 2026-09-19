@@ -111,7 +111,7 @@ describe("ordered marker gutters (#2751)", () => {
 					if (count === 102) expect(pages).toBeGreaterThan(1);
 					assertGutters(runs, options);
 				},
-				20000, // Include the first CJK font download during concurrent suite runs.
+				60000, // Include the first CJK font download during concurrent suite runs.
 			);
 		}
 		it.each([{ columns: 3 }, { sidebar: true }, ...(rtl ? [] : [{ nested: true }])])(

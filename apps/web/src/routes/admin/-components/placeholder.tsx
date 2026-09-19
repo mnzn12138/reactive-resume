@@ -9,9 +9,8 @@ type PlaceholderProps = {
 };
 
 /**
- * Stand-in for the admin sections that land in later phases (P1 users/resumes,
- * P3 overview + settings). Keeps the sidebar navigable without shipping
- * half-built screens.
+ * Stand-in for the admin sections that land in later phases (P3 overview +
+ * settings). Keeps the sidebar navigable without shipping half-built screens.
  */
 export const AdminPlaceholder = ({ title, description }: PlaceholderProps) => (
 	<div className="flex flex-col gap-2">

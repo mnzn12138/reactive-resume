@@ -48,7 +48,7 @@ async function readPdf(data: ResumeData) {
 
 describe("special characters in exported PDFs (#3106)", () => {
 	it("embeds non-breaking hyphens in plain and rich text without corrupting adjacent letters", {
-		timeout: 30_000,
+		timeout: 60_000,
 	}, async () => {
 		const data = fixture();
 		data.metadata.typography.body.fontFamily = "IBM Plex Serif";

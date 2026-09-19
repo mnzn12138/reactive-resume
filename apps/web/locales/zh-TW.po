@@ -27,6 +27,12 @@ msgstr ""
 msgid "\"{0} · {1}\" and its full timeline will be permanently deleted. This can't be undone."
 msgstr "\"{0} · {1}\" 及其完整時間軸將被永久刪除。此操作無法復原。"
 
+#. placeholder {0}: target.name
+#. placeholder {1}: target.owner.email
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "\"{0}\" by {1} will be permanently deleted, along with its saved versions. This can't be undone."
+msgstr ""
+
 #. placeholder {0}: selected.length
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "{0, plural, one {# application to export} other {# applications to export}}"
@@ -291,6 +297,7 @@ msgid "Account menu"
 msgstr "帳戶選單"
 
 #: src/features/applications/components/table-view.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 msgid "Actions"
 msgstr "動作"
@@ -1675,6 +1682,7 @@ msgstr "學位"
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
@@ -1711,6 +1719,10 @@ msgstr "刪除圖片"
 msgid "Delete provider"
 msgstr "刪除提供者"
 
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Delete resume"
+msgstr ""
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "Delete this account?"
 msgstr ""
@@ -1724,6 +1736,10 @@ msgstr "刪除此代理對話串？"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this application?"
 msgstr "刪除此申請？"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Delete this resume?"
+msgstr ""
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this timeline entry?"
@@ -3212,6 +3228,14 @@ msgstr "地點"
 msgid "Lock"
 msgstr "鎖定"
 
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Lock editing"
+msgstr ""
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Locked"
+msgstr ""
+
 #: src/features/ats-checker/messages.ts
 msgid "Long stretches are set in capitals."
 msgstr "有大段文字使用了全大寫。"
@@ -3528,6 +3552,10 @@ msgstr "找不到相符的結果。"
 msgid "No resume linked."
 msgstr "尚未連結履歷。"
 
+#: src/routes/admin/resumes.tsx
+msgid "No resumes match these filters."
+msgstr ""
+
 #: src/routes/dashboard/resumes/-components/grid-view.tsx
 #: src/routes/dashboard/resumes/-components/list-view.tsx
 msgid "No resumes match your search."
@@ -3773,6 +3801,10 @@ msgstr ""
 #: src/routes/admin/-components/sidebar.tsx
 #: src/routes/admin/overview.tsx
 msgid "Overview"
+msgstr ""
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Owner"
 msgstr ""
 
 #: src/libs/resume/section.tsx
@@ -4046,6 +4078,7 @@ msgid "Print or export the form to a flat PDF before sending it."
 msgstr "在傳送之前，把表單列印或匯出為平面化的 PDF。"
 
 #: src/features/homepage/feature-explorer.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 msgid "Private"
 msgstr "私密"
 
@@ -4112,6 +4145,7 @@ msgid "Provider model"
 msgstr "提供者模式"
 
 #: src/features/homepage/feature-explorer.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 msgid "Public"
 msgstr "公開"
 
@@ -4415,6 +4449,7 @@ msgid "Restore this version?"
 msgstr "恢復此版本？"
 
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/agent/-components/resume-pane.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Resume"
@@ -4678,6 +4713,10 @@ msgstr "搜尋應徵紀錄…"
 msgid "Search by name, email or username"
 msgstr ""
 
+#: src/routes/admin/resumes.tsx
+msgid "Search by resume, slug or owner"
+msgstr ""
+
 #. Accessible label for command palette search input
 #: src/features/command-palette/index.tsx
 msgid "Search commands"
@@ -4692,6 +4731,10 @@ msgstr "搜尋圖示"
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Search for…"
 msgstr "搜尋…"
+
+#: src/routes/admin/resumes.tsx
+msgid "Search resumes"
+msgstr ""
 
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Search resumes..."
@@ -5135,6 +5178,7 @@ msgstr "登入時發生錯誤。請再試一次。"
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Something went wrong. Please try again."
@@ -5253,6 +5297,7 @@ msgstr "開始對話串"
 msgid "Statistics"
 msgstr "統計資料"
 
+#: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 msgid "Status"
 msgstr ""
@@ -6055,6 +6100,14 @@ msgstr "正在取消連結您的 {providerName} 帳戶…"
 msgid "Unlock"
 msgstr "解鎖"
 
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Unlock editing"
+msgstr ""
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Unlocked"
+msgstr ""
+
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Unnamed passkey"
 msgstr "未命名通行金鑰"
@@ -6153,6 +6206,10 @@ msgstr "更新此時間軸備註。"
 #: src/dialogs/auth/change-password.tsx
 msgid "Update your password"
 msgstr "更新您的密碼"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Updated"
+msgstr ""
 
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
@@ -6364,6 +6421,10 @@ msgstr "以這麼多頁數來說，能擷取出的文字非常少。"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Views"
 msgstr "檢視數"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Visibility"
+msgstr ""
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Visitors need your password to open the resume."

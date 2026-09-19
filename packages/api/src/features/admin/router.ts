@@ -1,5 +1,6 @@
 import { adminProcedure } from "../../context";
-import { adminUserDto } from "../../dto/admin";
+import { adminResumeDto, adminUserDto } from "../../dto/admin";
+import { adminResumeService } from "./resume-service";
 import { adminUserService } from "./service";
 
 /**
@@ -82,4 +83,51 @@ const usersRouter = {
 		.handler(({ context, input }) => adminUserService.remove({ ...input, actorId: context.user.id })),
 };
 
-export const adminRouter = { users: usersRouter };
+const resumesRouter = {
+	list: adminProcedure
+		.route({
+			method: "GET",
+			path: "/admin/resumes",
+			tags: ["Internal"],
+			operationId: "adminListResumes",
+			summary: "List resumes",
+			description:
+				"Returns a paginated list of resumes across all accounts, with optional search, visibility and lock filters. Administrator access required.",
+			successDescription: "The matching resumes and the total count across all pages.",
+		})
+		.input(adminResumeDto.list.input)
+		.output(adminResumeDto.list.output)
+		.handler(({ input }) => adminResumeService.list(input)),
+
+	setLock: adminProcedure
+		.route({
+			method: "PATCH",
+			path: "/admin/resumes/{id}/lock",
+			tags: ["Internal"],
+			operationId: "adminSetResumeLock",
+			summary: "Lock or unlock a resume",
+			description:
+				"Locks a resume to prevent its owner from editing it, or unlocks it again. Administrator access required.",
+			successDescription: "The updated resume.",
+		})
+		.input(adminResumeDto.setLock.input)
+		.output(adminResumeDto.setLock.output)
+		.handler(({ context, input }) => adminResumeService.setLock({ ...input, actorId: context.user.id })),
+
+	delete: adminProcedure
+		.route({
+			method: "DELETE",
+			path: "/admin/resumes/{id}",
+			tags: ["Internal"],
+			operationId: "adminDeleteResume",
+			summary: "Delete a resume",
+			description:
+				"Permanently deletes a resume, its saved versions and its statistics. Uploaded images are left alone because the owner's other resumes may share them. Administrator access required.",
+			successDescription: "The resume was deleted.",
+		})
+		.input(adminResumeDto.delete.input)
+		.output(adminResumeDto.delete.output)
+		.handler(({ context, input }) => adminResumeService.remove({ ...input, actorId: context.user.id })),
+};
+
+export const adminRouter = { users: usersRouter, resumes: resumesRouter };

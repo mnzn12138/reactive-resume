@@ -1,6 +1,6 @@
 # 36 — 后台管理界面(Admin Console)设计
 
-> 状态:**P0 基座已完成**,**P1 用户管理已完成**,P2/P3 待实施
+> 状态:**P0 基座已完成**,**P1 用户管理已完成**,**P2 简历管理已完成**,P3 待实施
 > 日期:2026-09-18
 >
 > **P0 落地清单**(2026-09-18):
@@ -18,6 +18,15 @@
 > - `apps/web/src/routes/admin/users.tsx`:列表页(搜索防抖 / 角色+状态筛选 / 排序 / 服务端分页)
 > - `apps/web/src/routes/admin/-components/users-table.tsx`:列定义 + 行操作菜单 + 封禁对话框
 > - `packages/ui/src/components/data-table.tsx`:补 re-export(`createColumnHelper` 及类型),`columns` 泛型简化为 `ColumnDef<TData, any>[]`
+>
+> **P2 落地清单**(2026-09-19):
+> - `packages/api/src/dto/admin.ts`:`adminResumeDto`(list / setLock / delete);输出只给 `hasPassword`,不含 `password` 明文与体积很大的 `data`
+> - `packages/api/src/features/admin/resume-service.ts` + `resume-service.test.ts`(9 例全通过)
+> - `packages/api/src/features/admin/sql.ts`:`escapeLike` 从 `service.ts` 抽出,两个 service 共用
+> - `packages/api/src/features/admin/router.ts`:挂载 `resumes`(3 个端点,全部 `tags: ["Internal"]`)
+> - `apps/web/src/routes/admin/resumes.tsx`:列表页替换占位(搜索防抖 / 可见性+锁定筛选 / 排序 / 服务端分页)
+> - `apps/web/src/routes/admin/-components/resumes-table.tsx`:列定义 + 锁定解锁/删除行操作
+> - 审计复用 P0 预留的 `resume.lock.set` / `resume.delete`,无需新迁移
 
 ## 一、目标
 
@@ -225,3 +234,12 @@ apps/web/src/routes/admin/
 7. **`createNoindexFollowMeta()` 返回单个对象,不是数组**,别写 `[...createNoindexFollowMeta()]`。
 8. **审计写入顺序**:先做主操作,再 `recordAudit`。`recordAudit` 内部 try/catch,失败只 `console.error`——封禁/删除绝不能因为审计表写不进去而失败。
 9. **删用户的清理范围**:所有指向 `user.id` 的外键都是 `on delete cascade`,删掉 `user` 行即可;**唯一需要手动清的是存储对象**(`uploads/<userId>/`),用 `getStorageService().list()` + `delete()`,失败只记日志。
+
+## 十二、实施备注(P2 过程中踩到的坑)
+
+1. **删单份简历不碰存储。** 上传的图片在 `uploads/<userId>/` 下,同一个用户的其它简历完全可能引用同一张图,按简历删文件会误删别人还在用的资源。只有"删账号"这条路径才清目录。`resume_version` / `resume_statistics` 靠 `on delete cascade` 自动跟走。
+2. **`setLock` 必须幂等。** 目标状态与当前一致时既不写库也不落审计 —— 否则管理员连点两次会留下两条内容相同的日志,审计就失去了"发生过变更"的语义。`setRole` 已经是这个写法,照搬即可。
+3. **owner 用 `innerJoin` 一次取回。** 列表和单条查询共用同一组 `listColumns`(扁平的 `ownerId` / `ownerEmail` …),再由 `toAdminResume` 收敛成 DTO 的嵌套 `owner`。`password` 也在这组列里,但只用来推导 `hasPassword`,不进入返回值。join 用 inner 是安全的:`resume.user_id` 是 `on delete cascade`,不存在没有 owner 的简历。
+4. **表格里 `owner` / `isPublic` / `isLocked` 三列必须 `enableSorting: false`。** 服务端 `sortBy` 是 zod enum(`createdAt` / `updatedAt` / `name`),而 `onSortingChange` 会把列 id 直接写进 URL;点一个服务端不认的列会让整个搜索参数校验失败、页面直接报错。
+5. **测试的 fake db 要补 `innerJoin`。** `service.test.ts` 的 passthrough 方法表里原本没有它,漏了会静默返回空结果而不是报错(chain 上没有该方法 → 抛错,但报错信息指向别处)。
+6. **路由文件已存在时 `routeTree.gen.ts` 不会变。** `/admin/resumes` 在 P0 就登记过了,本次只是把占位组件换成真实页面,所以构建后 `routeTree.gen.ts` 的 `git status` 应当是干净的 —— 不干净说明误改了生成物。
