@@ -127,7 +127,9 @@ pnpm test:e2e                                    # Playwright
 
 优先用包过滤器而不是全仓库运行,例如 `pnpm --filter web typecheck`、`pnpm --filter @reactive-resume/pdf test`。Vitest 路径是包内相对路径,用法为 `pnpm --filter <package> test -- <path>`。
 
-注意:`compose.yml` 中的应用是**从源码构建**(`build: .`),发布镜像那两行是注释。`compose.dev.yml` 使用 `Dockerfile.dev` 并带 watch 同步。
+注意:两份 compose(`compose.yml` / `compose.dev.yml`)**只定义基础设施**(postgres / redis / seaweedfs),**不含应用服务** —— 应用一律在宿主机用 `pnpm dev` 启动。因此 `docker compose -f compose.dev.yml up -d` 不带服务名也是安全的,不会起应用容器抢 3000 端口。
+
+镜像的构建与推送由 `.github/workflows/docker-build.yml` 单独负责(push 到 main 或打 `v*` tag 时触发,推送到 `docker.io/mnzn12138/reactive-resume` 与 GHCR),日常开发用不到 —— 这也是 `Dockerfile` 仍然保留的原因。容器内开发的 `Dockerfile.dev` 已删除。
 
 ## 注意事项
 

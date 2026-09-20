@@ -1,45 +1,38 @@
 <div align="center">
-  <a href="https://rxresu.me">
-    <img src="apps/web/public/opengraph/banner.jpg" alt="Reactive Resume" />
-  </a>
+  <img src="apps/web/public/opengraph/banner.jpg" alt="Reactive Resume" />
 
   <h1>Reactive Resume</h1>
 
   <p>Reactive Resume is a free and open-source resume builder that makes it easy to create, update, and share your resume.</p>
 
   <p>
-    <a href="https://rxresu.me"><strong>Get Started</strong></a>
+    <a href="./DEPLOYMENT.md"><strong>部署文档（中文）</strong></a>
     ·
-    <a href="https://docs.rxresu.me"><strong>Learn More</strong></a>
+    <a href="./docs/contributing/development.mdx"><strong>Development setup</strong></a>
   </p>
 
   <p>
-    <img src="https://img.shields.io/github/package-json/v/reactive-resume/reactive-resume?style=flat-square" alt="Reactive Resume Version">
-    <img src="https://img.shields.io/github/stars/reactive-resume/reactive-resume?style=flat-square" alt="GitHub Stars">
-    <img src="https://img.shields.io/github/license/reactive-resume/reactive-resume?style=flat-square" alt="License" />
-    <img src="https://img.shields.io/docker/pulls/mnzn12138/reactive-resume?style=flat-square" alt="Docker Pulls" />
-    <a href="https://discord.gg/aSyA5ZSxpb"><img src="https://img.shields.io/discord/1173518977851473940?style=flat-square&label=discord" alt="Discord" /></a>
-    <a href="https://crowdin.com/project/reactive-resume"><img src="https://badges.crowdin.net/reactive-resume/localized.svg?style=flat-square" alt="Crowdin" /></a>
-    <a href="https://github.com/sponsors/mnzn12138"><img src="https://img.shields.io/github/sponsors/mnzn12138?style=flat-square&label=sponsors" alt="Sponsors" /></a>
-    <a href="https://opencollective.com/reactive-resume/donate"><img src="https://img.shields.io/opencollective/backers/reactive-resume?style=flat-square&label=donations" alt="Donations" /></a>
+    <img src="https://img.shields.io/github/package-json/v/mnzn12138/reactive-resume?style=flat-square" alt="Version">
+    <img src="https://img.shields.io/github/license/mnzn12138/reactive-resume?style=flat-square" alt="License" />
   </p>
 </div>
 
 ---
 
-Pick a template, fill in your details, and export to PDF. Basic use needs no account. If you want more control, you can run the whole application on your own infrastructure.
+Pick a template, fill in your details, and export to PDF. You own your data: the codebase is open source under the MIT license, with no tracking, no ads, and no hidden costs.
 
-You own your data. The codebase is open source under the MIT license, with no tracking, no ads, and no hidden costs.
+This repository is a self-hosted fork. Creating and editing resumes requires an account — sign up on the login page, then promote the first account to administrator from the CLI. Full step-by-step instructions are in [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## Features
 
 **Resume Building**
 
 - Live preview as you type
-- Multiple export formats (PDF, JSON, DOCX)
+- Multiple export formats (PDF, JSON, DOCX, Markdown)
 - Drag-and-drop section ordering
 - Custom sections for any content type
 - Rich text editor
+- Undo and version history
 
 **Templates**
 
@@ -48,21 +41,28 @@ You own your data. The codebase is open source under the MIT license, with no tr
 - Customizable colors, fonts, and spacing
 - Structured Style Rules for section and text styling
 
+**Job Applications**
+
+- Track applications through a pipeline with stages, tags, and notes
+- Timeline per application
+- Bulk update and CSV import
+
 **Privacy & Control**
 
-- Self-host on your own infrastructure
+- Runs on your own infrastructure
 - No tracking or analytics by default
 - Full data export at any time
 - Delete your data permanently with one click
 
 **Extras**
 
-- AI integration (OpenAI, Google Gemini, Anthropic Claude)
-- Multi-language support
+- AI integration: Anthropic Claude, Cohere, DeepSeek, Fireworks, Google Gemini, Groq, Mistral AI, Ollama Cloud, OpenAI, OpenRouter, Perplexity, xAI Grok
+- Multi-language interface (Simplified Chinese by default)
 - Share resumes via unique links
 - Import from JSON Resume format
 - Dark mode
 - Passkey and two-factor authentication
+- MCP server for managing resumes and applications from an AI client
 
 ## Templates
 
@@ -139,23 +139,41 @@ You own your data. The codebase is open source under the MIT license, with no tr
 
 ## Quick Start
 
-The quickest way to run Reactive Resume locally:
+Requires Node.js >= 24 and pnpm (pinned in `packageManager`). Docker is only used for the infrastructure services.
 
 ```bash
 # Clone the repository
-git clone --depth=1  https://github.com/reactive-resume/reactive-resume.git reactive-resume
+git clone https://github.com/mnzn12138/reactive-resume
 cd reactive-resume
 
-# Start all services
-docker compose up -d
+# Install dependencies
+pnpm install
 
-# Access the app
-open http://localhost:3000
+# Start the infrastructure (PostgreSQL, Redis, SeaweedFS)
+docker compose -f compose.dev.yml up -d postgres redis seaweedfs seaweedfs_create_bucket
+
+# Create your env file
+cp .env.example .env
 ```
 
-For detailed setup instructions, environment configuration, and self-hosting guides, see the [documentation](https://docs.rxresu.me).
+Edit `.env` before starting: the hostnames in `.env.example` are Docker service names, so change them to `localhost`, and replace `AUTH_SECRET` with a fresh random value.
 
-Chinese step-by-step setup and deployment instructions for this repository (local pnpm with Docker-backed infrastructure, plus first-admin setup and known pitfalls) live in [DEPLOYMENT.md](./DEPLOYMENT.md).
+```bash
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
+S3_ENDPOINT="http://localhost:8333"
+REDIS_URL="redis://localhost:6379"
+AUTH_SECRET="<openssl rand -hex 32>"
+```
+
+Then start the dev server:
+
+```bash
+pnpm dev
+```
+
+Open <http://localhost:3000>. In dev mode Vite serves port 3000 and proxies API calls to the Hono server on port 3001, so you only ever need port 3000.
+
+For the full walkthrough — including creating the first administrator, ops commands, and known pitfalls — see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## Tech Stack
 
@@ -173,71 +191,27 @@ Chinese step-by-step setup and deployment instructions for this repository (loca
 
 ## Documentation
 
-The full documentation lives at [docs.rxresu.me](https://docs.rxresu.me):
+The documentation source lives in [`docs/`](./docs) (Mintlify). It covers usage, self-hosting, and contributing:
 
-| Guide                                                                        | Description                      |
-| ---------------------------------------------------------------------------- | -------------------------------- |
-| [Getting Started](https://docs.rxresu.me/getting-started)                    | First-time setup and basic usage |
-| [Self-Hosting](https://docs.rxresu.me/self-hosting/docker)                   | Deploy on your own server        |
-| [Development setup](https://docs.rxresu.me/contributing/development)         | Local development environment    |
-| [Project architecture](https://docs.rxresu.me/contributing/architecture)     | Codebase structure and patterns  |
-| [Exporting Your Resume](https://docs.rxresu.me/guides/exporting-your-resume) | PDF and JSON export options      |
+| Guide                                                            | Description                             |
+| ---------------------------------------------------------------- | --------------------------------------- |
+| [Getting Started](./docs/getting-started.mdx)                    | First-time setup and basic usage        |
+| [Development setup](./docs/contributing/development.mdx)         | Local development environment           |
+| [Project architecture](./docs/contributing/architecture.mdx)     | Codebase structure and patterns         |
+| [Exporting Your Resume](./docs/guides/exporting-your-resume.mdx) | PDF and JSON export options             |
+| [Deployment guide (Chinese)](./DEPLOYMENT.md)                    | 本机部署、环境变量、管理员、运维命令     |
 
-## Self-Hosting
+## Deployment
 
-Reactive Resume can be self-hosted using Docker. The stack includes:
+The application runs on the host via `pnpm dev` (or `pnpm build` followed by `pnpm start`). Docker is only used to run the three infrastructure services:
 
 - **PostgreSQL** — Database for storing user data and resumes
-- **SeaweedFS** (optional) — S3-compatible storage for file uploads
+- **Redis** — Stream and state for the AI agent workspace
+- **SeaweedFS** — S3-compatible storage for file uploads
 
-> **From v5.1.0 onwards** — PDF generation runs entirely client-side via `@react-pdf/renderer`. New deployments no longer need Browserless, Chromium, or any external print service. The `PRINTER_*` and `BROWSERLESS_*` environment variables are no longer read and can be removed from your `.env`.
+> **PDF generation** runs entirely client-side via `@react-pdf/renderer`. No Browserless, Chromium, or external print service is required, and the `PRINTER_*` / `BROWSERLESS_*` environment variables are no longer read.
 
-Pull the latest image from Docker Hub or GitHub Container Registry:
-
-```bash
-# Docker Hub
-docker pull mnzn12138/reactive-resume:latest
-
-# GitHub Container Registry
-docker pull ghcr.io/mnzn12138/reactive-resume:latest
-```
-
-See the [self-hosting guide](https://docs.rxresu.me/self-hosting/docker) for complete instructions.
-
-## Support
-
-Reactive Resume is and always will be free and open source. If it has helped you land a job or saved you time, please consider supporting continued development:
-
-<p>
-  <a href="https://github.com/sponsors/mnzn12138">
-    <img src="https://img.shields.io/badge/GitHub%20Sponsors-Support-ea4aaa?style=flat-square&logo=github-sponsors" alt="GitHub Sponsors" />
-  </a>
-  <a href="https://opencollective.com/reactive-resume/donate">
-    <img src="https://img.shields.io/badge/Open%20Collective-Contribute-7FADF2?style=flat-square&logo=open-collective" alt="Open Collective" />
-  </a>
-</p>
-
-Other ways to support:
-
-- Star this repository
-- Report reproducible bugs and suggest actionable features
-- Help other users in [GitHub Discussions](https://github.com/reactive-resume/reactive-resume/discussions/categories/q-a)
-- Improve documentation
-- Help with translations
-
-<a href="https://blacksmith.sh/">
-  <img width="368" height="126" alt="powered-by-blacksmith" src="https://github.com/user-attachments/assets/3e95d11b-4579-4082-8d0c-6b574f925625" />
-</a>
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=reactive-resume%2Freactive-resume&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=reactive-resume/reactive-resume&type=date&theme=dark&legend=top-left&sealed_token=QmaOn4Ech499R6kpQe8ONn911UjGUaJfQBT0MXlQLU9hTo-Ie7lTxIILWbBvmtzDGHk7ziWKN_N5iM5mgP8widn_FGHd9-PHNokPtSji8XLgbFpqatgyqIDPnOys-IhO40W3J0HeH07FL-Q8Bq6ArRk3LDtJDwjh4m0ya-2L59ULb7BaqxkSDuCytkCr" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=reactive-resume/reactive-resume&type=date&legend=top-left&sealed_token=QmaOn4Ech499R6kpQe8ONn911UjGUaJfQBT0MXlQLU9hTo-Ie7lTxIILWbBvmtzDGHk7ziWKN_N5iM5mgP8widn_FGHd9-PHNokPtSji8XLgbFpqatgyqIDPnOys-IhO40W3J0HeH07FL-Q8Bq6ArRk3LDtJDwjh4m0ya-2L59ULb7BaqxkSDuCytkCr" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=reactive-resume/reactive-resume&type=date&legend=top-left&sealed_token=QmaOn4Ech499R6kpQe8ONn911UjGUaJfQBT0MXlQLU9hTo-Ie7lTxIILWbBvmtzDGHk7ziWKN_N5iM5mgP8widn_FGHd9-PHNokPtSji8XLgbFpqatgyqIDPnOys-IhO40W3J0HeH07FL-Q8Bq6ArRk3LDtJDwjh4m0ya-2L59ULb7BaqxkSDuCytkCr" />
- </picture>
-</a>
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for environment configuration, creating the first administrator, ops commands, and the acceptance checklist.
 
 ## Contributing
 
@@ -249,11 +223,7 @@ Every contribution helps, whether it is a typo fix or a new feature.
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-See the [development setup guide](https://docs.rxresu.me/contributing/development) for how to run the project locally.
-
-Maintainers review the [`status: needs triage` queue](https://github.com/reactive-resume/reactive-resume/issues?q=is%3Aissue+is%3Aopen+label%3A%22status%3A+needs+triage%22)
-weekly. Triaged bugs become `status: confirmed`; feature proposals become `status: accepted`; reports that need details become
-`status: needs info`.
+See the [development setup guide](./docs/contributing/development.mdx) for how to run the project locally.
 
 ## License
 

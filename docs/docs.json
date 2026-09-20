@@ -139,11 +139,11 @@
 					},
 					{
 						"group": "Self-Hosting",
-						"pages": ["self-hosting/docker", "self-hosting/examples", "self-hosting/sso", "self-hosting/migration"]
+						"pages": ["self-hosting/docker", "self-hosting/sso", "self-hosting/migration"]
 					},
 					{
 						"group": "Contributing",
-						"pages": ["contributing/architecture", "contributing/development", "contributing/translations"]
+						"pages": ["contributing/architecture", "contributing/development"]
 					},
 					{
 						"group": "Community",

@@ -27,11 +27,10 @@ services:
     command: redis-server --appendonly yes
     networks:
       - data_network
-    # Not exposed on the host by default. Redis can contain agent stream data
-    # including user chat content; keep it internal to the Docker network.
-    # Uncomment the ports block below if you need host access for tooling.
-    # ports:
-    #   - "127.0.0.1:6379:6379"
+    # Exposed on loopback because the app runs on the host (pnpm dev), not in a container.
+    # Redis can hold agent stream data including user chat content, so it stays on 127.0.0.1.
+    ports:
+      - "127.0.0.1:6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:
@@ -76,41 +75,6 @@ services:
     depends_on:
       seaweedfs:
         condition: service_healthy
-
-  reactive_resume:
-    # 镜像推送到 Docker Hub / GHCR 之后,可注释掉下面的 build 段并启用 image 直接拉取:
-    # image: mnzn12138/reactive-resume:latest
-    # image: ghcr.io/mnzn12138/reactive-resume:latest
-    build:
-      context: .
-      dockerfile: Dockerfile
-    networks:
-      - data_network
-      - storage_network
-    ports:
-      - "3000:3000"
-    env_file:
-      - path: .env.example
-        required: false
-      - path: .env
-        required: false
-    volumes:
-      - ./data:/app/data
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      seaweedfs:
-        condition: service_healthy
-      seaweedfs_create_bucket:
-        condition: service_completed_successfully
-    healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then((r) => { if (!r.ok) process.exit(1); }).catch(() => process.exit(1));"]
-      start_period: 10s
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 volumes:
   postgres_data:
