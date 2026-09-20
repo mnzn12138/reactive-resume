@@ -99,7 +99,9 @@ Reactive Resume 是一个 pnpm monorepo(Turborepo),包含两个可部署应用:`
 
 ## 环境与数据库
 
-把 `.env.example` 复制为 `.env.local`。三个必需变量:`APP_URL`(默认 `http://localhost:3000`)、`DATABASE_URL`(默认 `postgresql://postgres:postgres@localhost:5432/postgres`)、`AUTH_SECRET`(任意非空字符串)。
+给小组成员照着跑的完整部署步骤(本机 pnpm 运行、环境变量、创建管理员、验收清单、已知坑)见 [`DEPLOYMENT.md`](./DEPLOYMENT.md)。本节只讲容易踩坑的部分。
+
+把 `.env.example` 复制为 **`.env`**(运行时只读这个文件;本仓库不再维护 `.env.local`,已删除,备份在 `.env.local.bak`)。三个必需变量:`APP_URL`(默认 `http://localhost:3000`)、`DATABASE_URL`(默认 `postgresql://postgres:postgres@localhost:5432/postgres`)、`AUTH_SECRET`(任意非空字符串)。
 
 - **S3/SeaweedFS 可选。** 若 `S3_ACCESS_KEY_ID`、`S3_SECRET_ACCESS_KEY`、`S3_BUCKET` 三者都设置,应用使用 S3 兼容存储。`.env.example` 自带 SeaweedFS 默认值,因此要么启动 `seaweedfs` compose 服务,要么注释掉这些变量以使用 `<workspace>/data` 下的本地文件系统存储。`LOCAL_STORAGE_PATH` 若设置必须为绝对路径。
 - **`REDIS_URL` 与 `ENCRYPTION_SECRET`** 对核心简历流程是可选的,但保存 AI 提供商与已鉴权的 `/agent` 工作区需要两者。宿主机运行 dev 时用 `REDIS_URL=redis://localhost:6379`;容器内运行时用 `redis://redis:6379`。
@@ -108,12 +110,12 @@ Reactive Resume 是一个 pnpm monorepo(Turborepo),包含两个可部署应用:`
 
 ## 命令
 
-开发服务器前加 `dotenvx run -f .env.local --`;迁移命令不需要(见上)。测试、类型检查、lint、边界检查和 `pnpm build` 不需要;若某个命令因缺少环境变量失败,加上前缀重跑。
+开发服务器**直接 `pnpm dev`**:运行时只读根 `.env`,本仓库的配置都写在 `.env` 里。历史上有过 `.env.local`(SMTP 三项是空字符串),套 `dotenvx run -f .env.local --` 启动会把空值注入并盖掉 `.env` 的真实配置,导致发信静默失效 —— 该文件已删除,**不要再建**。迁移命令不需要前缀(见上)。测试、类型检查、lint、边界检查和 `pnpm build` 不需要;若某个命令因缺少环境变量失败,加上前缀重跑。
 
 ```
 sudo docker compose -f compose.dev.yml up -d postgres                                    # 仅数据库
 sudo docker compose -f compose.dev.yml up -d postgres redis seaweedfs seaweedfs_create_bucket   # 完整基础设施
-dotenvx run -f .env.local -- pnpm dev            # 3000 端口(dev:web 仅启动 web)
+pnpm dev                                         # 3000 端口(dotenvx 前缀可选,见上;dev:web 仅启动 web)
 pnpm db:generate                                 # db:migrate 用于应用(两者都已自带 env 加载)
 pnpm --filter web lingui:extract                 # 重新抽取 UI 文案(含 pdf:translations)
 pnpm check                                       # Biome + markdownlint + actionlint —— 会写入文件

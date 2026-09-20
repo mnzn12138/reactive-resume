@@ -155,6 +155,8 @@ open http://localhost:3000
 
 For detailed setup instructions, environment configuration, and self-hosting guides, see the [documentation](https://docs.rxresu.me).
 
+Chinese step-by-step setup and deployment instructions for this repository (local pnpm with Docker-backed infrastructure, plus first-admin setup and known pitfalls) live in [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 ## Tech Stack
 
 | Category         | Technology                      |

@@ -4,7 +4,7 @@ description: "Set up a local development environment for Reactive Resume with pn
 ---
 
 <Info>
-  **Prerequisites**: - [Node.js](https://nodejs.org/) v24 - [pnpm](https://pnpm.io/) v11.21.0 -
+  **Prerequisites**: - [Node.js](https://nodejs.org/) v24 - [pnpm](https://pnpm.io/) v12.3.4 -
   [Docker](https://docs.docker.com/get-docker/) and Docker Compose - [Git](https://git-scm.com/)
 </Info>
 
@@ -84,28 +84,35 @@ These steps set up Reactive Resume for local development, whether you're contrib
     S3_BUCKET=reactive-resume
     S3_FORCE_PATH_STYLE=true
 
-    # Email (Mailpit for local development)
-    SMTP_HOST=localhost
-    SMTP_PORT=1025
-    SMTP_FROM="Reactive Resume <noreply@rxresu.me>"
+    # Email (optional)
+    # Leave these unset during development: the app then logs the rendered email to
+    # the server console instead of sending it, so nothing reaches a real address.
+    # SMTP_HOST=localhost
+    # SMTP_PORT=1025
+    # SMTP_FROM="Reactive Resume <noreply@rxresu.me>"
 
     # AI Agent workspace and saved AI providers
     REDIS_URL=redis://localhost:6379
     ENCRYPTION_SECRET=change-me-to-a-secure-agent-secret-in-production
     ```
 
+    <Warning>
+      **`.env` vs `.env.local`**: the runtime loads only the repository-root `.env`; it never reads `.env.local`. Running `pnpm dev` without the `dotenvx` prefix therefore ignores `.env.local` entirely. Environment variables that are already set always win over file values.
+    </Warning>
+
     <Tip>
-      **Email testing**: The development stack includes [Mailpit](https://mailpit.axllent.org/). Emails the app sends are captured there and viewable at [http://localhost:8025](http://localhost:8025), so nothing reaches a real address during development.
+      **Email testing**: SMTP is optional. When `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS`, and `SMTP_FROM` are not all set, the app logs the rendered email to the server console instead of sending it — verification links appear in the dev server output.
     </Tip>
 
   </Step>
   
   <Step title="Run Database Migrations If Needed">
-    The server startup path runs migrations before serving traffic. To apply migrations manually without starting the app,
-    load `.env.local` with `dotenvx` because Drizzle Kit reads directly from `process.env`:
+    The server startup path runs migrations before serving traffic, so this step is only needed when you want to apply
+    migrations without starting the app. `packages/db/drizzle.config.ts` loads the repository-root `.env.local` and
+    `.env` itself, so no `dotenvx` prefix is required:
     
     ```bash
-    dotenvx run -f .env.local -- pnpm run db:migrate
+    pnpm run db:migrate
     ```
   </Step>
   
@@ -141,9 +148,9 @@ The scripts you will use most during development:
 
 | Command                | Description                                  |
 | ---------------------- | -------------------------------------------- |
-| `dotenvx run -f .env.local -- pnpm run db:generate` | Generate migration files from schema changes |
-| `dotenvx run -f .env.local -- pnpm run db:migrate`  | Apply pending migrations                     |
-| `dotenvx run -f .env.local -- pnpm run db:studio`   | Open Drizzle Studio (database GUI)           |
+| `pnpm run db:generate` | Generate migration files from schema changes |
+| `pnpm run db:migrate`  | Apply pending migrations                     |
+| `pnpm run db:studio`   | Open Drizzle Studio (database GUI)           |
 
 ### Internationalization
 
@@ -184,7 +191,7 @@ reactive-resume/
 Use Drizzle Studio to explore and manage your database:
 
 ```bash
-dotenvx run -f .env.local -- pnpm run db:studio
+pnpm run db:studio
 ```
 
 This opens a web-based GUI at [https://local.drizzle.studio](https://local.drizzle.studio).
@@ -194,16 +201,34 @@ This opens a web-based GUI at [https://local.drizzle.studio](https://local.drizz
 1. Edit the schema in `packages/db/src/schema/*`
 2. Generate a migration:
    ```bash
-   dotenvx run -f .env.local -- pnpm run db:generate
+   pnpm run db:generate
    ```
 3. Apply the migration:
    ```bash
-   dotenvx run -f .env.local -- pnpm run db:migrate
+   pnpm run db:migrate
    ```
 
 <Warning>Always review generated migrations before applying them, especially when working with existing data.</Warning>
 
 ---
+
+## Promoting an administrator
+
+The console at `/admin` requires an account whose role is `admin`, and accounts created through sign-up start as
+regular users. Promote one from the repository root:
+
+```bash
+pnpm admin:promote -- you@example.com
+```
+
+Pass `--revoke` to remove the role again. When SMTP is not configured, the forgot-password flow cannot send mail, so set
+a password directly instead:
+
+```bash
+pnpm admin:reset-password -- you@example.com '<new-password>'
+```
+
+<Warning>`pnpm db:reset` runs `DROP SCHEMA public CASCADE` and wipes the entire database. It is *not* a password reset.</Warning>
 
 ## Working with translations
 
