@@ -1,0 +1,302 @@
+diff --git a/apps/web/src/dialogs/store.ts b/apps/web/src/dialogs/store.ts
+index eafd0ca..618bc9f 100644
+--- a/apps/web/src/dialogs/store.ts
++++ b/apps/web/src/dialogs/store.ts
+@@ -40,8 +40,11 @@ export const useDialogStore = create<DialogStore>((set) => ({
+ 			onBeforeClose: null,
+ 		}),
+ 	closeDialog: () => {
++		const closingDialog = useDialogStore.getState().activeDialog;
+ 		set({ open: false });
+ 		setTimeout(() => {
++			const state = useDialogStore.getState();
++			if (state.open || state.activeDialog !== closingDialog) return;
+ 			set({ activeDialog: null, onBeforeClose: null });
+ 		}, 300);
+ 	},
+diff --git a/apps/web/src/routes/dashboard/applications/index.tsx b/apps/web/src/routes/dashboard/applications/index.tsx
+index 7739090..b285841 100644
+--- a/apps/web/src/routes/dashboard/applications/index.tsx
++++ b/apps/web/src/routes/dashboard/applications/index.tsx
+@@ -67,6 +67,7 @@ function RouteComponent() {
+ 	const { search, view, tags, sort, archived, create, applicationId } = Route.useSearch();
+ 	const navigate = useNavigate({ from: Route.fullPath });
+ 
++	const [textSearch, setTextSearch] = useState(search);
+ 	const [addOpen, setAddOpen] = useState(false);
+ 	const [importOpen, setImportOpen] = useState(false);
+ 	const [exportOpen, setExportOpen] = useState(false);
+@@ -98,7 +99,7 @@ function RouteComponent() {
+ 
+ 	// Board & table hide archived; tag/search filters + sort are applied client-side.
+ 	const filtered = useMemo(() => {
+-		const query = search.trim().toLowerCase();
++		const query = textSearch.trim().toLowerCase();
+ 		const rows = (applications ?? [])
+ 			.filter((app) => archived || !app.archived)
+ 			.filter((app) => tags.length === 0 || tags.every((tag: string) => app.tags.includes(tag)))
+@@ -111,13 +112,13 @@ function RouteComponent() {
+ 			role: (a, b) => a.role.localeCompare(b.role),
+ 		};
+ 		return rows.sort(compare[sort as SortKey]);
+-	}, [applications, search, tags, sort, archived]);
++	}, [applications, textSearch, tags, sort, archived]);
+ 
+ 	const archivedCount = (applications ?? []).filter((app) => app.archived).length;
+ 
+ 	const isEmpty = (applications?.length ?? 0) === 0;
+ 
+-	const setSearch = (patch: Partial<Search>) => void navigate({ search: (prev: Search) => ({ ...prev, ...patch }) });
++	const setUrlSearch = (patch: Partial<Search>) => void navigate({ search: (prev: Search) => ({ ...prev, ...patch }) });
+ 
+ 	return (
+ 		<div className="flex h-[calc(100dvh-2rem)] flex-col gap-4">
+@@ -158,9 +159,9 @@ function RouteComponent() {
+ 								<MagnifyingGlassIcon />
+ 							</InputGroupAddon>
+ 							<InputGroupInput
+-								value={search}
++								value={textSearch}
+ 								placeholder={t`Search applications…`}
+-								onChange={(event) => setSearch({ search: event.target.value })}
++								onChange={(event) => setTextSearch(event.target.value)}
+ 							/>
+ 						</InputGroup>
+ 
+@@ -172,7 +173,7 @@ function RouteComponent() {
+ 								value={tags}
+ 								placeholder={t`Filter by tags`}
+ 								options={(allTags ?? []).map((tag) => ({ value: tag, label: tag }))}
+-								onValueChange={(value) => setSearch({ tags: value ?? [] })}
++								onValueChange={(value) => setUrlSearch({ tags: value ?? [] })}
+ 							/>
+ 						)}
+ 
+@@ -182,7 +183,7 @@ function RouteComponent() {
+ 								value={sort}
+ 								placeholder={t`Sort by…`}
+ 								options={SORT_OPTIONS.map((option) => ({ value: option.value, label: i18n.t(option.label) }))}
+-								onValueChange={(value) => value && setSearch({ sort: value as SortKey })}
++								onValueChange={(value) => value && setUrlSearch({ sort: value as SortKey })}
+ 							/>
+ 						)}
+ 
+@@ -191,7 +192,7 @@ function RouteComponent() {
+ 								size="sm"
+ 								variant={archived ? "secondary" : "outline"}
+ 								className="shrink-0 max-sm:hidden"
+-								onClick={() => setSearch({ archived: !archived })}
++								onClick={() => setUrlSearch({ archived: !archived })}
+ 							>
+ 								<ArchiveIcon />
+ 								<Trans>Archived</Trans> ({archivedCount})
+@@ -223,7 +224,7 @@ function RouteComponent() {
+ 												value={tags}
+ 												placeholder={t`Any tag`}
+ 												options={(allTags ?? []).map((tag) => ({ value: tag, label: tag }))}
+-												onValueChange={(value) => setSearch({ tags: value ?? [] })}
++												onValueChange={(value) => setUrlSearch({ tags: value ?? [] })}
+ 											/>
+ 										</div>
+ 									)}
+@@ -235,7 +236,7 @@ function RouteComponent() {
+ 											className="w-full"
+ 											value={sort}
+ 											options={SORT_OPTIONS.map((option) => ({ value: option.value, label: i18n.t(option.label) }))}
+-											onValueChange={(value) => value && setSearch({ sort: value as SortKey })}
++											onValueChange={(value) => value && setUrlSearch({ sort: value as SortKey })}
+ 										/>
+ 									</div>
+ 									{archivedCount > 0 && (
+@@ -243,7 +244,7 @@ function RouteComponent() {
+ 											size="sm"
+ 											variant={archived ? "secondary" : "outline"}
+ 											className="w-full"
+-											onClick={() => setSearch({ archived: !archived })}
++											onClick={() => setUrlSearch({ archived: !archived })}
+ 										>
+ 											<ArchiveIcon />
+ 											<Trans>Archived</Trans> ({archivedCount})
+@@ -295,7 +296,10 @@ function RouteComponent() {
+ 								<Button
+ 									size="sm"
+ 									variant="outline"
+-									onClick={() => setSearch({ search: "", tags: [], archived: false })}
++									onClick={() => {
++										setTextSearch("");
++										setUrlSearch({ search: "", tags: [], archived: false });
++									}}
+ 								>
+ 									<Trans>Clear filters</Trans>
+ 								</Button>
+diff --git a/apps/web/src/routes/dashboard/resumes/-components/cards/resume-thumbnail.tsx b/apps/web/src/routes/dashboard/resumes/-components/cards/resume-thumbnail.tsx
+index 3ed179a..7cdc036 100644
+--- a/apps/web/src/routes/dashboard/resumes/-components/cards/resume-thumbnail.tsx
++++ b/apps/web/src/routes/dashboard/resumes/-components/cards/resume-thumbnail.tsx
+@@ -3,7 +3,7 @@ import type { RefObject } from "react";
+ import type { ResumeThumbnailSize } from "@/features/resume/preview/resume-thumbnail.shared";
+ import type { RouterOutput } from "@/libs/orpc/client";
+ import { FileTextIcon } from "@phosphor-icons/react";
+-import { useQuery } from "@tanstack/react-query";
++import { useQuery, useQueryClient } from "@tanstack/react-query";
+ import { useInView } from "motion/react";
+ import { useEffect, useRef, useState } from "react";
+ import { Spinner } from "@reactive-resume/ui/components/spinner";
+@@ -26,6 +26,29 @@ const throwIfAborted = (signal: AbortSignal) => {
+ 	if (signal.aborted) throw new DOMException("Thumbnail generation aborted.", "AbortError");
+ };
+ 
++const THUMBNAIL_CACHE_TIME = 5 * 60 * 1000;
++const thumbnailQueryCaches = new WeakSet<object>();
++
++function ensureThumbnailCacheLifecycle(queryClient: ReturnType<typeof useQueryClient>) {
++	const queryCache = queryClient.getQueryCache();
++	if (thumbnailQueryCaches.has(queryCache)) return;
++
++	thumbnailQueryCaches.add(queryCache);
++	// Cache updates have already replaced state.data, so retain each query's previous URL.
++	const urls = new WeakMap<object, unknown>(
++		queryCache.findAll({ queryKey: ["resume-thumbnail"] }).map((query) => [query, query.state.data]),
++	);
++	queryCache.subscribe((event) => {
++		if (event.query.queryKey[0] !== "resume-thumbnail") return;
++		if (event.type !== "updated" && event.type !== "removed") return;
++		const previousUrl = urls.get(event.query);
++		const url = event.type === "removed" ? undefined : event.query.state.data;
++		if (typeof previousUrl === "string" && previousUrl !== url) URL.revokeObjectURL(previousUrl);
++		if (typeof url === "string") urls.set(event.query, url);
++		else urls.delete(event.query);
++	});
++}
++
+ const createResumeThumbnailUrl = async (data: ResumeData, size: ResumeThumbnailSize, signal: AbortSignal) => {
+ 	const pdf = await createResumePdfBlob(data);
+ 	throwIfAborted(signal);
+@@ -90,6 +113,24 @@ function useResumeThumbnail(
+ 	size: ResumeThumbnailSize,
+ 	enabled: boolean,
+ ): ThumbnailState {
++	const queryClient = useQueryClient();
++
++	useEffect(() => {
++		ensureThumbnailCacheLifecycle(queryClient);
++	}, [queryClient]);
++
++	useEffect(() => {
++		const queryCache = queryClient.getQueryCache();
++		const resumePrefix = `${cacheKey.slice(0, cacheKey.lastIndexOf(":"))}:`;
++
++		for (const query of queryCache.findAll({ queryKey: ["resume-thumbnail"] })) {
++			const queryCacheKey = query.queryKey[1];
++			if (typeof queryCacheKey === "string" && queryCacheKey.startsWith(resumePrefix) && queryCacheKey !== cacheKey) {
++				queryCache.remove(query);
++			}
++		}
++	}, [cacheKey, queryClient]);
++
+ 	const {
+ 		data: thumbnailData,
+ 		error: thumbnailError,
+@@ -103,20 +144,25 @@ function useResumeThumbnail(
+ 		enabled: Boolean(enabled && data && size.width && size.height),
+ 		placeholderData: (previous, query) => (query?.queryKey[1] === cacheKey ? previous : undefined),
+ 		staleTime: Number.POSITIVE_INFINITY,
+-		gcTime: 0,
++		gcTime: THUMBNAIL_CACHE_TIME,
+ 	});
++	const previousThumbnailData = useRef<string | undefined>(undefined);
+ 
+ 	useEffect(() => {
+ 		if (thumbnailError) console.error("Failed to generate resume thumbnail", thumbnailError);
+ 	}, [thumbnailError]);
+ 
+ 	useEffect(() => {
+-		const url = thumbnailData;
+-
+-		return () => {
+-			if (url) URL.revokeObjectURL(url);
+-		};
+-	}, [thumbnailData]);
++		const previousUrl = previousThumbnailData.current;
++		if (previousUrl && previousUrl !== thumbnailData) {
++			const previousQuery = queryClient
++				.getQueryCache()
++				.findAll({ queryKey: ["resume-thumbnail"] })
++				.find((query) => query.state.data === previousUrl);
++			if (previousQuery) queryClient.getQueryCache().remove(previousQuery);
++		}
++		previousThumbnailData.current = thumbnailData;
++	}, [queryClient, thumbnailData]);
+ 
+ 	if (!data || !cacheKey) return { status: "idle" };
+ 	if (thumbnailIsError) return { status: "error" };
+diff --git a/apps/web/src/routes/dashboard/resumes/index.tsx b/apps/web/src/routes/dashboard/resumes/index.tsx
+index 070d3a5..5fa1b31 100644
+--- a/apps/web/src/routes/dashboard/resumes/index.tsx
++++ b/apps/web/src/routes/dashboard/resumes/index.tsx
+@@ -12,7 +12,7 @@ import {
+ } from "@phosphor-icons/react";
+ import { useQuery } from "@tanstack/react-query";
+ import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
+-import { useMemo } from "react";
++import { useMemo, useState } from "react";
+ import z from "zod";
+ import { Button } from "@reactive-resume/ui/components/button";
+ import { InputGroup, InputGroupAddon, InputGroupInput } from "@reactive-resume/ui/components/input-group";
+@@ -31,7 +31,6 @@ import { resumeViewSchema, useResumeView } from "./-components/view-mode";
+ type SortOption = "lastUpdatedAt" | "createdAt" | "name";
+ 
+ const searchSchema = z.object({
+-	search: z.string().default(""),
+ 	tags: z.array(z.string()).default([]),
+ 	sort: z.enum(["lastUpdatedAt", "createdAt", "name"]).default("lastUpdatedAt"),
+ 	view: resumeViewSchema.optional().catch(undefined),
+@@ -39,7 +38,7 @@ const searchSchema = z.object({
+ 
+ type Search = z.output<typeof searchSchema>;
+ 
+-const defaultSearch: Search = { search: "", tags: [], sort: "lastUpdatedAt" };
++const defaultSearch: Search = { tags: [], sort: "lastUpdatedAt" };
+ 
+ export const Route = createFileRoute("/dashboard/resumes/")({
+ 	component: RouteComponent,
+@@ -51,7 +50,8 @@ export const Route = createFileRoute("/dashboard/resumes/")({
+ 
+ function RouteComponent() {
+ 	const { i18n } = useLingui();
+-	const { search, tags, sort, view: searchView } = Route.useSearch();
++	const { tags, sort, view: searchView } = Route.useSearch();
++	const [searchQuery, setSearchQuery] = useState("");
+ 	const { session } = Route.useRouteContext();
+ 	const view = useResumeView(searchView, session.user.id);
+ 	const navigate = useNavigate({ from: Route.fullPath });
+@@ -62,12 +62,12 @@ function RouteComponent() {
+ 
+ 	const filteredResumes = useMemo(() => {
+ 		const list = resumes ?? [];
+-		const query = search.trim().toLowerCase();
++		const query = searchQuery.trim().toLowerCase();
+ 		if (!query) return list;
+ 		return list.filter(
+ 			(resume) => resume.name.toLowerCase().includes(query) || resume.slug.toLowerCase().includes(query),
+ 		);
+-	}, [resumes, search]);
++	}, [resumes, searchQuery]);
+ 
+ 	const tagOptions = useMemo(() => {
+ 		if (!allTags) return [];
+@@ -146,12 +146,9 @@ function RouteComponent() {
+ 							<MagnifyingGlassIcon />
+ 						</InputGroupAddon>
+ 						<InputGroupInput
+-							value={search}
++							value={searchQuery}
+ 							placeholder={t`Search resumes...`}
+-							onChange={(event) => {
+-								const value = event.target.value;
+-								void navigate({ search: (prev: Search) => ({ ...prev, search: value }) });
+-							}}
++							onChange={(event) => setSearchQuery(event.target.value)}
+ 						/>
+ 					</InputGroup>
+ 				)}
