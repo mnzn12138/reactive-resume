@@ -21,11 +21,27 @@ import { env } from "@reactive-resume/env/server";
 import { rateLimitConfig, TRUSTED_IP_HEADERS } from "@reactive-resume/utils/rate-limit";
 import { generateId, toUsername } from "@reactive-resume/utils/string";
 import { isAllowedOAuthRedirectUri } from "@reactive-resume/utils/url-security.node";
+import { isEmailAuthDisabled, isSignupDisabled } from "./instance-settings";
 import { createGithubProfileMapper, createProfileMapper } from "./oauth-profile";
 import { getTrustedOrigins } from "./trusted-origins";
 
 const authBaseUrl = env.APP_URL;
 const isRateLimitEnabled = process.env.NODE_ENV === "production" && !env.FLAG_DISABLE_API_RATE_LIMIT;
+
+/**
+ * Every route the `emailAndPassword` plugin exposes. Turning the plugin off at
+ * boot removes all of them, so a runtime override has to answer for the same set
+ * — keeping the list explicit is what makes that coverage reviewable.
+ */
+const EMAIL_AUTH_PATHS = [
+	"/sign-up/email",
+	"/sign-in/email",
+	"/forget-password",
+	"/reset-password",
+	"/send-verification-email",
+] as const;
+
+const isEmailAuthPath = (path: string) => EMAIL_AUTH_PATHS.some((candidate) => path.includes(candidate));
 
 // JWKS must be reachable from inside the Node runtime. `authBaseUrl` is the
 // publicly-visible URL — under Docker port-mapping or behind a reverse proxy
@@ -155,8 +171,15 @@ const getAuthConfig = () => {
 		},
 
 		hooks: {
-			// biome-ignore lint/suspicious/useAwait: Better Auth requires middleware callbacks to return a Promise.
 			before: createAuthMiddleware(async (ctx) => {
+				// `emailAndPassword.enabled` below is frozen at boot from the environment.
+				// An administrator toggling the flag at runtime has to be enforced here,
+				// otherwise the switch would only hide buttons in the web app while the
+				// endpoints stayed open.
+				if (isEmailAuthPath(ctx.path) && (await isEmailAuthDisabled())) {
+					throw new APIError("FORBIDDEN", { message: "Email and password authentication is disabled." });
+				}
+
 				if (!ctx.path.includes("/oauth2/register")) return;
 
 				const body = ctx.body as { redirect_uris?: unknown } | undefined;
@@ -177,6 +200,28 @@ const getAuthConfig = () => {
 					}
 				}
 			}),
+		},
+
+		/**
+		 * The single choke point for account creation.
+		 *
+		 * `emailAndPassword.disableSignUp` (and the per-provider equivalents on the
+		 * social plugins) are read once at boot, so they cannot express a runtime
+		 * override. Email sign-up, username sign-up, social sign-in and the OAuth
+		 * flows all end up inserting a `user` row, so the runtime check lives here
+		 * rather than in a list of route paths that would drift.
+		 */
+		databaseHooks: {
+			user: {
+				create: {
+					before: async (newUser) => {
+						if (await isSignupDisabled()) {
+							throw new APIError("FORBIDDEN", { message: "New signups are disabled on this instance." });
+						}
+						return { data: newUser };
+					},
+				},
+			},
 		},
 
 		// Without this, OAuth callback failures land on Better Auth's built-in `/api/auth/error`

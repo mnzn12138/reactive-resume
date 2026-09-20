@@ -1,18 +1,21 @@
 import type { SQL } from "drizzle-orm";
+import type { AuditAction } from "../../audit-actions";
 import type { AdminResumeListInput } from "../../dto/admin";
-import type { AuditAction } from "./actions";
 import { ORPCError } from "@orpc/server";
-import { and, asc, count, desc, eq, ilike, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, or, sql } from "drizzle-orm";
 import { db } from "@reactive-resume/db/client";
 import { resume, user } from "@reactive-resume/db/schema";
+import { notifyResumeUpdated } from "../resume/events";
+import { getStorageService } from "../storage";
 import { recordAudit } from "./audit";
 import { escapeLike } from "./sql";
 
 /**
  * A resume joined with its owner, as selected by `list`.
  *
- * `password` is read only to derive `hasPassword`; `toAdminResume` drops it so
- * the stored hash never reaches an API response.
+ * Note what is absent: the resume body (`data`) and the `password` hash. The
+ * latter is never selected at all — `hasPassword` is derived inside the query —
+ * so a credential column cannot leak through a future refactor of this shape.
  */
 type ResumeRow = {
 	id: string;
@@ -21,7 +24,7 @@ type ResumeRow = {
 	tags: string[];
 	isPublic: boolean;
 	isLocked: boolean;
-	password: string | null;
+	hasPassword: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 	ownerId: string;
@@ -31,8 +34,11 @@ type ResumeRow = {
 };
 
 /**
- * Only the columns the console may return. The resume body (`data`) is left out
- * on purpose: it is large, and the list view never renders it.
+ * Only the columns the console may return.
+ *
+ * `data` is left out on purpose: it is large, and the list view never renders
+ * it. `password` follows the same rule as the user list — the column stays in
+ * the database and only the derived boolean crosses the boundary.
  */
 const listColumns = {
 	id: resume.id,
@@ -41,7 +47,7 @@ const listColumns = {
 	tags: resume.tags,
 	isPublic: resume.isPublic,
 	isLocked: resume.isLocked,
-	password: resume.password,
+	hasPassword: sql<boolean>`${resume.password} is not null`,
 	createdAt: resume.createdAt,
 	updatedAt: resume.updatedAt,
 	ownerId: user.id,
@@ -58,7 +64,7 @@ const toAdminResume = (row: ResumeRow) => ({
 	tags: row.tags,
 	isPublic: row.isPublic,
 	isLocked: row.isLocked,
-	hasPassword: row.password !== null,
+	hasPassword: row.hasPassword,
 	owner: { id: row.ownerId, name: row.ownerName, email: row.ownerEmail, username: row.ownerUsername },
 	createdAt: row.createdAt,
 	updatedAt: row.updatedAt,
@@ -139,10 +145,24 @@ async function setLock(input: { id: string; locked: boolean; actorId: string }) 
 	const target = await requireResume(input.id);
 
 	// Locking an already-locked resume (or unlocking an unlocked one) is a no-op,
-	// so it stays out of the audit trail.
+	// so it stays out of the audit trail and publishes nothing.
 	if (target.isLocked === input.locked) return toAdminResume(target);
 
-	await db.update(resume).set({ isLocked: input.locked }).where(eq(resume.id, input.id));
+	const [updated] = await db
+		.update(resume)
+		.set({ isLocked: input.locked })
+		.where(eq(resume.id, input.id))
+		.returning({ updatedAt: resume.updatedAt });
+
+	// The owner may have the builder open right now; without this the lock only
+	// becomes visible on their next fetch.
+	await notifyResumeUpdated({
+		type: "resume.updated",
+		resumeId: input.id,
+		userId: target.ownerId,
+		updatedAt: (updated?.updatedAt ?? target.updatedAt).toISOString(),
+		mutation: "lock",
+	});
 
 	await recordAudit({
 		actorId: input.actorId,
@@ -156,17 +176,52 @@ async function setLock(input: { id: string; locked: boolean; actorId: string }) 
 }
 
 /**
+ * Best-effort removal of the files a single resume owns.
+ *
+ * Screenshots and generated PDFs are named after the resume, so nothing else
+ * can reference them. Uploaded pictures are **not** touched: they live under
+ * the owner's user-level folder and the owner's other resumes may point at the
+ * same object, so only the account-deletion path clears those.
+ *
+ * Failures are logged rather than thrown: the row is already gone, and a
+ * storage outage must not make the deletion look like it failed.
+ */
+async function deleteResumeFiles(ownerId: string, resumeId: string) {
+	try {
+		const storage = getStorageService();
+		await Promise.allSettled([
+			storage.delete(`uploads/${ownerId}/screenshots/${resumeId}`),
+			storage.delete(`uploads/${ownerId}/pdfs/${resumeId}`),
+		]);
+	} catch (error) {
+		console.error("[admin] failed to remove storage objects for deleted resume", { ownerId, resumeId, error });
+	}
+}
+
+/**
  * Delete a resume.
  *
- * Uploaded images are **not** touched: they live under `uploads/<userId>/` and
- * the owner's other resumes may reference the same object, so only the account
- * deletion path clears storage. Versions and statistics go with the row via
- * `on delete cascade`.
+ * Deliberately bypasses the owner-facing `RESUME_LOCKED` guard in
+ * `resumeService.delete` — an administrator is expected to be able to remove a
+ * locked resume, which is often exactly why it is locked. Versions and
+ * statistics go with the row via `on delete cascade`.
  */
 async function remove(input: { id: string; actorId: string }) {
 	const target = await requireResume(input.id);
 
 	await db.delete(resume).where(eq(resume.id, input.id));
+
+	await deleteResumeFiles(target.ownerId, input.id);
+
+	// A resume vanishing from a dashboard that is already open is only visible
+	// to the owner if the deletion is broadcast like any other mutation.
+	await notifyResumeUpdated({
+		type: "resume.updated",
+		resumeId: input.id,
+		userId: target.ownerId,
+		updatedAt: new Date().toISOString(),
+		mutation: "delete",
+	});
 
 	await recordAudit({
 		actorId: input.actorId,

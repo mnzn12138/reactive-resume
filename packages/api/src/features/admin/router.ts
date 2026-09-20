@@ -1,7 +1,10 @@
 import { adminProcedure } from "../../context";
-import { adminResumeDto, adminUserDto } from "../../dto/admin";
+import { adminAuditDto, adminOverviewDto, adminResumeDto, adminSettingDto, adminUserDto } from "../../dto/admin";
+import { adminAuditService } from "./audit-service";
+import { adminOverviewService } from "./overview-service";
 import { adminResumeService } from "./resume-service";
 import { adminUserService } from "./service";
+import { adminSettingService } from "./setting-service";
 
 /**
  * Everything under `/admin` is tagged `Internal`, which the OpenAPI generator
@@ -130,4 +133,74 @@ const resumesRouter = {
 		.handler(({ context, input }) => adminResumeService.remove({ ...input, actorId: context.user.id })),
 };
 
-export const adminRouter = { users: usersRouter, resumes: resumesRouter };
+const overviewRouter = {
+	get: adminProcedure
+		.route({
+			method: "GET",
+			path: "/admin/overview",
+			tags: ["Internal"],
+			operationId: "adminGetOverview",
+			summary: "Instance overview",
+			description:
+				"Returns instance-wide totals, a 30-day signup trend, and storage usage. Administrator access required.",
+			successDescription: "The instance counters, daily signups and storage usage.",
+		})
+		.output(adminOverviewDto.get.output)
+		.handler(() => adminOverviewService.get()),
+};
+
+const settingsRouter = {
+	get: adminProcedure
+		.route({
+			method: "GET",
+			path: "/admin/settings",
+			tags: ["Internal"],
+			operationId: "adminGetSettings",
+			summary: "Read instance settings",
+			description:
+				"Returns each overridable feature flag together with where its effective value comes from (database override, environment variable, or default). Administrator access required.",
+			successDescription: "The overridable flags, their effective values and their origin.",
+		})
+		.output(adminSettingDto.get.output)
+		.handler(() => adminSettingService.get()),
+
+	set: adminProcedure
+		.route({
+			method: "PATCH",
+			path: "/admin/settings",
+			tags: ["Internal"],
+			operationId: "adminSetSetting",
+			summary: "Override an instance setting",
+			description:
+				"Stores a runtime override for one feature flag. From then on the stored value wins over the environment variable. Administrator access required.",
+			successDescription: "The setting with its new value and origin.",
+		})
+		.input(adminSettingDto.set.input)
+		.output(adminSettingDto.set.output)
+		.handler(({ context, input }) => adminSettingService.set({ ...input, actorId: context.user.id })),
+};
+
+const auditRouter = {
+	list: adminProcedure
+		.route({
+			method: "GET",
+			path: "/admin/audit-logs",
+			tags: ["Internal"],
+			operationId: "adminListAuditLogs",
+			summary: "List audit log entries",
+			description:
+				"Returns a paginated, newest-first trail of privileged actions, with optional filters by action, target kind and free text. Administrator access required.",
+			successDescription: "The matching entries and the total count across all pages.",
+		})
+		.input(adminAuditDto.list.input)
+		.output(adminAuditDto.list.output)
+		.handler(({ input }) => adminAuditService.list(input)),
+};
+
+export const adminRouter = {
+	users: usersRouter,
+	resumes: resumesRouter,
+	overview: overviewRouter,
+	settings: settingsRouter,
+	audit: auditRouter,
+};

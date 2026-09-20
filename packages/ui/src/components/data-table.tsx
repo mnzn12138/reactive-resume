@@ -63,6 +63,14 @@ type DataTableProps<TData> = {
 
 	/** Render prop for row selection counts, column toggles, etc. */
 	children?: (table: TanstackTable<TData>) => React.ReactNode;
+
+	/**
+	 * Pagination copy. This package stays free of any i18n runtime, so the
+	 * caller — which owns the active Lingui catalog — has to supply the wording.
+	 */
+	previousLabel: React.ReactNode;
+	nextLabel: React.ReactNode;
+	pageLabel: (info: { page: number; pageCount: number }) => React.ReactNode;
 };
 
 /**
@@ -86,6 +94,9 @@ export function DataTable<TData>({
 	onSortingChange,
 	isLoading = false,
 	children,
+	previousLabel,
+	nextLabel,
+	pageLabel,
 }: DataTableProps<TData>) {
 	const [localPagination, setLocalPagination] = useState<PaginationState>({
 		pageIndex: 0,
@@ -195,7 +206,10 @@ export function DataTable<TData>({
 			{showFooter && (
 				<div className="flex items-center justify-between gap-2">
 					<p className="text-muted-foreground text-xs">
-						Page {table.getState().pagination.pageIndex + 1} of {Math.max(table.getPageCount(), 1)}
+						{pageLabel({
+							page: table.getState().pagination.pageIndex + 1,
+							pageCount: Math.max(table.getPageCount(), 1),
+						})}
 					</p>
 
 					<div className="flex items-center gap-2">
@@ -205,10 +219,10 @@ export function DataTable<TData>({
 							onClick={() => table.previousPage()}
 							disabled={!table.getCanPreviousPage()}
 						>
-							Previous
+							{previousLabel}
 						</Button>
 						<Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
-							Next
+							{nextLabel}
 						</Button>
 					</div>
 				</div>

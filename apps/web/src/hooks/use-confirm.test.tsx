@@ -1,8 +1,15 @@
 // @vitest-environment happy-dom
 
 import { act, renderHook } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+import { i18n } from "@lingui/core";
 import { ConfirmDialogProvider, useConfirm } from "./use-confirm";
+
+// The dialog renders translated fallbacks for its two buttons, which Lingui
+// refuses to resolve without an activated locale.
+beforeAll(() => {
+	i18n.loadAndActivate({ locale: "en", messages: {} });
+});
 
 type HookWrapperProps = {
 	children: React.ReactNode;

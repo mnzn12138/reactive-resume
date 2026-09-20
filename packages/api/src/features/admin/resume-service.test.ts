@@ -62,6 +62,9 @@ const dbMock = {
 	),
 };
 
+const storageMock = { delete: vi.fn(async () => true) };
+const notifyMock = vi.fn(async () => undefined);
+
 vi.mock("@reactive-resume/db/client", () => ({ db: dbMock }));
 vi.mock("@reactive-resume/db/schema", () => ({
 	user: { __table: "user" },
@@ -76,7 +79,12 @@ vi.mock("drizzle-orm", () => ({
 	asc: () => ({ op: "asc" }),
 	desc: () => ({ op: "desc" }),
 	count: () => "count(*)",
+	// `listColumns` builds a `sql` expression for `hasPassword` at module load,
+	// so the mock has to answer before the service is imported.
+	sql: () => ({ op: "sql" }),
 }));
+vi.mock("../storage", () => ({ getStorageService: () => storageMock }));
+vi.mock("../resume/events", () => ({ notifyResumeUpdated: notifyMock }));
 
 const { adminResumeService } = await import("./resume-service");
 
@@ -87,7 +95,8 @@ const resumeRow = {
 	tags: ["backend"],
 	isPublic: false,
 	isLocked: false,
-	password: null,
+	// The column itself is never selected; this is the value the query derives.
+	hasPassword: false,
 	createdAt: new Date("2026-01-01T00:00:00.000Z"),
 	updatedAt: new Date("2026-02-01T00:00:00.000Z"),
 	ownerId: "u1",
@@ -104,11 +113,13 @@ beforeEach(() => {
 	dbMock.select.mockClear();
 	dbMock.update.mockClear();
 	dbMock.delete.mockClear();
+	storageMock.delete.mockClear();
+	notifyMock.mockClear();
 });
 
 describe("list", () => {
-	it("reports whether the public view is password protected without leaking the hash", async () => {
-		queues.resume = [[{ ...resumeRow, password: "hashed" }, resumeRow], [{ value: 2 }]];
+	it("surfaces password protection as a plain boolean and never as a column", async () => {
+		queues.resume = [[{ ...resumeRow, hasPassword: true }, resumeRow], [{ value: 2 }]];
 		const result = await adminResumeService.list({ sortBy: "createdAt", sortOrder: "desc", limit: 25, offset: 0 });
 
 		expect(result.items[0]?.hasPassword).toBe(true);
@@ -139,17 +150,20 @@ describe("list", () => {
 });
 
 describe("setLock", () => {
-	it("leaves the resume and the audit trail alone when the state already matches", async () => {
+	it("leaves the resume, the audit trail and subscribers alone when the state already matches", async () => {
 		queues.resume = [[{ ...resumeRow, isLocked: true }]];
 		const result = await adminResumeService.setLock({ id: "r1", locked: true, actorId: "admin1" });
 
 		expect(result.isLocked).toBe(true);
 		expect(updateCalls).toHaveLength(0);
 		expect(insertCalls).toHaveLength(0);
+		expect(notifyMock).not.toHaveBeenCalled();
 	});
 
-	it("locks the resume and records who did it", async () => {
-		queues.resume = [[resumeRow], []];
+	it("locks the resume, records who did it, and tells the owner", async () => {
+		const updatedAt = new Date("2026-03-01T00:00:00.000Z");
+		queues.resume = [[resumeRow], [{ updatedAt }]];
+
 		const result = await adminResumeService.setLock({ id: "r1", locked: true, actorId: "admin1" });
 
 		expect(updateCalls).toContainEqual({ isLocked: true });
@@ -159,11 +173,19 @@ describe("setLock", () => {
 			targetId: "r1",
 			metadata: { from: false, to: true, name: "Senior Engineer", ownerId: "u1" },
 		});
+		// Without this the owner's open builder would keep editing a locked resume.
+		expect(notifyMock).toHaveBeenCalledWith({
+			type: "resume.updated",
+			resumeId: "r1",
+			userId: "u1",
+			updatedAt: updatedAt.toISOString(),
+			mutation: "lock",
+		});
 		expect(result.isLocked).toBe(true);
 	});
 
 	it("unlocks a locked resume", async () => {
-		queues.resume = [[{ ...resumeRow, isLocked: true }], []];
+		queues.resume = [[{ ...resumeRow, isLocked: true }], [{ updatedAt: new Date() }]];
 		const result = await adminResumeService.setLock({ id: "r1", locked: false, actorId: "admin1" });
 
 		expect(updateCalls).toContainEqual({ isLocked: false });
@@ -176,6 +198,7 @@ describe("setLock", () => {
 			/Resume not found/,
 		);
 		expect(insertCalls).toHaveLength(0);
+		expect(notifyMock).not.toHaveBeenCalled();
 	});
 });
 
@@ -193,9 +216,40 @@ describe("remove", () => {
 		});
 	});
 
+	it("clears the files named after the resume but leaves shared pictures alone", async () => {
+		queues.resume = [[resumeRow]];
+		await adminResumeService.remove({ id: "r1", actorId: "admin1" });
+
+		expect(storageMock.delete).toHaveBeenCalledWith("uploads/u1/screenshots/r1");
+		expect(storageMock.delete).toHaveBeenCalledWith("uploads/u1/pdfs/r1");
+		expect(storageMock.delete).not.toHaveBeenCalledWith(expect.stringContaining("pictures"));
+	});
+
+	it("still deletes the resume when storage cleanup fails", async () => {
+		storageMock.delete.mockRejectedValue(new Error("s3 down"));
+		queues.resume = [[resumeRow]];
+
+		await expect(adminResumeService.remove({ id: "r1", actorId: "admin1" })).resolves.toBeUndefined();
+		expect(deleteCalls).toContain("resume");
+	});
+
+	it("broadcasts the deletion so an open dashboard drops the resume", async () => {
+		queues.resume = [[resumeRow]];
+		await adminResumeService.remove({ id: "r1", actorId: "admin1" });
+
+		expect(notifyMock).toHaveBeenCalledWith({
+			type: "resume.updated",
+			resumeId: "r1",
+			userId: "u1",
+			updatedAt: expect.any(String),
+			mutation: "delete",
+		});
+	});
+
 	it("404s on an unknown resume", async () => {
 		queues.resume = [[]];
 		await expect(adminResumeService.remove({ id: "nope", actorId: "admin1" })).rejects.toThrow(/Resume not found/);
 		expect(deleteCalls).not.toContain("resume");
+		expect(storageMock.delete).not.toHaveBeenCalled();
 	});
 });

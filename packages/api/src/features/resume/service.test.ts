@@ -73,7 +73,12 @@ vi.mock("drizzle-orm", () => ({
 	}),
 }));
 vi.mock("bcrypt", () => ({ hash: hashMock, compare: compareMock }));
-vi.mock("./events", () => ({ publishResumeUpdated: publishResumeUpdatedMock }));
+vi.mock("./events", () => ({
+	publishResumeUpdated: publishResumeUpdatedMock,
+	// The service publishes through the best-effort wrapper in `events.ts`, so
+	// both names have to resolve — point them at the same spy.
+	notifyResumeUpdated: publishResumeUpdatedMock,
+}));
 vi.mock("./access", () => ({
 	grantResumeAccess: grantResumeAccessMock,
 	hasResumeAccess: hasResumeAccessMock,

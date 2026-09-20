@@ -11,7 +11,8 @@
 		"test": "vitest run --passWithNoTests",
 		"test:ci": "vitest run --coverage --reporter=default --reporter=github-actions --reporter=json --reporter=junit --outputFile.json=reports/vitest-results.json --outputFile.junit=reports/vitest-junit.xml --passWithNoTests",
 		"typecheck": "tsgo --noEmit",
-		"pdf:translations": "tsx locales/generate.ts"
+		"pdf:translations": "tsx locales/generate.ts",
+		"admin:reset-password": "tsx database/reset-password.ts"
 	},
 	"dependencies": {
 		"@reactive-resume/schema": "workspace:*"
@@ -24,11 +25,13 @@
 		"@reactive-resume/env": "workspace:*",
 		"@reactive-resume/pdf": "workspace:*",
 		"@reactive-resume/resume": "workspace:*",
+		"@types/bcrypt": "^6.0.0",
 		"@types/pg": "^8.23.1",
-		"pdfjs-dist": "6.3.289",
-		"jszip": "3.10.2",
 		"@typescript/native-preview": "7.0.0-dev.20260707.2",
+		"bcrypt": "^6.0.0",
 		"drizzle-orm": "1.0.0-rc.4",
+		"jszip": "3.10.2",
+		"pdfjs-dist": "6.3.289",
 		"pg": "^8.23.0",
 		"tsx": "^4.23.13",
 		"vitest": "^5.0.0"

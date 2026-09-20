@@ -242,6 +242,9 @@ export function UsersTable({
 				onPaginationChange={onPaginationChange}
 				sorting={sorting}
 				onSortingChange={onSortingChange}
+				previousLabel={i18n._(t`Previous`)}
+				nextLabel={i18n._(t`Next`)}
+				pageLabel={({ page, pageCount }) => i18n._(t`Page ${page} of ${pageCount}`)}
 			/>
 
 			<Dialog open={banTarget !== null} onOpenChange={(open) => !open && setBanTarget(null)}>

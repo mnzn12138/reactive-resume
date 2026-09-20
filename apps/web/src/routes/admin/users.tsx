@@ -1,4 +1,5 @@
-import { t } from "@lingui/core/macro";
+import { i18n } from "@lingui/core";
+import { msg, t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
@@ -31,20 +32,8 @@ export const Route = createFileRoute("/admin/users")({
 	component: RouteComponent,
 	validateSearch: searchSchema,
 	search: { middlewares: [stripSearchParams(defaultSearch)] },
-	head: () => ({ meta: [createNoindexFollowMeta(), { title: "Users · Admin" }] }),
+	head: () => ({ meta: [createNoindexFollowMeta(), { title: `${i18n._(msg`Users`)} · ${i18n._(msg`Admin`)}` }] }),
 });
-
-const ROLE_OPTIONS = [
-	{ value: "all", label: "All roles" },
-	{ value: "admin", label: "Admin" },
-	{ value: "user", label: "User" },
-];
-
-const STATUS_OPTIONS = [
-	{ value: "all", label: "Any status" },
-	{ value: "active", label: "Active" },
-	{ value: "banned", label: "Banned" },
-];
 
 function RouteComponent() {
 	const { i18n } = useLingui();
@@ -52,6 +41,18 @@ function RouteComponent() {
 	const navigate = useNavigate({ from: Route.fullPath });
 	const { session } = Route.useRouteContext();
 	const currentUserId = session?.user?.id;
+
+	const roleOptions = [
+		{ value: "all", label: i18n._(t`All roles`) },
+		{ value: "admin", label: i18n._(t`Admin`) },
+		{ value: "user", label: i18n._(t`User`) },
+	];
+
+	const statusOptions = [
+		{ value: "all", label: i18n._(t`Any status`) },
+		{ value: "active", label: i18n._(t`Active`) },
+		{ value: "banned", label: i18n._(t`Banned`) },
+	];
 
 	// Typing stays local so the input remains responsive; the URL — and so the
 	// query — only updates once typing settles.
@@ -109,14 +110,14 @@ function RouteComponent() {
 
 				<Combobox
 					className="w-40"
-					options={ROLE_OPTIONS}
+					options={roleOptions}
 					value={role ?? "all"}
 					onValueChange={(value) => patchSearch({ role: value === "all" ? undefined : (value as Search["role"]) })}
 				/>
 
 				<Combobox
 					className="w-40"
-					options={STATUS_OPTIONS}
+					options={statusOptions}
 					value={banned === undefined ? "all" : banned ? "banned" : "active"}
 					onValueChange={(value) => patchSearch({ banned: value === "all" ? undefined : value === "banned" })}
 				/>

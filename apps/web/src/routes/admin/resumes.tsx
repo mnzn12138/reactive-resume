@@ -1,4 +1,5 @@
-import { t } from "@lingui/core/macro";
+import { i18n } from "@lingui/core";
+import { msg, t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
@@ -31,25 +32,25 @@ export const Route = createFileRoute("/admin/resumes")({
 	component: RouteComponent,
 	validateSearch: searchSchema,
 	search: { middlewares: [stripSearchParams(defaultSearch)] },
-	head: () => ({ meta: [createNoindexFollowMeta(), { title: "Resumes · Admin" }] }),
+	head: () => ({ meta: [createNoindexFollowMeta(), { title: `${i18n._(msg`Resumes`)} · ${i18n._(msg`Admin`)}` }] }),
 });
-
-const VISIBILITY_OPTIONS = [
-	{ value: "all", label: "Any visibility" },
-	{ value: "public", label: "Public" },
-	{ value: "private", label: "Private" },
-];
-
-const STATUS_OPTIONS = [
-	{ value: "all", label: "Any status" },
-	{ value: "locked", label: "Locked" },
-	{ value: "unlocked", label: "Unlocked" },
-];
 
 function RouteComponent() {
 	const { i18n } = useLingui();
 	const { search, isPublic, isLocked, sortBy, sortOrder, page } = Route.useSearch();
 	const navigate = useNavigate({ from: Route.fullPath });
+
+	const visibilityOptions = [
+		{ value: "all", label: i18n._(t`Any visibility`) },
+		{ value: "public", label: i18n._(t`Public`) },
+		{ value: "private", label: i18n._(t`Private`) },
+	];
+
+	const statusOptions = [
+		{ value: "all", label: i18n._(t`Any status`) },
+		{ value: "locked", label: i18n._(t`Locked`) },
+		{ value: "unlocked", label: i18n._(t`Unlocked`) },
+	];
 
 	// Typing stays local so the input remains responsive; the URL — and so the
 	// query — only updates once typing settles.
@@ -107,14 +108,14 @@ function RouteComponent() {
 
 				<Combobox
 					className="w-44"
-					options={VISIBILITY_OPTIONS}
+					options={visibilityOptions}
 					value={isPublic === undefined ? "all" : isPublic ? "public" : "private"}
 					onValueChange={(value) => patchSearch({ isPublic: value === "all" ? undefined : value === "public" })}
 				/>
 
 				<Combobox
 					className="w-40"
-					options={STATUS_OPTIONS}
+					options={statusOptions}
 					value={isLocked === undefined ? "all" : isLocked ? "locked" : "unlocked"}
 					onValueChange={(value) => patchSearch({ isLocked: value === "all" ? undefined : value === "locked" })}
 				/>

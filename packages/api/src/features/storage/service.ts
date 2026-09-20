@@ -26,8 +26,15 @@ interface StorageReadResult {
 	contentType?: string;
 }
 
+interface StorageUsage {
+	objects: number;
+	bytes: number;
+}
+
 interface StorageService {
 	list(prefix: string): Promise<string[]>;
+	/** Aggregate size of everything under `prefix`, for the admin overview. */
+	usage(prefix: string): Promise<StorageUsage>;
 	write(input: StorageWriteInput): Promise<void>;
 	read(key: string): Promise<StorageReadResult | null>;
 	delete(key: string): Promise<boolean>;
@@ -150,6 +157,28 @@ class LocalStorageService implements StorageService {
 		await fs.writeFile(fullPath, data);
 	}
 
+	async usage(prefix: string): Promise<StorageUsage> {
+		// `list` walks with `recursive: true`, which also yields directory entries,
+		// so each path is stat'd and non-files are dropped from both figures.
+		const keys = await this.list(prefix);
+
+		const sizes = await Promise.all(
+			keys.map(async (key) => {
+				try {
+					const stats = await fs.stat(this.resolvePath(key));
+					return stats.isFile() ? stats.size : null;
+				} catch {
+					// Raced with a delete between listing and stat; gone either way.
+					return null;
+				}
+			}),
+		);
+
+		const files = sizes.filter((size): size is number => size !== null);
+
+		return { objects: files.length, bytes: files.reduce((total, size) => total + size, 0) };
+	}
+
 	async read(key: string): Promise<StorageReadResult | null> {
 		const fullPath = this.resolvePath(key);
 		try {
@@ -249,6 +278,30 @@ class S3StorageService implements StorageService {
 		const response = await this.client.send(command);
 		if (!response.Contents) return [];
 		return response.Contents.map((object) => object.Key ?? "");
+	}
+
+	async usage(prefix: string): Promise<StorageUsage> {
+		// `ListObjectsV2` already returns each object's size; the plain `list` above
+		// throws it away, so this walks the same API and keeps the totals. Paginated
+		// because a bucket with more than 1000 objects is truncated otherwise.
+		let objects = 0;
+		let bytes = 0;
+		let token: string | undefined;
+
+		do {
+			const response = await this.client.send(
+				new ListObjectsV2Command({ Bucket: this.bucket, Prefix: prefix, ContinuationToken: token }),
+			);
+
+			for (const object of response.Contents ?? []) {
+				objects += 1;
+				bytes += object.Size ?? 0;
+			}
+
+			token = response.IsTruncated ? response.NextContinuationToken : undefined;
+		} while (token);
+
+		return { objects, bytes };
 	}
 
 	async write({ key, data, contentType }: StorageWriteInput): Promise<void> {

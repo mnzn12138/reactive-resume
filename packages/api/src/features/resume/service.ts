@@ -1,7 +1,6 @@
 import type { JsonPatchOperation } from "@reactive-resume/resume/patch";
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
 import type { Locale } from "@reactive-resume/utils/locale";
-import type { ResumeUpdatedEvent } from "./events";
 import { ORPCError } from "@orpc/client";
 import { compare, hash } from "bcrypt";
 import { and, arrayContains, asc, desc, eq, gte, isNotNull, notInArray, sql } from "drizzle-orm";
@@ -15,7 +14,7 @@ import { generateId } from "@reactive-resume/utils/string";
 import { getStorageService } from "../storage/service";
 import { grantResumeAccess, hasResumeAccess } from "./access";
 import { assertCanView, isOwner, redactResumeForViewer, shouldCountForStatistics } from "./access-policy";
-import { publishResumeUpdated } from "./events";
+import { notifyResumeUpdated } from "./events";
 import { parseStoredResumeData, parseWritableResumeData } from "./resume-data-validation";
 import { clientKeyFromHeaders, shouldCountView } from "./view-dedup";
 
@@ -368,14 +367,6 @@ function toSharedResumeResponse(
 		showDownloadButtons: resume.showDownloadButtons,
 		hasPassword,
 	};
-}
-
-async function notifyResumeUpdated(event: ResumeUpdatedEvent) {
-	try {
-		await publishResumeUpdated(event);
-	} catch (error) {
-		console.warn("Failed to publish resume.updated event:", error);
-	}
 }
 
 export const resumeService = {

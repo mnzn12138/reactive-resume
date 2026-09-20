@@ -96,17 +96,25 @@ export function ResumesTable({
 			columnHelper.accessor("isPublic", {
 				header: t`Visibility`,
 				enableSorting: false,
-				cell: (info) =>
-					info.getValue() ? (
-						<Badge variant="secondary">
-							<GlobeIcon />
-							<Trans>Public</Trans>
-						</Badge>
-					) : (
-						<span className="text-muted-foreground text-xs">
-							<Trans>Private</Trans>
-						</span>
-					),
+				cell: (info) => (
+					<div className="flex flex-col items-start gap-1">
+						{info.getValue() ? (
+							<Badge variant="secondary">
+								<GlobeIcon />
+								<Trans>Public</Trans>
+							</Badge>
+						) : (
+							<span className="text-muted-foreground text-xs">
+								<Trans>Private</Trans>
+							</span>
+						)}
+						{info.row.original.hasPassword && (
+							<span className="text-muted-foreground text-xs">
+								<Trans>Password protected</Trans>
+							</span>
+						)}
+					</div>
+				),
 			}),
 			columnHelper.accessor("isLocked", {
 				header: t`Status`,
@@ -180,6 +188,9 @@ export function ResumesTable({
 			onPaginationChange={onPaginationChange}
 			sorting={sorting}
 			onSortingChange={onSortingChange}
+			previousLabel={i18n._(t`Previous`)}
+			nextLabel={i18n._(t`Next`)}
+			pageLabel={({ page, pageCount }) => i18n._(t`Page ${page} of ${pageCount}`)}
 		/>
 	);
 }

@@ -1,4 +1,4 @@
-import type { AuditAction, AuditTargetType } from "./actions";
+import type { AuditAction, AuditTargetType } from "../../audit-actions";
 import { db } from "@reactive-resume/db/client";
 import { adminAuditLog } from "@reactive-resume/db/schema";
 

@@ -1,4 +1,6 @@
 import z from "zod";
+import { OVERRIDABLE_SETTING_KEYS } from "@reactive-resume/auth/instance-settings";
+import { AUDIT_ACTIONS, AUDIT_TARGET_TYPES } from "../audit-actions";
 import { USER_ROLES } from "../roles";
 
 const idSchema = z.object({ id: z.string().min(1) });
@@ -81,15 +83,14 @@ export const adminUserDto = {
 };
 
 export type AdminUserListInput = z.infer<typeof adminUserDto.list.input>;
-export type AdminUserSortField = z.infer<typeof sortFieldSchema>;
 
 /**
  * What the console is allowed to see about someone else's resume.
  *
- * `password` never leaves the service — only whether one is set, which is what
- * an administrator needs to know before unlocking or removing the document.
- * The resume body itself (`data`) is deliberately absent: it is large, and the
- * list view has no use for it.
+ * Credentials follow the same rule as the user list: the `password` column is
+ * never selected, and only a boolean derived in SQL crosses the boundary. The
+ * resume body (`data`) is left out as well — it is large, and the list view has
+ * no use for it.
  */
 const adminResumeSchema = z.object({
 	id: z.string().describe("The resume's unique identifier."),
@@ -145,4 +146,119 @@ export const adminResumeDto = {
 };
 
 export type AdminResumeListInput = z.infer<typeof adminResumeDto.list.input>;
-export type AdminResumeSortField = z.infer<typeof resumeSortFieldSchema>;
+
+/**
+ * Instance-wide counters for the admin overview.
+ *
+ * `storage` is nullable on purpose: it is the one figure that depends on the
+ * configured storage backend, and an unreachable S3 bucket should show as
+ * "unknown" rather than as a misleading zero.
+ */
+export const adminOverviewDto = {
+	get: {
+		output: z.object({
+			totals: z.object({
+				users: z.number().describe("Total accounts on this instance."),
+				resumes: z.number().describe("Total resumes across all accounts."),
+				publicResumes: z.number().describe("Resumes currently shared publicly."),
+			}),
+			signups: z
+				.array(
+					z.object({
+						date: z.string().describe("UTC day, as YYYY-MM-DD."),
+						count: z.number().describe("Accounts created that day."),
+					}),
+				)
+				.describe("Daily signup counts, oldest first, with empty days filled in as zero."),
+			storage: z
+				.object({
+					objects: z.number().describe("Stored files under the uploads prefix."),
+					bytes: z.number().describe("Total size of those files."),
+				})
+				.nullable()
+				.describe("Storage usage, or null when the backend could not be reached."),
+		}),
+	},
+};
+
+const settingSourceSchema = z
+	.enum(["database", "environment", "default"])
+	.describe("Where the effective value came from.");
+
+const adminSettingSchema = z.object({
+	key: z.enum(OVERRIDABLE_SETTING_KEYS).describe("The flag's identifier."),
+	value: z.boolean().describe("The value actually in force right now."),
+	source: settingSourceSchema,
+});
+
+export const adminSettingDto = {
+	get: {
+		output: z.object({
+			settings: z.array(adminSettingSchema).describe("Flags the console can override, with their origin."),
+			smtpEnabled: z
+				.boolean()
+				.describe("Whether outbound email is configured. Derived from the environment, not stored."),
+		}),
+	},
+
+	set: {
+		input: z.object({
+			key: z.enum(OVERRIDABLE_SETTING_KEYS),
+			value: z.boolean().describe("Override value. It takes precedence over the environment from now on."),
+		}),
+		output: adminSettingSchema,
+	},
+};
+
+export type AdminSettingInput = z.infer<typeof adminSettingDto.set.input>;
+
+/**
+ * One line of the admin audit trail.
+ *
+ * `action` and `targetType` are plain strings rather than enums on the way out:
+ * the table stores whatever the running version wrote, so a row produced by a
+ * newer release must still render instead of failing validation.
+ */
+const auditEntrySchema = z.object({
+	id: z.string().describe("The entry's unique identifier."),
+	action: z.string().describe("Dotted action name, for example `user.ban.set`."),
+	targetType: z.string().describe("What kind of object the action targeted."),
+	targetId: z.string().nullable().describe("The affected object's identifier, or null."),
+	metadata: z
+		.record(z.string(), z.unknown())
+		.nullable()
+		.describe("Action-specific context such as the previous value. Null when the action recorded none."),
+	createdAt: z.date().describe("When the action happened."),
+	actor: z
+		.object({
+			id: z.string().describe("The administrator's unique identifier."),
+			name: z.string().describe("The administrator's display name."),
+			email: z.string().describe("The administrator's email address."),
+		})
+		.nullable()
+		.describe("Who performed the action, or null when that account has since been deleted."),
+});
+
+export const adminAuditDto = {
+	list: {
+		input: z
+			.object({
+				action: z.enum(AUDIT_ACTIONS).optional().describe("Return only entries for this action."),
+				targetType: z.enum(AUDIT_TARGET_TYPES).optional().describe("Return only entries for this target kind."),
+				search: z
+					.string()
+					.max(200)
+					.optional()
+					.describe("Case-insensitive match against the administrator's name or email, or the target id."),
+				limit: z.number().int().min(1).max(100).default(25),
+				offset: z.number().int().min(0).default(0),
+			})
+			.default({ limit: 25, offset: 0 }),
+		output: z.object({
+			items: z.array(auditEntrySchema),
+			total: z.number().describe("Total matching entries, across all pages."),
+		}),
+	},
+};
+
+export type AdminAuditListInput = z.infer<typeof adminAuditDto.list.input>;

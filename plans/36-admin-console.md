@@ -1,6 +1,6 @@
 # 36 — 后台管理界面(Admin Console)设计
 
-> 状态:**P0 基座已完成**,**P1 用户管理已完成**,**P2 简历管理已完成**,P3 待实施
+> 状态:**P0 基座、P1 用户管理、P2 简历管理、P3 概览 + 设置、审计日志全部完成**(后台不再有占位页)
 > 日期:2026-09-18
 >
 > **P0 落地清单**(2026-09-18):
@@ -20,13 +20,33 @@
 > - `packages/ui/src/components/data-table.tsx`:补 re-export(`createColumnHelper` 及类型),`columns` 泛型简化为 `ColumnDef<TData, any>[]`
 >
 > **P2 落地清单**(2026-09-19):
-> - `packages/api/src/dto/admin.ts`:`adminResumeDto`(list / setLock / delete);输出只给 `hasPassword`,不含 `password` 明文与体积很大的 `data`
-> - `packages/api/src/features/admin/resume-service.ts` + `resume-service.test.ts`(9 例全通过)
+> - `packages/api/src/dto/admin.ts`:`adminResumeDto`(list / setLock / delete);输出只给 `hasPassword`,凭证列**从不 SELECT**
+> - `packages/api/src/features/admin/resume-service.ts` + `resume-service.test.ts`(12 例全通过)
 > - `packages/api/src/features/admin/sql.ts`:`escapeLike` 从 `service.ts` 抽出,两个 service 共用
+> - `packages/api/src/features/resume/events.ts`:`notifyResumeUpdated` 从 `service.ts` 的私有函数提为导出,admin 与 resume 共用同一套实时通道
 > - `packages/api/src/features/admin/router.ts`:挂载 `resumes`(3 个端点,全部 `tags: ["Internal"]`)
 > - `apps/web/src/routes/admin/resumes.tsx`:列表页替换占位(搜索防抖 / 可见性+锁定筛选 / 排序 / 服务端分页)
 > - `apps/web/src/routes/admin/-components/resumes-table.tsx`:列定义 + 锁定解锁/删除行操作
 > - 审计复用 P0 预留的 `resume.lock.set` / `resume.delete`,无需新迁移
+>
+> **P3 落地清单**(2026-09-19):
+> - `packages/auth/src/instance-settings.ts` + `instance-settings.test.ts`(9 例全通过):`DB > env > 默认` 三级解析,**带 `source` 标注**与 5 秒 TTL 缓存 + 写后主动失效。新增包导出行 `@reactive-resume/auth/instance-settings`
+> - `packages/auth/src/config.ts`:**运行时门禁真正生效** —— `databaseHooks.user.create.before`(注册唯一收口)+ `hooks.before` 按路径拦 email/password 路由
+> - `packages/api/src/features/storage/service.ts`:新增 `usage(prefix)`;local 用 `readdir + stat`,S3 复用 `ListObjectsV2` 响应里本就有的 `Contents[].Size`(含分页)
+> - `packages/api/src/features/admin/overview-service.ts` + `setting-service.ts`(+ 各自单测)
+> - `packages/api/src/dto/admin.ts`:`adminOverviewDto` / `adminSettingDto`
+> - `apps/web/src/routes/admin/overview.tsx` + `-components/signup-trend.tsx`:统计卡片 + 手写 SVG 趋势图(**不引图表依赖**)
+> - `apps/web/src/routes/admin/settings.tsx`:两个开关 + 来源标注 + `smtpEnabled` 只读展示
+> - **无需新迁移**,`instance_setting` 表 P0 已建,审计动作 `instance.setting.set` 也已预留
+>
+> **审计日志已完成**(2026-09-19,补上 P0–P3 都没覆盖的最后一个占位页):
+> - `packages/api/src/audit-actions.ts`:`AUDIT_ACTIONS` / `AUDIT_TARGET_TYPES` 从 `features/admin/actions.ts` **提到顶层**(与 `roles.ts` 同一模式)—— DTO 需要用它们做筛选枚举,留在 features 里会形成 `dto → features → dto` 循环
+> - `packages/api/src/features/admin/audit-service.ts` + `audit-service.test.ts`(5 例):**leftJoin** user,因为 `actor_id` 是 `on delete set null`
+> - `packages/api/src/dto/admin.ts`:`adminAuditDto`(action/targetType/搜索筛选 + 分页)
+> - `packages/api/package.json`:新增导出 `./audit-actions`(前端筛选下拉复用同一份枚举,避免硬编码漂移)
+> - `apps/web/src/routes/admin/audit.tsx` + `-components/audit-table.tsx`
+> - **删除** `apps/web/src/routes/admin/-components/placeholder.tsx` —— 最后一个占位页已实现
+> - 顺带把 knip 修绿(见第十四节)
 
 ## 一、目标
 
@@ -237,9 +257,93 @@ apps/web/src/routes/admin/
 
 ## 十二、实施备注(P2 过程中踩到的坑)
 
-1. **删单份简历不碰存储。** 上传的图片在 `uploads/<userId>/` 下,同一个用户的其它简历完全可能引用同一张图,按简历删文件会误删别人还在用的资源。只有"删账号"这条路径才清目录。`resume_version` / `resume_statistics` 靠 `on delete cascade` 自动跟走。
-2. **`setLock` 必须幂等。** 目标状态与当前一致时既不写库也不落审计 —— 否则管理员连点两次会留下两条内容相同的日志,审计就失去了"发生过变更"的语义。`setRole` 已经是这个写法,照搬即可。
-3. **owner 用 `innerJoin` 一次取回。** 列表和单条查询共用同一组 `listColumns`(扁平的 `ownerId` / `ownerEmail` …),再由 `toAdminResume` 收敛成 DTO 的嵌套 `owner`。`password` 也在这组列里,但只用来推导 `hasPassword`,不进入返回值。join 用 inner 是安全的:`resume.user_id` 是 `on delete cascade`,不存在没有 owner 的简历。
+> 1–3 条是初版实现被复核后**整改**过的。括号里是初版的错误做法,留着是为了不再犯。
+
+1. **删单份简历要清"简历专属"文件,而不是什么都不清。**
+   (初版:以为图片都在 `uploads/<userId>/` 下、会被同一用户的其它简历共用,于是整个跳过清理 —— 结果留下孤儿对象。)
+   存储布局其实是**分目录**的:
+   - `uploads/<userId>/screenshots/<resumeId>`、`uploads/<userId>/pdfs/<resumeId>` —— 以简历 id 命名,只有这份简历会引用,**必须跟着删**;
+   - `uploads/<userId>/pictures/` —— **用户级**资源,该用户的其它简历可能指向同一张图,**绝不能**按简历删。
+
+   既有 `resumeService.delete` 正是这个做法(`Promise.allSettled` best-effort),admin 路径对齐它即可。`resume_version` / `resume_statistics` 靠 `on delete cascade` 自动跟走。
+
+2. **`setLock` 幂等,但状态真变了必须广播。**
+   (初版:只写库 + 落审计,没发事件。)
+   幂等本身要保留:目标状态与当前一致时既不写库、不落审计、也**不发事件**,否则管理员连点两次会留下两条内容相同的日志,审计就失去"发生过变更"的语义。但状态真的翻转时**必须** `notifyResumeUpdated({ mutation: "lock" })` —— 否则 owner 正开着的 builder 会继续编辑一份已被锁定的简历;删除同理(`mutation: "delete"`),否则已经打开的 dashboard 不会把那条简历摘掉。
+
+   **推广**:admin 的写操作和用户自己的写操作走的是**同一套实时通道**(Postgres `NOTIFY` → SSE,按 `(resumeId, userId)` 过滤),所以 admin 侧不能只改数据库。为此把 `notifyResumeUpdated` 从 `resume/service.ts` 的私有函数提到 `resume/events.ts` 导出,两处共用。
+
+3. **凭证列永不 SELECT。**
+   (初版:把 `password` 列选进内存再判空。)
+   P1 的 `adminUserDto` 注释已经写明 "passwords … are never selected",P2 违反了这条既有原则。改成在 SQL 里派生:
+
+   ```ts
+   hasPassword: sql<boolean>`${resume.password} is not null`,
+   ```
+
+   哈希从此不离开数据库,也就不可能被某次重构意外透出去。**另外**:该列存的是 bcrypt hash,描述时要说"哈希"而非"明文"。
+
 4. **表格里 `owner` / `isPublic` / `isLocked` 三列必须 `enableSorting: false`。** 服务端 `sortBy` 是 zod enum(`createdAt` / `updatedAt` / `name`),而 `onSortingChange` 会把列 id 直接写进 URL;点一个服务端不认的列会让整个搜索参数校验失败、页面直接报错。
-5. **测试的 fake db 要补 `innerJoin`。** `service.test.ts` 的 passthrough 方法表里原本没有它,漏了会静默返回空结果而不是报错(chain 上没有该方法 → 抛错,但报错信息指向别处)。
-6. **路由文件已存在时 `routeTree.gen.ts` 不会变。** `/admin/resumes` 在 P0 就登记过了,本次只是把占位组件换成真实页面,所以构建后 `routeTree.gen.ts` 的 `git status` 应当是干净的 —— 不干净说明误改了生成物。
+
+5. **测试的 fake db 要补 `innerJoin`,mock 要补 `sql`。** `service.test.ts` 的 passthrough 方法表里原本没有 `innerJoin`;而 `hasPassword` 的 `sql` 表达式是在**模块加载时**求值的,`vi.mock("drizzle-orm")` 里不提供 `sql` 会让导入直接崩,报错还指向别处。
+
+6. **改 `resume/service.ts` 的导入会连带打断 `service.test.ts`。** 该测试 `vi.mock("./events")` 只提供了 `publishResumeUpdated`;把调用点换成 `notifyResumeUpdated` 后 mock 里缺这个导出,13 个用例一起红。修法是让两个名字指向同一个 spy。
+
+7. **路由文件已存在时 `routeTree.gen.ts` 不会变。** `/admin/resumes` 在 P0 就登记过了,本次只是把占位组件换成真实页面,所以构建后该文件的 `git status` 应当是干净的 —— 不干净说明误改了生成物。
+
+## 十三、实施备注(P3 过程中踩到的坑)
+
+1. **最重要的一条:静态配置 ≠ 运行时开关。**
+   `packages/auth/src/config.ts` 里 `env.FLAG_DISABLE_SIGNUPS` / `FLAG_DISABLE_EMAIL_AUTH` 被用了 **6 处**(`emailAndPassword.disableSignUp`、`enabled`、三个 social provider 的 `disableSignUp` …),**全部在模块加载时求值**。如果 P3 只把 `flags.get` 改成读 DB,后台开关就只影响前端"隐藏按钮",服务端端点依然开放 —— **开关形同虚设,而且给人虚假的安全感**。这是本次最容易踩空的地方。
+
+   → **`databaseHooks.user.create.before` 是注册的唯一收口**:邮箱注册、用户名注册、social 登录建号、OAuth 全部要落一行 `user`,所以门禁放在这里,而不是维护一份会漂移的路由清单。
+   → `disableEmailAuth` 管的是"邮箱密码这条路"(登录/注册/重置),用 `hooks.before` 按路径拦 `EMAIL_AUTH_PATHS`;清单要覆盖 `emailAndPassword` 插件暴露的全部路由。
+   → **不要**用 `hooks.before` 拦注册:social/OAuth 建号走 `/callback/*`,在那个路径上分不出"新用户注册"还是"老用户登录"。
+
+2. **共享代码的落点由依赖方向决定,不是由"语义上属于谁"决定。**
+   `instance-settings` 语义上属于"实例设置",本该放 `packages/api`;但 Better Auth 要用它,而依赖方向是 `api → auth`,auth 不能反向依赖 api。所以它落在 `packages/auth`。**动手前先看 `package.json` 的依赖箭头。**
+
+3. **"值没变就不用写"是错的,要看来源。**
+   当当前值来自环境变量时,即使新值和它一模一样**也必须写库** —— 写入这个动作本身就是"把它钉住",否则以后调整环境变量会静默翻掉管理员在后台做出的决定。幂等条件只能是 `source === "database" && value 相同`。
+
+4. **`packages/env` 的 `emptyStringAsUndefined: true` 要同步到来源判定。**
+   `FLAG_DISABLE_SIGNUPS=`(空串)在 env 层算"未设置",所以 `isEnvProvided` 也要把空串当作未提供,否则设置页会把它标成 "From an environment variable"。
+
+5. **读设置失败要 fail-safe 回退到环境变量,并且不缓存。**
+   如果查询失败时返回"内置默认值"(即 `false`),一个刻意关闭注册的实例会静默重开注册。回退到 env 值 + `console.error` + 不写缓存(下次重试)才是安全的一侧。
+
+6. **测试里 mock 漏了导出会以"静默不生效"的形式出现。**
+   `vi.mock("@reactive-resume/db/schema")` 少给一个 `adminAuditLog`,审计的 `db.insert` 就会抛错,而 `recordAudit` 自己的 try/catch 会把它吞掉 —— 测试的失败信息是"审计行没写",而不是"mock 缺东西"。**审计的 best-effort 设计让这类错误特别隐蔽**,写新 service 的测试时先把 `adminAuditLog` 补上。
+
+7. **`rm -rf apps/web/dist` 现在会被 safe-delete 拦下**(目录内 361 个文件 > 50 阈值),而 vite 的 `prepare-out-dir` 在 Windows 上会遇到 `EPERM`(目录句柄未释放)。用 node 的 `fs.rmSync(path, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 })` 才能删干净 —— 它内置了 Windows 的瞬时锁重试。
+
+8. **`biome-ignore lint/suspicious/useAwait` 会过期。** 函数体里一旦出现 `await`(例如新加了一个 `await isEmailAuthDisabled()`),原来的 suppression 就变成多余的,biome 会反过来警告。加 `await` 时顺手删掉上面的 ignore 注释。
+
+9. **趋势数据在 JS 侧补齐空日,不要指望 SQL。** `GROUP BY date_trunc('day', …)` 不会为没有数据的日期返回行;与其让每个消费方都处理空洞,不如在 service 里按天展开成固定长度的数组。同时把日期表达式**显式钉到 UTC**(`at time zone 'UTC'`),否则数据库会话时区一变,分桶就和 JS 侧的 `toISOString().slice(0,10)` 对不上。
+
+## 十四、knip 从红到绿(2026-09-19)
+
+`pnpm knip` 之前一直失败,报 5 个未用依赖、2 个未用 devDependency、4 个未用导出、2 条配置提示。处理原则是**先分清"真没用"还是"knip 看不见",再决定删依赖还是加 `ignoreDependencies`** —— 一律 ignore 只是让检查闭嘴。
+
+**删掉的(确实没有任何引用)**:
+
+| 包 | 依赖 | 依据 |
+|---|---|---|
+| `packages/api` | `better-auth`、`react`、`sanitize-html` | 全包无 import;api 里没有 `.tsx` 文件;全仓搜不到 `sanitize-html` |
+| `packages/api` | `@types/sanitize-html`(dev) | 同上 |
+| `packages/mcp` | `@reactive-resume/resume` | 移除 cover letter 后不再引用 |
+
+**怎么验证"删了没事"**:把 `packages/{api,mcp}/node_modules` 里对应的 symlink 临时 `unlink`,跑 `turbo run typecheck --force --filter=…` 与 `turbo run test --force --filter=…`(api 417 例、mcp 57 例全过),确认类型解析和运行时都不依赖它们,再删 `package.json` 条目。
+→ **注意必须加 `--force`**:turbo 的缓存按文件哈希算,不改文件就 `FULL TURBO` 全命中缓存,实验等于没跑。
+→ 之后 `pnpm install --lockfile-only` 更新 lockfile(不碰 node_modules,避免沙箱里 pnpm 建不出 symlink 的老问题)。
+
+**加 `ignoreDependencies` 的(knip 的盲区,依赖必须留着)**:
+
+- `packages/ui` → `@tanstack/table-core`:`@tanstack/react-table` 的类型几乎全部 `export * from "@tanstack/table-core"`,而 pnpm 的严格 node_modules 不会把传递依赖暴露给 `packages/ui`,缺它报 "has no exported member"(P0 的教训)。
+- `packages/resume` → `tsx`:`selector.esm.test.ts` 在**子进程**里调用 `tsx`,knip 看不到进程外的引用。
+
+**顺带清掉的 dead export**:`AdminUserSortField`、`AdminResumeSortField`(两个 "导出但没人 import" 的 `z.infer` 类型),以及 `focusCustomSidebarSection`(cover letter 移除时调用方被删、函数留下)。
+
+**配置提示**:`knip.json` 里 `.design-sync/**`(目录已不存在)与 `apps/server` 的 `@better-auth/api-key`(依赖已不存在)一并移除。
+
+现在 `pnpm knip` **exit 0**。

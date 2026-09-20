@@ -64,6 +64,11 @@ msgstr "{0} characters"
 msgid "{0} contact(s) skipped (invalid email or missing Contact Name). Those applications still import."
 msgstr "{0} contact(s) skipped (invalid email or missing Contact Name). Those applications still import."
 
+#. placeholder {0}: formatNumber(storage.objects)
+#: src/routes/admin/overview.tsx
+msgid "{0} files"
+msgstr "{0} files"
+
 #. placeholder {0}: report.passedChecks
 #. placeholder {1}: report.applicableChecks
 #: src/features/ats-checker/report/score-header.tsx
@@ -291,6 +296,10 @@ msgstr "Account"
 msgid "Account menu"
 msgstr "Account menu"
 
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Action"
+msgstr "Action"
+
 #: src/features/applications/components/table-view.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
@@ -302,6 +311,7 @@ msgid "Activate Semantic CSS"
 msgstr "Activate Semantic CSS"
 
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/users.tsx
 msgid "Active"
 msgstr "Active"
 
@@ -493,6 +503,11 @@ msgstr "Adjust the resume for a remote-first role that values async communicatio
 
 #: src/routes/admin/-components/sidebar.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/audit.tsx
+#: src/routes/admin/overview.tsx
+#: src/routes/admin/resumes.tsx
+#: src/routes/admin/settings.tsx
+#: src/routes/admin/users.tsx
 msgid "Admin"
 msgstr "Admin"
 
@@ -504,6 +519,10 @@ msgstr "Admin Console"
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Administration"
 msgstr "Administration"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Administrator"
+msgstr "Administrator"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Advanced"
@@ -582,6 +601,10 @@ msgstr "All app languages"
 msgid "All applications (including archived)"
 msgstr "All applications (including archived)"
 
+#: src/routes/admin/users.tsx
+msgid "All roles"
+msgstr "All roles"
+
 #: src/features/auth/pages/consent.tsx
 msgid "Allow access"
 msgstr "Allow access"
@@ -623,9 +646,26 @@ msgstr "Answer in your own words"
 msgid "Anthropic Claude"
 msgstr "Anthropic Claude"
 
+#: src/routes/admin/audit.tsx
+msgid "Any action"
+msgstr "Any action"
+
+#: src/routes/admin/resumes.tsx
+#: src/routes/admin/users.tsx
+msgid "Any status"
+msgstr "Any status"
+
 #: src/routes/dashboard/applications/index.tsx
 msgid "Any tag"
 msgstr "Any tag"
+
+#: src/routes/admin/audit.tsx
+msgid "Any target"
+msgstr "Any target"
+
+#: src/routes/admin/resumes.tsx
+msgid "Any visibility"
+msgstr "Any visibility"
 
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Anyone who opens the public URL will need this password."
@@ -882,8 +922,14 @@ msgid "Ban user"
 msgstr "Ban user"
 
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/users.tsx
 msgid "Banned"
 msgstr "Banned"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Banned a user"
+msgstr "Banned a user"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Base URL"
@@ -943,6 +989,10 @@ msgstr "Builder Command Palette"
 msgid "Built a design system used by six product teams."
 msgstr "Built a design system used by six product teams."
 
+#: src/routes/admin/settings.tsx
+msgid "Built-in default"
+msgstr "Built-in default"
+
 #: src/features/applications/components/table-view.tsx
 msgid "Bulk delete failed. Please try again."
 msgstr "Bulk delete failed. Please try again."
@@ -977,6 +1027,7 @@ msgstr "Bulleted list"
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
+#: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -1016,6 +1067,21 @@ msgstr "Change language to…"
 #: src/features/command-palette/pages/preferences/index.tsx
 msgid "Change theme to…"
 msgstr "Change theme to…"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Changed a resume lock"
+msgstr "Changed a resume lock"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Changed a user's role"
+msgstr "Changed a user's role"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Changed an instance setting"
+msgstr "Changed an instance setting"
 
 #: src/dialogs/resume/index.tsx
 msgid "Changed your mind? Rename your resume to something more descriptive."
@@ -1206,8 +1272,13 @@ msgstr "Compare this resume against this job posting URL and update the keywords
 msgid "Compress or remove large images to keep uploads quick."
 msgstr "Compress or remove large images to keep uploads quick."
 
+#: src/routes/admin/settings.tsx
+msgid "Configured"
+msgstr "Configured"
+
 #. Account deletion confirmation dialog confirm action in account settings
 #: src/features/settings/pages/account.tsx
+#: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Confirm"
@@ -1381,6 +1452,10 @@ msgstr "Could not reach the AI provider. Please try again."
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Could not restore this patch."
 msgstr "Could not restore this patch."
+
+#: src/routes/admin/settings.tsx
+msgid "Could not save the setting. Please try again."
+msgstr "Could not save the setting. Please try again."
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Could not set up two-factor authentication."
@@ -1619,6 +1694,10 @@ msgstr "Custom Sections"
 msgid "Custom Styles"
 msgstr "Custom Styles"
 
+#: src/routes/admin/-components/signup-trend.tsx
+msgid "Daily signups over the last 30 days"
+msgstr "Daily signups over the last 30 days"
+
 #. Appearance theme option for dark mode
 #: src/features/user/dropdown-menu.tsx
 #: src/libs/theme.ts
@@ -1749,6 +1828,20 @@ msgstr "Delete timeline entry"
 msgid "Deleted {0} application(s)."
 msgstr "Deleted {0} application(s)."
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Deleted a resume"
+msgstr "Deleted a resume"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Deleted a user"
+msgstr "Deleted a user"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Deleted account"
+msgstr "Deleted account"
+
 #: src/features/settings/pages/account.tsx
 msgid "Deleting your account..."
 msgstr "Deleting your account..."
@@ -1770,6 +1863,10 @@ msgstr "Denied, waiting for the agent…"
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Deny"
 msgstr "Deny"
+
+#: src/routes/admin/settings.tsx
+msgid "Derived from whether SMTP is configured. Change the SMTP environment variables to turn it on or off."
+msgstr "Derived from whether SMTP is configured. Change the SMTP environment variables to turn it on or off."
 
 #: src/features/ats-checker/messages.ts
 msgid "Describe each role with short bullets. Solid paragraphs are harder to skim and to segment."
@@ -1810,6 +1907,10 @@ msgstr "Designed a shared component library that six product teams use to build 
 msgid "Designed websites and tools for a growing creative community."
 msgstr "Designed websites and tools for a growing creative community."
 
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Details"
+msgstr "Details"
+
 #. Label above the raw error text forwarded by the identity provider
 #: src/features/auth/pages/error.tsx
 msgid "Details from the provider:"
@@ -1820,6 +1921,14 @@ msgstr "Details from the provider:"
 #: src/features/settings/authentication/components/two-factor.tsx
 msgid "Disable 2FA"
 msgstr "Disable 2FA"
+
+#: src/routes/admin/settings.tsx
+msgid "Disable email and password authentication"
+msgstr "Disable email and password authentication"
+
+#: src/routes/admin/settings.tsx
+msgid "Disable new signups"
+msgstr "Disable new signups"
 
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disable Two-Factor Authentication"
@@ -2507,6 +2616,10 @@ msgstr "Free-form"
 msgid "French"
 msgstr "French"
 
+#: src/routes/admin/settings.tsx
+msgid "From an environment variable"
+msgstr "From an environment variable"
+
 #: src/features/resume/export/download-dialog.tsx
 msgid "Full resume data for backup or import."
 msgstr "Full resume data for backup or import."
@@ -2824,6 +2937,11 @@ msgstr "Insights"
 msgid "Inspecting page {0} of {1}…"
 msgstr "Inspecting page {0} of {1}…"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Instance"
+msgstr "Instance"
+
 #: src/routes/admin/overview.tsx
 msgid "Instance-wide totals and signup trends for this deployment."
 msgstr "Instance-wide totals and signup trends for this deployment."
@@ -3011,6 +3129,10 @@ msgstr "Language"
 msgid "Languages"
 msgstr "Languages"
 
+#: src/routes/admin/-components/signup-trend.tsx
+msgid "Last 30 days"
+msgstr "Last 30 days"
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "Last active"
 msgstr "Last active"
@@ -3098,6 +3220,11 @@ msgstr "Level {level} of 5"
 #: src/routes/admin/-components/users-table.tsx
 msgid "Lift ban"
 msgstr "Lift ban"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Lifted a ban"
+msgstr "Lifted a ban"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Lifts at (optional)"
@@ -3228,6 +3355,7 @@ msgid "Lock editing"
 msgstr "Lock editing"
 
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Locked"
 msgstr "Locked"
 
@@ -3457,6 +3585,12 @@ msgstr "New thread"
 msgid "New Thread"
 msgstr "New Thread"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Next"
+msgstr "Next"
+
 #: src/features/homepage/template-shelf.tsx
 msgid "Next template"
 msgstr "Next template"
@@ -3476,6 +3610,10 @@ msgstr "No applications match your filters."
 #: src/features/applications/components/insights-view.tsx
 msgid "No applications yet. Add a few to see your funnel and reply rates."
 msgstr "No applications yet. Add a few to see your funnel and reply rates."
+
+#: src/routes/admin/audit.tsx
+msgid "No audit entries match these filters."
+msgstr "No audit entries match these filters."
 
 #: src/features/ats-checker/messages.ts
 msgid "No bullet lists were found."
@@ -3599,6 +3737,10 @@ msgstr "No users match these filters."
 #: src/features/ats-checker/messages.ts
 msgid "No work-experience section was found."
 msgstr "No work-experience section was found."
+
+#: src/routes/admin/settings.tsx
+msgid "Not configured"
+msgstr "Not configured"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Not connected"
@@ -3785,9 +3927,18 @@ msgstr "Organization"
 msgid "Original table formatting is preserved. This content is read-only because it cannot be edited safely."
 msgstr "Original table formatting is preserved. This content is read-only because it cannot be edited safely."
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Other"
+msgstr "Other"
+
 #: src/features/ats-checker/report/score-header.tsx
 msgid "out of 100"
 msgstr "out of 100"
+
+#: src/routes/admin/settings.tsx
+msgid "Outbound email"
+msgstr "Outbound email"
 
 #: src/routes/admin/settings.tsx
 msgid "Override instance-wide feature flags at runtime."
@@ -3813,6 +3964,12 @@ msgstr "Page"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Page {0}"
 msgstr "Page {0}"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Page {page} of {pageCount}"
+msgstr "Page {page} of {pageCount}"
 
 #: src/components/input/rich-input.tsx
 msgid "Paragraph"
@@ -3860,6 +4017,10 @@ msgstr "Password"
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Password must be between 6 and 64 characters."
 msgstr "Password must be between 6 and 64 characters."
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Password protected"
+msgstr "Password protected"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Password protection has been disabled."
@@ -4060,6 +4221,12 @@ msgstr "Preview and export fall back to base styles."
 msgid "Preview and export keep valid styles and ignore invalid styles."
 msgstr "Preview and export keep valid styles and ignore invalid styles."
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Previous"
+msgstr "Previous"
+
 #: src/features/homepage/template-shelf.tsx
 msgid "Previous template"
 msgstr "Previous template"
@@ -4074,6 +4241,7 @@ msgstr "Print or export the form to a flat PDF before sending it."
 
 #: src/features/homepage/feature-explorer.tsx
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Private"
 msgstr "Private"
 
@@ -4141,8 +4309,13 @@ msgstr "Provider model"
 
 #: src/features/homepage/feature-explorer.tsx
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Public"
 msgstr "Public"
+
+#: src/routes/admin/overview.tsx
+msgid "Public resumes"
+msgstr "Public resumes"
 
 #: src/dialogs/resume/sections/custom.tsx
 #: src/libs/resume/section-title.ts
@@ -4444,7 +4617,9 @@ msgid "Restore this version?"
 msgstr "Restore this version?"
 
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/audit.tsx
 #: src/routes/agent/-components/resume-pane.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Resume"
@@ -4500,6 +4675,7 @@ msgstr "Resume templates for different professions and tastes. Pick the one that
 #: src/features/homepage/community-stats.tsx
 #: src/features/homepage/languages-showcase.tsx
 #: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/overview.tsx
 #: src/routes/admin/resumes.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/resumes/index.tsx
@@ -4704,6 +4880,14 @@ msgstr "Search accounts, change roles, ban or delete them."
 msgid "Search applications…"
 msgstr "Search applications…"
 
+#: src/routes/admin/audit.tsx
+msgid "Search audit entries"
+msgstr "Search audit entries"
+
+#: src/routes/admin/audit.tsx
+msgid "Search by administrator or target"
+msgstr "Search by administrator or target"
+
 #: src/routes/admin/users.tsx
 msgid "Search by name, email or username"
 msgstr "Search by name, email or username"
@@ -4861,6 +5045,10 @@ msgstr "Serif"
 msgid "Set a password if you want only people who know it to open the public URL."
 msgstr "Set a password if you want only people who know it to open the public URL."
 
+#: src/routes/admin/settings.tsx
+msgid "Set in this console"
+msgstr "Set in this console"
+
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/settings/authentication/components/password.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -4906,6 +5094,10 @@ msgstr "Setup Authenticator App"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Shadow Width"
 msgstr "Shadow Width"
+
+#: src/routes/admin/overview.tsx
+msgid "Shared through a public link."
+msgstr "Shared through a public link."
 
 #: src/libs/resume/section.tsx
 msgid "Sharing"
@@ -5051,6 +5243,10 @@ msgstr "Signing out..."
 #: src/features/auth/pages/register.tsx
 msgid "Signing up..."
 msgstr "Signing up..."
+
+#: src/routes/admin/-components/signup-trend.tsx
+msgid "Signups"
+msgstr "Signups"
 
 #: src/dialogs/resume/template/data.ts
 msgid "Single-column with a magenta left border accent; compact and efficient for entry-level or internship applications."
@@ -5314,6 +5510,18 @@ msgstr "Still waiting for {provider}… {elapsedSeconds}s"
 msgid "Stop generation"
 msgstr "Stop generation"
 
+#: src/routes/admin/settings.tsx
+msgid "Stops new accounts from being created, including through social sign-in. Existing accounts keep working."
+msgstr "Stops new accounts from being created, including through social sign-in. Existing accounts keep working."
+
+#: src/routes/admin/overview.tsx
+msgid "Storage"
+msgstr "Storage"
+
+#: src/routes/admin/overview.tsx
+msgid "Storage backend unreachable."
+msgstr "Storage backend unreachable."
+
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Strengths"
 msgstr "Strengths"
@@ -5403,6 +5611,10 @@ msgstr "Tailoring failed."
 #: src/features/homepage/page.tsx
 msgid "Take it<0/>with you."
 msgstr "Take it<0/>with you."
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Target"
+msgstr "Target"
 
 #: src/libs/resume/section.tsx
 msgid "Template"
@@ -5818,10 +6030,6 @@ msgstr "This role has no description."
 msgid "This section has content but never appears."
 msgstr "This section has content but never appears."
 
-#: src/routes/admin/-components/placeholder.tsx
-msgid "This section is not built yet."
-msgstr "This section is not built yet."
-
 #: src/libs/resume/ats.ts
 msgid "This section is split across columns."
 msgstr "This section is split across columns."
@@ -5985,6 +6193,10 @@ msgstr "Turn off discretionary ligatures when exporting."
 msgid "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see these numbers."
 msgstr "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see these numbers."
 
+#: src/routes/admin/settings.tsx
+msgid "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
+msgstr "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
+
 #: src/dialogs/resume/template/data.ts
 msgid "Two-column with a bold colored sidebar and skill bars; great for creative or tech roles where visual flair is welcome."
 msgstr "Two-column with a bold colored sidebar and skill bars; great for creative or tech roles where visual flair is welcome."
@@ -6067,6 +6279,10 @@ msgstr "Typography"
 msgid "Unarchive"
 msgstr "Unarchive"
 
+#: src/routes/admin/overview.tsx
+msgid "Unavailable"
+msgstr "Unavailable"
+
 #: src/components/input/rich-input.tsx
 msgid "Underline"
 msgstr "Underline"
@@ -6080,6 +6296,10 @@ msgstr "Undo"
 #: src/features/resume/stylesheet/toolbar.tsx
 msgid "Undo stylesheet edit"
 msgstr "Undo stylesheet edit"
+
+#: src/routes/admin/audit.tsx
+msgid "Unknown action"
+msgstr "Unknown action"
 
 #: src/features/settings/authentication/components/hooks.tsx
 msgid "Unlinking your {providerName} account..."
@@ -6100,6 +6320,7 @@ msgid "Unlock editing"
 msgstr "Unlock editing"
 
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Unlocked"
 msgstr "Unlocked"
 
@@ -6317,7 +6538,10 @@ msgstr "Use this wording"
 msgid "Use your editor's normal bullet list, so stray glyphs do not land mid-sentence."
 msgstr "Use your editor's normal bullet list, so stray glyphs do not land mid-sentence."
 
+#: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/audit.tsx
+#: src/routes/admin/users.tsx
 msgid "User"
 msgstr "User"
 
@@ -6335,6 +6559,7 @@ msgstr "Username"
 
 #: src/features/homepage/community-stats.tsx
 #: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/overview.tsx
 #: src/routes/admin/users.tsx
 msgid "Users"
 msgstr "Users"
@@ -6516,6 +6741,10 @@ msgstr "What this checks"
 #: src/routes/_home/ats-checker.tsx
 msgid "What this does not do"
 msgstr "What this does not do"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "When"
+msgstr "When"
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts

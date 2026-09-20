@@ -55,10 +55,6 @@ export function focusLeftSidebarSection(section: LeftSidebarSection): void {
 	focusSidebarSection(section);
 }
 
-export function focusCustomSidebarSection(sectionId: string): void {
-	focusSidebarSection(sectionId);
-}
-
 type SectionEditorListProps = {
 	renderSection: (section: LeftSidebarSection) => ReactNode;
 };

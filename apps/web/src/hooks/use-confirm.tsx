@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import * as React from "react";
 import {
 	AlertDialog,
@@ -84,8 +85,8 @@ export function ConfirmDialogProvider({ children }: ConfirmDialogProviderProps) 
 					</AlertDialogHeader>
 
 					<AlertDialogFooter>
-						<AlertDialogCancel onClick={handleCancel}>{state.cancelText ?? "Cancel"}</AlertDialogCancel>
-						<AlertDialogAction onClick={handleConfirm}>{state.confirmText ?? "Confirm"}</AlertDialogAction>
+						<AlertDialogCancel onClick={handleCancel}>{state.cancelText ?? t`Cancel`}</AlertDialogCancel>
+						<AlertDialogAction onClick={handleConfirm}>{state.confirmText ?? t`Confirm`}</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>

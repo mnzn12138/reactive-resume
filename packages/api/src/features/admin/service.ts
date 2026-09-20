@@ -1,6 +1,6 @@
 import type { SQL } from "drizzle-orm";
+import type { AuditAction } from "../../audit-actions";
 import type { AdminUserListInput } from "../../dto/admin";
-import type { AuditAction } from "./actions";
 import { ORPCError } from "@orpc/server";
 import { and, asc, count, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from "@reactive-resume/db/client";

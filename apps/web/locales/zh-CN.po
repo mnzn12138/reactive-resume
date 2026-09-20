@@ -31,12 +31,12 @@ msgstr "\"{0} · {1}\" 及其完整时间线将被永久删除。此操作无法
 #. placeholder {1}: target.owner.email
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "\"{0}\" by {1} will be permanently deleted, along with its saved versions. This can't be undone."
-msgstr ""
+msgstr "\"{0}\" 及其保存的历史版本将被永久删除，且无法恢复。"
 
 #. placeholder {0}: selected.length
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "{0, plural, one {# application to export} other {# applications to export}}"
-msgstr "{0, plural, one {# 申请出口} other {# 导出应用程序}}"
+msgstr "{0, plural, one {# 份待导出的申请} other {# 份待导出的申请}}"
 
 #. placeholder {0}: section.items.length
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -46,12 +46,12 @@ msgstr "{0, plural, one {# 项目} other {# 项目}}"
 #. placeholder {0}: item.roles.length
 #: src/routes/builder/$resumeId/-sidebar/left/sections/experience.tsx
 msgid "{0, plural, one {# role} other {# roles}}"
-msgstr "{0, plural, one {#角色} other {#角色}}"
+msgstr "{0, plural, one {# 个角色} other {# 个角色}}"
 
 #. placeholder {0}: target.email
 #: src/routes/admin/-components/users-table.tsx
 msgid "{0} and everything they own — resumes and applications — will be permanently deleted. This can't be undone."
-msgstr ""
+msgstr "{0} 及其拥有的全部内容（简历与求职申请）都将被永久删除，且无法恢复。"
 
 #. placeholder {0}: insights.total
 #: src/features/applications/components/insights-view.tsx
@@ -68,6 +68,11 @@ msgstr "{0} 字符"
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "{0} contact(s) skipped (invalid email or missing Contact Name). Those applications still import."
 msgstr "跳过了 {0} 个联系人（邮箱无效或缺少联系人姓名）。这些申请仍会导入。"
+
+#. placeholder {0}: formatNumber(storage.objects)
+#: src/routes/admin/overview.tsx
+msgid "{0} files"
+msgstr "{0} 个文件"
 
 #. placeholder {0}: report.passedChecks
 #. placeholder {1}: report.applicableChecks
@@ -120,7 +125,7 @@ msgstr "{0} 项待修复"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "{column, plural, one {# Column} other {# Columns}}"
-msgstr "{column, plural, other {# 栏}}"
+msgstr "{column, plural, one {# 栏} other {# 栏}}"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "{count, plural, one {# error} other {# errors}}"
@@ -294,7 +299,11 @@ msgstr "账户"
 
 #: src/routes/builder/$resumeId/-sidebar/left/index.tsx
 msgid "Account menu"
-msgstr "帐户菜单"
+msgstr "账户菜单"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Action"
+msgstr "操作"
 
 #: src/features/applications/components/table-view.tsx
 #: src/routes/admin/-components/resumes-table.tsx
@@ -307,8 +316,9 @@ msgid "Activate Semantic CSS"
 msgstr "启用语义化 CSS"
 
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/users.tsx
 msgid "Active"
-msgstr ""
+msgstr "正常"
 
 #: src/routes/builder/$resumeId/-components/dock.tsx
 msgid "Actual size (100%)"
@@ -419,7 +429,7 @@ msgstr "添加条目，或使用项目和志愿者工作来展示同等的历史
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Add and test a provider before starting an agent thread."
-msgstr "在启动代理会话之前，请先添加并测试提供商。"
+msgstr "在启动智能体会话之前，请先添加并测试提供商。"
 
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/command-palette/pages/navigation.tsx
@@ -498,21 +508,30 @@ msgstr "调整简历，使其更适合远程优先、重视异步沟通和自主
 
 #: src/routes/admin/-components/sidebar.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/audit.tsx
+#: src/routes/admin/overview.tsx
+#: src/routes/admin/resumes.tsx
+#: src/routes/admin/settings.tsx
+#: src/routes/admin/users.tsx
 msgid "Admin"
-msgstr ""
+msgstr "管理员"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Admin Console"
-msgstr ""
+msgstr "管理后台"
 
 #: src/routes/admin/-components/sidebar.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Administration"
-msgstr ""
+msgstr "后台管理"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Administrator"
+msgstr "管理员"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Advanced"
-msgstr "先进的"
+msgstr "高级"
 
 #: src/features/ats-checker/messages.ts
 msgid "Advice for the person reading it. None of this affects the score."
@@ -525,31 +544,31 @@ msgstr "对照职位描述"
 #: src/features/command-palette/pages/navigation.tsx
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Agent"
-msgstr "代理人"
+msgstr "智能体"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Agent ready"
-msgstr "代理已准备就绪"
+msgstr "智能体已就绪"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Agents"
-msgstr "代理人"
+msgstr "智能体"
 
 #: src/dialogs/resume/import.tsx
 msgid "AI"
-msgstr "AI（人工智能）"
+msgstr "AI"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "AI agent setup is unavailable right now. Please try again in a moment."
-msgstr "目前无法设置人工智能代理，请稍后再试。"
+msgstr "目前无法设置 AI 智能体，请稍后再试。"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "AI agent setup is unavailable until REDIS_URL and ENCRYPTION_SECRET are configured."
-msgstr "在配置 REDIS_URL 和 ENCRYPTION_SECRET 之前，AI 代理设置不可用。"
+msgstr "需先配置 REDIS_URL 与 ENCRYPTION_SECRET，才能设置 AI 智能体。"
 
 #: src/routes/builder/$resumeId/-components/ai-assistant.tsx
 msgid "AI assistant"
-msgstr "人工智能助手"
+msgstr "AI 助手"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "AI provider"
@@ -561,11 +580,11 @@ msgstr "在配置 REDIS_URL 和 ENCRYPTION_SECRET 之前，AI 提供商管理功
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "AI provider management is unavailable. Please try again."
-msgstr "AI提供商管理功能不可用。请稍后再试。"
+msgstr "AI 提供商管理功能不可用，请稍后再试。"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "AI Providers"
-msgstr "人工智能提供商"
+msgstr "AI 提供商"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "AI providers are unavailable until ENCRYPTION_SECRET is configured."
@@ -586,6 +605,10 @@ msgstr "全部应用语言"
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "All applications (including archived)"
 msgstr "所有申请（包括已归档）"
+
+#: src/routes/admin/users.tsx
+msgid "All roles"
+msgstr "全部角色"
 
 #: src/features/auth/pages/consent.tsx
 msgid "Allow access"
@@ -626,11 +649,28 @@ msgstr "用你自己的话回答"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Anthropic Claude"
-msgstr "克劳德人类学"
+msgstr "Anthropic Claude"
+
+#: src/routes/admin/audit.tsx
+msgid "Any action"
+msgstr "全部操作"
+
+#: src/routes/admin/resumes.tsx
+#: src/routes/admin/users.tsx
+msgid "Any status"
+msgstr "任意状态"
 
 #: src/routes/dashboard/applications/index.tsx
 msgid "Any tag"
 msgstr "任意标签"
+
+#: src/routes/admin/audit.tsx
+msgid "Any target"
+msgstr "全部对象"
+
+#: src/routes/admin/resumes.tsx
+msgid "Any visibility"
+msgstr "任意可见性"
 
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Anyone who opens the public URL will need this password."
@@ -646,7 +686,7 @@ msgstr "任何拥有该公开 URL 的人，都可以无需密码查看你的简�
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API Key"
-msgstr "API Key"
+msgstr "API 密钥"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API keys are encrypted on the server and never shown again after saving."
@@ -723,7 +763,7 @@ msgstr "批准"
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Approved, waiting for the agent…"
-msgstr "已批准，正在等待代理…"
+msgstr "已批准，正在等待智能体…"
 
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -793,7 +833,7 @@ msgstr "宽高比"
 
 #: src/libs/resume/section.tsx
 msgid "ATS Check"
-msgstr "ATS检查”"
+msgstr "ATS 检查"
 
 #: src/routes/_home/ats-checker.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
@@ -810,7 +850,7 @@ msgstr "附加文件"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Attachment"
-msgstr "依恋"
+msgstr "附件"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Attachment uploaded."
@@ -819,7 +859,7 @@ msgstr "附件已上传。"
 #: src/routes/admin/-components/sidebar.tsx
 #: src/routes/admin/audit.tsx
 msgid "Audit Log"
-msgstr ""
+msgstr "操作日志"
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
@@ -857,7 +897,7 @@ msgstr "返回身份验证设置"
 
 #: src/routes/admin/-components/sidebar.tsx
 msgid "Back to dashboard"
-msgstr ""
+msgstr "返回工作台"
 
 #: src/routes/agent/-components/thread-sidebar.tsx
 msgid "Back to resumes"
@@ -880,19 +920,25 @@ msgstr "备份码已复制到剪贴板。"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Ban this account?"
-msgstr ""
+msgstr "确定封禁该账号？"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Ban user"
-msgstr ""
+msgstr "封禁用户"
 
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/users.tsx
 msgid "Banned"
-msgstr ""
+msgstr "已封禁"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Banned a user"
+msgstr "封禁了用户"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Base URL"
-msgstr "基本 URL"
+msgstr "基础 URL"
 
 #: src/libs/resume/section.tsx
 msgid "Basics"
@@ -948,6 +994,10 @@ msgstr "编辑器命令面板"
 msgid "Built a design system used by six product teams."
 msgstr "构建了供六个产品团队使用的设计系统。"
 
+#: src/routes/admin/settings.tsx
+msgid "Built-in default"
+msgstr "系统默认"
+
 #: src/features/applications/components/table-view.tsx
 msgid "Bulk delete failed. Please try again."
 msgstr "批量删除失败。请重试。"
@@ -982,6 +1032,7 @@ msgstr "项目符号列表"
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
+#: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
@@ -1002,7 +1053,7 @@ msgstr "居中对齐"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Cerebras"
-msgstr "大脑"
+msgstr "Cerebras"
 
 #: src/dialogs/resume/sections/custom.tsx
 #: src/libs/resume/section-title.ts
@@ -1021,6 +1072,21 @@ msgstr "将语言更改为…"
 #: src/features/command-palette/pages/preferences/index.tsx
 msgid "Change theme to…"
 msgstr "更改主题为…"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Changed a resume lock"
+msgstr "修改了简历锁定状态"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Changed a user's role"
+msgstr "修改了用户角色"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Changed an instance setting"
+msgstr "修改了实例设置"
 
 #: src/dialogs/resume/index.tsx
 msgid "Changed your mind? Rename your resume to something more descriptive."
@@ -1117,7 +1183,7 @@ msgstr "选择应用语言"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
 msgid "Choose PDF, DOCX, Markdown, or JSON."
-msgstr ""
+msgstr "可选择 PDF、DOCX、Markdown 或 JSON。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Choose who can see it"
@@ -1160,7 +1226,7 @@ msgstr "关闭 AI 助手"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Cohere"
-msgstr "凝聚"
+msgstr "Cohere"
 
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Color"
@@ -1179,12 +1245,12 @@ msgstr "列通常会打乱文本的读入顺序。将其设置为单列。"
 #. Accessible label for the command palette dialog
 #: src/features/command-palette/index.tsx
 msgid "Command Palette"
-msgstr "命令调色板"
+msgstr "命令面板"
 
 #. Accessible label for command palette dialog when browsing a nested command page
 #: src/features/command-palette/index.tsx
 msgid "Command Palette - {currentPage}"
-msgstr "命令调板 - {currentPage}"
+msgstr "命令面板 - {currentPage}"
 
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Compact"
@@ -1211,8 +1277,13 @@ msgstr "把这份简历和这个招聘信息 URL 做对比，更新关键词，�
 msgid "Compress or remove large images to keep uploads quick."
 msgstr "压缩或移除较大的图片，以保持上传速度。"
 
+#: src/routes/admin/settings.tsx
+msgid "Configured"
+msgstr "已配置"
+
 #. Account deletion confirmation dialog confirm action in account settings
 #: src/features/settings/pages/account.tsx
+#: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Confirm"
@@ -1233,7 +1304,7 @@ msgstr "连接应用"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Connect your own AI provider to get a review of the writing. The checks above need no provider and no account."
-msgstr "连接你自己的 AI 提供商，获取对文案的评审。以上检查不需要任何提供商，也不需要账号。"
+msgstr "连接你自己的 AI 提供商，即可获得对文案的评审。以上检查不需要提供商，也不需要账号。"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Connected"
@@ -1249,7 +1320,7 @@ msgstr "连接失败。"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Connection verified. The provider is ready to use."
-msgstr "连接已验证。该提供商可以使用了。"
+msgstr "连接已验证，该提供商可以使用了。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Contact details"
@@ -1326,7 +1397,7 @@ msgstr "复制 JSON"
 #. Accessible label for the button that copies the two-factor secret key
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Copy secret"
-msgstr "复制秘密"
+msgstr "复制密钥"
 
 #: src/features/resume/stylesheet/toolbar.tsx
 msgid "Copy stylesheet"
@@ -1381,11 +1452,15 @@ msgstr "无法为打印准备你的简历。请重试。"
 #. Error shown when AI provider is unreachable during PDF/DOCX resume import
 #: src/dialogs/resume/import.tsx
 msgid "Could not reach the AI provider. Please try again."
-msgstr "无法联系人工智能提供商。请重试。"
+msgstr "无法连接 AI 提供商，请重试。"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Could not restore this patch."
 msgstr "无法恢复此补丁。"
+
+#: src/routes/admin/settings.tsx
+msgid "Could not save the setting. Please try again."
+msgstr "设置保存失败，请重试。"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Could not set up two-factor authentication."
@@ -1624,6 +1699,10 @@ msgstr "自定义章节"
 msgid "Custom Styles"
 msgstr "自定义样式"
 
+#: src/routes/admin/-components/signup-trend.tsx
+msgid "Daily signups over the last 30 days"
+msgstr "近 30 天每日注册量"
+
 #. Appearance theme option for dark mode
 #: src/features/user/dropdown-menu.tsx
 #: src/libs/theme.ts
@@ -1636,7 +1715,7 @@ msgstr "深色主题"
 
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Dashboard"
-msgstr "仪表板"
+msgstr "工作台"
 
 #: src/dialogs/resume/sections/award.tsx
 #: src/dialogs/resume/sections/certification.tsx
@@ -1667,7 +1746,7 @@ msgstr "深度检查"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "DeepSeek"
-msgstr "深潜"
+msgstr "DeepSeek"
 
 #: src/dialogs/resume/sections/education.tsx
 msgid "Degree"
@@ -1696,7 +1775,7 @@ msgstr "删除"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Delete account"
-msgstr ""
+msgstr "删除账号"
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/features/settings/pages/account.tsx
@@ -1721,16 +1800,16 @@ msgstr "删除提供商"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Delete resume"
-msgstr ""
+msgstr "删除简历"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Delete this account?"
-msgstr ""
+msgstr "确定删除该账号？"
 
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
 msgid "Delete this agent thread?"
-msgstr "删除此代理会话？"
+msgstr "确定删除该智能体会话？"
 
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -1739,7 +1818,7 @@ msgstr "删除此申请？"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Delete this resume?"
-msgstr ""
+msgstr "确定删除该简历？"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Delete this timeline entry?"
@@ -1754,6 +1833,20 @@ msgstr "删除时间线条目"
 msgid "Deleted {0} application(s)."
 msgstr "已删除 {0} 个申请。"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Deleted a resume"
+msgstr "删除了简历"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Deleted a user"
+msgstr "删除了用户"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Deleted account"
+msgstr "账号已注销"
+
 #: src/features/settings/pages/account.tsx
 msgid "Deleting your account..."
 msgstr "正在删除你的账号…"
@@ -1765,16 +1858,20 @@ msgstr "正在删除你的简历…"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Demote to user"
-msgstr ""
+msgstr "降为普通用户"
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Denied, waiting for the agent…"
-msgstr "已拒绝，正在等待代理…"
+msgstr "已拒绝，正在等待智能体…"
 
 #: src/features/auth/pages/consent.tsx
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Deny"
 msgstr "拒绝"
+
+#: src/routes/admin/settings.tsx
+msgid "Derived from whether SMTP is configured. Change the SMTP environment variables to turn it on or off."
+msgstr "由是否配置了 SMTP 决定，如需开关请调整 SMTP 环境变量。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Describe each role with short bullets. Solid paragraphs are harder to skim and to segment."
@@ -1815,6 +1912,10 @@ msgstr "设计了一个共享组件库，供六个产品团队构建一致的界
 msgid "Designed websites and tools for a growing creative community."
 msgstr "为不断成长的创意社群设计网站和工具。"
 
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Details"
+msgstr "详情"
+
 #. Label above the raw error text forwarded by the identity provider
 #: src/features/auth/pages/error.tsx
 msgid "Details from the provider:"
@@ -1825,6 +1926,14 @@ msgstr "来自提供商的详细信息："
 #: src/features/settings/authentication/components/two-factor.tsx
 msgid "Disable 2FA"
 msgstr "禁用 2FA 双重身份验证"
+
+#: src/routes/admin/settings.tsx
+msgid "Disable email and password authentication"
+msgstr "禁用邮箱密码登录"
+
+#: src/routes/admin/settings.tsx
+msgid "Disable new signups"
+msgstr "关闭新用户注册"
 
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disable Two-Factor Authentication"
@@ -1909,7 +2018,7 @@ msgstr "下载示例 PDF"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
-msgstr "下载"
+msgstr "下载次数"
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Draft a follow-up"
@@ -1944,7 +2053,7 @@ msgstr "去掉人称代词，直接以动词开头。这是大多数地区通行
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
 msgid "Duplicate"
-msgstr "复制"
+msgstr "创建副本"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Duplicate as AI draft"
@@ -2154,7 +2263,7 @@ msgstr "编辑示例"
 
 #: src/features/resume/stylesheet/toolbar.tsx
 msgid "Exit focus mode"
-msgstr "退出对焦模式"
+msgstr "退出专注模式"
 
 #: src/components/input/rich-input.tsx
 msgid "Exit Fullscreen"
@@ -2302,7 +2411,7 @@ msgstr "无法评审这份简历。"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Failed to save AI provider."
-msgstr "保存人工智能提供商失败。"
+msgstr "保存 AI 提供商失败。"
 
 #. Fallback toast when requesting password reset email fails without backend message
 #: src/features/auth/pages/forgot-password.tsx
@@ -2323,7 +2432,7 @@ msgstr "退出登录失败。请重试。"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Failed to start agent thread."
-msgstr "启动代理会话失败。"
+msgstr "启动智能体会话失败。"
 
 #: src/routes/builder/$resumeId/-components/ai-assistant.tsx
 msgid "Failed to start the AI assistant."
@@ -2408,7 +2517,7 @@ msgstr "按标签筛选"
 
 #: src/routes/admin/resumes.tsx
 msgid "Find resumes across all accounts, lock or remove them."
-msgstr ""
+msgstr "查看所有账号的简历，可锁定或删除。"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Find the weak bullet points and rewrite them with stronger outcomes, numbers, scope, and sharper verbs."
@@ -2416,7 +2525,7 @@ msgstr "找出薄弱的条目，用更有力的成果、数字、规模和更利
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
-msgstr "烟花"
+msgstr "Fireworks"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Fit"
@@ -2512,6 +2621,10 @@ msgstr "自由形式"
 msgid "French"
 msgstr "法语"
 
+#: src/routes/admin/settings.tsx
+msgid "From an environment variable"
+msgstr "来自环境变量"
+
 #: src/features/resume/export/download-dialog.tsx
 msgid "Full resume data for backup or import."
 msgstr "用于备份或导入的完整简历数据。"
@@ -2579,7 +2692,7 @@ msgstr "回家"
 #: src/components/layout/not-found-screen.tsx
 #: src/routes/_home/-sections/header.tsx
 msgid "Go to dashboard"
-msgstr "转到仪表板"
+msgstr "转到工作台"
 
 #. Accessible label for button navigating from builder to resumes dashboard
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2595,11 +2708,11 @@ msgstr "前往…"
 #: src/features/auth/components/social-auth.tsx
 #: src/features/settings/authentication/components/hooks.tsx
 msgid "Google"
-msgstr "谷歌"
+msgstr "Google"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Google Gemini"
-msgstr "谷歌双子座"
+msgstr "Google Gemini"
 
 #: src/dialogs/resume/sections/education.tsx
 msgid "Grade"
@@ -2616,7 +2729,7 @@ msgstr "网格"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Groq"
-msgstr "格罗克"
+msgstr "Groq"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgctxt "Headings or Titles (H1, H2, H3, H4, H5, H6)"
@@ -2780,7 +2893,7 @@ msgstr "已导入 {0} 个申请。"
 
 #: src/dialogs/resume/import.tsx
 msgid "Importing from Word requires a connected AI provider."
-msgstr "从 Word 导入需要已连接的 AI 服务提供商。"
+msgstr "从 Word 导入需要已连接的 AI 提供商。"
 
 #: src/dialogs/resume/import.tsx
 msgid "Importing your resume..."
@@ -2829,9 +2942,14 @@ msgstr "洞察"
 msgid "Inspecting page {0} of {1}…"
 msgstr "正在检查第 {0} 页，共 {1} 页…"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Instance"
+msgstr "实例"
+
 #: src/routes/admin/overview.tsx
 msgid "Instance-wide totals and signup trends for this deployment."
-msgstr ""
+msgstr "本实例的整体数据与注册趋势。"
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
@@ -2856,7 +2974,7 @@ msgstr "面试"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Invalid AI provider configuration."
-msgstr "AI提供商配置无效。"
+msgstr "AI 提供商配置无效。"
 
 #: src/dialogs/resume/sections/certification.tsx
 msgid "Issuer"
@@ -2900,7 +3018,7 @@ msgstr "工作机会"
 #: src/features/auth/pages/register.tsx
 #: src/features/settings/pages/profile.tsx
 msgid "John Doe"
-msgstr "无名氏"
+msgstr "张三"
 
 #. Example username placeholder on profile settings form
 #. Example username placeholder on registration form
@@ -2965,7 +3083,7 @@ msgstr "字体最多保留两三种。每多一种字体，就多一次映射出
 #. Layout editor toggle that prevents a section from splitting across pages
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Keep together"
-msgstr "保持团结"
+msgstr "保持同页"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Keep your layout intact. Ready to send, upload, or print."
@@ -3016,9 +3134,13 @@ msgstr "语言"
 msgid "Languages"
 msgstr "语言"
 
+#: src/routes/admin/-components/signup-trend.tsx
+msgid "Last 30 days"
+msgstr "近 30 天"
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "Last active"
-msgstr ""
+msgstr "最近活跃"
 
 #. placeholder {0}: statistics.lastDownloadedAt.toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
@@ -3067,7 +3189,7 @@ msgstr "页面四周至少留出半英寸的边距。"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Leave empty for a permanent ban."
-msgstr ""
+msgstr "留空表示永久封禁。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Leave empty to reset the title to the original."
@@ -3075,7 +3197,7 @@ msgstr "留空则将标题重置为原始值。"
 
 #: src/dialogs/resume/import.tsx
 msgid "Leave to set up an AI provider?"
-msgstr "离开去建立人工智能提供商吗？"
+msgstr "确定离开去设置 AI 提供商吗？"
 
 #: src/components/input/rich-input.tsx
 msgid "Left Align"
@@ -3102,11 +3224,16 @@ msgstr "5 级中的第 {level} 级"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Lift ban"
-msgstr ""
+msgstr "解除封禁"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Lifted a ban"
+msgstr "解除了封禁"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Lifts at (optional)"
-msgstr ""
+msgstr "自动解封时间（可选）"
 
 #: src/features/ats-checker/messages.ts
 msgid "Ligatures can drop letters out of words such as \"workflow\"."
@@ -3173,7 +3300,7 @@ msgstr "列出你使用的工具和技术。招聘人员搜索技能的频率高
 
 #: src/dialogs/resume/import.tsx
 msgid "Loading AI providers. Please try again in a moment."
-msgstr "正在加载人工智能提供商。请稍后再试。"
+msgstr "正在加载 AI 提供商，请稍后再试。"
 
 #: src/features/command-palette/pages/resumes.tsx
 msgid "Loading applications…"
@@ -3230,11 +3357,12 @@ msgstr "锁定"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Lock editing"
-msgstr ""
+msgstr "锁定编辑"
 
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Locked"
-msgstr ""
+msgstr "已锁定"
 
 #: src/features/ats-checker/messages.ts
 msgid "Long stretches are set in capitals."
@@ -3318,7 +3446,7 @@ msgstr "缺少正在处理的简历"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Mistral AI"
-msgstr "米斯特拉尔人工智能"
+msgstr "Mistral AI"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Model"
@@ -3462,6 +3590,12 @@ msgstr "新建会话"
 msgid "New Thread"
 msgstr "新建会话"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Next"
+msgstr "下一页"
+
 #: src/features/homepage/template-shelf.tsx
 msgid "Next template"
 msgstr "下一个模板"
@@ -3472,7 +3606,7 @@ msgstr "未连接 AI 提供商"
 
 #: src/dialogs/resume/import.tsx
 msgid "No AI provider is connected, so we will read the text out of the PDF here in your browser and fill in what we can recognize. Expect to tidy up the result."
-msgstr "尚未连接 AI 服务提供商，因此我们会在你的浏览器中直接读取 PDF 里的文字，并填入能识别的内容。结果可能需要你再整理一下。"
+msgstr "尚未连接 AI 提供商，因此我们会在你的浏览器中直接读取 PDF 里的文字，并填入能识别的内容。结果可能需要你稍作整理。"
 
 #: src/routes/dashboard/applications/index.tsx
 msgid "No applications match your filters."
@@ -3481,6 +3615,10 @@ msgstr "没有符合筛选条件的申请。"
 #: src/features/applications/components/insights-view.tsx
 msgid "No applications yet. Add a few to see your funnel and reply rates."
 msgstr "还没有申请记录。添加几条就能看到你的漏斗和回复率。"
+
+#: src/routes/admin/audit.tsx
+msgid "No audit entries match these filters."
+msgstr "没有符合条件的操作记录。"
 
 #: src/features/ats-checker/messages.ts
 msgid "No bullet lists were found."
@@ -3498,7 +3636,7 @@ msgstr "未找到常规的部分标题。"
 #. Error shown when AI import endpoint returns no parsed resume data
 #: src/dialogs/resume/import.tsx
 msgid "No data was returned from the AI provider."
-msgstr "人工智能提供商没有返回任何数据。"
+msgstr "AI 提供商没有返回任何数据。"
 
 #: src/features/ats-checker/messages.ts
 msgid "No dates were found."
@@ -3554,7 +3692,7 @@ msgstr "未关联简历。"
 
 #: src/routes/admin/resumes.tsx
 msgid "No resumes match these filters."
-msgstr ""
+msgstr "没有符合条件的简历。"
 
 #: src/routes/dashboard/resumes/-components/grid-view.tsx
 #: src/routes/dashboard/resumes/-components/list-view.tsx
@@ -3599,11 +3737,15 @@ msgstr "暂无会话。"
 
 #: src/routes/admin/users.tsx
 msgid "No users match these filters."
-msgstr ""
+msgstr "没有符合条件的用户。"
 
 #: src/features/ats-checker/messages.ts
 msgid "No work-experience section was found."
 msgstr "未找到工作经历部分。"
+
+#: src/routes/admin/settings.tsx
+msgid "Not configured"
+msgstr "未配置"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Not connected"
@@ -3627,7 +3769,7 @@ msgstr "不知道该写些什么？"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "Note"
-msgstr "注意"
+msgstr "备注"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/application-form-sheet.tsx
@@ -3657,7 +3799,7 @@ msgstr "录用"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Ollama Cloud"
-msgstr "奥拉玛云"
+msgstr "Ollama Cloud"
 
 #: src/features/auth/pages/consent.tsx
 msgid "Only allow applications you trust. This application will be able to:"
@@ -3702,7 +3844,7 @@ msgstr "打开 AI 助手"
 
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Open design library"
-msgstr "开放设计库"
+msgstr "打开设计库"
 
 #. Button label to open the user's default email app
 #: src/features/auth/pages/forgot-password.tsx
@@ -3711,7 +3853,7 @@ msgstr "打开邮件客户端"
 
 #: src/features/resume/stylesheet/toolbar.tsx
 msgid "Open focus mode"
-msgstr "打开对焦模式"
+msgstr "进入专注模式"
 
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Open in builder"
@@ -3743,7 +3885,7 @@ msgstr "正在打开文件…"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "OpenRouter"
-msgstr "开放路由器"
+msgstr "OpenRouter"
 
 #: src/features/homepage/template-shelf.tsx
 msgid "Opens in a new tab"
@@ -3755,11 +3897,11 @@ msgstr "在新标签页中打开"
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Optional note for the agent"
-msgstr "给代理的备注（可选）"
+msgstr "给智能体的备注（可选）"
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Optional note for the agent…"
-msgstr "给代理的备注（可选）…"
+msgstr "给智能体的备注（可选）…"
 
 #: src/routes/_home/ats-checker.tsx
 msgid "Optionally, which terms from a job posting already appear."
@@ -3790,22 +3932,31 @@ msgstr "组织"
 msgid "Original table formatting is preserved. This content is read-only because it cannot be edited safely."
 msgstr "原始表格格式已保留。由于无法安全编辑，此内容为只读。"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/audit.tsx
+msgid "Other"
+msgstr "其他"
+
 #: src/features/ats-checker/report/score-header.tsx
 msgid "out of 100"
 msgstr "满分 100"
 
 #: src/routes/admin/settings.tsx
+msgid "Outbound email"
+msgstr "邮件发送"
+
+#: src/routes/admin/settings.tsx
 msgid "Override instance-wide feature flags at runtime."
-msgstr ""
+msgstr "在运行时调整实例级功能开关。"
 
 #: src/routes/admin/-components/sidebar.tsx
 #: src/routes/admin/overview.tsx
 msgid "Overview"
-msgstr ""
+msgstr "概览"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Owner"
-msgstr ""
+msgstr "归属用户"
 
 #: src/libs/resume/section.tsx
 msgid "Page"
@@ -3818,6 +3969,12 @@ msgstr "页面"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Page {0}"
 msgstr "第 {0} 页"
+
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Page {page} of {pageCount}"
+msgstr "第 {page} 页，共 {pageCount} 页"
 
 #: src/components/input/rich-input.tsx
 msgid "Paragraph"
@@ -3865,6 +4022,10 @@ msgstr "密码"
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Password must be between 6 and 64 characters."
 msgstr "密码长度必须在 6 到 64 个字符之间。"
+
+#: src/routes/admin/-components/resumes-table.tsx
+msgid "Password protected"
+msgstr "已设访问密码"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Password protection has been disabled."
@@ -3939,7 +4100,7 @@ msgstr "起止时间"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Perplexity"
-msgstr "困惑"
+msgstr "Perplexity"
 
 #: src/dialogs/resume/sections/reference.tsx
 #: src/features/ats-checker/parse-preview.tsx
@@ -3957,7 +4118,7 @@ msgstr "从侧边栏选择一个对话，或者新建一个会话来处理草稿
 
 #: src/features/resume/export/download-dialog.tsx
 msgid "Pick a format for your resume."
-msgstr ""
+msgstr "选择简历的导出格式。"
 
 #: src/features/homepage/languages-showcase.tsx
 msgid "Pick a language. See it on the page."
@@ -4065,6 +4226,12 @@ msgstr "预览和导出将回退到基础样式。"
 msgid "Preview and export keep valid styles and ignore invalid styles."
 msgstr "预览和导出会保留有效样式并忽略无效样式。"
 
+#: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/-components/users-table.tsx
+msgid "Previous"
+msgstr "上一页"
+
 #: src/features/homepage/template-shelf.tsx
 msgid "Previous template"
 msgstr "上一个模板"
@@ -4079,6 +4246,7 @@ msgstr "在发送之前，把表单打印或导出为扁平化的 PDF。"
 
 #: src/features/homepage/feature-explorer.tsx
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Private"
 msgstr "私密"
 
@@ -4121,7 +4289,7 @@ msgstr "项目"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Promote to admin"
-msgstr ""
+msgstr "设为管理员"
 
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Protect your resume with a password"
@@ -4134,20 +4302,25 @@ msgstr "原型设计"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Provider"
-msgstr "服务提供商"
+msgstr "提供商"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Provider connection verified."
-msgstr "已验证服务提供商连接。"
+msgstr "提供商连接已验证。"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Provider model"
-msgstr "提供者模式"
+msgstr "提供商模型"
 
 #: src/features/homepage/feature-explorer.tsx
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Public"
 msgstr "公开"
+
+#: src/routes/admin/overview.tsx
+msgid "Public resumes"
+msgstr "公开简历"
 
 #: src/dialogs/resume/sections/custom.tsx
 #: src/libs/resume/section-title.ts
@@ -4211,7 +4384,7 @@ msgstr "Reactive Resume 是一个免授权费并且代码开源的项目。如�
 #. App version label in footer; includes semantic version variable
 #: src/components/ui/copyright.tsx
 msgid "Reactive Resume v<0>{__APP_VERSION__}</0>"
-msgstr "响应式简历 v<0>{__APP_VERSION__}</0>"
+msgstr "Reactive Resume v<0>{__APP_VERSION__}</0>"
 
 #. Import source option for legacy Reactive Resume v4 JSON format
 #: src/dialogs/resume/import.tsx
@@ -4294,7 +4467,7 @@ msgstr "准备好署上你的名字了吗？"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Reason"
-msgstr ""
+msgstr "原因"
 
 #: src/components/level/combobox.tsx
 msgid "Rectangle"
@@ -4449,7 +4622,9 @@ msgid "Restore this version?"
 msgstr "恢复此版本？"
 
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/audit.tsx
 #: src/routes/agent/-components/resume-pane.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Resume"
@@ -4505,6 +4680,7 @@ msgstr "面向不同职业和口味的简历模板。挑一款适合你的。"
 #: src/features/homepage/community-stats.tsx
 #: src/features/homepage/languages-showcase.tsx
 #: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/overview.tsx
 #: src/routes/admin/resumes.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 #: src/routes/dashboard/resumes/index.tsx
@@ -4553,7 +4729,7 @@ msgstr "右对齐"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Role"
-msgstr ""
+msgstr "角色"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Role (optional)"
@@ -4624,11 +4800,11 @@ msgstr "Sans"
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Save"
-msgstr "节省"
+msgstr "保存"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Save & Test Provider"
-msgstr "保存和测试提供商"
+msgstr "保存并测试提供商"
 
 #: src/features/ats-checker/messages.ts
 msgid "Save an unprotected copy, with no password and no permissions restrictions."
@@ -4703,19 +4879,27 @@ msgstr "搜索"
 
 #: src/routes/admin/users.tsx
 msgid "Search accounts, change roles, ban or delete them."
-msgstr ""
+msgstr "搜索账号，调整角色、封禁或删除。"
 
 #: src/routes/dashboard/applications/index.tsx
 msgid "Search applications…"
 msgstr "搜索申请…"
 
+#: src/routes/admin/audit.tsx
+msgid "Search audit entries"
+msgstr "搜索操作记录"
+
+#: src/routes/admin/audit.tsx
+msgid "Search by administrator or target"
+msgstr "按管理员或操作对象搜索"
+
 #: src/routes/admin/users.tsx
 msgid "Search by name, email or username"
-msgstr ""
+msgstr "按昵称、邮箱或用户名搜索"
 
 #: src/routes/admin/resumes.tsx
 msgid "Search by resume, slug or owner"
-msgstr ""
+msgstr "按简历名称、链接标识或归属用户搜索"
 
 #. Accessible label for command palette search input
 #: src/features/command-palette/index.tsx
@@ -4734,7 +4918,7 @@ msgstr "搜索…"
 
 #: src/routes/admin/resumes.tsx
 msgid "Search resumes"
-msgstr ""
+msgstr "搜索简历"
 
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Search resumes..."
@@ -4742,7 +4926,7 @@ msgstr "搜索简历……"
 
 #: src/routes/admin/users.tsx
 msgid "Search users"
-msgstr ""
+msgstr "搜索用户"
 
 #: src/components/ui/combobox.tsx
 msgid "Search..."
@@ -4760,7 +4944,7 @@ msgstr "密钥已复制到剪贴板。"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "Section options"
-msgstr "部分选项"
+msgstr "章节选项"
 
 #: src/dialogs/resume/sections/custom.tsx
 msgid "Section Type"
@@ -4769,7 +4953,7 @@ msgstr "章节类型"
 #: src/features/ats-checker/messages.ts
 #: src/features/ats-checker/parse-preview.tsx
 msgid "Sections"
-msgstr "各部分"
+msgstr "章节"
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "See how this resume matches the posting"
@@ -4802,11 +4986,11 @@ msgstr "全选"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Select an agent model"
-msgstr "选择代理模型"
+msgstr "选择智能体模型"
 
 #: src/features/settings/integrations/components/ai-provider-picker.tsx
 msgid "Select an AI provider"
-msgstr "选择一家人工智能提供商"
+msgstr "选择 AI 提供商"
 
 #: src/components/ui/combobox.tsx
 msgid "Select..."
@@ -4866,6 +5050,10 @@ msgstr "Serif"
 msgid "Set a password if you want only people who know it to open the public URL."
 msgstr "如果你希望只有知道密码的人才能打开公开 URL，就设置一个密码。"
 
+#: src/routes/admin/settings.tsx
+msgid "Set in this console"
+msgstr "已在后台设置"
+
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/settings/authentication/components/password.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -4878,23 +5066,23 @@ msgstr "导出时设置文档语言。"
 
 #: src/dialogs/resume/import.tsx
 msgid "Set up a provider"
-msgstr "建立服务提供商"
+msgstr "设置提供商"
 
 #: src/routes/builder/$resumeId/-components/ai-assistant.tsx
 msgid "Set up an AI provider"
-msgstr "建立人工智能提供商"
+msgstr "设置 AI 提供商"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Set up an AI provider before starting a thread."
-msgstr "在开始会话之前，请先设置好人工智能提供商。"
+msgstr "请先设置 AI 提供商，再开始会话。"
 
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Set up an AI provider first."
-msgstr "请先设置一个 AI 提供商。"
+msgstr "请先设置 AI 提供商。"
 
 #: src/routes/builder/$resumeId/-components/ai-assistant.tsx
 msgid "Set up an AI provider to chat about this resume and apply edits automatically."
-msgstr "设置人工智能服务提供商，使其能够就这份简历进行交流并自动进行修改。"
+msgstr "设置 AI 提供商，即可就这份简历进行交流并自动应用修改。"
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/admin/-components/sidebar.tsx
@@ -4911,6 +5099,10 @@ msgstr "设置验证器应用"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Shadow Width"
 msgstr "阴影宽度"
+
+#: src/routes/admin/overview.tsx
+msgid "Shared through a public link."
+msgstr "通过公开链接分享。"
 
 #: src/libs/resume/section.tsx
 msgid "Sharing"
@@ -4992,7 +5184,7 @@ msgstr "显示 {0} / {1}"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "Shown to other administrators"
-msgstr ""
+msgstr "其他管理员可见"
 
 #. Layout editor column label for the secondary sidebar area
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
@@ -5011,7 +5203,7 @@ msgstr "登录"
 
 #: src/features/ats-checker/ai-review/locked-card.tsx
 msgid "Sign in and connect your own AI provider to get rewrite suggestions for weak bullets. The checks above are free and need no account."
-msgstr "登录并连接你自己的 AI 提供商，为薄弱的要点获取改写建议。以上检查完全免费，也不需要账号。"
+msgstr "登录并连接你自己的 AI 提供商，即可为薄弱的要点获取改写建议。以上检查完全免费，也不需要账号。"
 
 #. Call-to-action link from forgot-password page to login page
 #. Call-to-action link from registration page to login page
@@ -5056,6 +5248,10 @@ msgstr "正在退出…"
 #: src/features/auth/pages/register.tsx
 msgid "Signing up..."
 msgstr "正在注册…"
+
+#: src/routes/admin/-components/signup-trend.tsx
+msgid "Signups"
+msgstr "注册量"
 
 #: src/dialogs/resume/template/data.ts
 msgid "Single-column with a magenta left border accent; compact and efficient for entry-level or internship applications."
@@ -5300,7 +5496,7 @@ msgstr "统计数据"
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 #: src/dialogs/resume/import.tsx
 #: src/hooks/use-form-blocker.tsx
@@ -5318,6 +5514,18 @@ msgstr "仍在等待 {provider}… {elapsedSeconds}s"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Stop generation"
 msgstr "停止生成"
+
+#: src/routes/admin/settings.tsx
+msgid "Stops new accounts from being created, including through social sign-in. Existing accounts keep working."
+msgstr "阻止创建新账号，包括通过第三方登录注册。已有账号不受影响。"
+
+#: src/routes/admin/overview.tsx
+msgid "Storage"
+msgstr "存储用量"
+
+#: src/routes/admin/overview.tsx
+msgid "Storage backend unreachable."
+msgstr "无法连接存储服务。"
 
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Strengths"
@@ -5408,6 +5616,10 @@ msgstr "定制失败。"
 #: src/features/homepage/page.tsx
 msgid "Take it<0/>with you."
 msgstr "随身<0/>带着走。"
+
+#: src/routes/admin/-components/audit-table.tsx
+msgid "Target"
+msgstr "操作对象"
 
 #: src/libs/resume/section.tsx
 msgid "Template"
@@ -5526,7 +5738,7 @@ msgstr "提供商拒绝了此次登录尝试。请重新开始。"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "The provider returned a review that could not be read. Try again."
-msgstr "提供商返回的评审内容无法读取。请重试。"
+msgstr "提供商返回的评审内容无法读取，请重试。"
 
 #: src/features/auth/pages/error.tsx
 msgid "The provider's response could not be verified. Please start again."
@@ -5602,7 +5814,7 @@ msgstr "这些日期将无法正确读取。”"
 
 #: src/routes/admin/-components/users-table.tsx
 msgid "They will be signed out everywhere and unable to sign back in until the ban is lifted."
-msgstr ""
+msgstr "该用户将在所有设备上退出登录，解封前无法重新登录。"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Thinking"
@@ -5663,7 +5875,7 @@ msgstr "此条目将被永久删除。此操作无法撤销。"
 
 #: src/dialogs/resume/import.tsx
 msgid "This feature requires a connected AI provider. Please set one up in the settings."
-msgstr "此功能需要连接人工智能服务提供商。请在设置中进行设置。"
+msgstr "此功能需要连接 AI 提供商，请在设置中配置。"
 
 #: src/features/ats-checker/messages.ts
 msgid "This file contains form fields."
@@ -5727,7 +5939,7 @@ msgstr "这是一个 PDF Portfolio（PDF 作品集包）：可见的页面只是
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "This is a sample edit. In the app, connect your own AI provider. Turn on Review edits to approve changes before they’re applied."
-msgstr "这只是一个编辑示例。在应用中，你可以连接自己的 AI 服务商。开启“审核编辑”后，改动会在应用前先经你确认。"
+msgstr "这是一个编辑示例。在应用中连接你自己的 AI 提供商，并开启「审核编辑」，改动会在应用前先经你确认。"
 
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
@@ -5747,7 +5959,7 @@ msgstr "此链接缺少其协议。"
 
 #: src/dialogs/resume/import.tsx
 msgid "This may take a few minutes, depending on the response of the AI provider. Please do not close the window or refresh the page."
-msgstr "这可能需要几分钟时间，具体取决于 AI 服务提供商的响应速度。请不要关闭窗口或刷新页面。"
+msgstr "这可能需要几分钟，取决于 AI 提供商的响应速度。请不要关闭窗口或刷新页面。"
 
 #: src/dialogs/resume/import.tsx
 msgid "This may take a moment. Please do not close the window or refresh the page."
@@ -5805,7 +6017,7 @@ msgstr "这份简历受密码保护"
 
 #: src/features/resume/builder/draft.ts
 msgid "This resume was updated by an AI agent."
-msgstr "这份简历由人工智能代理更新。"
+msgstr "这份简历由 AI 智能体更新。"
 
 #: src/features/resume/builder/draft.ts
 msgid "This resume's sharing settings changed elsewhere."
@@ -5822,10 +6034,6 @@ msgstr "这个角色没有描述。"
 #: src/libs/resume/ats.ts
 msgid "This section has content but never appears."
 msgstr "该部分有内容但从未出现。"
-
-#: src/routes/admin/-components/placeholder.tsx
-msgid "This section is not built yet."
-msgstr ""
 
 #: src/libs/resume/ats.ts
 msgid "This section is split across columns."
@@ -5853,7 +6061,7 @@ msgstr "此会话为只读"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "This thread is read-only because the working resume or AI provider is unavailable."
-msgstr "由于正在处理的简历或人工智能提供商不可用，此会话为只读。"
+msgstr "由于正在处理的简历或 AI 提供商不可用，此会话为只读。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "This will remove all items from this section."
@@ -5990,6 +6198,10 @@ msgstr "导出时关闭可选连字（discretionary ligatures）。"
 msgid "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see these numbers."
 msgstr "开启公开分享后，就能追踪你的简历被查看和下载了多少次。只有你能看到这些数字。"
 
+#: src/routes/admin/settings.tsx
+msgid "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
+msgstr "关闭邮箱登录、邮箱注册与密码重置。第三方登录仍可使用。"
+
 #: src/dialogs/resume/template/data.ts
 msgid "Two-column with a bold colored sidebar and skill bars; great for creative or tech roles where visual flair is welcome."
 msgstr "双栏布局，配有醒目的彩色侧边栏和技能条；非常适合需要视觉表现力的创意或技术岗位。"
@@ -6072,6 +6284,10 @@ msgstr "排版"
 msgid "Unarchive"
 msgstr "取消归档"
 
+#: src/routes/admin/overview.tsx
+msgid "Unavailable"
+msgstr "不可用"
+
 #: src/components/input/rich-input.tsx
 msgid "Underline"
 msgstr "下划线"
@@ -6085,6 +6301,10 @@ msgstr "撤销"
 #: src/features/resume/stylesheet/toolbar.tsx
 msgid "Undo stylesheet edit"
 msgstr "撤销样式表编辑"
+
+#: src/routes/admin/audit.tsx
+msgid "Unknown action"
+msgstr "未知操作"
 
 #: src/features/settings/authentication/components/hooks.tsx
 msgid "Unlinking your {providerName} account..."
@@ -6102,11 +6322,12 @@ msgstr "解锁"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Unlock editing"
-msgstr ""
+msgstr "解除锁定"
 
 #: src/routes/admin/-components/resumes-table.tsx
+#: src/routes/admin/resumes.tsx
 msgid "Unlocked"
-msgstr ""
+msgstr "未锁定"
 
 #: src/features/settings/authentication/components/passkeys.tsx
 msgid "Unnamed passkey"
@@ -6209,7 +6430,7 @@ msgstr "更新你的密码"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Updated"
-msgstr ""
+msgstr "更新时间"
 
 #: src/dialogs/auth/change-password.tsx
 msgid "Updating your password..."
@@ -6322,9 +6543,12 @@ msgstr "使用这个说法"
 msgid "Use your editor's normal bullet list, so stray glyphs do not land mid-sentence."
 msgstr "使用编辑器自带的普通项目符号列表功能，避免出现落在句子中间的杂散符号。"
 
+#: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/audit.tsx
+#: src/routes/admin/users.tsx
 msgid "User"
-msgstr ""
+msgstr "普通用户"
 
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/resume-sculpture.tsx
@@ -6340,6 +6564,7 @@ msgstr "用户名"
 
 #: src/features/homepage/community-stats.tsx
 #: src/routes/admin/-components/sidebar.tsx
+#: src/routes/admin/overview.tsx
 #: src/routes/admin/users.tsx
 msgid "Users"
 msgstr "用户数"
@@ -6370,7 +6595,7 @@ msgstr "变换开头方式，避免这部分读起来像套话。"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Vercel AI Gateway"
-msgstr "Vercel 人工智能网关"
+msgstr "Vercel AI Gateway"
 
 #: src/features/settings/pages/profile.tsx
 msgid "Verified"
@@ -6420,11 +6645,11 @@ msgstr "以这么多页数来说，能提取出的文字非常少。"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Views"
-msgstr "查看"
+msgstr "浏览次数"
 
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Visibility"
-msgstr ""
+msgstr "可见性"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Visitors need your password to open the resume."
@@ -6442,7 +6667,7 @@ msgstr "与前 30 天相比"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Waiting for the agent…"
-msgstr "正在等待代理…"
+msgstr "正在等待智能体…"
 
 #: src/features/ats-checker/ai-review/locked-card.tsx
 msgid "Want a second opinion on the writing?"
@@ -6451,7 +6676,7 @@ msgstr "想为你的文案获取第二意见吗？"
 #: src/features/ats-checker/messages.ts
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "Warning"
-msgstr "警告”"
+msgstr "警告"
 
 #: src/dialogs/resume/import.tsx
 msgid "We couldn't detect the format automatically. Choose it above."
@@ -6522,6 +6747,10 @@ msgstr "此项检查的内容"
 msgid "What this does not do"
 msgstr "此项检查不做的事"
 
+#: src/routes/admin/-components/audit-table.tsx
+msgid "When"
+msgstr "时间"
+
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
 msgid "When locked, the resume cannot be updated or deleted."
@@ -6573,7 +6802,7 @@ msgstr "你的时间线是否能够被还原出来。"
 
 #: src/routes/admin/audit.tsx
 msgid "Who changed what, and when, across the admin console."
-msgstr ""
+msgstr "后台管理中的操作记录：谁在什么时间改了什么。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Words run together when the text is extracted."
@@ -6654,7 +6883,7 @@ msgstr "你的账户已删除。"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Your AI provider could not be reached. Check its settings and try again."
-msgstr "无法连接到你的 AI 提供商。请检查其设置后重试。"
+msgstr "无法连接你的 AI 提供商，请检查其设置后重试。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Your applications, together"

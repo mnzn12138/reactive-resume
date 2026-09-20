@@ -9,7 +9,8 @@ export type FeatureFlags = {
 };
 
 // Mirrors isSmtpEnabled() in packages/email/src/transport.ts (kept local to avoid an api -> email dependency).
-const isSmtpEnabled = () => Boolean(env.SMTP_HOST && env.SMTP_USER && env.SMTP_PASS && env.SMTP_FROM);
+// Exported so the admin settings screen reports the same value the public flags endpoint does.
+export const isSmtpEnabled = () => Boolean(env.SMTP_HOST && env.SMTP_USER && env.SMTP_PASS && env.SMTP_FROM);
 
 export const flagsRouter = {
 	get: publicProcedure

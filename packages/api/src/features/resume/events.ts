@@ -40,6 +40,24 @@ export async function publishResumeUpdated(event: ResumeUpdatedEvent) {
 	await getPool().query("SELECT pg_notify($1, $2)", [RESUME_UPDATED_CHANNEL, JSON.stringify(event)]);
 }
 
+/**
+ * Best-effort wrapper around `publishResumeUpdated`.
+ *
+ * A failed notification must never fail the mutation that triggered it: the
+ * change is already committed, and the worst case is that a connected client
+ * does not refresh until its next fetch. The warning keeps it observable.
+ *
+ * Lives here rather than next to a single caller because both the owner-facing
+ * resume service and the admin console publish the same events.
+ */
+export async function notifyResumeUpdated(event: ResumeUpdatedEvent) {
+	try {
+		await publishResumeUpdated(event);
+	} catch (error) {
+		console.warn("Failed to publish resume.updated event:", error);
+	}
+}
+
 export async function* subscribeResumeUpdated({ resumeId, userId, signal }: SubscribeResumeUpdatedInput) {
 	const client = await getPool().connect();
 	const queue: ResumeUpdatedEvent[] = [];

@@ -3,7 +3,7 @@
 	"tags": ["-lintignore"],
 	"workspaces": {
 		".": {
-			"ignoreFiles": [".ncurc.cjs", ".design-sync/**"]
+			"ignoreFiles": [".ncurc.cjs"]
 		},
 		"apps/web": {
 			"entry": ["lingui.config.ts", "vite.config.ts", "vitest.config.ts"],
@@ -31,7 +31,6 @@
 				"@ai-sdk/togetherai",
 				"@ai-sdk/xai",
 				"@aws-sdk/client-s3",
-				"@better-auth/api-key",
 				"@better-auth/drizzle-adapter",
 				"@better-auth/infra",
 				"@better-auth/passkey",
@@ -70,6 +69,12 @@
 		},
 		"packages/api": {
 			"ignoreDependencies": ["ioredis"]
+		},
+		"packages/resume": {
+			"ignoreDependencies": ["tsx"]
+		},
+		"packages/ui": {
+			"ignoreDependencies": ["@tanstack/table-core"]
 		}
 	},
 	"ignoreDependencies": ["@reactive-resume/config"]
