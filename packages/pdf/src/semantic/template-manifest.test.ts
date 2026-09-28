@@ -316,6 +316,73 @@ const EXPECTED_PARTS = {
 			route: { parent: "owner", at: { before: { kind: "headline" } } },
 		},
 	},
+	zhuque: { ...EXPECTED_ITEM_HEADER_ROW },
+	qinglong: {
+		...EXPECTED_ITEM_HEADER_ROW,
+		"inline-item-header-leading": {
+			key: "inline-item-header-leading",
+			owner: {
+				kind: "item-header",
+				key: "item-header",
+				sectionTypes: ["experience", "education", "volunteer"],
+			},
+			binding: { type: "primitive", primitive: "View", source: "existing" },
+			route: {
+				parent: "owner",
+				at: "start",
+				take: [
+					{ kind: "field", name: "position", sectionTypes: ["experience", "volunteer"] },
+					{ kind: "field", name: "location", sectionTypes: ["experience", "volunteer"] },
+					{ kind: "field", name: "area", sectionTypes: ["education"] },
+					{ kind: "field", name: "degree", sectionTypes: ["education"] },
+				],
+			},
+		},
+		"inline-item-header-middle": {
+			key: "inline-item-header-middle",
+			owner: {
+				kind: "item-header",
+				key: "item-header",
+				sectionTypes: ["experience", "education", "volunteer"],
+			},
+			binding: { type: "primitive", primitive: "View", source: "existing" },
+			route: {
+				parent: "owner",
+				at: "start",
+				take: [
+					{ kind: "field", name: "company" },
+					{ kind: "field", name: "school" },
+					{ kind: "field", name: "organization" },
+					{ kind: "link" },
+				],
+			},
+		},
+		"inline-item-header-trailing": {
+			key: "inline-item-header-trailing",
+			owner: {
+				kind: "item-header",
+				key: "item-header",
+				sectionTypes: ["experience", "education", "volunteer"],
+			},
+			binding: { type: "primitive", primitive: "View", source: "existing" },
+			route: { parent: "owner", at: "start", take: [{ kind: "field", name: "period" }] },
+		},
+		"education-grade-row": {
+			key: "education-grade-row",
+			owner: { kind: "item", key: "item" },
+			binding: { type: "primitive", primitive: "Text", source: "existing" },
+			route: {
+				parent: "owner",
+				at: { after: { kind: "item-header" } },
+				take: [
+					{ kind: "field", name: "grade", sectionTypes: ["education"] },
+					{ kind: "field", name: "location", sectionTypes: ["education"] },
+				],
+				takeFrom: "item-header",
+			},
+		},
+	},
+	xuanwu: { ...EXPECTED_ITEM_HEADER_ROW },
 } as const satisfies Readonly<Record<Template, Readonly<Record<string, object>>>>;
 
 const EXPECTED_LAYOUT = {
@@ -450,6 +517,33 @@ const EXPECTED_LAYOUT = {
 		regions: [
 			{ name: "header", placement: "main", origins: [] },
 			{ name: "main", placement: "main", origins: ["main", "sidebar"] },
+		],
+		header: { region: "header", placement: "main" },
+		specialSummary: null,
+	},
+	zhuque: {
+		regions: [
+			{ name: "header", placement: "main", origins: [] },
+			{ name: "main", placement: "main", origins: ["main"] },
+			{ name: "sidebar", placement: "sidebar", origins: ["sidebar"] },
+		],
+		header: { region: "header", placement: "main" },
+		specialSummary: null,
+	},
+	qinglong: {
+		regions: [
+			{ name: "header", placement: "main", origins: [] },
+			{ name: "main", placement: "main", origins: ["main"] },
+			{ name: "sidebar", placement: "sidebar", origins: ["sidebar"] },
+		],
+		header: { region: "header", placement: "main" },
+		specialSummary: null,
+	},
+	xuanwu: {
+		regions: [
+			{ name: "header", placement: "main", origins: [] },
+			{ name: "main", placement: "main", origins: ["main"] },
+			{ name: "sidebar", placement: "sidebar", origins: ["sidebar"] },
 		],
 		header: { region: "header", placement: "main" },
 		specialSummary: null,

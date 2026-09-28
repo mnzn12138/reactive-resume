@@ -13,8 +13,11 @@ import { LeafishPage } from "./leafish/LeafishPage";
 import { MeowthPage } from "./meowth/MeowthPage";
 import { OnyxPage } from "./onyx/OnyxPage";
 import { PikachuPage } from "./pikachu/PikachuPage";
+import { QinglongPage } from "./qinglong/QinglongPage";
 import { RhyhornPage } from "./rhyhorn/RhyhornPage";
 import { ScizorPage } from "./scizor/ScizorPage";
+import { XuanwuPage } from "./xuanwu/XuanwuPage";
+import { ZhuquePage } from "./zhuque/ZhuquePage";
 
 export const templatePages: Partial<Record<Template, TemplatePage>> = {
 	azurill: AzurillPage,
@@ -30,8 +33,11 @@ export const templatePages: Partial<Record<Template, TemplatePage>> = {
 	meowth: MeowthPage,
 	onyx: OnyxPage,
 	pikachu: PikachuPage,
+	qinglong: QinglongPage,
 	rhyhorn: RhyhornPage,
 	scizor: ScizorPage,
+	xuanwu: XuanwuPage,
+	zhuque: ZhuquePage,
 };
 
 const defaultTemplatePage = AzurillPage;

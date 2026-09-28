@@ -34,6 +34,9 @@ const templates = [
 	"pikachu",
 	"rhyhorn",
 	"scizor",
+	"zhuque",
+	"qinglong",
+	"xuanwu",
 ] as const satisfies readonly Template[];
 
 const dateMarkers = [
@@ -74,6 +77,9 @@ const expectedMissingMarkers = {
 	pikachu: [],
 	rhyhorn: [],
 	scizor: [],
+	zhuque: [],
+	qinglong: ["EXP_NO_PERIOD"],
+	xuanwu: [],
 } as const satisfies Record<Template, readonly DateMarker[]>;
 
 const baselineDirectory = join(dirname(fileURLToPath(import.meta.url)), "../../../test-artifacts/date-layout");

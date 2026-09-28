@@ -2196,5 +2196,439 @@
 				}
 			]
 		}
+	},
+	"zhuque": {
+		"pageCount": 2,
+		"textItemCount": 87,
+		"missingMarkers": [],
+		"rasterSha256": [
+			"d3fef163ea20bb205427c176b6abd9cdd214c4451809319e786df7fa9dbd6907",
+			"7cde6d486640606ce27a09f2b9b670ba1f935a9fbe76ad1a3e8ba202a44280f0"
+		],
+		"coordinates": {
+			"EXP_LONG": [
+				{
+					"x": 381.24,
+					"y": 688.74,
+					"width": 186.04,
+					"text": "März 2018 – Dezember 2024 EXP_LONG"
+				}
+			],
+			"EXP_NO_LOCATION": [
+				{
+					"x": 446.21,
+					"y": 604.74,
+					"width": 121.07,
+					"text": "2016 EXP_NO_LOCATION"
+				}
+			],
+			"ROLE_ONE": [
+				{
+					"x": 488,
+					"y": 672.99,
+					"width": 79.28,
+					"text": "2020 ROLE_ONE"
+				}
+			],
+			"ROLE_TWO": [
+				{
+					"x": 486.54,
+					"y": 641.49,
+					"width": 80.74,
+					"text": "2022 ROLE_TWO"
+				}
+			],
+			"EXP_NO_PERIOD": [
+				{
+					"x": 459.47,
+					"y": 567.99,
+					"width": 107.81,
+					"text": "Oslo EXP_NO_PERIOD"
+				}
+			],
+			"EDU_DATE": [
+				{
+					"x": 416.99,
+					"y": 476.49,
+					"width": 150.29,
+					"text": "Education City • 2019 EDU_DATE"
+				}
+			],
+			"PROJECT_DATE": [
+				{
+					"x": 465.16,
+					"y": 379.74,
+					"width": 102.12,
+					"text": "2020 PROJECT_DATE"
+				}
+			],
+			"AWARD_DATE": [
+				{
+					"x": 475.41,
+					"y": 303.99,
+					"width": 91.87,
+					"text": "2021 AWARD_DATE"
+				}
+			],
+			"CERT_DATE": [
+				{
+					"x": 484.71,
+					"y": 212.49,
+					"width": 82.57,
+					"text": "2022 CERT_DATE"
+				}
+			],
+			"VOLUNTEER_DATE": [
+				{
+					"x": 450.91,
+					"y": 29.49,
+					"width": 116.37,
+					"text": "2023 VOLUNTEER_DATE"
+				}
+			],
+			"CUSTOM_EXP_DATE": [
+				{
+					"x": 443.13,
+					"y": 721.39,
+					"width": 124.15,
+					"text": "2024 CUSTOM_EXP_DATE"
+				}
+			],
+			"CUSTOM_ROLE_DATE": [
+				{
+					"x": 436.11,
+					"y": 705.64,
+					"width": 131.17,
+					"text": "2024 CUSTOM_ROLE_DATE"
+				}
+			],
+			"CUSTOM_EDU_DATE": [
+				{
+					"x": 368.5,
+					"y": 629.89,
+					"width": 198.78,
+					"text": "Education City • 2024 CUSTOM_EDU_DATE"
+				}
+			],
+			"CUSTOM_PROJECT_DATE": [
+				{
+					"x": 416.67,
+					"y": 554.14,
+					"width": 150.61,
+					"text": "2024 CUSTOM_PROJECT_DATE"
+				}
+			],
+			"CUSTOM_AWARD_DATE": [
+				{
+					"x": 426.92,
+					"y": 478.39,
+					"width": 140.36,
+					"text": "2024 CUSTOM_AWARD_DATE"
+				}
+			],
+			"CUSTOM_CERT_DATE": [
+				{
+					"x": 436.22,
+					"y": 386.89,
+					"width": 131.06,
+					"text": "2024 CUSTOM_CERT_DATE"
+				}
+			],
+			"CUSTOM_VOLUNTEER_DATE": [
+				{
+					"x": 402.42,
+					"y": 203.89,
+					"width": 164.86,
+					"text": "2024 CUSTOM_VOLUNTEER_DATE"
+				}
+			]
+		}
+	},
+	"qinglong": {
+		"pageCount": 2,
+		"textItemCount": 85,
+		"missingMarkers": ["EXP_NO_PERIOD"],
+		"rasterSha256": [
+			"9158c9adc96c95ffc78d53188ee9ce6e2ce7b1fdf0ea10fd4b53d3a8bd964d4a",
+			"3d527005494860d9846b923ed7bba65dda8932609229fd6bc296018854c5be3f"
+		],
+		"coordinates": {
+			"EXP_LONG": [
+				{
+					"x": 381.24,
+					"y": 715.93,
+					"width": 186.04,
+					"text": "März 2018 – Dezember 2024 EXP_LONG"
+				}
+			],
+			"EXP_NO_LOCATION": [
+				{
+					"x": 446.21,
+					"y": 616.03,
+					"width": 121.07,
+					"text": "2016 EXP_NO_LOCATION"
+				}
+			],
+			"ROLE_ONE": [
+				{
+					"x": 488,
+					"y": 684.73,
+					"width": 79.28,
+					"text": "2020 ROLE_ONE"
+				}
+			],
+			"ROLE_TWO": [
+				{
+					"x": 486.54,
+					"y": 652.78,
+					"width": 80.74,
+					"text": "2022 ROLE_TWO"
+				}
+			],
+			"EXP_NO_PERIOD": [],
+			"EDU_DATE": [
+				{
+					"x": 490.52,
+					"y": 534.43,
+					"width": 76.76,
+					"text": "2019 EDU_DATE"
+				}
+			],
+			"PROJECT_DATE": [
+				{
+					"x": 465.16,
+					"y": 420.43,
+					"width": 102.12,
+					"text": "2020 PROJECT_DATE"
+				}
+			],
+			"AWARD_DATE": [
+				{
+					"x": 475.41,
+					"y": 343.63,
+					"width": 91.87,
+					"text": "2021 AWARD_DATE"
+				}
+			],
+			"CERT_DATE": [
+				{
+					"x": 484.71,
+					"y": 251.08,
+					"width": 82.57,
+					"text": "2022 CERT_DATE"
+				}
+			],
+			"VOLUNTEER_DATE": [
+				{
+					"x": 450.91,
+					"y": 65.98,
+					"width": 116.37,
+					"text": "2023 VOLUNTEER_DATE"
+				}
+			],
+			"CUSTOM_EXP_DATE": [
+				{
+					"x": 443.13,
+					"y": 787.29,
+					"width": 124.15,
+					"text": "2024 CUSTOM_EXP_DATE"
+				}
+			],
+			"CUSTOM_ROLE_DATE": [
+				{
+					"x": 436.11,
+					"y": 771.09,
+					"width": 131.17,
+					"text": "2024 CUSTOM_ROLE_DATE"
+				}
+			],
+			"CUSTOM_EDU_DATE": [
+				{
+					"x": 442.03,
+					"y": 710.49,
+					"width": 125.25,
+					"text": "2024 CUSTOM_EDU_DATE"
+				}
+			],
+			"CUSTOM_PROJECT_DATE": [
+				{
+					"x": 416.67,
+					"y": 617.49,
+					"width": 150.61,
+					"text": "2024 CUSTOM_PROJECT_DATE"
+				}
+			],
+			"CUSTOM_AWARD_DATE": [
+				{
+					"x": 426.92,
+					"y": 540.69,
+					"width": 140.36,
+					"text": "2024 CUSTOM_AWARD_DATE"
+				}
+			],
+			"CUSTOM_CERT_DATE": [
+				{
+					"x": 436.22,
+					"y": 448.14,
+					"width": 131.06,
+					"text": "2024 CUSTOM_CERT_DATE"
+				}
+			],
+			"CUSTOM_VOLUNTEER_DATE": [
+				{
+					"x": 402.42,
+					"y": 263.04,
+					"width": 164.86,
+					"text": "2024 CUSTOM_VOLUNTEER_DATE"
+				}
+			]
+		}
+	},
+	"xuanwu": {
+		"pageCount": 2,
+		"textItemCount": 87,
+		"missingMarkers": [],
+		"rasterSha256": [
+			"ee44f50bbfa73af53385401fe8697a9ed4718761213fb62a49ca5548d925d8f4",
+			"b1dc05beb0263ae19e42bee2ddaef1a0c47cd46fb75ce14f2b257f3ee220f7ba"
+		],
+		"coordinates": {
+			"EXP_LONG": [
+				{
+					"x": 381.24,
+					"y": 701.52,
+					"width": 186.04,
+					"text": "März 2018 – Dezember 2024 EXP_LONG"
+				}
+			],
+			"EXP_NO_LOCATION": [
+				{
+					"x": 446.21,
+					"y": 617.22,
+					"width": 121.07,
+					"text": "2016 EXP_NO_LOCATION"
+				}
+			],
+			"ROLE_ONE": [
+				{
+					"x": 488,
+					"y": 685.62,
+					"width": 79.28,
+					"text": "2020 ROLE_ONE"
+				}
+			],
+			"ROLE_TWO": [
+				{
+					"x": 486.54,
+					"y": 653.97,
+					"width": 80.74,
+					"text": "2022 ROLE_TWO"
+				}
+			],
+			"EXP_NO_PERIOD": [
+				{
+					"x": 459.47,
+					"y": 580.47,
+					"width": 107.81,
+					"text": "Oslo EXP_NO_PERIOD"
+				}
+			],
+			"EDU_DATE": [
+				{
+					"x": 416.99,
+					"y": 488.67,
+					"width": 150.29,
+					"text": "Education City • 2019 EDU_DATE"
+				}
+			],
+			"PROJECT_DATE": [
+				{
+					"x": 465.16,
+					"y": 391.47,
+					"width": 102.12,
+					"text": "2020 PROJECT_DATE"
+				}
+			],
+			"AWARD_DATE": [
+				{
+					"x": 475.41,
+					"y": 315.27,
+					"width": 91.87,
+					"text": "2021 AWARD_DATE"
+				}
+			],
+			"CERT_DATE": [
+				{
+					"x": 484.71,
+					"y": 223.32,
+					"width": 82.57,
+					"text": "2022 CERT_DATE"
+				}
+			],
+			"VOLUNTEER_DATE": [
+				{
+					"x": 450.91,
+					"y": 39.42,
+					"width": 116.37,
+					"text": "2023 VOLUNTEER_DATE"
+				}
+			],
+			"CUSTOM_EXP_DATE": [
+				{
+					"x": 443.13,
+					"y": 720.94,
+					"width": 124.15,
+					"text": "2024 CUSTOM_EXP_DATE"
+				}
+			],
+			"CUSTOM_ROLE_DATE": [
+				{
+					"x": 436.11,
+					"y": 705.04,
+					"width": 131.17,
+					"text": "2024 CUSTOM_ROLE_DATE"
+				}
+			],
+			"CUSTOM_EDU_DATE": [
+				{
+					"x": 368.5,
+					"y": 628.99,
+					"width": 198.78,
+					"text": "Education City • 2024 CUSTOM_EDU_DATE"
+				}
+			],
+			"CUSTOM_PROJECT_DATE": [
+				{
+					"x": 416.67,
+					"y": 552.79,
+					"width": 150.61,
+					"text": "2024 CUSTOM_PROJECT_DATE"
+				}
+			],
+			"CUSTOM_AWARD_DATE": [
+				{
+					"x": 426.92,
+					"y": 476.59,
+					"width": 140.36,
+					"text": "2024 CUSTOM_AWARD_DATE"
+				}
+			],
+			"CUSTOM_CERT_DATE": [
+				{
+					"x": 436.22,
+					"y": 384.64,
+					"width": 131.06,
+					"text": "2024 CUSTOM_CERT_DATE"
+				}
+			],
+			"CUSTOM_VOLUNTEER_DATE": [
+				{
+					"x": 402.42,
+					"y": 200.74,
+					"width": 164.86,
+					"text": "2024 CUSTOM_VOLUNTEER_DATE"
+				}
+			]
+		}
 	}
 }

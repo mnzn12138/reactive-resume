@@ -116,4 +116,25 @@ export const templates = {
 		tags: ["Single-column", "ATS friendly", "Uppercase headings", "Executive", "Consulting", "Startup"],
 		sidebarPosition: "none",
 	},
+	zhuque: {
+		name: "Zhuque",
+		description: msg`Single-page standard layout for mainland China applications: left-aligned name with a portrait ID photo, one horizontal contact row, and underlined section headings in the primary color.`,
+		imageUrl: "/templates/jpg/zhuque.jpg",
+		tags: ["Single-column", "ATS friendly", "Compact", "China", "Domestic", "One page"],
+		sidebarPosition: "right",
+	},
+	qinglong: {
+		name: "Qinglong",
+		description: msg`Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense.`,
+		imageUrl: "/templates/jpg/qinglong.jpg",
+		tags: ["Single-column", "ATS friendly", "Campus", "Graduate", "China", "Domestic", "Compact"],
+		sidebarPosition: "right",
+	},
+	xuanwu: {
+		name: "Xuanwu",
+		description: msg`Formal layout for state-owned enterprises and public institutions in mainland China: the name heads a two-column personal information band with a portrait ID photo, followed by a single-column reverse-chronological body.`,
+		imageUrl: "/templates/jpg/xuanwu.jpg",
+		tags: ["Single-column", "ATS friendly", "Formal", "China", "Domestic", "Public sector"],
+		sidebarPosition: "right",
+	},
 } as const satisfies Record<Template, TemplateMetadata>;

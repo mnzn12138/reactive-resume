@@ -104,7 +104,7 @@
 判定依据:落在 `packages/pdf`、`fonts`、`schema`、`auth`、`ai/src/prompts` 与前端 —— **迁移不碰**,做完即可见效果。
 
 1. **PDF 基线快照**(必须最先,早于一切 pdf/fonts 改动) —— **已完成,见 4.5**
-2. A1 中文模板族(4~6)
+2. **A1 中文模板族(4~6) —— 已完成(2026-09-28):3 套(`zhuque`/`qinglong`/`xuanwu`)已注册 18 套,预览图与 i18n 描述已补,全量测试通过(见 4.6)
 3. A2 国内字段扩展 + A4 分区预设(2)
 4. A5 国产大模型预设 + A6 中文提示词(1.5~2.5)
 5. A7 结构化文本导出 + A8 二维码名片 + A9 简历图片卡(2.5~3)
@@ -177,7 +177,28 @@ pnpm --dir tooling exec tsx scripts/pdf-baseline.ts compare <pre-migration-dir> 
 
 #### 提醒
 
-将来加中文模板后,总数变 17 套 —— 但**迁移对照仍只用这原始 15 套**,中文模板不参与。所以脚本保留 `-t` 筛选是硬要求,不要改成无脑全量。
+中文模板最终为 3 套，总数变 18 套 —— 但**迁移对照仍只用这原始 15 套**，中文模板不参与。所以脚本保留 `-t` 筛选是硬要求，不要改成无脑全量。
+
+## 4.6 中文模板族 · 已交付(2026-09-28)
+
+按 `plans/43-cn-templates-design.md` 实现 3 套：
+
+- `zhuque`：单页标准版，证件照在右侧，联系信息横向一行，章节标题主题色下划线。
+- `qinglong`：应届生校园招聘版，复用 meowth 的 inline-item-header，教育与实习条目压缩为一行。
+- `xuanwu`：国企/事业单位版，头部姓名下方两栏个人信息带(政治面貌、民族、籍贯、出生年月、性别)，证件照在右侧。
+
+注册点：schema enum、`packages/pdf/src/templates/index.ts`、semantic manifest 聚合、`apps/web/src/dialogs/resume/template/data.ts`、`packages/docx/src/builder.ts`、日期布局 artifact、all-templates-presentation 快照、首页 playground 测试、`contact-item.tsx` 新增 `CnFieldContactItem`。
+
+验证：
+
+- PDF：86 文件 / 1123 测试通过(含新增 `cn-templates.integration.test.tsx` 真渲染断言)。
+- Web：132 文件 / 933 测试通过。
+- Schema：9 文件 / 129 测试通过；DOCX：8 文件 / 74 测试通过。
+- 预览图与 PDF 已生成到 `apps/web/public/templates/{jpg,pdf}/`。
+- i18n 描述已提取并补译到 `zh-CN.po` / `zh-TW.po`。
+- `tooling/baseline/pre-migration/` 保持 15 套未污染。
+
+新增开发脚本：`tooling/scripts/template-preview.ts` —— 渲染指定模板的中文预览图(PDF + JPG)。
 
 ## 5. 时间账
 

@@ -22,7 +22,7 @@ function Shelf() {
 it("wraps the template shelf and keeps the PDF link aligned with the selection", () => {
 	const { getByRole } = render(<Shelf />);
 	fireEvent.click(getByRole("button", { name: "Previous template" }));
-	expect(getByRole("link", { name: /Open template PDF/ })).toHaveAttribute("href", "/templates/pdf/scizor.pdf");
+	expect(getByRole("link", { name: /Open template PDF/ })).toHaveAttribute("href", "/templates/pdf/xuanwu.pdf");
 	fireEvent.click(getByRole("button", { name: "Next template" }));
 	expect(getByRole("link", { name: /Open template PDF/ })).toHaveAttribute("href", "/templates/pdf/azurill.pdf");
 	fireEvent.click(within(getByRole("group", { name: "Choose a template" })).getByRole("button", { name: "Rhyhorn" }));

@@ -1014,6 +1014,10 @@ msgstr "项目符号列表"
 msgid "Bulleted list"
 msgstr "项目符号列表"
 
+#: src/dialogs/resume/template/data.ts
+msgid "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
+msgstr "面向中国大陆应届毕业生的校园招聘模板：清爽的头部配竖版证件照，学校、专业、日期等合并为一行，让教育经历与实习经历保持紧凑。"
+
 #. Account deletion confirmation dialog cancel action in account settings
 #. Confirmation dialog button label to abort deleting a custom section in resume builder
 #. Confirmation dialog button label to abort deleting a section item in resume builder
@@ -2603,6 +2607,10 @@ msgstr "忘记密码？"
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Forgot your password?"
 msgstr "你忘记密码了吗？"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Formal layout for state-owned enterprises and public institutions in mainland China: the name heads a two-column personal information band with a portrait ID photo, followed by a single-column reverse-chronological body."
+msgstr "面向中国大陆国企与事业单位的正式模板：姓名下方为双栏个人信息带与竖版证件照，主体为单栏倒序经历。"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgctxt "Page Format (A4, Letter, Free-form)"
@@ -5276,6 +5284,10 @@ msgstr "单栏格式，每页标题采用大写字母，顶部有主色线条；
 #: src/dialogs/resume/template/data.ts
 msgid "Single-column; polished and serious for senior or enterprise-level positions."
 msgstr "单栏布局；风格精致严肃，适合高级或企业级职位。"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Single-page standard layout for mainland China applications: left-aligned name with a portrait ID photo, one horizontal contact row, and underlined section headings in the primary color."
+msgstr "适用于中国大陆求职的单页标准版：姓名左对齐，右侧竖版证件照，联系方式横向排列，章节标题使用主题色下划线。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Size"

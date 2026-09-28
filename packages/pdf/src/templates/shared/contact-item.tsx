@@ -5,6 +5,7 @@ import { View } from "#react-pdf-renderer";
 import { resolvedPdfFlowProps } from "../../semantic/adapter";
 import { useResolvedNode, useSemanticNodeKey, useSemanticNodeVisible } from "../../semantic/context";
 import { semanticNodeKeys } from "../../semantic/node-keys";
+import { CN_FIELD_SEPARATOR, parseCnFieldText } from "./cn-fields";
 import { getCustomFieldLinkUrl, getWebsiteDisplayText } from "./contact";
 import { Icon, Link, Text } from "./primitives";
 import { composeStyles } from "./styles";
@@ -85,6 +86,74 @@ export const CustomFieldContactItem = ({
 			</Text>
 		</>
 	);
+	if (!visible) return null;
+
+	if (linkUrl) {
+		return (
+			<Link nodeKey={keys.primitiveNodeKey} src={linkUrl} {...(style ? { style } : {})}>
+				{children}
+			</Link>
+		);
+	}
+
+	return (
+		<View {...resolvedPdfFlowProps(resolved)} style={composeStyles(style, resolved.style)}>
+			{children}
+		</View>
+	);
+};
+
+type CnFieldContactItemProps = {
+	field: CustomField;
+	style?: ContactStyle;
+	/** Applied to the label half, e.g. a muted colour in an information table. */
+	labelStyle?: ContactStyle;
+	textStyle?: ContactStyle;
+	primitiveNodeKey?: string | undefined;
+};
+
+/**
+ * Renders a recognised domestic custom field as a "label: value" pair instead of
+ * icon + raw text, which is how Chinese information tables are conventionally
+ * laid out.
+ *
+ * The label and the value both come from the user's own `field.text`, so no
+ * template ever hardcodes a Chinese string. When the text carries no colon the
+ * whole field is rendered verbatim, which is exactly what the generic
+ * {@link CustomFieldContactItem} does.
+ *
+ * Node keys are derived through `useContactNodeKeys`, identical to
+ * {@link CustomFieldContactItem}, so the semantic tree is unaffected.
+ */
+export const CnFieldContactItem = ({
+	field,
+	style,
+	labelStyle,
+	textStyle,
+	primitiveNodeKey,
+}: CnFieldContactItemProps) => {
+	const linkUrl = getCustomFieldLinkUrl(field);
+	const keys = useContactNodeKeys("custom", field.id, primitiveNodeKey);
+	const resolved = useResolvedNode(keys.primitiveNodeKey);
+	const visible = useSemanticNodeVisible(keys.primitiveNodeKey);
+	const parsed = parseCnFieldText(field.text ?? "");
+
+	const children = parsed ? (
+		<>
+			<Text nodeKey={keys.fieldNodeKey} {...(labelStyle ? { style: labelStyle } : {})}>
+				{parsed.label}
+				{CN_FIELD_SEPARATOR}
+			</Text>
+			<Text bindSemanticNode={false} {...(textStyle ? { style: textStyle } : {})}>
+				{parsed.value}
+			</Text>
+		</>
+	) : (
+		<Text nodeKey={keys.fieldNodeKey} {...(textStyle ? { style: textStyle } : {})}>
+			{field.text}
+		</Text>
+	);
+
 	if (!visible) return null;
 
 	if (linkUrl) {

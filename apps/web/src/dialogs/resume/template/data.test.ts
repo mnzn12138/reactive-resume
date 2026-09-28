@@ -23,6 +23,9 @@ describe("templates metadata", () => {
 				"pikachu",
 				"rhyhorn",
 				"scizor",
+				"zhuque",
+				"qinglong",
+				"xuanwu",
 			].sort(),
 		);
 	});

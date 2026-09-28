@@ -1009,6 +1009,10 @@ msgstr "Bullet List"
 msgid "Bulleted list"
 msgstr "Bulleted list"
 
+#: src/dialogs/resume/template/data.ts
+msgid "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
+msgstr "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
+
 #. Account deletion confirmation dialog cancel action in account settings
 #. Confirmation dialog button label to abort deleting a custom section in resume builder
 #. Confirmation dialog button label to abort deleting a section item in resume builder
@@ -2598,6 +2602,10 @@ msgstr "Forgot Password?"
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Forgot your password?"
 msgstr "Forgot your password?"
+
+#: src/dialogs/resume/template/data.ts
+msgid "Formal layout for state-owned enterprises and public institutions in mainland China: the name heads a two-column personal information band with a portrait ID photo, followed by a single-column reverse-chronological body."
+msgstr "Formal layout for state-owned enterprises and public institutions in mainland China: the name heads a two-column personal information band with a portrait ID photo, followed by a single-column reverse-chronological body."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgctxt "Page Format (A4, Letter, Free-form)"
@@ -5271,6 +5279,10 @@ msgstr "Single-column with uppercase section headings and a primary-color top ru
 #: src/dialogs/resume/template/data.ts
 msgid "Single-column; polished and serious for senior or enterprise-level positions."
 msgstr "Single-column; polished and serious for senior or enterprise-level positions."
+
+#: src/dialogs/resume/template/data.ts
+msgid "Single-page standard layout for mainland China applications: left-aligned name with a portrait ID photo, one horizontal contact row, and underlined section headings in the primary color."
+msgstr "Single-page standard layout for mainland China applications: left-aligned name with a portrait ID photo, one horizontal contact row, and underlined section headings in the primary color."
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Size"

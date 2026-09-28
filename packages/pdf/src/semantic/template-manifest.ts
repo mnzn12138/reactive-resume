@@ -16,8 +16,11 @@ import { leafishSemanticManifest } from "../templates/leafish/semantic";
 import { meowthSemanticManifest } from "../templates/meowth/semantic";
 import { onyxSemanticManifest } from "../templates/onyx/semantic";
 import { pikachuSemanticManifest } from "../templates/pikachu/semantic";
+import { qinglongSemanticManifest } from "../templates/qinglong/semantic";
 import { rhyhornSemanticManifest } from "../templates/rhyhorn/semantic";
 import { scizorSemanticManifest } from "../templates/scizor/semantic";
+import { xuanwuSemanticManifest } from "../templates/xuanwu/semantic";
+import { zhuqueSemanticManifest } from "../templates/zhuque/semantic";
 import { SHARED_BINDING_REGISTRY, STANDARD_FIELD_REGISTRY } from "./binding-inventory";
 
 export type TemplateSemanticPlacement = "main" | "sidebar";
@@ -315,8 +318,11 @@ const TEMPLATE_SEMANTIC_MANIFESTS = {
 	meowth: meowthSemanticManifest,
 	onyx: onyxSemanticManifest,
 	pikachu: pikachuSemanticManifest,
+	qinglong: qinglongSemanticManifest,
 	rhyhorn: rhyhornSemanticManifest,
 	scizor: scizorSemanticManifest,
+	xuanwu: xuanwuSemanticManifest,
+	zhuque: zhuqueSemanticManifest,
 } as const satisfies Readonly<Record<Template, TemplateSemanticManifest>>;
 
 for (const manifest of Object.values(TEMPLATE_SEMANTIC_MANIFESTS)) validateTemplateSemanticManifestShape(manifest);

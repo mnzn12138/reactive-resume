@@ -83,6 +83,9 @@ const TEMPLATE_CONFIGS: Record<Template, TemplateConfig> = {
 	pikachu: { sidebarSide: "left", sidebarBackground: "none", headerPosition: "main-only" },
 	rhyhorn: { sidebarSide: "right", sidebarBackground: "none", headerPosition: "full-width" },
 	scizor: { sidebarSide: "left", sidebarBackground: "none", headerPosition: "full-width" },
+	zhuque: { sidebarSide: "right", sidebarBackground: "none", headerPosition: "full-width" },
+	qinglong: { sidebarSide: "right", sidebarBackground: "none", headerPosition: "full-width" },
+	xuanwu: { sidebarSide: "right", sidebarBackground: "none", headerPosition: "full-width" },
 };
 
 /**
