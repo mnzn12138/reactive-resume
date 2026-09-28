@@ -1,0 +1,170 @@
+{
+	"generatedAt": "2026-09-28T02:34:37.238Z",
+	"rasterScale": 1.5,
+	"templates": {
+		"azurill": {
+			"file": "azurill.pdf",
+			"pages": 3,
+			"sizeBytes": 236029,
+			"pageRasterHashes": [
+				"23e3602c3561822fc6f579b77f0e7728674eb5ebb962d773811311450f43282b",
+				"1823a87168fd55b1814704c31d2b33d5e1f6c9147bba906984461ec198e2ce9f",
+				"6df3969f2f179fdb2ff0223f9429c59f2e7eed0c44256ee835e41822f724ea36"
+			]
+		},
+		"bronzor": {
+			"file": "bronzor.pdf",
+			"pages": 5,
+			"sizeBytes": 237166,
+			"pageRasterHashes": [
+				"1d7120b1037ed1e86097d2fb06e5a44c5880724d139b578ff9879753926cb35e",
+				"8beef9fedbf1b1c8788ebfe8af856d938ccb0c087b29226169f49430eb7e4443",
+				"02637aae77b1c433e64e12d8b6102e3d5808c6a5e8e78aaed8e8a3757026d327",
+				"8edd67c8356a667720b3e3857a0a58bf40c6c5751e70238cf444ac919284113d",
+				"1169adc3c9a20869dff7f5ccb4c0ca56feb78e0c5d8cc302eb6d90f711f34f40"
+			]
+		},
+		"chikorita": {
+			"file": "chikorita.pdf",
+			"pages": 3,
+			"sizeBytes": 234912,
+			"pageRasterHashes": [
+				"7fa4034252d5678c0bb246aebb7721349cca23ffd83feb605611504b1b402a61",
+				"7a64a521b0d3c688d726c64a1379c72d7e640b494fa3ccd3418a403a61ac3382",
+				"cdd6721dbf402ad49b91157fb61176466fbb5e60f0c18bd145382325e4e4a8a5"
+			]
+		},
+		"ditgar": {
+			"file": "ditgar.pdf",
+			"pages": 3,
+			"sizeBytes": 235326,
+			"pageRasterHashes": [
+				"4f71d17c3d6022690def109e5e20ea1c844e518b0868a88b11cb82b8045fbe7e",
+				"d00602b5e3793fa39ed1e2bc299e8b09a18ed32d5d560a3a00159c781db91791",
+				"4cf800b6499db68b408cf23c35167a0816712a5805b45218d5c40f11d6b3f1ca"
+			]
+		},
+		"ditto": {
+			"file": "ditto.pdf",
+			"pages": 3,
+			"sizeBytes": 234216,
+			"pageRasterHashes": [
+				"a3a72d1f99a94d8ad3de87d15dffe8bf1bd0313a2b02a637fcd214cd31fe92e9",
+				"1a5a73664c5c194be5d8bb5adc6717c6ef8329c2503957b861c31268de9748d3",
+				"5f1a9dac73e5887dd23e7e27574a0160081b8fbc176cee8a155078e5c907d109"
+			]
+		},
+		"gengar": {
+			"file": "gengar.pdf",
+			"pages": 3,
+			"sizeBytes": 234591,
+			"pageRasterHashes": [
+				"118c93407f170b31403ef4bbc8ae1c212b0589cef0aaf80cc54f6976b8edb9b8",
+				"3de68cd43b690bb8b0fc2d3722e3d12534805b195a45e2cffbb57ecfd78a3520",
+				"636a60f5aa0b163c867da31776c134ba548e9983c945982b63314b78bc61a7a0"
+			]
+		},
+		"glalie": {
+			"file": "glalie.pdf",
+			"pages": 3,
+			"sizeBytes": 235593,
+			"pageRasterHashes": [
+				"b12f5a605eb902973d22acb2a81ddac38ce3cb48851c34b1b1739b12a8ca8d2d",
+				"fb91d7892646bf92fd7c2d45a56d8e39561506981b77ee026112198102550c67",
+				"39d7713023db8dfca61ee0624db808d0e82639eb2b3a7064d3306ea2d70d6e11"
+			]
+		},
+		"kakuna": {
+			"file": "kakuna.pdf",
+			"pages": 5,
+			"sizeBytes": 237113,
+			"pageRasterHashes": [
+				"e78ea79cb3af4ef198b236e0cc1728b7071597690e112ebd89e4946636869ba9",
+				"92d5d990764c76e18c9881990fcd6bbf8ce6b1b060051efadd2d817cb5ee0a47",
+				"680a97dc0d24aaacecd3923640c9ceae7832a0d8adedb8a4dabfe159d1d1f143",
+				"84846bcf9dbfd975a281d0230dd90159aafa454927c801406444eaf8f2d10dde",
+				"545f23705f6ae42ab954c128ae995743b954107a2aef331ada1fe427bee90e5d"
+			]
+		},
+		"lapras": {
+			"file": "lapras.pdf",
+			"pages": 5,
+			"sizeBytes": 242436,
+			"pageRasterHashes": [
+				"d7224d759c673650583ccac59707ab1844a630ec0b93c1f8cba428140236e0a5",
+				"db3a33ba8ce203efff87bc5409e81c47d658137f6223ceb92900ac2241aaf098",
+				"3403f749a400a8fc96a174989fc5de991896c6659b7374b82734a589dee07f29",
+				"1586d5d8365ad6f7b0731ca04cef806dd9a5363e568552c1fe6fd1e373057057",
+				"335bde946bf499deea54c1d7a39dbf75653e1bb28cc5b9ed9971a6599f0e21fe"
+			]
+		},
+		"leafish": {
+			"file": "leafish.pdf",
+			"pages": 3,
+			"sizeBytes": 234151,
+			"pageRasterHashes": [
+				"cbdf9908ecd417b511d9a58a0bbdee04e63ea79353f6175c61c172dbd4747b19",
+				"d553ee67f90300bee126d35ecf318d60ba8426c8866c840a29a7330a00dd0d2c",
+				"39d7713023db8dfca61ee0624db808d0e82639eb2b3a7064d3306ea2d70d6e11"
+			]
+		},
+		"meowth": {
+			"file": "meowth.pdf",
+			"pages": 5,
+			"sizeBytes": 237158,
+			"pageRasterHashes": [
+				"9a5ecb69bb88dcf4f7cb3e1abc707ce0968dac5c8eb64e23e2176d699c8584d6",
+				"df5881cea01a5fabb3896ba04914fec00f0ca3ce2ec7dcacfc2de5517cf6c7c5",
+				"76176171397c13a3c72b2225a8733f2f0f4e02197b88faae6a99a7f6c6e265d3",
+				"5ad1505d1d2c6f6b14d39570fdf3420cc3284d1622a4783805c58293fa6805a6",
+				"d2eb260e709a156abed525d32d3f216aa80560cbc26e476d043868b0fdf9772f"
+			]
+		},
+		"onyx": {
+			"file": "onyx.pdf",
+			"pages": 5,
+			"sizeBytes": 237346,
+			"pageRasterHashes": [
+				"792b9f7c2e6f4694d303ce4324924a4599f3e3b032a0541796d0b97842ba2a1f",
+				"9c16b1edfbf883e0b7b5767732665704c7059a560ee44d006e22ec4ddfa3ee69",
+				"8e7815fe2bdaa3deaac980e2126a5146563169224f8e97f77d8a6ea2fcc61dbe",
+				"c0309b59075b545570e75d5de2dabfac01113d4f8ea7e50fae5fefcbd054fdff",
+				"1b9ca111e8260681b16c3d8c982955e59fecf9d3373692b1f608b324a0fdfdae"
+			]
+		},
+		"pikachu": {
+			"file": "pikachu.pdf",
+			"pages": 3,
+			"sizeBytes": 235655,
+			"pageRasterHashes": [
+				"5909604c106dab66492863366f82afa137825525af0ed18ed2b597ba3d03e798",
+				"51fa397f7406436618c834c36108d869690f4842729554762671f44c0d242877",
+				"39d7713023db8dfca61ee0624db808d0e82639eb2b3a7064d3306ea2d70d6e11"
+			]
+		},
+		"rhyhorn": {
+			"file": "rhyhorn.pdf",
+			"pages": 5,
+			"sizeBytes": 237994,
+			"pageRasterHashes": [
+				"99db17f256b94efda0da8ebc679160f751ee6e4d3176151c369d083a1c69e852",
+				"432981e85a663ca53f0c7c3e1a1d6a2292847057e62acd32253a77f0e8825715",
+				"c0f9d8bd3aa370e9c59125a7a10352bf66be0e133fc78d4adb771dd5686b191b",
+				"200113e72b6f496a58ade227aab32b05b359415f9037923ce46fb2d6c9746c5c",
+				"39d7713023db8dfca61ee0624db808d0e82639eb2b3a7064d3306ea2d70d6e11"
+			]
+		},
+		"scizor": {
+			"file": "scizor.pdf",
+			"pages": 5,
+			"sizeBytes": 236951,
+			"pageRasterHashes": [
+				"b4ce90e27820f987d40cbdb06d8704a6d2f669e3e5f84df95016ad38a6228f32",
+				"2ba329b0d479721947a398d402cd0dc442c382c8a7cd023ddca6bbd1533b1796",
+				"25f80babef318e418eaaaa278d36e6bccf74e17433ad9f0e9c48748a65445666",
+				"07418d7abdd0b47b821a24746dc923d41fa5ff6ca39982e0297d9675f8feac0b",
+				"c9768e38bb12daff584ba20f003d8aa64003de17f1ec994cf02ca94d290b811f"
+			]
+		}
+	}
+}
