@@ -328,6 +328,10 @@ msgstr "Add"
 msgid "Add a custom field"
 msgstr "Add a custom field"
 
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom-fields.tsx
+msgid "Add a domestic field"
+msgstr "Add a domestic field"
+
 #: src/routes/dashboard/applications/index.tsx
 msgid "Add a job you're applying to and link the resume you sent. Move it across the board as you hear back."
 msgstr "Add a job you're applying to and link the resume you sent. Move it across the board as you hear back."
@@ -1009,6 +1013,11 @@ msgstr "Bullet List"
 msgid "Bulleted list"
 msgstr "Bulleted list"
 
+#. Layout preset name for mainland China campus recruitment resumes
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Campus recruitment"
+msgstr "Campus recruitment"
+
 #: src/dialogs/resume/template/data.ts
 msgid "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
 msgstr "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
@@ -1682,6 +1691,7 @@ msgid "Currently available for German resumes. Uses the language set in Page."
 msgstr "Currently available for German resumes. Uses the language set in Page."
 
 #: src/components/input/color-picker.tsx
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Custom"
 msgstr "Custom"
 
@@ -2277,6 +2287,11 @@ msgstr "Exit Fullscreen"
 #: src/libs/resume/section.tsx
 msgid "Experience"
 msgstr "Experience"
+
+#. Layout preset name for mainland China experienced-hire resumes
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Experienced hire"
+msgstr "Experienced hire"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Explore features"
@@ -4204,6 +4219,11 @@ msgstr "Preparing sample…"
 msgid "Preparing your resume for printing..."
 msgstr "Preparing your resume for printing..."
 
+#. Layout editor label for the section preset picker
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Preset"
+msgstr "Preset"
+
 #: src/components/input/color-picker.tsx
 msgid "Presets"
 msgstr "Presets"
@@ -5450,6 +5470,11 @@ msgstr "Stage"
 msgid "Stage date"
 msgstr "Stage date"
 
+#. Layout preset name for the default section ordering
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Standard"
+msgstr "Standard"
+
 #: src/routes/agent/$threadId.tsx
 msgid "Start a new thread"
 msgstr "Start a new thread"
@@ -5495,6 +5520,11 @@ msgstr "Start the resume with your name on its own line."
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Start thread"
 msgstr "Start thread"
+
+#. Layout preset name for mainland China state-owned enterprise resumes
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "State-owned & public sector"
+msgstr "State-owned & public sector"
 
 #: src/libs/resume/section.tsx
 msgid "Statistics"

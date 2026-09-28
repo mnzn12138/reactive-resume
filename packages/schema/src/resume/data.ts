@@ -80,9 +80,55 @@ export const pictureSchema = z.object({
 		.describe("The width of the shadow of the picture to display on the resume, defined in points (pt)."),
 });
 
+/**
+ * Semantic keys for the resume fields that mainland-China employers conventionally
+ * expect but that the resume schema does not model as first class citizens —
+ * political status, ethnicity, native place, and so on.
+ *
+ * They are free text on `customField.text` today ("政治面貌：中共党员"), which no
+ * template can reliably recognise. Setting `customField.key` makes the field
+ * machine readable, and `resolveCnFieldKey` in `@reactive-resume/pdf` prefers it
+ * over its colon-prefix sniffing.
+ */
+export const customFieldKeySchema = z.enum([
+	"gender",
+	"birthDate",
+	"ethnicity",
+	"politicalStatus",
+	"nativePlace",
+	"hukou",
+	"maritalStatus",
+	"height",
+]);
+
+/**
+ * Recognised label spellings per key. This is *data*, not UI copy: the label
+ * rendered into a PDF always comes from the user's own text. It is used for two
+ * things — the fallback sniffing in `@reactive-resume/pdf`, and prefilling the
+ * builder's custom field type picker.
+ */
+/** Separator written between a domestic field's label and its value, e.g. 政治面貌：中共党员. */
+export const customFieldKeySeparator = "\uFF1A";
+
+export const customFieldKeyLabels = {
+	politicalStatus: ["政治面貌", "政治面目", "政治成分"],
+	ethnicity: ["民族", "族别"],
+	birthDate: ["出生年月", "出生日期", "生日", "出生"],
+	gender: ["性别"],
+	nativePlace: ["籍贯"],
+	hukou: ["户籍", "户口所在地", "户口"],
+	maritalStatus: ["婚姻状况", "婚姻"],
+	height: ["身高"],
+} as const satisfies Readonly<Record<z.infer<typeof customFieldKeySchema>, readonly string[]>>;
+
 export const customFieldSchema = z.object({
 	id: z.string().describe("The unique identifier for the custom field. Usually generated as a UUID."),
 	icon: iconSchema,
+	key: customFieldKeySchema
+		.optional()
+		.describe(
+			"Optional semantic key that identifies a well-known field, e.g. 'politicalStatus'. Leave unset for free-form fields.",
+		),
 	text: z.string().describe("The text to display for the custom field."),
 	link: z.string().describe("If the custom field should be a link, the URL to link to.").catch(""),
 });
@@ -734,4 +780,5 @@ export type SkillsSection = z.infer<typeof skillsSectionSchema>;
 export type VolunteerSection = z.infer<typeof volunteerSectionSchema>;
 export type Picture = z.infer<typeof pictureSchema>;
 export type CustomField = z.infer<typeof customFieldSchema>;
+export type CustomFieldKey = z.infer<typeof customFieldKeySchema>;
 export type Website = z.infer<typeof websiteSchema>;

@@ -123,6 +123,20 @@
 								"type": "string",
 								"description": "The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available."
 							},
+							"key": {
+								"type": "string",
+								"enum": [
+									"gender",
+									"birthDate",
+									"ethnicity",
+									"politicalStatus",
+									"nativePlace",
+									"hukou",
+									"maritalStatus",
+									"height"
+								],
+								"description": "Optional semantic key that identifies a well-known field, e.g. 'politicalStatus'. Leave unset for free-form fields."
+							},
 							"text": {
 								"type": "string",
 								"description": "The text to display for the custom field."

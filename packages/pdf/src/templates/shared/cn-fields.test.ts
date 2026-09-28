@@ -40,12 +40,14 @@ describe("parseCnFieldText", () => {
 
 describe("resolveCnFieldKey", () => {
 	it("prefers an explicit key over sniffing", () => {
-		const customField = field("Some unrelated text", { key: "politicalStatus" } as Partial<CustomField>);
+		const customField = field("Some unrelated text", { key: "politicalStatus" });
 		expect(resolveCnFieldKey(customField)).toBe("politicalStatus");
 	});
 
 	it("ignores an unknown explicit key and still sniffs", () => {
-		const customField = field("民族：汉族", { key: "not-a-real-key" } as Partial<CustomField>);
+		// Cast on purpose: the schema narrows `key` to the known set, but resumes
+		// imported from elsewhere can carry anything. The runtime guard must hold.
+		const customField = field("民族：汉族", { key: "not-a-real-key" } as unknown as Partial<CustomField>);
 		expect(resolveCnFieldKey(customField)).toBe("ethnicity");
 	});
 

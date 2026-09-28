@@ -105,7 +105,7 @@
 
 1. **PDF 基线快照**(必须最先,早于一切 pdf/fonts 改动) —— **已完成,见 4.5**
 2. **A1 中文模板族(4~6) —— 已完成(2026-09-28):3 套(`zhuque`/`qinglong`/`xuanwu`)已注册 18 套,预览图与 i18n 描述已补,全量测试通过(见 4.6)
-3. A2 国内字段扩展 + A4 分区预设(2)
+3. **A2 国内字段扩展 + A4 分区预设(2) —— 已完成(2026-09-28),见 4.7**
 4. A5 国产大模型预设 + A6 中文提示词(1.5~2.5)
 5. A7 结构化文本导出 + A8 二维码名片 + A9 简历图片卡(2.5~3)
 6. A10 中文隐私与用户协议(1~1.5)
@@ -198,7 +198,25 @@ pnpm --dir tooling exec tsx scripts/pdf-baseline.ts compare <pre-migration-dir> 
 - i18n 描述已提取并补译到 `zh-CN.po` / `zh-TW.po`。
 - `tooling/baseline/pre-migration/` 保持 15 套未污染。
 
-新增开发脚本：`tooling/scripts/template-preview.ts` —— 渲染指定模板的中文预览图(PDF + JPG)。
+新增开发脚本:`tooling/scripts/template-preview.ts` —— 渲染指定模板的中文预览图(PDF + JPG)。
+
+## 4.7 A2 国内字段扩展 + A4 分区预设 · 已交付(2026-09-28)
+
+**A2 —— `customField` 加可选 `key`(后续功能的地基)**
+
+- `packages/schema/src/resume/data.ts` 新增 `customFieldKeySchema`(8 个 key:性别/出生年月/民族/政治面貌/籍贯/户籍/婚姻状况/身高)与 `customFieldKeyLabels`(标签白名单),`customFieldSchema` 增加可选 `key`。
+- **单一来源**:`packages/pdf/src/templates/shared/cn-fields.ts` 不再自造枚举,改为复用 schema 的 `customFieldKeySchema.options` 与 `customFieldKeyLabels`;`resolveCnFieldKey` 去掉类型强转。key 优先、冒号嗅探兜底的行为不变,旧简历零迁移。
+- 分隔符下沉为 `customFieldKeySeparator`(schema),web 与 pdf 共用 —— 之前 `CN_FIELD_SEPARATOR` 在 pdf 内部,pdf 的 export map 不暴露,web 拿不到。
+- 前端:自定义字段面板新增"添加国内字段"下拉,一键写入 `key` + `标签：` 前缀。
+- `packages/schema/schema.json` 同步补 `key`(用真实 `z.toJSONSchema` 输出对齐后按文件风格插入)。
+
+**A4 —— 国内分区预设**
+
+- `packages/schema/src/resume/section-presets.ts`:4 套预设 `standard` / `cnCampus`(教育优先、隐藏推荐人与著作)/ `cnExperienced`(经历优先、隐藏校园与兴趣)/ `cnPublicSector`(奖惩进正文、隐藏项目)。每个预设覆盖全部 13 个内置分区,不重不漏(有测试守着)。
+- `packages/resume/section-presets` 新增纯函数 `applySectionPreset` / `findMatchingSectionPreset`:**自定义分区不会被删**(追加到主栏末尾),多页简历只改第 1 页。
+- 前端:布局编辑器顶部新增"分区预设"选择器,显示当前匹配(不匹配则显示"自定义")。
+
+验证:schema 144 测试、resume 新增 8 测试(preset 数据 4 + apply 8,含幂等与自定义分区保留)、web / pdf / docx 全量通过;i18n 新增 6 条已补译,missing 0。
 
 ## 5. 时间账
 

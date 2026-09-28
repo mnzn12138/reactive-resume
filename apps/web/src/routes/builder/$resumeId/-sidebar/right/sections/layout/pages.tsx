@@ -1,5 +1,6 @@
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import type { ResumeData, SectionType } from "@reactive-resume/schema/resume/data";
+import type { SectionPreset } from "@reactive-resume/schema/resume/section-presets";
 import type { CSSProperties, HTMLAttributes, Ref } from "react";
 import {
 	closestCorners,
@@ -16,6 +17,7 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import {
 	ArrowBendUpRightIcon,
+	CaretDownIcon,
 	DotsSixVerticalIcon,
 	DotsThreeVerticalIcon,
 	FileIcon,
@@ -25,6 +27,8 @@ import {
 } from "@phosphor-icons/react";
 import { useCallback, useId, useState } from "react";
 import { match } from "ts-pattern";
+import { applySectionPreset, findMatchingSectionPreset } from "@reactive-resume/resume/section-presets";
+import { sectionPresetSchema } from "@reactive-resume/schema/resume/section-presets";
 import { Button } from "@reactive-resume/ui/components/button";
 import {
 	DropdownMenu,
@@ -248,6 +252,8 @@ export function LayoutPages() {
 			onDragCancel={() => setActiveId(null)}
 		>
 			<div className="flex flex-col gap-4">
+				<SectionPresetPicker />
+
 				{layout.pages.map((page, pageIndex) => (
 					<PageContainer
 						key={`page-${pageIndex}`}
@@ -272,6 +278,73 @@ export function LayoutPages() {
 
 			<DragOverlay>{activeId ? <LayoutItemContent id={activeId} isDragging isOverlay /> : null}</DragOverlay>
 		</DndContext>
+	);
+}
+
+type SectionPresetLabelProps = {
+	preset: SectionPreset;
+};
+
+function SectionPresetLabel({ preset }: SectionPresetLabelProps) {
+	return match(preset)
+		.with("standard", () => <Trans comment="Layout preset name for the default section ordering">Standard</Trans>)
+		.with("cnCampus", () => (
+			<Trans comment="Layout preset name for mainland China campus recruitment resumes">Campus recruitment</Trans>
+		))
+		.with("cnExperienced", () => (
+			<Trans comment="Layout preset name for mainland China experienced-hire resumes">Experienced hire</Trans>
+		))
+		.with("cnPublicSector", () => (
+			<Trans comment="Layout preset name for mainland China state-owned enterprise resumes">
+				State-owned &amp; public sector
+			</Trans>
+		))
+		.exhaustive();
+}
+
+/**
+ * Applies a section preset to the first page.
+ *
+ * Only the first page is rewritten: presets describe one page's column ordering,
+ * and rewriting every page would silently undo multi-page layouts.
+ */
+function SectionPresetPicker() {
+	const resume = useCurrentResume();
+	const updateResumeData = useUpdateResumeData();
+	const currentPreset = findMatchingSectionPreset(resume.data);
+
+	return (
+		<div className="flex items-center justify-between gap-x-2 rounded-md border border-dashed bg-background/40 px-4 py-2">
+			<span className="font-medium text-muted-foreground text-xs">
+				<Trans comment="Layout editor label for the section preset picker">Preset</Trans>
+			</span>
+
+			<DropdownMenu>
+				<DropdownMenuTrigger
+					render={
+						<Button variant="outline" size="sm" className="gap-x-2">
+							{currentPreset ? <SectionPresetLabel preset={currentPreset} /> : <Trans>Custom</Trans>}
+							<CaretDownIcon />
+						</Button>
+					}
+				/>
+
+				<DropdownMenuContent align="end">
+					{sectionPresetSchema.options.map((preset) => (
+						<DropdownMenuItem
+							key={preset}
+							onClick={() => {
+								updateResumeData((draft) => {
+									applySectionPreset(draft, preset);
+								});
+							}}
+						>
+							<SectionPresetLabel preset={preset} />
+						</DropdownMenuItem>
+					))}
+				</DropdownMenuContent>
+			</DropdownMenu>
+		</div>
 	);
 }
 

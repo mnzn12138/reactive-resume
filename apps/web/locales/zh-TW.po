@@ -333,6 +333,10 @@ msgstr "新增"
 msgid "Add a custom field"
 msgstr "新增自訂欄位"
 
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom-fields.tsx
+msgid "Add a domestic field"
+msgstr "新增中國大陸欄位"
+
 #: src/routes/dashboard/applications/index.tsx
 msgid "Add a job you're applying to and link the resume you sent. Move it across the board as you hear back."
 msgstr "新增您要應徵的職缺，並連結您寄出的履歷。收到回覆後，就在看板上把它往前移。"
@@ -1014,6 +1018,11 @@ msgstr "項目符號清單"
 msgid "Bulleted list"
 msgstr "項目符號清單"
 
+#. Layout preset name for mainland China campus recruitment resumes
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Campus recruitment"
+msgstr "校園招聘"
+
 #: src/dialogs/resume/template/data.ts
 msgid "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
 msgstr "面向中國大陸應屆畢業生的校園招聘範本：清爽的頭部配直式證件照，學校、主修、日期等合併為一行，讓教育經歷與實習經歷保持緊湊。"
@@ -1687,6 +1696,7 @@ msgid "Currently available for German resumes. Uses the language set in Page."
 msgstr "目前支援德語履歷。使用「頁面」中設定的語言。"
 
 #: src/components/input/color-picker.tsx
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Custom"
 msgstr "自訂"
 
@@ -2282,6 +2292,11 @@ msgstr "退出全螢幕"
 #: src/libs/resume/section.tsx
 msgid "Experience"
 msgstr "經歷"
+
+#. Layout preset name for mainland China experienced-hire resumes
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Experienced hire"
+msgstr "社會招聘"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Explore features"
@@ -4209,6 +4224,11 @@ msgstr "正在準備範例…"
 msgid "Preparing your resume for printing..."
 msgstr "準備列印履歷…"
 
+#. Layout editor label for the section preset picker
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Preset"
+msgstr "區塊預設"
+
 #: src/components/input/color-picker.tsx
 msgid "Presets"
 msgstr "預設值"
@@ -5455,6 +5475,11 @@ msgstr "階段"
 msgid "Stage date"
 msgstr "階段日期"
 
+#. Layout preset name for the default section ordering
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "Standard"
+msgstr "標準"
+
 #: src/routes/agent/$threadId.tsx
 msgid "Start a new thread"
 msgstr "開始新的對話串"
@@ -5500,6 +5525,11 @@ msgstr "履歷開頭單獨用一行寫上您的姓名。"
 #: src/routes/agent/-components/new-thread-setup.tsx
 msgid "Start thread"
 msgstr "開始對話串"
+
+#. Layout preset name for mainland China state-owned enterprise resumes
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
+msgid "State-owned & public sector"
+msgstr "國企 / 事業單位"
 
 #: src/libs/resume/section.tsx
 msgid "Statistics"

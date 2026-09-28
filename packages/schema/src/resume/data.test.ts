@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
 	baseSectionSchema,
 	basicsSchema,
+	customFieldKeySchema,
 	customFieldSchema,
 	customSectionItemDefinitionByType,
 	customSectionSchema,
@@ -330,6 +331,34 @@ describe("customFieldSchema", () => {
 		const result = customFieldSchema.safeParse({ id: "1", icon: "phone", text: "x" });
 		expect(result.success).toBe(true);
 		if (result.success) expect(result.data.link).toBe("");
+	});
+
+	it("accepts a domestic semantic key", () => {
+		const result = customFieldSchema.safeParse({
+			id: "1",
+			icon: "user",
+			key: "politicalStatus",
+			text: "政治面貌：中共党员",
+			link: "",
+		});
+		expect(result.success).toBe(true);
+		if (result.success) expect(result.data.key).toBe("politicalStatus");
+	});
+
+	it("leaves key undefined for free-form fields", () => {
+		const result = customFieldSchema.safeParse({ id: "1", icon: "user", text: "github.com/example" });
+		expect(result.success).toBe(true);
+		if (result.success) expect(result.data.key).toBeUndefined();
+	});
+
+	it("rejects an unknown key", () => {
+		expect(customFieldSchema.safeParse({ id: "1", icon: "user", key: "shoeSize", text: "x" }).success).toBe(false);
+	});
+
+	it("exposes every documented domestic key", () => {
+		expect([...customFieldKeySchema.options].sort()).toEqual(
+			["birthDate", "ethnicity", "gender", "height", "hukou", "maritalStatus", "nativePlace", "politicalStatus"].sort(),
+		);
 	});
 });
 

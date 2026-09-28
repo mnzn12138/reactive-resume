@@ -3,7 +3,7 @@
 	"tags": ["-lintignore"],
 	"workspaces": {
 		".": {
-			"ignoreFiles": [".ncurc.cjs"]
+			"ignoreFiles": [".ncurc.cjs", "plans/_sources/xml2md.js"]
 		},
 		"apps/web": {
 			"entry": ["lingui.config.ts", "vite.config.ts", "vitest.config.ts"],
@@ -65,7 +65,7 @@
 			]
 		},
 		"tooling": {
-			"entry": ["issue-labels.mjs"]
+			"entry": ["issue-labels.mjs", "scripts/pdf-baseline.ts", "scripts/template-preview.ts"]
 		},
 		"packages/api": {
 			"ignoreDependencies": ["ioredis"]

@@ -1,4 +1,9 @@
-import type { CustomField } from "@reactive-resume/schema/resume/data";
+import type { CustomField, CustomFieldKey } from "@reactive-resume/schema/resume/data";
+import {
+	customFieldKeyLabels,
+	customFieldKeySchema,
+	customFieldKeySeparator,
+} from "@reactive-resume/schema/resume/data";
 
 /**
  * The set of resume fields that Chinese employers conventionally expect on a
@@ -6,30 +11,14 @@ import type { CustomField } from "@reactive-resume/schema/resume/data";
  * as first class citizens. They currently only exist as free text custom
  * fields, e.g. "政治面貌:中共党员".
  *
- * These keys are the *stable* identifiers. A2 is expected to add an optional
- * `key` to `customFieldSchema`; when it does, `resolveCnFieldKey` picks it up
- * on day one with zero changes to any template.
+ * The keys themselves live in `@reactive-resume/schema` (`customFieldKeySchema`)
+ * because A2 made them a first class, optional `key` on `customFieldSchema`.
+ * `resolveCnFieldKey` reads that key first and falls back to colon-prefix
+ * sniffing, so pre-A2 resumes keep working unchanged.
  */
-export type CnFieldKey =
-	| "gender"
-	| "birthDate"
-	| "ethnicity"
-	| "politicalStatus"
-	| "nativePlace"
-	| "hukou"
-	| "maritalStatus"
-	| "height";
+export type CnFieldKey = CustomFieldKey;
 
-export const CN_FIELD_KEYS = [
-	"gender",
-	"birthDate",
-	"ethnicity",
-	"politicalStatus",
-	"nativePlace",
-	"hukou",
-	"maritalStatus",
-	"height",
-] as const satisfies readonly CnFieldKey[];
+export const CN_FIELD_KEYS: readonly CnFieldKey[] = customFieldKeySchema.options;
 
 /**
  * Recognised label spellings per key, used only when a custom field carries no
@@ -39,18 +28,9 @@ export const CN_FIELD_KEYS = [
  * always comes from the user's own text, so no template ever hardcodes a
  * Chinese string (packages/pdf has no i18n runtime).
  */
-const CN_FIELD_LABELS = {
-	politicalStatus: ["政治面貌", "政治面目", "政治成分"],
-	ethnicity: ["民族", "族别"],
-	birthDate: ["出生年月", "出生日期", "生日", "出生"],
-	gender: ["性别"],
-	nativePlace: ["籍贯"],
-	hukou: ["户籍", "户口所在地", "户口"],
-	maritalStatus: ["婚姻状况", "婚姻"],
-	height: ["身高"],
-} as const satisfies Readonly<Record<CnFieldKey, readonly string[]>>;
+const CN_FIELD_LABELS = customFieldKeyLabels;
 
-const FULLWIDTH_COLON = "\uFF1A";
+const FULLWIDTH_COLON = customFieldKeySeparator;
 const HALFWIDTH_COLON = "\u003A";
 
 /** Separator used when a claimed field is re-rendered as a "label: value" pair. */
@@ -100,7 +80,7 @@ export function parseCnFieldText(text: string): ParsedCnField | undefined {
  * Resolves the semantic key of a custom field.
  *
  * Resolution order:
- *   1. `field.key` — populated once A2 lands; takes effect with no template change.
+ *   1. `field.key` — the optional semantic key A2 added to the custom field schema.
  *   2. Prefix sniffing on `field.text` against {@link CN_FIELD_LABELS}.
  *
  * Returns `undefined` when neither yields a known key. Callers MUST then fall
@@ -108,9 +88,9 @@ export function parseCnFieldText(text: string): ParsedCnField | undefined {
  * templates do — sniffing can never lose information.
  */
 export function resolveCnFieldKey(field: CustomField): CnFieldKey | undefined {
-	const explicitKey = (field as { key?: unknown }).key;
-	if (typeof explicitKey === "string" && CN_FIELD_KEY_SET.has(explicitKey)) {
-		return explicitKey as CnFieldKey;
+	const explicitKey = field.key;
+	if (explicitKey !== undefined && CN_FIELD_KEY_SET.has(explicitKey)) {
+		return explicitKey;
 	}
 
 	const parsed = parseCnFieldText(field.text ?? "");

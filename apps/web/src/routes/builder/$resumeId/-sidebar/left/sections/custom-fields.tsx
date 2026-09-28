@@ -1,10 +1,17 @@
-import type { basicsSchema } from "@reactive-resume/schema/resume/data";
+import type { basicsSchema, CustomFieldKey } from "@reactive-resume/schema/resume/data";
 import type z from "zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { DotsSixVerticalIcon, LinkIcon, ListPlusIcon, XIcon } from "@phosphor-icons/react";
+import { DotsSixVerticalIcon, LinkIcon, ListPlusIcon, PlusIcon, XIcon } from "@phosphor-icons/react";
 import { Reorder, useDragControls } from "motion/react";
+import { customFieldKeyLabels, customFieldKeySeparator } from "@reactive-resume/schema/resume/data";
 import { Button } from "@reactive-resume/ui/components/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@reactive-resume/ui/components/dropdown-menu";
 import { FormControl, FormItem } from "@reactive-resume/ui/components/form";
 import { Input } from "@reactive-resume/ui/components/input";
 import { Label } from "@reactive-resume/ui/components/label";
@@ -15,6 +22,22 @@ import { withForm } from "@/libs/tanstack-form";
 
 type FormValues = z.infer<typeof basicsSchema>;
 type CustomField = FormValues["customFields"][number];
+
+/**
+ * Domestic (mainland China) field types offered as one-click additions.
+ *
+ * The label is user data, not UI copy: it is what lands in `customField.text`
+ * and therefore what the PDF renders. The `key` is what makes the field
+ * machine readable for templates such as xuanwu, which lift these into their
+ * personal information band even if the user later rewords the text.
+ */
+const domesticFieldOptions = (Object.entries(customFieldKeyLabels) as [CustomFieldKey, readonly string[]][]).flatMap(
+	([key, labels]) => {
+		const label = labels[0];
+		if (label === undefined) return [];
+		return [{ key, label }];
+	},
+);
 
 const defaultValues: FormValues = {
 	name: "",
@@ -127,15 +150,46 @@ export const CustomFieldsSection = withForm({
 							</CustomFieldItem>
 						))}
 
-						<Button
-							variant="ghost"
-							onClick={() => {
-								customFieldsField.pushValue({ id: generateId(), icon: "acorn", text: "", link: "" });
-							}}
-						>
-							<ListPlusIcon />
-							<Trans>Add a custom field</Trans>
-						</Button>
+						<div className="flex items-center gap-x-1">
+							<Button
+								variant="ghost"
+								onClick={() => {
+									customFieldsField.pushValue({ id: generateId(), icon: "acorn", text: "", link: "" });
+								}}
+							>
+								<ListPlusIcon />
+								<Trans>Add a custom field</Trans>
+							</Button>
+
+							<DropdownMenu>
+								<DropdownMenuTrigger
+									render={
+										<Button size="icon" variant="ghost" aria-label={t`Add a domestic field`}>
+											<PlusIcon />
+										</Button>
+									}
+								/>
+
+								<DropdownMenuContent align="end">
+									{domesticFieldOptions.map((option) => (
+										<DropdownMenuItem
+											key={option.key}
+											onClick={() => {
+												customFieldsField.pushValue({
+													id: generateId(),
+													icon: "user",
+													key: option.key,
+													text: `${option.label}${customFieldKeySeparator}`,
+													link: "",
+												});
+											}}
+										>
+											{option.label}
+										</DropdownMenuItem>
+									))}
+								</DropdownMenuContent>
+							</DropdownMenu>
+						</div>
 					</Reorder.Group>
 				)}
 			</form.Field>
