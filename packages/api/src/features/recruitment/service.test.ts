@@ -283,7 +283,10 @@ describe("recruitmentService.list", () => {
 
 		// `&&` shares any element; `arrayContains` would have demanded all of them.
 		expect(sql).toContain("&&");
-		expect(params).toEqual(expect.arrayContaining(["campus", "internship", "北京"]));
+		// `arrayOverlaps` binds one array per field rather than one parameter per element, so
+		// the values are flattened before the comparison — what matters is that every value
+		// is bound as a parameter and never interpolated into the statement.
+		expect(params.flat()).toEqual(expect.arrayContaining(["campus", "internship", "北京"]));
 	});
 
 	it("derives availability and the countdown server-side", async () => {

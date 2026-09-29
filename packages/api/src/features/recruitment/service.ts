@@ -9,10 +9,10 @@ import type {
 	WorkIntensity,
 	WorkMode,
 } from "@reactive-resume/schema/recruitment/data";
-import type { SQL, SQLWrapper } from "drizzle-orm";
+import type { SQL } from "drizzle-orm";
 import type { RecruitmentPostListInput } from "../../dto/recruitment";
 import { ORPCError } from "@orpc/client";
-import { and, asc, count, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
+import { and, arrayOverlaps, asc, count, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 import { db } from "@reactive-resume/db/client";
 import { recruitmentPost, recruitmentPostBookmark } from "@reactive-resume/db/schema";
 import { escapeLike } from "../admin/sql";
@@ -201,23 +201,6 @@ function searchCondition(search: string): SQL | undefined {
 	);
 }
 
-/**
- * Array overlap (`&&`), i.e. OR within one filter field.
- *
- * Written as SQL rather than drizzle's `arrayOverlaps()` because that helper cannot resolve
- * these columns: `packages/db/src/schema/recruitment.ts` declares them as
- * `text().array().$type<X[]>()`, and drizzle 1.0.0-rc.4 applies the `$type` *after* `.array()`
- * has added its dimension, so the inferred column type is `X[][]` and every overload is
- * rejected. The stored value is a single `text[]`; only the type is off. Values are bound as
- * parameters, never interpolated.
- */
-function overlapsCondition(column: SQLWrapper, values: readonly string[]): SQL {
-	return sql`${column} && array[${sql.join(
-		values.map((value) => sql`${value}`),
-		sql`, `,
-	)}]::text[]`;
-}
-
 function buildListFilters(input: RecruitmentPostListInput, now: Date): SQL[] {
 	// The public list only ever answers with approved posts; everything else is the review
 	// queue's business (§4.3.4).
@@ -237,15 +220,15 @@ function buildListFilters(input: RecruitmentPostListInput, now: Date): SQL[] {
 	// OR within one field, AND across fields (§4.2): `&&` is "shares any element", where
 	// `arrayContains` would have meant "has all of these".
 	if (input.employmentType?.length)
-		filters.push(overlapsCondition(recruitmentPost.employmentType, input.employmentType));
-	if (input.workMode?.length) filters.push(overlapsCondition(recruitmentPost.workMode, input.workMode));
-	if (input.workIntensity?.length) filters.push(overlapsCondition(recruitmentPost.workIntensity, input.workIntensity));
+		filters.push(arrayOverlaps(recruitmentPost.employmentType, [...input.employmentType]));
+	if (input.workMode?.length) filters.push(arrayOverlaps(recruitmentPost.workMode, [...input.workMode]));
+	if (input.workIntensity?.length) filters.push(arrayOverlaps(recruitmentPost.workIntensity, [...input.workIntensity]));
 	if (input.educationRequired?.length) {
-		filters.push(overlapsCondition(recruitmentPost.educationRequired, input.educationRequired));
+		filters.push(arrayOverlaps(recruitmentPost.educationRequired, [...input.educationRequired]));
 	}
-	if (input.benefits?.length) filters.push(overlapsCondition(recruitmentPost.benefits, input.benefits));
-	if (input.locations?.length) filters.push(overlapsCondition(recruitmentPost.locations, input.locations));
-	if (input.tags?.length) filters.push(overlapsCondition(recruitmentPost.tags, input.tags));
+	if (input.benefits?.length) filters.push(arrayOverlaps(recruitmentPost.benefits, [...input.benefits]));
+	if (input.locations?.length) filters.push(arrayOverlaps(recruitmentPost.locations, [...input.locations]));
+	if (input.tags?.length) filters.push(arrayOverlaps(recruitmentPost.tags, [...input.tags]));
 	if (input.availability) filters.push(availabilityCondition(input.availability, now));
 
 	return filters;
@@ -290,7 +273,14 @@ async function list(input: RecruitmentPostListInput & { viewer?: RecruitmentView
 
 	// Two SELECTs sharing one WHERE (appendix B.1): `total` is the size of the *filtered* set,
 	// not of this page — the fix for the paginator that always showed one page.
-	const [rawRows, totals] = await Promise.all([
+	//
+	// The row type is whatever drizzle infers from `publicColumns`; it is passed to
+	// `toPublicPost`, which wants a `PublicPostRow`. That assignment only compiles because the
+	// array columns are declared `.$type<X>()` (element type) in
+	// `packages/db/src/schema/recruitment.ts` — with `.$type<X[]>()` drizzle adds a second
+	// dimension and the row stops matching. Keep it as an assignment, not a cast, so the schema
+	// and this type cannot drift apart silently.
+	const [rows, totals] = await Promise.all([
 		db
 			.select(publicColumns)
 			.from(recruitmentPost)
@@ -300,12 +290,6 @@ async function list(input: RecruitmentPostListInput & { viewer?: RecruitmentView
 			.offset(input.offset),
 		db.select({ value: count() }).from(recruitmentPost).where(where),
 	]);
-
-	// Drizzle 1.0.0-rc.4 resolves `text().array().$type<X[]>()` to `X[][]` — the `$type` lands
-	// after `.array()` added its dimension — and drops the scalar `$type` on `batch`/`status`
-	// back to `string`. The stored values are a single `text[]` and the declared enums, so the
-	// row is asserted to its real shape; a runtime cast is safe, an inferred one is not.
-	const rows = rawRows as unknown as PublicPostRow[];
 
 	const bookmarked = await bookmarkedPostIds(
 		rows.map((row) => row.id),
@@ -322,12 +306,8 @@ async function getById(input: { id: string; viewer?: RecruitmentViewer }) {
 	const now = new Date();
 	const viewer: RecruitmentViewer = input.viewer ?? {};
 
-	// Same assertion as in `list`; see the note there for why the inferred row shape is wrong.
-	const [row] = (await db
-		.select(detailColumns)
-		.from(recruitmentPost)
-		.where(eq(recruitmentPost.id, input.id))
-		.limit(1)) as unknown as DetailPostRow[];
+	// Same deliberate non-cast as in `list`; see the note there.
+	const [row] = await db.select(detailColumns).from(recruitmentPost).where(eq(recruitmentPost.id, input.id)).limit(1);
 
 	if (!row) throw new ORPCError("NOT_FOUND", { message: "Recruitment post not found." });
 	if (!canViewPost(row, viewer, now)) throw new ORPCError("NOT_FOUND", { message: "Recruitment post not found." });

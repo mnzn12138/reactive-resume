@@ -42,12 +42,19 @@ export const recruitmentPost = pg.pgTable(
 		// to that third party. The web app falls back to a monogram.
 		companyLogoUrl: pg.text("company_logo_url"),
 		batch: pg.text("batch").$type<Batch>().notNull().default("regular"),
-		employmentType: pg.text("employment_type").array().$type<EmploymentType[]>().notNull().default([]),
-		workMode: pg.text("work_mode").array().$type<WorkMode[]>().notNull().default([]),
-		workIntensity: pg.text("work_intensity").array().$type<WorkIntensity[]>().notNull().default([]),
+		// `.$type<X>()`, not `.$type<X[]>()`: drizzle 1.0.0-rc.4 applies the `$type` *after*
+		// `.array()` has added its own dimension, so `.$type<X[]>()` resolves the column to
+		// `X[][]` — one level too deep, which makes every `arrayOverlaps()` overload unusable
+		// and poisons the row type of any `db.select()` that names the column. Declaring the
+		// *element* type is what the builder expects: it re-adds the array dimension itself.
+		// Verified: the inferred type of these columns is `X[]` and both `db.select()` row
+		// types and `arrayOverlaps()` resolve correctly (see the T03 report).
+		employmentType: pg.text("employment_type").array().$type<EmploymentType>().notNull().default([]),
+		workMode: pg.text("work_mode").array().$type<WorkMode>().notNull().default([]),
+		workIntensity: pg.text("work_intensity").array().$type<WorkIntensity>().notNull().default([]),
 		locations: pg.text("locations").array().notNull().default([]),
-		educationRequired: pg.text("education_required").array().$type<EducationRequired[]>().notNull().default([]),
-		benefits: pg.text("benefits").array().$type<Benefit[]>().notNull().default([]),
+		educationRequired: pg.text("education_required").array().$type<EducationRequired>().notNull().default([]),
+		benefits: pg.text("benefits").array().$type<Benefit>().notNull().default([]),
 		tags: pg.text("tags").array().notNull().default([]),
 		// Campus salaries are ranges or 面议; structuring them would lose more than it gains.
 		salaryText: pg.text("salary_text"),
