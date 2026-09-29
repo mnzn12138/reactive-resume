@@ -47,5 +47,12 @@ export const rateLimitConfig = {
 		storageUpload: { maxRequests: 20, window: 60 * 1000 },
 		storageDelete: { maxRequests: 30, window: 60 * 1000 },
 		resumeMutations: { maxRequests: 300, window: 60 * 1000 },
+		// Submitting a post is rare and moderated, so the ceiling is per hour rather than
+		// per minute: a determined spammer would otherwise fill the review queue faster
+		// than an administrator can clear it.
+		recruitmentSubmissions: { maxRequests: 10, window: 60 * 60 * 1000 },
+		// Post detail is where the contact details live; without this a script could walk
+		// every id and harvest WeChat ids / referral codes from a public endpoint.
+		recruitmentReads: { maxRequests: 60, window: 60 * 1000 },
 	},
 } as const;

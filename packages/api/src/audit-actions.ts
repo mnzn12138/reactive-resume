@@ -12,10 +12,14 @@ export const AUDIT_ACTIONS = [
 	"resume.lock.set",
 	"resume.delete",
 	"instance.setting.set",
+	"recruitment.post.approve",
+	"recruitment.post.reject",
+	"recruitment.post.close",
+	"recruitment.post.delete",
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];
 
-export const AUDIT_TARGET_TYPES = ["user", "resume", "instance"] as const;
+export const AUDIT_TARGET_TYPES = ["user", "resume", "instance", "recruitment_post"] as const;
 
 export type AuditTargetType = (typeof AUDIT_TARGET_TYPES)[number];

@@ -116,6 +116,13 @@ export const env = createEnv({
 		FLAG_DISABLE_API_RATE_LIMIT: z.stringbool().default(false),
 		FLAG_ALLOW_UNSAFE_AI_BASE_URL: z.stringbool().default(false),
 		FLAG_ALLOW_UNSAFE_OAUTH_REDIRECT_URI: z.stringbool().default(false),
+
+		// Campus recruitment board (`/jobs`). Stated positively because the conservative
+		// default is "off": an instance that never opted in must not grow a public,
+		// user-submitted job board just because it upgraded.
+		FLAG_RECRUITMENT_BOARD_ENABLED: z.stringbool().default(false),
+		FLAG_RECRUITMENT_SUBMISSION_ENABLED: z.stringbool().default(false),
+		FLAG_RECRUITMENT_REQUIRE_REVIEW: z.stringbool().default(true),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,

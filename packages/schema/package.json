@@ -7,6 +7,7 @@
 		"./applications/*": "./src/applications/*.ts",
 		"./icons": "./src/icons.ts",
 		"./legal": "./src/legal.ts",
+		"./recruitment/*": "./src/recruitment/*.ts",
 		"./resume/stylesheet": "./src/resume/stylesheet.ts",
 		"./resume/*": "./src/resume/*.ts",
 		"./schema.json": "./schema.json",

@@ -45,6 +45,18 @@ const SETTING_COPY: Record<SettingKey, { label: MessageDescriptor; description: 
 		label: msg`Disable phone number sign-in`,
 		description: msg`Closes phone number verification and stops outbound verification SMS. Existing accounts keep their verified numbers.`,
 	},
+	recruitmentBoardEnabled: {
+		label: msg`Enable the campus recruitment board`,
+		description: msg`Turns on the /jobs board. While this is off the board answers 404 rather than 403, so a closed board stays invisible instead of merely locked.`,
+	},
+	recruitmentSubmissionEnabled: {
+		label: msg`Let users submit job posts`,
+		description: msg`Allows ordinary users to submit openings. While this is off, only an administrator can enter them.`,
+	},
+	recruitmentRequireReview: {
+		label: msg`Review submissions before publishing`,
+		description: msg`User submissions land in the review queue and stay invisible until an administrator approves them. Turn this off to publish them straight away.`,
+	},
 };
 
 const SOURCE_COPY: Record<SettingSource, MessageDescriptor> = {

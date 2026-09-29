@@ -1,4 +1,5 @@
 import z from "zod";
+import { resolveInstanceSettings } from "@reactive-resume/auth/instance-settings";
 import { env } from "@reactive-resume/env/server";
 import { publicProcedure } from "../../context";
 
@@ -6,6 +7,7 @@ export type FeatureFlags = {
 	disableSignups: boolean;
 	disableEmailAuth: boolean;
 	smtpEnabled: boolean;
+	recruitmentBoardEnabled: boolean;
 };
 
 // Mirrors isSmtpEnabled() in packages/email/src/transport.ts (kept local to avoid an api -> email dependency).
@@ -21,7 +23,7 @@ export const flagsRouter = {
 			operationId: "getFeatureFlags",
 			summary: "Get feature flags",
 			description:
-				"Returns the current feature flags for this Reactive Resume instance. Feature flags control instance-wide settings such as whether new user signups or email-based authentication are disabled. No authentication required.",
+				"Returns the current feature flags for this Reactive Resume instance. Feature flags control instance-wide settings such as whether new user signups or email-based authentication are disabled, and whether the campus recruitment board is available. No authentication required.",
 			successDescription: "The current feature flags for this instance.",
 		})
 		.output(
@@ -29,13 +31,22 @@ export const flagsRouter = {
 				disableSignups: z.boolean().describe("Whether new user signups are disabled on this instance."),
 				disableEmailAuth: z.boolean().describe("Whether email-based authentication is disabled on this instance."),
 				smtpEnabled: z.boolean().describe("Whether outbound email (SMTP) is configured on this instance."),
+				recruitmentBoardEnabled: z
+					.boolean()
+					.describe("Whether the campus recruitment board is available on this instance."),
 			}),
 		)
-		.handler(
-			(): FeatureFlags => ({
-				disableSignups: env.FLAG_DISABLE_SIGNUPS,
-				disableEmailAuth: env.FLAG_DISABLE_EMAIL_AUTH,
+		.handler(async (): Promise<FeatureFlags> => {
+			// Resolved through the same three-tier lookup the console writes to
+			// (database > environment > default), so toggling a flag in the admin UI takes
+			// effect on the next page load without a restart.
+			const settings = await resolveInstanceSettings();
+
+			return {
+				disableSignups: settings.disableSignups.value,
+				disableEmailAuth: settings.disableEmailAuth.value,
 				smtpEnabled: isSmtpEnabled(),
-			}),
-		),
+				recruitmentBoardEnabled: settings.recruitmentBoardEnabled.value,
+			};
+		}),
 };

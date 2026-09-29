@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import ARRAY, Boolean, DateTime, ForeignKey, Integer, Text, func
+from sqlalchemy import ARRAY, Boolean, DateTime, ForeignKey, Index, Integer, Text, func, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -154,3 +154,164 @@ class ResumeStatistics(Base):
 
     def __repr__(self) -> str:
         return f"ResumeStatistics(id={self.id!r}, resume_id={self.resume_id!r}, views={self.views!r})"
+
+
+class RecruitmentPost(Base):
+    """`recruitment_post` 表 —— 校招岗位板主表（`/jobs`）。
+
+    为什么需要：**即使 Python 侧现在完全不读写这张表也必须建模**。
+    `alembic/env.py` 的 `include_object` 只比较 `Base.metadata.tables` 里声明过的表，
+    如果 `0002` 建了表而模型没声明，将来 `alembic revision --autogenerate` 会生成
+    `DROP TABLE` —— 非常危险。
+
+    当前生产栈仍是 Node（Drizzle 负责查询），Python 侧只负责让 Alembic 知道这张表存在，
+    M4 之后接管读写时不用补迁移。枚举列一律 text：取值由 `packages/schema` 的 zod 校验，
+    加一个取值不需要迁移。
+    """
+
+    __tablename__ = "recruitment_post"
+
+    # 索引必须声明在这里，否则 `alembic revision --autogenerate` 会把 `0002` 建的索引
+    # 当成「多余」而生成 DROP INDEX。名字与 DDL 母本（`alembic/versions/0002_recruitment.py`）
+    # 逐字一致，DESC 排序也要连 `NULLS LAST` 一起写，才能对上 Drizzle 的 `.desc()`。
+    __table_args__ = (
+        Index("uq_recruitment_post_dedupe_key", "dedupe_key", unique=True),
+        Index("ix_recruitment_post_status_published_at", "status", text("published_at DESC NULLS LAST")),
+        Index("ix_recruitment_post_deadline", "deadline"),
+        Index("ix_recruitment_post_tags", "tags", postgresql_using="gin"),
+        Index("ix_recruitment_post_locations", "locations", postgresql_using="gin"),
+        Index("ix_recruitment_post_created_by", "created_by"),
+        Index("ix_recruitment_post_status_report_count", "status", text("report_count DESC NULLS LAST")),
+    )
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    # set null：删账号不删岗位，与 `Resume.user_id` 的 cascade 相反，是有意的差异。
+    created_by: Mapped[str | None] = mapped_column(
+        Text, ForeignKey("user.id", ondelete="SET NULL"), nullable=True
+    )
+    company: Mapped[str] = mapped_column(Text, nullable=False)
+    role: Mapped[str] = mapped_column(Text, nullable=False)
+    # 不直出第三方外链图片（等于把访客 IP 送给第三方），缺省走首字母占位。
+    company_logo_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    batch: Mapped[str] = mapped_column(Text, nullable=False, default="regular", server_default="regular")
+    employment_type: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    work_mode: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    work_intensity: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    locations: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    education_required: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    benefits: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    tags: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, default=list, server_default=text("'{}'::text[]")
+    )
+    salary_text: Mapped[str | None] = mapped_column(Text, nullable=True)
+    deadline: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    rolling: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False, server_default=text("false")
+    )
+    apply_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    contact_kind: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # 公开响应里根本没有这个字段名，匿名调用者拿到的是 `contact: null`。
+    contact_value: Mapped[str | None] = mapped_column(Text, nullable=True)
+    referral_code: Mapped[str | None] = mapped_column(Text, nullable=True)
+    summary: Mapped[str | None] = mapped_column(Text, nullable=True)
+    source: Mapped[str | None] = mapped_column(Text, nullable=True)
+    source_url: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # 唯一性由上面的 `uq_recruitment_post_dedupe_key`（唯一索引）表达，不是列级 unique
+    # 约束 —— 这样模型与迁移、以及与 Drizzle 侧的 `CREATE UNIQUE INDEX` 才是同一个东西。
+    dedupe_key: Mapped[str] = mapped_column(Text, nullable=False)
+    status: Mapped[str] = mapped_column(Text, nullable=False, default="pending", server_default="pending")
+    rejection_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    reviewed_by: Mapped[str | None] = mapped_column(
+        Text, ForeignKey("user.id", ondelete="SET NULL"), nullable=True
+    )
+    reviewed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    published_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    # 举报数只在管理端可见，公开列表不展示（避免被人当武器用）。
+    report_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0, server_default=text("0"))
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now()
+    )
+
+    def __repr__(self) -> str:
+        return f"RecruitmentPost(id={self.id!r}, company={self.company!r}, role={self.role!r})"
+
+
+class RecruitmentPostReport(Base):
+    """`recruitment_post_report` 表 —— 一条举报。
+
+    为什么需要：与 `RecruitmentPost` 同理（autogenerate 安全）。语义上它是「谁在什么时候
+    以什么理由举报了哪个岗位」，这不是一个计数器能表达的，所以独立成表而不是加一列。
+    """
+
+    __tablename__ = "recruitment_post_report"
+
+    # 与 `RecruitmentPost` 同理：索引要声明，否则 autogenerate 会生成 DROP INDEX。
+    __table_args__ = (
+        Index("uq_recruitment_post_report_post_id_reporter_id", "post_id", "reporter_id", unique=True),
+        Index("ix_recruitment_post_report_post_id", "post_id"),
+        Index("ix_recruitment_post_report_handled_created_at", "handled", text("created_at DESC NULLS LAST")),
+    )
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    post_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("recruitment_post.id", ondelete="CASCADE"), nullable=False
+    )
+    reporter_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("user.id", ondelete="CASCADE"), nullable=False
+    )
+    reason: Mapped[str] = mapped_column(Text, nullable=False)
+    detail: Mapped[str | None] = mapped_column(Text, nullable=True)
+    handled: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, default=False, server_default=text("false")
+    )
+    # 没有处理人，`handled = true` 就无法溯源，所以这两列是必需的。
+    handled_by: Mapped[str | None] = mapped_column(
+        Text, ForeignKey("user.id", ondelete="SET NULL"), nullable=True
+    )
+    handled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    def __repr__(self) -> str:
+        return f"RecruitmentPostReport(id={self.id!r}, post_id={self.post_id!r}, reason={self.reason!r})"
+
+
+class RecruitmentPostBookmark(Base):
+    """`recruitment_post_bookmark` 表 —— 一条收藏。
+
+    为什么需要：与 `RecruitmentPost` 同理（autogenerate 安全）。复合主键让收藏天然幂等：
+    重复 PUT 是 no-op，不会插入第二行也不会报错。
+    """
+
+    __tablename__ = "recruitment_post_bookmark"
+
+    __table_args__ = (Index("ix_recruitment_post_bookmark_post_id", "post_id"),)
+
+    user_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("user.id", ondelete="CASCADE"), primary_key=True
+    )
+    post_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("recruitment_post.id", ondelete="CASCADE"), primary_key=True
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, server_default=func.now()
+    )
+
+    def __repr__(self) -> str:
+        return f"RecruitmentPostBookmark(user_id={self.user_id!r}, post_id={self.post_id!r})"

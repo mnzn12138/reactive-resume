@@ -69,6 +69,8 @@ const aiLimiter = new MemoryRatelimiter(rateLimitConfig.orpc.aiRequest);
 const storageUploadLimiter = new MemoryRatelimiter(rateLimitConfig.orpc.storageUpload);
 const storageDeleteLimiter = new MemoryRatelimiter(rateLimitConfig.orpc.storageDelete);
 const resumeMutationLimiter = new MemoryRatelimiter(rateLimitConfig.orpc.resumeMutations);
+const recruitmentSubmissionLimiter = new MemoryRatelimiter(rateLimitConfig.orpc.recruitmentSubmissions);
+const recruitmentReadLimiter = new MemoryRatelimiter(rateLimitConfig.orpc.recruitmentReads);
 const disabledLimiter = {
 	limit: async () => ({
 		success: true,
@@ -119,4 +121,16 @@ export const storageDeleteRateLimit = createRatelimitMiddleware<ContextWithHeade
 export const resumeMutationRateLimit = createRatelimitMiddleware<ContextWithHeaders, unknown>({
 	limiter: productionLimiter(resumeMutationLimiter),
 	key: ({ context }, input) => `resume-mutation:${getUserKey(context)}:${getInputKeyPart(input)}`,
+});
+
+// Per user (or per `anon` bucket) regardless of which post: the cost is a row in the
+// review queue, not the post itself.
+export const recruitmentSubmissionRateLimit = createRatelimitMiddleware<ContextWithHeaders, unknown>({
+	limiter: productionLimiter(recruitmentSubmissionLimiter),
+	key: ({ context }) => `recruitment-submission:${getUserKey(context)}`,
+});
+
+export const recruitmentReadRateLimit = createRatelimitMiddleware<ContextWithHeaders, unknown>({
+	limiter: productionLimiter(recruitmentReadLimiter),
+	key: ({ context }, input) => `recruitment-read:${getUserKey(context)}:${getInputKeyPart(input)}`,
 });

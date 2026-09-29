@@ -23,6 +23,11 @@ import { env } from "@reactive-resume/env/server";
  * The last three gate the domestic (China) channels. A provider stays registered
  * in Better Auth whether or not its credentials are present — provider config is
  * frozen at boot — so these switches are what actually close the endpoints.
+ *
+ * The `recruitment*` keys gate the campus recruitment board. Note the polarity: they
+ * are stated positively (`…Enabled`) while the auth switches above are stated as
+ * `disable…`, because "board off / submissions off / review on" is the conservative
+ * default and reading `recruitmentBoardEnabled: false` in the console is unambiguous.
  */
 export const OVERRIDABLE_SETTING_KEYS = [
 	"disableSignups",
@@ -30,6 +35,9 @@ export const OVERRIDABLE_SETTING_KEYS = [
 	"disableWechatAuth",
 	"disableAlipayAuth",
 	"disableSmsAuth",
+	"recruitmentBoardEnabled",
+	"recruitmentSubmissionEnabled",
+	"recruitmentRequireReview",
 ] as const;
 
 export type OverridableSettingKey = (typeof OVERRIDABLE_SETTING_KEYS)[number];
@@ -52,6 +60,11 @@ const DEFAULTS: Record<OverridableSettingKey, boolean> = {
 	disableWechatAuth: false,
 	disableAlipayAuth: false,
 	disableSmsAuth: false,
+	// The board starts off: an instance that never opted in must not grow a public,
+	// user-submitted job board just because it upgraded.
+	recruitmentBoardEnabled: false,
+	recruitmentSubmissionEnabled: false,
+	recruitmentRequireReview: true,
 };
 
 const ENV_VALUES: Record<OverridableSettingKey, () => boolean> = {
@@ -60,6 +73,9 @@ const ENV_VALUES: Record<OverridableSettingKey, () => boolean> = {
 	disableWechatAuth: () => env.FLAG_DISABLE_WECHAT_AUTH,
 	disableAlipayAuth: () => env.FLAG_DISABLE_ALIPAY_AUTH,
 	disableSmsAuth: () => env.FLAG_DISABLE_SMS_AUTH,
+	recruitmentBoardEnabled: () => env.FLAG_RECRUITMENT_BOARD_ENABLED,
+	recruitmentSubmissionEnabled: () => env.FLAG_RECRUITMENT_SUBMISSION_ENABLED,
+	recruitmentRequireReview: () => env.FLAG_RECRUITMENT_REQUIRE_REVIEW,
 };
 
 const ENV_NAMES: Record<OverridableSettingKey, string> = {
@@ -68,6 +84,9 @@ const ENV_NAMES: Record<OverridableSettingKey, string> = {
 	disableWechatAuth: "FLAG_DISABLE_WECHAT_AUTH",
 	disableAlipayAuth: "FLAG_DISABLE_ALIPAY_AUTH",
 	disableSmsAuth: "FLAG_DISABLE_SMS_AUTH",
+	recruitmentBoardEnabled: "FLAG_RECRUITMENT_BOARD_ENABLED",
+	recruitmentSubmissionEnabled: "FLAG_RECRUITMENT_SUBMISSION_ENABLED",
+	recruitmentRequireReview: "FLAG_RECRUITMENT_REQUIRE_REVIEW",
 };
 
 const isKey = (value: string): value is OverridableSettingKey =>
@@ -170,4 +189,24 @@ export async function isAlipayAuthDisabled() {
 /** Whether phone number + SMS code sign-in is available. Consulted by Better Auth, not just the UI. */
 export async function isSmsAuthDisabled() {
 	return (await resolveInstanceSettings()).disableSmsAuth.value;
+}
+
+/**
+ * Whether the campus recruitment board exists at all.
+ *
+ * When this is false the public endpoints answer **404, not 403** — a 403 would confirm
+ * that the board exists and is merely closed.
+ */
+export async function isRecruitmentBoardEnabled() {
+	return (await resolveInstanceSettings()).recruitmentBoardEnabled.value;
+}
+
+/** Whether ordinary users may submit posts; when false only an administrator can enter them. */
+export async function isRecruitmentSubmissionEnabled() {
+	return (await resolveInstanceSettings()).recruitmentSubmissionEnabled.value;
+}
+
+/** Whether a user submission has to be approved before it becomes publicly visible. */
+export async function isRecruitmentReviewRequired() {
+	return (await resolveInstanceSettings()).recruitmentRequireReview.value;
 }
