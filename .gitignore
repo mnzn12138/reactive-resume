@@ -63,3 +63,19 @@ graphify-out
 # Git Hooks
 .vite-hooks
 
+# Generated CJK font subsets (see tooling/fonts/subset.ts)
+apps/web/public/fonts/*-subset.*
+apps/web/public/fonts/subset-manifest.json
+
+# Python (services/resume-api)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/

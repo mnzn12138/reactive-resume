@@ -3,9 +3,11 @@ import type { ResumeData, Typography } from "@reactive-resume/schema/resume/data
 import type { Script } from "@reactive-resume/utils/locale";
 import { letters as cjkLetters } from "cjk-regex";
 import {
+	getFallbackFontVariants,
 	getFont,
 	getPdfFallbackFontFamilies,
 	getWebFontSource,
+	isCjkFontFamily,
 	isStandardPdfFontFamily,
 	resolveBoldFontWeight,
 	resolveLegacyFontAlias,
@@ -247,6 +249,14 @@ export const registerFonts = (
 	const registerFont = (family: string, weight: number, italic = false) => {
 		if (isStandardPdfFontFamily(family)) return;
 
+		// NOTE: CJK has no true italic face, so the italic registration below
+		// resolves to the same upright file. It still has to be registered:
+		// @react-pdf/font's `FontFamily.resolve` filters sources by exact
+		// `fontStyle` and throws "Could not resolve font ... fontStyle italic"
+		// when none matches — including for a family that is only a fallback in
+		// the stack, because `fetchAssets` loads every family of an italic run.
+		// Registration itself costs nothing: fonts are fetched lazily per
+		// (family, weight, style) that actually appears in the tree.
 		const normalizedWeight = toFontWeight(weight);
 		const fontStyle = italic ? "italic" : "normal";
 		const key = `${family}:${normalizedWeight}:${fontStyle}`;
@@ -282,14 +292,24 @@ export const registerFonts = (
 	const headingFallbacks = getPdfFallbackFontFamilies(headingFontFamily, { locale, scripts: fallbackScripts });
 
 	const registerFallbacks = (families: string[], ranges: FontWeightRange[], storedWeights: readonly string[]) => {
-		for (const family of families) {
-			const weights = new Set(ranges.flatMap(({ lowest, highest }) => [lowest, highest]));
-			const fallbackBoldWeight = resolveBoldFontWeight(family, storedWeights);
-			if (fallbackBoldWeight) weights.add(Number(fallbackBoldWeight));
+		const rangeWeights = ranges.flatMap(({ lowest, highest }) => [lowest, highest]);
 
-			for (const weight of weights) {
-				registerFont(family, weight, false);
-				registerFont(family, weight, true);
+		for (const family of families) {
+			const requestedWeights = new Set(rangeWeights);
+			const fallbackBoldWeight = resolveBoldFontWeight(family, storedWeights);
+			if (fallbackBoldWeight) requestedWeights.add(Number(fallbackBoldWeight));
+
+			// CJK fallback families get a much smaller weight budget than the
+			// rest: body + emphasis only. Every dropped weight is one whole CJK
+			// font file that never has to be fetched. Latin and the other
+			// scripts keep their exact previous behaviour.
+			const variants = getFallbackFontVariants(getFont(family)?.weights ?? [], {
+				cjk: isCjkFontFamily(family),
+				requestedWeights: [...requestedWeights].map(toFontWeight),
+			});
+
+			for (const { weight, italic } of variants) {
+				registerFont(family, Number(weight), italic);
 			}
 		}
 	};

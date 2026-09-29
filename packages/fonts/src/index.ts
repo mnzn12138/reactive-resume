@@ -4,29 +4,32 @@ import { getLocaleScript, isCjkScript } from "@reactive-resume/utils/locale";
 // ponytail: inlined from @reactive-resume/utils/field (sole consumer)
 const unique = <T>(items: T[]): T[] => [...new Set(items)];
 
+import type { FontSourceDescriptor, FontSourceReport } from "./self-hosted";
+import type { FontCategory, FontFileWeight, FontRecord, FontWeight, StandardFont, WebFont } from "./types";
+import { getSelfHostedFontBaseUrl, getSelfHostedOverrides, resolveSelfHostedFontFiles } from "./self-hosted";
 import webFontListJSON from "./webfontlist.json";
 
-type FontCategory = "display" | "handwriting" | "monospace" | "serif" | "sans-serif";
-export type FontWeight = "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
-type FontFileWeight = FontWeight | `${FontWeight}italic`;
-
-type StandardFont = {
-	type: "standard";
-	category: FontCategory;
-	family: string;
-	weights: FontWeight[];
-};
-
-export type WebFont = {
-	type: "web";
-	category: FontCategory;
-	family: string;
-	weights: FontWeight[];
-	preview: string;
-	files: Record<FontFileWeight, string>;
-};
-
-type FontRecord = StandardFont | WebFont;
+export type { FallbackFontVariant, FallbackFontVariantOptions } from "./cjk-fallback";
+export type { FontSourceDescriptor, FontSourceReport, SelfHostedFontOverride } from "./self-hosted";
+export type { FontFileWeight, FontWeight, WebFont } from "./types";
+export {
+	cjkFallbackFontWeightPriority,
+	cjkFontFamilyList,
+	defaultCjkFallbackFontWeightCount,
+	getCjkFallbackFontWeights,
+	getFallbackFontVariants,
+	isCjkFontFamily,
+	latinFallbackFontWeightPriority,
+} from "./cjk-fallback";
+export {
+	clearSelfHostedFontOverrides,
+	getSelfHostedFontBaseUrl,
+	getSelfHostedFontFamilies,
+	getSelfHostedOverrides,
+	registerSelfHostedFontOverride,
+	selfHostBaseUrlEnvKey,
+	selfHostedFontOverrides,
+} from "./self-hosted";
 
 const preferredChineseFontFamilies = [
 	"Noto Sans SC",
@@ -96,9 +99,154 @@ const punctuationFallbackFonts = {
 	sansSerif: "Noto Sans",
 } as const;
 
-export const webFontList = webFontListJSON as WebFont[];
-export const webFontMap = new Map<string, WebFont>(webFontList.map((font) => [font.family, font]));
+/**
+ * Overlays the self-hosted override table onto the generated webfont list.
+ *
+ * `webfontlist.json` is a build artifact of `tooling/fonts/generate.ts`: any
+ * hand-edit there is wiped on the next regeneration, so deployments point
+ * their own (usually subsetted) font files at their own host through
+ * `selfHostedFontOverrides` and the merge happens here, at runtime.
+ *
+ * Same-family entries overwrite in place (no duplicate family in the list, no
+ * duplicate map key); a family that is not in the generated list is appended
+ * once. Weights are only replaced when the override declares some, and
+ * `preview` follows the overridden Regular face when there is one.
+ */
+function mergeSelfHostedOverrides(fonts: WebFont[]): WebFont[] {
+	const overrides = getSelfHostedOverrides();
+	if (overrides.length === 0) return fonts;
+
+	const baseUrl = getSelfHostedFontBaseUrl();
+	const merged = [...fonts];
+	const indexByFamily = new Map<string, number>(merged.map((font, index) => [font.family, index]));
+
+	for (const override of overrides) {
+		const family = override.family?.trim();
+		if (!family) continue;
+
+		const files = resolveSelfHostedFontFiles(override.files, baseUrl);
+		if (Object.keys(files).length === 0) continue;
+
+		const weights = override.weights.length > 0 ? sortFontWeights(override.weights) : null;
+		const existingIndex = indexByFamily.get(family);
+		const existing = existingIndex === undefined ? undefined : merged[existingIndex];
+
+		if (existingIndex === undefined || !existing) {
+			merged.push({
+				type: "web",
+				category: "sans-serif",
+				family,
+				weights: weights ?? ["400"],
+				preview: files["400"] ?? Object.values(files)[0] ?? "",
+				files,
+			});
+			indexByFamily.set(family, merged.length - 1);
+			continue;
+		}
+
+		merged[existingIndex] = {
+			...existing,
+			weights: weights ?? existing.weights,
+			files: { ...existing.files, ...files },
+			preview: files["400"] ?? existing.preview,
+		};
+	}
+
+	return merged;
+}
+
+const generatedWebFontList = webFontListJSON as WebFont[];
+
+export const webFontList: WebFont[] = [];
+export const webFontMap = new Map<string, WebFont>();
+
+/**
+ * (Re-)applies the self-hosted override table and rebuilds `webFontList` /
+ * `webFontMap` in place.
+ *
+ * Runs once at module load, so a deployment that simply edits
+ * `selfHostedFontOverrides` needs no wiring. Deployments that register
+ * overrides at runtime (from a config file, a CMS, …) call this once after
+ * registering them; `webFontList` keeps its identity, so already-captured
+ * references keep working.
+ */
+export function applySelfHostedOverrides(): void {
+	const merged = mergeSelfHostedOverrides(generatedWebFontList);
+
+	webFontList.length = 0;
+	webFontList.push(...merged);
+
+	webFontMap.clear();
+	for (const font of merged) {
+		webFontMap.set(font.family, font);
+	}
+}
+
+applySelfHostedOverrides();
+
 export const standardFontList = standardPdfFontList.filter((font) => !webFontMap.has(font.family));
+
+/**
+ * Diagnostic view of where every web font is actually fetched from: which
+ * families are served by this deployment and which still go to
+ * `fonts.gstatic.com` (i.e. still break in an offline / intranet install).
+ *
+ * A partially overridden family appears in **both** lists — that is the point:
+ * it tells the operator exactly which weights are still remote.
+ */
+export function describeFontSources(): FontSourceReport {
+	const baseUrl = getSelfHostedFontBaseUrl();
+	const selfHostedUrlsByFamily = new Map<string, Set<string>>();
+
+	for (const override of getSelfHostedOverrides()) {
+		if (Object.keys(override.files).length === 0) continue;
+		selfHostedUrlsByFamily.set(override.family, new Set(Object.values(override.files)));
+	}
+
+	const selfHosted: FontSourceDescriptor[] = [];
+	const remote: FontSourceDescriptor[] = [];
+	const remoteHosts = new Set<string>();
+
+	for (const font of webFontList) {
+		const ownUrls = selfHostedUrlsByFamily.get(font.family);
+		const selfHostedFiles: Partial<Record<FontFileWeight, string>> = {};
+		const remoteFiles: Partial<Record<FontFileWeight, string>> = {};
+
+		for (const [weight, url] of Object.entries(font.files)) {
+			if (typeof url !== "string") continue;
+			if (ownUrls?.has(url)) selfHostedFiles[weight as FontFileWeight] = url;
+			else remoteFiles[weight as FontFileWeight] = url;
+		}
+
+		if (Object.keys(selfHostedFiles).length > 0) {
+			selfHosted.push({
+				family: font.family,
+				selfHosted: true,
+				weights: [...font.weights],
+				files: selfHostedFiles,
+			});
+		}
+
+		if (Object.keys(remoteFiles).length > 0) {
+			remote.push({ family: font.family, selfHosted: false, weights: [...font.weights], files: remoteFiles });
+
+			for (const url of Object.values(remoteFiles)) {
+				const host = getUrlHost(url);
+				if (host) remoteHosts.add(host);
+			}
+		}
+	}
+
+	return { baseUrl, selfHosted, remote, remoteHosts: [...remoteHosts].sort() };
+}
+
+function getUrlHost(url: string): string | null {
+	try {
+		return new URL(url).host;
+	} catch {
+		return null;
+	}
+}
 
 const fontMap = new Map<string, FontRecord>();
 const chinesePrioritySet = new Set<string>(preferredChineseFontFamilies);

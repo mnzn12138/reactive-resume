@@ -98,6 +98,10 @@ export const env = createEnv({
 		S3_BUCKET: z.string().min(1).optional(),
 		S3_FORCE_PATH_STYLE: z.stringbool().default(false),
 
+		// Fonts (optional: serve CJK fonts from your own host so PDF export works
+		// offline and stops pulling ~10 MiB per face from fonts.gstatic.com)
+		FONT_SELF_HOST_BASE_URL: z.string().min(1).optional(),
+
 		// AI Agent Workspace (optional until the agent feature is used)
 		REDIS_URL: z.url({ protocol: /redis(s)?/ }).optional(),
 		ENCRYPTION_SECRET: z.string().min(32, "ENCRYPTION_SECRET must be at least 32 characters").optional(),

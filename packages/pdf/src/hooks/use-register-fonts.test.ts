@@ -68,8 +68,12 @@ describe("registerFonts", () => {
 				family: "Noto Serif SC",
 				fontWeight: 400,
 				fontStyle: "normal",
+				src: cjkFallbackSource,
 			}),
 		);
+		// CJK has no true italic face, so the italic variant reuses the upright
+		// file. It still must be registered: react-pdf matches sources by exact
+		// fontStyle and throws when none matches.
 		expect(registerSpy).toHaveBeenCalledWith(
 			expect.objectContaining({
 				family: "Noto Serif SC",
@@ -77,6 +81,43 @@ describe("registerFonts", () => {
 				fontStyle: "italic",
 				src: cjkFallbackSource,
 			}),
+		);
+	});
+
+	it("caps a CJK fallback family at two weights (download budget)", async () => {
+		const registerSpy = vi.spyOn(Font, "register").mockImplementation(() => {});
+		vi.spyOn(Font, "registerHyphenationCallback").mockImplementation(() => {});
+		const { registerFonts } = await import("./use-register-fonts");
+
+		registerFonts(typography, "zh-CN");
+
+		const cjkRegistrations = registerSpy.mock.calls
+			.map(([options]) => options as { family?: string; fontWeight?: number; fontStyle?: string })
+			.filter((options) => options.family === "Noto Serif SC");
+
+		// Was 4 weights x 2 styles = 8 registrations (4 distinct 10 MiB files)
+		// before the CJK budget; now 2 weights x 2 styles.
+		expect(cjkRegistrations).toEqual([
+			expect.objectContaining({ fontWeight: 400, fontStyle: "normal" }),
+			expect.objectContaining({ fontWeight: 400, fontStyle: "italic" }),
+			expect.objectContaining({ fontWeight: 700, fontStyle: "normal" }),
+			expect.objectContaining({ fontWeight: 700, fontStyle: "italic" }),
+		]);
+	});
+
+	it("keeps italic variants for non-CJK fallback families", async () => {
+		const registerSpy = vi.spyOn(Font, "register").mockImplementation(() => {});
+		vi.spyOn(Font, "registerHyphenationCallback").mockImplementation(() => {});
+		const { registerFonts } = await import("./use-register-fonts");
+
+		registerFonts(typography, "en-US");
+
+		// Latin scripts ship real italics: their behaviour must not change.
+		expect(registerSpy).toHaveBeenCalledWith(
+			expect.objectContaining({ family: "Noto Serif", fontWeight: 400, fontStyle: "italic" }),
+		);
+		expect(registerSpy).toHaveBeenCalledWith(
+			expect.objectContaining({ family: "Noto Serif", fontWeight: 700, fontStyle: "italic" }),
 		);
 	});
 
@@ -278,13 +319,11 @@ describe("registerFonts", () => {
 				fontStyle: "italic",
 			}),
 		);
-		expect(registerSpy).toHaveBeenCalledWith(
-			expect.objectContaining({
-				family: "Noto Serif SC",
-				fontWeight: 600,
-				fontStyle: "normal",
-			}),
-		);
+		// The 500/600 intermediate faces are dropped: in Han glyphs they are
+		// indistinguishable from Regular/Bold at resume sizes but each one costs
+		// another full CJK font download.
+		expect(registerSpy).not.toHaveBeenCalledWith(expect.objectContaining({ family: "Noto Serif SC", fontWeight: 600 }));
+		expect(registerSpy).not.toHaveBeenCalledWith(expect.objectContaining({ family: "Noto Serif SC", fontWeight: 500 }));
 	});
 
 	it("uses the full CJK font source for synthetic italic variants when the CJK font is primary", async () => {
