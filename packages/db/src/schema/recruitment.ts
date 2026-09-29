@@ -81,7 +81,17 @@ export const recruitmentPost = pg.pgTable(
 	},
 	(t) => [
 		// Explicit constraint names (rather than drizzle's defaults) so the Alembic path and
-		// this one produce identically named objects — see §6.4 / §6.7 of the design.
+		// this one produce identically named *primary keys, unique constraints and indexes*
+		// — see §6.4 / §6.7 of the design.
+		//
+		// Foreign keys are the exception, and deliberately so: §6.4 asks the Alembic side to
+		// follow its own `NAMING_CONVENTION` (`fk_<table>_<column>_<reftable>`) instead of
+		// copying what Drizzle emits below (`recruitment_post_created_by_user_id_fkey`),
+		// because reconciling the two styles makes autogenerate flag a diff on every run.
+		// The two paths therefore disagree on FK names while agreeing on every column, index
+		// and (non-FK) constraint. Nothing here depends on an FK name at runtime, but a
+		// future `op.drop_constraint(...)` has to pick the name belonging to the path that
+		// created the database it is running against.
 		pg.primaryKey({ columns: [t.id], name: "pk_recruitment_post" }),
 		pg.uniqueIndex("uq_recruitment_post_dedupe_key").on(t.dedupeKey),
 		// The main read path: "published, newest first".
