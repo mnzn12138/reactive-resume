@@ -96,6 +96,7 @@
 
 1. **PDF 输出不变**是唯一硬验收:迁移前后各导出 15 套 PDF 逐页像素 diff。因此在动 `packages/pdf` / `packages/fonts` 之前,必须先跑一次基线快照。
 2. `packages/api` 的 `getModel()` 是 `.exhaustive()` match(`service.ts:158`),**不要扩 `AI_PROVIDERS` 枚举** —— 加成员不补分支 typecheck 直接红。国产模型用纯数据预设即可。
+3. **B2(手机号 + 短信验证码)必须排在简历 CRUD 迁 Python 之前完成。** 依据(`plans/45-b-dang-design.md` §6,已核实源码):better-auth 的 `phoneNumber` 插件要求 `user` 表新增 `phoneNumber` / `phoneNumberVerified` 两列,而 `packages/db/src/schema/auth.ts` 现在**没有**这两列,需要一条新的 Drizzle 迁移。§3.2 计划迁移后 Drizzle 停更 —— 若先迁移,同一张 `user` 表要在两套 ORM 里各写一次,且 Python 侧的 Alembic 基线(`pg_dump --schema-only` 导出的 DDL)会缺列。
 
 ## 4. 开发顺序:迁移前 / 迁移后
 
