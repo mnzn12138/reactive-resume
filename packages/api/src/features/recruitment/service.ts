@@ -13,14 +13,20 @@ import type { SQL } from "drizzle-orm";
 import type { RecruitmentPostListInput } from "../../dto/recruitment";
 import { ORPCError } from "@orpc/client";
 import { and, arrayOverlaps, asc, count, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
+import { isRecruitmentBoardEnabled } from "@reactive-resume/auth/instance-settings";
 import { db } from "@reactive-resume/db/client";
 import { recruitmentPost, recruitmentPostBookmark } from "@reactive-resume/db/schema";
+import { isAdminRole } from "../../roles";
 import { escapeLike } from "../admin/sql";
 import { availabilityCondition, availabilityOf, daysUntilDeadlineOf, isExpired, notExpiredCondition } from "./expiry";
 
 /**
- * Public reads for the campus recruitment board — endpoints 1 and 2 of §4.3
- * (`plans/46-campus-board-design.md`). T03 adds the write endpoints to this file's siblings.
+ * Reads for the campus recruitment board — endpoints 1 and 2 of §4.3
+ * (`plans/46-campus-board-design.md`).
+ *
+ * T03's write endpoints (./crud, ./moderation, ./review) reuse three things from here so the
+ * read and write paths cannot disagree about what a caller is allowed to see:
+ * `assertBoardEnabled`, `loadVisiblePost` (the §4.3.5 visibility rule) and the row mappers.
  *
  * Two rules from §4.4 are enforced here rather than left to the DTO:
  *
@@ -74,6 +80,12 @@ type DetailPostRow = PublicPostRow & {
 	rejectionReason: string | null;
 };
 
+/** What the submitter of a post may see: the detail row plus their post's report count. */
+type OwnerPostRow = DetailPostRow & { reportCount: number };
+
+/** What a write endpoint reads: the owner row plus the server-generated dedupe key. */
+type WritePostRow = OwnerPostRow & { dedupeKey: string };
+
 /**
  * The allow-list behind rule 1 above: everything `recruitmentPostPublicSchema` declares and
  * nothing else. Adding a column here is a deliberate, reviewable act.
@@ -113,6 +125,20 @@ const detailColumns = {
 	rejectionReason: recruitmentPost.rejectionReason,
 } as const;
 
+/**
+ * Everything `recruitmentOwnerSchema` declares: the detail columns plus the report count.
+ *
+ * `reportCount` is here and nowhere else — it is the one number an owner is allowed to see
+ * about their own post and that must never reach the public schemas.
+ */
+const ownerColumns = { ...detailColumns, reportCount: recruitmentPost.reportCount } as const;
+
+/**
+ * The widest column set: what a write endpoint has to read in order to re-validate and to
+ * recompute the dedupe key. `dedupeKey` is server-generated and never shown to a submitter.
+ */
+const writeColumns = { ...ownerColumns, dedupeKey: recruitmentPost.dedupeKey } as const;
+
 /** Map a post row onto the public schema, deriving freshness server-side (§3.6). */
 function toPublicPost(row: PublicPostRow, bookmarked: boolean, now: Date) {
 	const availability = availabilityOf(row, now);
@@ -150,6 +176,26 @@ function toPublicPost(row: PublicPostRow, bookmarked: boolean, now: Date) {
 	};
 }
 
+/**
+ * Gate for the whole board, shared by every endpoint — public, protected and admin alike.
+ *
+ * A closed board answers **404, not 403** (§0 / §4.5): a 403 would confirm that the board
+ * exists and is merely switched off, which is exactly what the switch is meant to hide.
+ */
+export async function assertBoardEnabled(): Promise<void> {
+	if (await isRecruitmentBoardEnabled()) return;
+
+	throw new ORPCError("NOT_FOUND", {
+		message: "The campus recruitment board is not available on this instance.",
+		data: { code: "RECRUITMENT_BOARD_DISABLED" },
+	});
+}
+
+/** Map an oRPC context onto the viewer shape the read/write paths share. */
+export function toViewer(context: { user?: { id?: string; role?: unknown } | null }): RecruitmentViewer {
+	return { userId: context.user?.id ?? null, isAdmin: isAdminRole(context.user?.role) };
+}
+
 /** Contact is trimmed as one object; the rejection reason only reaches the owner or an admin. */
 function toPublicDetail(row: DetailPostRow, viewer: RecruitmentViewer, bookmarked: boolean, now: Date) {
 	const isOwner = Boolean(viewer.userId && row.createdBy === viewer.userId);
@@ -168,13 +214,34 @@ function toPublicDetail(row: DetailPostRow, viewer: RecruitmentViewer, bookmarke
 }
 
 /**
+ * Map a post row onto `recruitmentOwnerSchema` — endpoints 6 (`/recruitment/mine`) and the
+ * base of endpoint 12's admin row.
+ *
+ * An owner sees the contact block unconditionally (they wrote it) and their own post's report
+ * count. Nothing here is reachable by a caller who is not the submitter; the caller has alread
+ * been authorised by whoever selected the rows.
+ */
+function toOwnerPost(row: OwnerPostRow, bookmarked: boolean, now: Date) {
+	const hasContact = row.contactKind !== null && row.contactValue !== null;
+
+	return {
+		...toPublicPost(row, bookmarked, now),
+		contact: hasContact
+			? { kind: row.contactKind as ContactKind, value: row.contactValue as string, referralCode: row.referralCode }
+			: null,
+		rejectionReason: row.rejectionReason,
+		reportCount: row.reportCount,
+	};
+}
+
+/**
  * Which posts on the current page the viewer has bookmarked.
  *
  * One extra query per page rather than a join: the bookmark table is keyed by (user, post) and
  * joining it would have to happen before `limit`, which is where pagination would start
  * lying. Anonymous callers get an empty set — `bookmarked` is always false for them.
  */
-async function bookmarkedPostIds(postIds: string[], userId?: string | null): Promise<Set<string>> {
+export async function bookmarkedPostIds(postIds: string[], userId?: string | null): Promise<Set<string>> {
 	if (!userId || postIds.length === 0) return new Set<string>();
 
 	const rows = await db
@@ -302,16 +369,36 @@ async function list(input: RecruitmentPostListInput & { viewer?: RecruitmentView
 	};
 }
 
-async function getById(input: { id: string; viewer?: RecruitmentViewer }) {
+/**
+ * Load one post by id under the §4.3.5 visibility rule, or throw 404.
+ *
+ * The write endpoints (bookmark, report, convert-to-application) all need "is this post
+ * reachable by this caller", and each of them answering that question for itself is how the
+ * queue would start leaking: a pending post is not bookmarkable by a stranger, and reporting
+ * a post you cannot see is nonsense. One copy of the rule, shared with `getById`.
+ *
+ * It reads `writeColumns` rather than `detailColumns` because two callers additionally need
+ * `createdBy` (to reject self-reports) and `dedupeKey` (to recompute it after an edit); the
+ * row is never returned to a client as-is, only fed to `buildApplicationDraft`, which reads a
+ * documented subset.
+ */
+export async function loadVisiblePost(id: string, viewer: RecruitmentViewer = {}): Promise<WritePostRow> {
 	const now = new Date();
-	const viewer: RecruitmentViewer = input.viewer ?? {};
 
 	// Same deliberate non-cast as in `list`; see the note there.
-	const [row] = await db.select(detailColumns).from(recruitmentPost).where(eq(recruitmentPost.id, input.id)).limit(1);
+	const [row] = await db.select(writeColumns).from(recruitmentPost).where(eq(recruitmentPost.id, id)).limit(1);
 
 	if (!row) throw new ORPCError("NOT_FOUND", { message: "Recruitment post not found." });
 	if (!canViewPost(row, viewer, now)) throw new ORPCError("NOT_FOUND", { message: "Recruitment post not found." });
 
+	return row;
+}
+
+async function getById(input: { id: string; viewer?: RecruitmentViewer }) {
+	const now = new Date();
+	const viewer: RecruitmentViewer = input.viewer ?? {};
+
+	const row = await loadVisiblePost(input.id, viewer);
 	const bookmarked = await bookmarkedPostIds([row.id], viewer.userId);
 
 	return toPublicDetail(row, viewer, bookmarked.has(row.id), now);
@@ -322,5 +409,9 @@ export const recruitmentService = {
 	getById,
 };
 
+export { ownerColumns, publicColumns, toOwnerPost, toPublicPost, writeColumns };
+
 export type RecruitmentPostPublicView = ReturnType<typeof toPublicPost>;
 export type RecruitmentPostDetailView = ReturnType<typeof toPublicDetail>;
+export type RecruitmentPostOwnerView = ReturnType<typeof toOwnerPost>;
+export type RecruitmentPostWriteRow = WritePostRow;

@@ -513,14 +513,62 @@ export const adminRecruitmentReportDto = {
 	},
 };
 
+/**
+ * The `data.code` values of §4.8, in one place.
+ *
+ * They travel on `ORPCError`'s `data` rather than in a response schema, because a rejected
+ * request has no response body to hang them on. Two codes beyond the design's table are
+ * included and flagged below: both are cases §4.8 does not cover but that a client has to be
+ * able to tell apart from a plain 404.
+ */
+export const RECRUITMENT_ERROR_CODES = {
+	/** `applyUrl` and `sourceUrl` are both missing. */
+	sourceRequired: "RECRUITMENT_SOURCE_REQUIRED",
+	/** The scheme whitelist rejected a URL. Also raised by the zod layer as a 400. */
+	invalidUrlScheme: "RECRUITMENT_INVALID_URL_SCHEME",
+	/** `deadline` is in the past. Also raised by the zod layer on create. */
+	deadlineInPast: "RECRUITMENT_DEADLINE_IN_PAST",
+	/** Reporting a post you submitted yourself. */
+	selfReport: "RECRUITMENT_SELF_REPORT",
+	/** `contactKind` and `contactValue` were not supplied as a pair. */
+	contactIncomplete: "RECRUITMENT_CONTACT_INCOMPLETE",
+	/** Submission is switched off and the caller is not an administrator. */
+	submissionDisabled: "RECRUITMENT_SUBMISSION_DISABLED",
+	/** Editing, deleting or withdrawing a post you do not own — answered as 404, not 403. */
+	notOwner: "RECRUITMENT_NOT_OWNER",
+	/** The board itself is switched off. */
+	boardDisabled: "RECRUITMENT_BOARD_DISABLED",
+	/** The post does not exist, or is not visible to the caller. */
+	postNotFound: "RECRUITMENT_POST_NOT_FOUND",
+	/** Editing or re-submitting a post an administrator has taken down. */
+	postClosed: "RECRUITMENT_POST_CLOSED",
+	/** The dedupe key is already held by a live post. */
+	duplicate: "RECRUITMENT_DUPLICATE",
+	/** The same person reported the same post twice. */
+	alreadyReported: "RECRUITMENT_ALREADY_REPORTED",
+} as const;
+
+export type RecruitmentErrorCode = (typeof RECRUITMENT_ERROR_CODES)[keyof typeof RECRUITMENT_ERROR_CODES];
+
 export type RecruitmentPostPublic = z.infer<typeof recruitmentPostPublicSchema>;
 export type RecruitmentPostOwner = z.infer<typeof recruitmentOwnerSchema>;
 export type RecruitmentPostAdmin = z.infer<typeof recruitmentPostAdminSchema>;
 export type RecruitmentReportAdmin = z.infer<typeof reportAdminSchema>;
 
+/**
+ * The editable field set on its own.
+ *
+ * `create`, `update` and the admin `edit` action are all built from `recruitmentPostEditableSchema`,
+ * so a handler that maps input onto a row can accept one type and serve all three.
+ */
+export type RecruitmentPostEditableInput = z.infer<typeof recruitmentPostEditableSchema>;
+
 export type RecruitmentPostListInput = z.infer<typeof recruitmentPostDto.list.input>;
 export type RecruitmentPostCreateInput = z.infer<typeof recruitmentPostDto.create.input>;
 export type RecruitmentPostUpdateInput = z.infer<typeof recruitmentPostDto.update.input>;
+export type RecruitmentPostReportInput = z.infer<typeof recruitmentPostDto.report.input>;
+export type RecruitmentPostConvertInput = z.infer<typeof recruitmentPostDto.convertToApplication.input>;
 export type AdminRecruitmentPostListInput = z.infer<typeof adminRecruitmentPostDto.list.input>;
 export type AdminRecruitmentPostUpdateInput = z.infer<typeof adminRecruitmentPostDto.update.input>;
 export type AdminRecruitmentReportListInput = z.infer<typeof adminRecruitmentReportDto.list.input>;
+export type AdminRecruitmentReportUpdateInput = z.infer<typeof adminRecruitmentReportDto.update.input>;

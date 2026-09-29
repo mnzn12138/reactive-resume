@@ -7,6 +7,8 @@ import {
 	adminSettingDto,
 	adminUserDto,
 } from "../../dto/admin";
+import { adminReportRouter } from "../recruitment/moderation";
+import { adminRecruitmentRouter } from "../recruitment/review";
 import { adminAuditService } from "./audit-service";
 import { adminDiagnosticsService } from "./diagnostics-service";
 import { adminOverviewService } from "./overview-service";
@@ -221,6 +223,18 @@ const diagnosticsRouter = {
 		.handler(() => adminDiagnosticsService.get()),
 };
 
+/**
+ * The campus recruitment moderation queue — endpoints 12–16 of §4.1.
+ *
+ * Mounted here rather than under `recruitmentRouter` because every one of them is behind
+ * `adminProcedure`, and because the paths are `/admin/recruitment/...`. The handlers still
+ * live in `features/recruitment/` next to the board they moderate.
+ */
+const recruitmentRouter = {
+	posts: adminRecruitmentRouter,
+	reports: adminReportRouter,
+};
+
 export const adminRouter = {
 	users: usersRouter,
 	resumes: resumesRouter,
@@ -228,4 +242,5 @@ export const adminRouter = {
 	settings: settingsRouter,
 	audit: auditRouter,
 	diagnostics: diagnosticsRouter,
+	recruitment: recruitmentRouter,
 };
