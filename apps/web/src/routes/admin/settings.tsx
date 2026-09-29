@@ -10,6 +10,8 @@ import { Badge } from "@reactive-resume/ui/components/badge";
 import { Skeleton } from "@reactive-resume/ui/components/skeleton";
 import { Switch } from "@reactive-resume/ui/components/switch";
 import { toast } from "@reactive-resume/ui/components/toast";
+import { DiagnosticsCard } from "@/features/settings/admin/diagnostics-card";
+import { TestSmsForm } from "@/features/settings/admin/test-sms-form";
 import { orpc } from "@/libs/orpc/client";
 import { createNoindexFollowMeta } from "@/libs/seo";
 
@@ -30,6 +32,18 @@ const SETTING_COPY: Record<SettingKey, { label: MessageDescriptor; description: 
 	disableEmailAuth: {
 		label: msg`Disable email and password authentication`,
 		description: msg`Turns off email sign-in, email sign-up and password resets. Federated sign-in still works.`,
+	},
+	disableWechatAuth: {
+		label: msg`Disable WeChat sign-in`,
+		description: msg`Closes the WeChat QR sign-in endpoint. Accounts already linked to WeChat can still use their other sign-in methods.`,
+	},
+	disableAlipayAuth: {
+		label: msg`Disable Alipay sign-in`,
+		description: msg`Closes the Alipay QR sign-in endpoint. Accounts already linked to Alipay can still use their other sign-in methods.`,
+	},
+	disableSmsAuth: {
+		label: msg`Disable phone number sign-in`,
+		description: msg`Closes phone number verification and stops outbound verification SMS. Existing accounts keep their verified numbers.`,
 	},
 };
 
@@ -64,7 +78,7 @@ function RouteComponent() {
 				</div>
 
 				<div className="flex flex-col gap-3">
-					{Array.from({ length: 2 }).map((_, index) => (
+					{Array.from({ length: 5 }).map((_, index) => (
 						<Skeleton key={`setting-skeleton-${index}`} className="h-24 rounded-lg" />
 					))}
 				</div>
@@ -120,6 +134,24 @@ function RouteComponent() {
 
 					<Badge variant="secondary">{smtpEnabled ? <Trans>Configured</Trans> : <Trans>Not configured</Trans>}</Badge>
 				</div>
+			</div>
+
+			<div className="flex flex-col gap-3 rounded-lg border bg-background p-4">
+				<div className="flex flex-col items-start gap-1.5">
+					<span className="font-medium text-sm">
+						<Trans>China sign-in channels and SMS</Trans>
+					</span>
+					<span className="text-muted-foreground text-xs">
+						<Trans>
+							What the server can actually use right now. Credentials are read from environment variables at startup, so
+							a change needs a restart; the switches above take effect immediately.
+						</Trans>
+					</span>
+				</div>
+
+				<DiagnosticsCard />
+
+				<TestSmsForm />
 			</div>
 		</div>
 	);

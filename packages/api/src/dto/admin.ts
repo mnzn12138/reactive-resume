@@ -262,3 +262,43 @@ export const adminAuditDto = {
 };
 
 export type AdminAuditListInput = z.infer<typeof adminAuditDto.list.input>;
+
+/**
+ * One domestic sign-in channel as the console sees it.
+ *
+ * `configured` answers "are the credentials all there" and `disabledByFlag`
+ * answers "has someone switched it off anyway" — they are kept apart because an
+ * administrator looking at a closed-but-wired-up channel needs to know that no
+ * environment variable is at fault.
+ */
+const diagnosticsChannelSchema = z.object({
+	channel: z
+		.enum(["wechat", "alipay", "sms"])
+		.describe("Which China-facing channel this describes: WeChat QR, Alipay QR, or phone + SMS code."),
+	configured: z.boolean().describe("Whether every environment variable the channel needs is present and non-empty."),
+	missing: z
+		.array(z.string())
+		.describe("Names of the environment variables that are still missing. Empty when the channel is configured."),
+	preview: z
+		.string()
+		.describe(
+			"One line a human can act on. Credentials appear masked down to their last four characters — the endpoint must never return one in full.",
+		),
+	disabledByFlag: z
+		.boolean()
+		.describe("Whether a runtime switch (console override or environment variable) has closed the channel."),
+});
+
+export const adminDiagnosticsDto = {
+	get: {
+		output: z.object({
+			channels: z
+				.array(diagnosticsChannelSchema)
+				.describe("The three domestic channels, always in the same order: WeChat, Alipay, SMS."),
+		}),
+	},
+};
+
+export type AdminDiagnostics = z.infer<typeof adminDiagnosticsDto.get.output>;
+export type AdminDiagnosticsChannel = AdminDiagnostics["channels"][number];
+export type AdminDiagnosticsChannelId = AdminDiagnosticsChannel["channel"];

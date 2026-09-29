@@ -1,11 +1,18 @@
 import type { AuthProvider } from "@reactive-resume/auth/types";
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { LinkBreakIcon, LinkIcon } from "@phosphor-icons/react";
 import { m } from "motion/react";
 import { Button } from "@reactive-resume/ui/components/button";
 import { Separator } from "@reactive-resume/ui/components/separator";
 import { ActionButton } from "./action-button";
-import { getProviderIcon, getProviderName, useAuthAccounts, useAuthProviderActions } from "./hooks";
+import {
+	getProviderIcon,
+	getProviderName,
+	useAuthAccounts,
+	useAuthProviderActions,
+	useRemainingLoginMethods,
+} from "./hooks";
 
 type SocialProviderSectionProps = {
 	provider: AuthProvider;
@@ -16,12 +23,17 @@ type SocialProviderSectionProps = {
 export function SocialProviderSection({ provider, name, animationDelay = 0 }: SocialProviderSectionProps) {
 	const { link, unlink } = useAuthProviderActions();
 	const { hasAccount, getAccountByProviderId } = useAuthAccounts();
+	const { canUnlink } = useRemainingLoginMethods();
 
 	const providerName = name ?? getProviderName(provider);
 	const providerIcon = getProviderIcon(provider);
 
 	const account = getAccountByProviderId(provider);
 	const isConnected = hasAccount(provider);
+
+	// The last remaining way in is not removable. Decided here, before the click,
+	// rather than as an error afterwards — by then the account is already gone.
+	const canDisconnect = canUnlink(provider);
 
 	return (
 		<m.div
@@ -42,6 +54,15 @@ export function SocialProviderSection({ provider, name, animationDelay = 0 }: So
 					{isConnected ? (
 						<Button
 							variant="outline"
+							disabled={!canDisconnect}
+							title={
+								canDisconnect
+									? undefined
+									: t({
+											comment: "Tooltip explaining why the last sign-in method cannot be disconnected",
+											message: "Keep at least one way to sign in.",
+										})
+							}
 							onClick={() => {
 								if (account?.accountId) void unlink(provider, account.accountId);
 							}}
@@ -59,6 +80,14 @@ export function SocialProviderSection({ provider, name, animationDelay = 0 }: So
 					)}
 				</ActionButton>
 			</div>
+
+			{isConnected && !canDisconnect && (
+				<p className="mt-2 text-muted-foreground text-xs">
+					<Trans comment="Hint explaining that the last remaining sign-in method cannot be removed">
+						This is your only way to sign in. Connect another method before disconnecting this one.
+					</Trans>
+				</p>
+			)}
 		</m.div>
 	);
 }

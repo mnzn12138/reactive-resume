@@ -293,6 +293,11 @@ msgstr "关于我"
 msgid "Accept the Terms of Service and the Privacy Policy to create your account."
 msgstr "请先接受用户协议与隐私政策，然后才能创建账号。"
 
+#. Admin console confirmation that the vendor accepted the test SMS
+#: src/features/settings/admin/test-sms-form.tsx
+msgid "Accepted"
+msgstr "已接受"
+
 #: src/features/auth/pages/consent.tsx
 msgid "Access your account through the API, including reading and changing your resumes and job applications."
 msgstr "通过 API 访问你的账户，包括读取和修改你的简历与求职申请。"
@@ -616,6 +621,17 @@ msgstr "AI 提供商需要配置 REDIS_URL 和 ENCRYPTION_SECRET。"
 #: src/features/homepage/feature-explorer.tsx
 msgid "AI, when you want it"
 msgstr "需要时才用 AI"
+
+#. Authentication provider display name in account settings
+#. Brand name label for Alipay social sign-in button
+#: src/features/auth/components/social-auth.tsx
+#: src/features/settings/authentication/components/hooks.tsx
+msgid "Alipay"
+msgstr "支付宝"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Alipay sign-in"
+msgstr "支付宝登录"
 
 #: src/features/homepage/languages-showcase.tsx
 msgid "All app languages"
@@ -1067,6 +1083,8 @@ msgstr "面向中国大陆应届毕业生的校园招聘模板：清爽的头部
 #. Confirmation dialog button label to abort resetting a resume section
 #. Profile settings form action to discard unsaved edits
 #. Secondary action button to close two-factor setup dialog
+#. Secondary action that aborts changing the phone number
+#. Secondary action that aborts changing the phone number
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/section-item-dialog.tsx
@@ -1078,6 +1096,7 @@ msgstr "面向中国大陆应届毕业生的校园招聘模板：清爽的头部
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/sharing/image-card.tsx
 #: src/features/resume/sharing/qr-card.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
@@ -1122,6 +1141,13 @@ msgstr "更改语言"
 #: src/features/command-palette/pages/preferences/index.tsx
 msgid "Change language to…"
 msgstr "将语言更改为…"
+
+#. Authentication settings action that starts changing the bound phone number
+#. Secondary action that returns from the code step to entering a phone number
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Change Number"
+msgstr "更换手机号"
 
 #: src/features/command-palette/pages/preferences/index.tsx
 msgid "Change theme to…"
@@ -1201,6 +1227,10 @@ msgstr "正在检查…"
 #: src/routes/_home/privacy.tsx
 msgid "Children"
 msgstr "未成年人"
+
+#: src/routes/admin/settings.tsx
+msgid "China sign-in channels and SMS"
+msgstr "国内登录渠道与短信"
 
 #: src/libs/locale.ts
 msgid "Chinese (Simplified)"
@@ -1298,6 +1328,22 @@ msgstr "客户端 ID"
 msgid "Close AI assistant"
 msgstr "关闭 AI 助手"
 
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Closed by switch"
+msgstr "已被开关关闭"
+
+#: src/routes/admin/settings.tsx
+msgid "Closes phone number verification and stops outbound verification SMS. Existing accounts keep their verified numbers."
+msgstr "关闭手机号验证并停止发送验证码短信。已验证号码的账号不受影响。"
+
+#: src/routes/admin/settings.tsx
+msgid "Closes the Alipay QR sign-in endpoint. Accounts already linked to Alipay can still use their other sign-in methods."
+msgstr "关闭支付宝扫码登录接口。已绑定支付宝的账号仍可使用其它登录方式。"
+
+#: src/routes/admin/settings.tsx
+msgid "Closes the WeChat QR sign-in endpoint. Accounts already linked to WeChat can still use their other sign-in methods."
+msgstr "关闭微信扫码登录接口。已绑定微信的账号仍可使用其它登录方式。"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Cohere"
 msgstr "Cohere"
@@ -1356,6 +1402,8 @@ msgid "Configured"
 msgstr "已配置"
 
 #. Account deletion confirmation dialog confirm action in account settings
+#. Primary action button that verifies the code and moves the account to the new number
+#: src/features/settings/authentication/components/phone-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
@@ -1367,7 +1415,9 @@ msgstr "确认"
 msgid "Confirm Password"
 msgstr "确认密码"
 
+#. Authentication settings action that starts binding a phone number
 #. Authentication settings action to link a social login provider
+#: src/features/settings/authentication/components/phone-section.tsx
 #: src/features/settings/authentication/components/social-provider.tsx
 msgid "Connect"
 msgstr "连接"
@@ -1548,6 +1598,10 @@ msgstr "无法恢复此补丁。"
 #: src/routes/admin/settings.tsx
 msgid "Could not save the setting. Please try again."
 msgstr "设置保存失败，请重试。"
+
+#: src/features/settings/admin/test-sms-form.tsx
+msgid "Could not send the test message. Please try again."
+msgstr "测试短信发送失败,请稍后重试。"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Could not set up two-factor authentication."
@@ -2021,6 +2075,10 @@ msgid "Disable 2FA"
 msgstr "禁用 2FA 双重身份验证"
 
 #: src/routes/admin/settings.tsx
+msgid "Disable Alipay sign-in"
+msgstr "停用支付宝登录"
+
+#: src/routes/admin/settings.tsx
 msgid "Disable email and password authentication"
 msgstr "禁用邮箱密码登录"
 
@@ -2028,9 +2086,17 @@ msgstr "禁用邮箱密码登录"
 msgid "Disable new signups"
 msgstr "关闭新用户注册"
 
+#: src/routes/admin/settings.tsx
+msgid "Disable phone number sign-in"
+msgstr "停用手机号登录"
+
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disable Two-Factor Authentication"
 msgstr "禁用双重身份认证"
+
+#: src/routes/admin/settings.tsx
+msgid "Disable WeChat sign-in"
+msgstr "停用微信登录"
 
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
@@ -2204,6 +2270,11 @@ msgstr "复制你的简历以创建一个与原始简历相同的新副本。"
 msgid "Duplicating your resume..."
 msgstr "正在复制你的简历…"
 
+#. Paragraph on the hashed send log and its rate-limiting and audit purpose
+#: src/routes/_home/privacy.tsx
+msgid "Each message leaves a row in this deployment's own send log, and that row does not hold your number or your IP address in a readable form: it holds a keyed HMAC digest of each, from which the original cannot be recovered. The log is what makes the limits enforceable — a cooldown of sixty seconds between codes, ten messages per number per day, and twenty per IP address per hour — and what lets an operator trace abuse after the fact. It is not a record of anything you wrote, and it is not used for anything else."
+msgstr "每一条短信都会在本实例自己的发送日志里留下一条记录,而这条记录并不以可读形式保存你的手机号或 IP 地址:它保存的是各自的带密钥 HMAC 摘要,无法从中还原出原始值。这份日志是限额得以执行的前提 —— 两次验证码之间需间隔六十秒、每个号码每天十条、每个 IP 地址每小时二十条 —— 也是事后追溯滥用行为的依据。它不记录你写下的任何内容,也不用于其它用途。"
+
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "Earlier versions are kept; the builder's undo history is reset."
 msgstr "保留早期版本；重置构建器的撤销历史记录。"
@@ -2288,6 +2359,8 @@ msgstr "教育经历"
 msgid "Effective date: {version}"
 msgstr "生效日期：{version}"
 
+#. Tab label that switches the login form to email and password
+#: src/features/auth/pages/login.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Email"
 msgstr "电子邮件"
@@ -2326,6 +2399,7 @@ msgstr "启用编辑"
 msgid "Enable Two-Factor Authentication"
 msgstr "启用双重身份认证"
 
+#: src/features/settings/admin/diagnostics-card.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Enabled"
 msgstr "已启用"
@@ -2475,6 +2549,8 @@ msgstr "已导出 pipeline-flow.png"
 msgid "Extracted text"
 msgstr "提取的文本"
 
+#. Admin console label for a test SMS the vendor refused
+#: src/features/settings/admin/test-sms-form.tsx
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Failed"
 msgstr "失败"
@@ -2483,6 +2559,11 @@ msgstr "失败"
 #: src/routes/agent/-components/thread-sidebar.tsx
 msgid "Failed to archive thread."
 msgstr "归档会话失败。"
+
+#. Fallback toast when changing the bound phone number fails
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Failed to change your phone number. Please try again."
+msgstr "更换手机号失败,请稍后重试。"
 
 #. Fallback toast when account registration fails without a server error message
 #: src/features/auth/pages/register.tsx
@@ -2565,6 +2646,16 @@ msgstr "保存 AI 提供商失败。"
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Failed to send password reset email. Please try again."
 msgstr "发送密码重置电子邮件失败。请重试。"
+
+#. Fallback toast when requesting an SMS verification code fails without a server message
+#: src/features/auth/phone-otp.ts
+msgid "Failed to send the verification code. Please try again."
+msgstr "验证码发送失败,请稍后重试。"
+
+#. Fallback toast when the SMS verification code cannot be verified
+#: src/features/auth/components/phone-auth.tsx
+msgid "Failed to sign in. Please check the code and try again."
+msgstr "登录失败,请检查验证码后重试。"
 
 #. Fallback toast when sign-in fails and no server error message is available
 #. Fallback toast when sign-in fails without an error message
@@ -3033,7 +3124,9 @@ msgstr "连字符"
 msgid "I design software for teams, from early research to the details people use every day."
 msgstr "我为团队设计软件，从早期研究到人们每天使用的细节。"
 
+#. Label beside the legal consent checkbox that gates the sign-up buttons
 #. Label beside the legal consent checkbox; the two links open the legal documents
+#: src/features/auth/components/legal-consent-checkbox.tsx
 #: src/features/auth/pages/register.tsx
 msgid "I have read and agree to the <0>Terms of Service</0> and the <1>Privacy Policy</1>."
 msgstr "我已阅读并同意<0>用户协议</0>与<1>隐私政策</1>。"
@@ -3046,6 +3139,21 @@ msgstr "图标"
 #: src/features/ats-checker/messages.ts
 msgid "If it came from a scan, that is expected. Otherwise remove it; recruiters read it as keyword stuffing."
 msgstr "如果是扫描件导致的，这属于正常情况。否则请删除它；招聘人员会把它当作关键词堆砌。"
+
+#. Paragraph on what a phone number is stored as and what it is used for
+#: src/routes/_home/privacy.tsx
+msgid "If this instance has phone sign-in enabled and you choose to use it, your number is stored in international format: a leading plus sign, then the country code, then the rest of the number, as in +8613800138000. Alongside it sits a flag recording whether the number has been confirmed by a code you entered. It is used for signing you in and for getting you back into an account you cannot otherwise reach. It is not used to send you marketing, and it is not handed to anyone for that purpose."
+msgstr "如果本实例启用了手机号登录且你选择使用它,你的号码会以国际格式保存:一个加号,接着国家代码,再接着号码其余部分,例如 +8613800138000。旁边还有一个标记,记录该号码是否已经通过你输入的验证码确认过。它用于让你登录,以及在你无法通过其它方式进入账号时帮你取回账号。它不会被用来向你发送营销信息,也不会为此交给任何一方。"
+
+#. Paragraph on which SMS provider carries the code and why the number reaches it
+#: src/routes/_home/privacy.tsx
+msgid "If this instance has phone sign-in enabled, the one-time codes arrive as text messages sent by whichever provider the operator of this instance has configured and holds a contract with, which is one of Alibaba Cloud SMS or Tencent Cloud SMS. A code cannot be delivered without that provider receiving your number, because the number is the address the message goes to. Which of the two is in use is the operator's choice and not something this page can state on their behalf; ask them if you need to know."
+msgstr "如果本实例启用了手机号登录,验证码短信由本实例运营者所配置并签约的服务商投递,即阿里云短信或腾讯云短信之一。短信要送达,服务商就必须收到你的号码,因为号码本身就是短信的收件地址。具体使用哪一家由运营者决定,本页无法代为说明;如需了解,请直接询问运营者。"
+
+#. Paragraph on the identifiers WeChat and Alipay return, and the absence of an email address
+#: src/routes/_home/privacy.tsx
+msgid "If this instance offers WeChat or Alipay sign-in and you use it, those services confirm who you are without handing over an email address. What they return is an identifier: an openid or a unionid from WeChat, a user_id from Alipay. It is stable for you within that service and means nothing outside it. That identifier is what gets stored and linked to your account. Because an email address is required on every account in this software, an account created this way is given a placeholder address generated for it. It is not a mailbox you can receive mail at, and nothing is sent to it."
+msgstr "如果本实例提供微信或支付宝登录且你使用它,这两家服务会在不提供邮箱地址的情况下确认你的身份。它们返回的是一个标识:微信返回 openid 或 unionid,支付宝返回 user_id。该标识在该服务内对你保持稳定,出了该服务则没有任何含义。保存并与你的账号关联的正是这个标识。由于本软件要求每个账号都有邮箱地址,以这种方式创建的账号会被分配一个为它生成的占位邮箱。它不是一个可以收信的邮箱,也不会向它发送任何邮件。"
 
 #: src/features/resume/sharing/image-card.tsx
 msgid "Image Card"
@@ -3245,6 +3353,11 @@ msgstr "只保留一个地址，这样软件就不用猜该用哪一个。"
 #: src/features/auth/pages/consent.tsx
 msgid "Keep access when you are not using the application."
 msgstr "在你未使用该应用时保持访问权限。"
+
+#. Tooltip explaining why the last sign-in method cannot be disconnected
+#: src/features/settings/authentication/components/social-provider.tsx
+msgid "Keep at least one way to sign in."
+msgstr "请至少保留一种登录方式。"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Keep editing in Word, Google Docs, or Pages. Layout may differ from the PDF."
@@ -3661,6 +3774,10 @@ msgstr "Microsoft Word"
 msgid "Missing working resume"
 msgstr "缺少正在处理的简历"
 
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Missing:"
+msgstr "缺失:"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Mistral AI"
 msgstr "Mistral AI"
@@ -3965,6 +4082,7 @@ msgstr "免责声明"
 msgid "No work-experience section was found."
 msgstr "未找到工作经历部分。"
 
+#: src/features/settings/admin/diagnostics-card.tsx
 #: src/routes/admin/settings.tsx
 msgid "Not configured"
 msgstr "未配置"
@@ -4324,8 +4442,10 @@ msgstr "起止时间"
 msgid "Perplexity"
 msgstr "Perplexity"
 
+#. Tab label that switches the login form to phone number and SMS code
 #: src/dialogs/resume/sections/reference.tsx
 #: src/features/ats-checker/parse-preview.tsx
+#: src/features/auth/pages/login.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Phone"
 msgstr "电话"
@@ -4333,6 +4453,25 @@ msgstr "电话"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Phone (optional)"
 msgstr "电话（可选）"
+
+#. Section heading: the phone number used for sign-in
+#: src/features/settings/admin/test-sms-form.tsx
+#: src/routes/_home/privacy.tsx
+msgid "Phone number"
+msgstr "手机号"
+
+#. Authentication provider display name in account settings
+#. Label for the phone number input in account settings
+#. Label for the phone number input used to sign in with an SMS code
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/hooks.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Phone Number"
+msgstr "手机号"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Phone number sign-in"
+msgstr "手机号登录"
 
 #: src/routes/agent/index.tsx
 msgid "Pick a conversation from the sidebar, or start a new thread to work on a draft."
@@ -4840,6 +4979,21 @@ msgstr "用纯文本替换图标字体，然后重新导出。"
 msgid "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 msgstr "用普通段落和列表替换表格。单元格是按存储顺序提取的，而不是按阅读顺序。"
 
+#. Action that asks for another SMS verification code
+#. Action that asks for another SMS verification code
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Resend Code"
+msgstr "重新发送验证码"
+
+#. Resend button label counting down the seconds left before another code can be requested
+#. Resend button label counting down the seconds left before another code can be requested
+#. placeholder {0}: otp.secondsLeft
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Resend in {0}s"
+msgstr "{0} 秒后重新发送"
+
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
 msgstr "重新发送验证邮件"
@@ -5290,6 +5444,13 @@ msgstr "语义化 CSS 样式表"
 msgid "Send answer"
 msgstr "发送回答"
 
+#. Primary action button that requests an SMS verification code for the entered phone number
+#. Primary action button that requests an SMS verification code for the new number
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Send Code"
+msgstr "发送验证码"
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Send message"
 msgstr "发送消息"
@@ -5299,6 +5460,11 @@ msgstr "发送消息"
 msgid "Send Password Reset Email"
 msgstr "发送密码重置邮件"
 
+#. Admin console action that sends one test SMS through the configured vendor
+#: src/features/settings/admin/test-sms-form.tsx
+msgid "Send test message"
+msgstr "发送测试短信"
+
 #: src/features/ats-checker/messages.ts
 msgid "Send the resume itself rather than a portfolio wrapper."
 msgstr "直接发送简历本身，而不是包在作品集外层的文件。"
@@ -5306,6 +5472,10 @@ msgstr "直接发送简历本身，而不是包在作品集外层的文件。"
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Sending password reset email..."
 msgstr "正在发送密码重置邮件…"
+
+#: src/features/auth/phone-otp.ts
+msgid "Sending verification code…"
+msgstr "正在发送验证码…"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Sends the text already extracted from your PDF to the AI provider you choose below. The PDF file itself is never uploaded."
@@ -5337,6 +5507,10 @@ msgstr "服务器日志：请求路径、时间、状态码、IP 地址与 User-
 msgid "Set a password if you want only people who know it to open the public URL."
 msgstr "如果你希望只有知道密码的人才能打开公开 URL，就设置一个密码。"
 
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Set ALIPAY_APP_ID, ALIPAY_PRIVATE_KEY and ALIPAY_PUBLIC_KEY on the server, then restart it."
+msgstr "在服务器上设置 ALIPAY_APP_ID、ALIPAY_PRIVATE_KEY 和 ALIPAY_PUBLIC_KEY,然后重启服务。"
+
 #: src/routes/admin/settings.tsx
 msgid "Set in this console"
 msgstr "已在后台设置"
@@ -5346,6 +5520,10 @@ msgstr "已在后台设置"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Set Password"
 msgstr "设置密码"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Set SMS_PROVIDER to aliyun or tencent and fill in that vendor's credentials, then restart the server."
+msgstr "在服务器上把 SMS_PROVIDER 设为 aliyun 或 tencent,并填齐该厂商的凭证,然后重启服务。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Set the document language when exporting."
@@ -5370,6 +5548,10 @@ msgstr "请先设置 AI 提供商。"
 #: src/routes/builder/$resumeId/-components/ai-assistant.tsx
 msgid "Set up an AI provider to chat about this resume and apply edits automatically."
 msgstr "设置 AI 提供商，即可就这份简历进行交流并自动应用修改。"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Set WECHAT_APP_ID and WECHAT_APP_SECRET on the server, then restart it."
+msgstr "在服务器上设置 WECHAT_APP_ID 和 WECHAT_APP_SECRET,然后重启服务。"
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/admin/-components/sidebar.tsx
@@ -5488,6 +5670,11 @@ msgstr "侧边栏宽度"
 msgid "Sign in"
 msgstr "登录"
 
+#. Primary action button that verifies the SMS code, signing the user in or creating the account
+#: src/features/auth/components/phone-auth.tsx
+msgid "Sign in / Register"
+msgstr "登录 / 注册"
+
 #: src/features/ats-checker/ai-review/locked-card.tsx
 msgid "Sign in and connect your own AI provider to get rewrite suggestions for weak bullets. The checks above are free and need no account."
 msgstr "登录并连接你自己的 AI 提供商，即可为薄弱的要点获取改写建议。以上检查完全免费，也不需要账号。"
@@ -5533,6 +5720,7 @@ msgstr "登录使用会话 Cookie，这是严格必需的：没有它，您在�
 msgid "Signed in as {email}"
 msgstr "已登录为 {email}"
 
+#: src/features/auth/components/phone-auth.tsx
 #: src/features/auth/components/social-auth.tsx
 #: src/features/auth/pages/login.tsx
 msgid "Signing in..."
@@ -6001,12 +6189,12 @@ msgid "That file is too large to check in the browser."
 msgstr "该文件太大，无法在浏览器中检查。"
 
 #: src/features/auth/pages/error.tsx
-msgid "That provider account is already linked to a different user."
-msgstr "该提供商账户已关联到其他用户。"
+msgid "That provider account could not be linked because it shares no email address with your account."
+msgstr "无法绑定该第三方账号,因为它与你的账号没有相同的邮箱地址。"
 
 #: src/features/auth/pages/error.tsx
-msgid "That provider account uses a different email address than your account."
-msgstr "该提供商账户使用的电子邮件地址与您的账户不同。"
+msgid "That provider account is already linked to a different user."
+msgstr "该提供商账户已关联到其他用户。"
 
 #: src/features/auth/pages/error.tsx
 msgid "That sign-in provider is no longer available on this server."
@@ -6063,8 +6251,8 @@ msgid "The provider didn't share an email address, which is required to sign in.
 msgstr "提供商未共享电子邮件地址，而登录需要该地址。"
 
 #: src/features/auth/pages/error.tsx
-msgid "The provider rejected this sign-in attempt. Please start again."
-msgstr "提供商拒绝了此次登录尝试。请重新开始。"
+msgid "The provider rejected this sign-in attempt. If you scanned an old QR code, please start again."
+msgstr "服务商拒绝了本次登录请求。如果你扫描的是旧的二维码,请重新开始。"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "The provider returned a review that could not be read. Try again."
@@ -6184,6 +6372,11 @@ msgstr "思维"
 #: src/routes/_home/privacy.tsx
 msgid "Third-party services"
 msgstr "第三方服务"
+
+#. Section heading: signing in through WeChat or Alipay
+#: src/routes/_home/privacy.tsx
+msgid "Third-party sign-in"
+msgstr "第三方登录"
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
@@ -6328,6 +6521,11 @@ msgstr "这是一个 XFA 表单，大多数软件只能读取到空壳。"
 msgid "This is not a common resume page size."
 msgstr "这不是简历常用的页面尺寸。"
 
+#. Hint explaining that the last remaining sign-in method cannot be removed
+#: src/features/settings/authentication/components/social-provider.tsx
+msgid "This is your only way to sign in. Connect another method before disconnecting this one."
+msgstr "这是你唯一的登录方式。请先绑定其它登录方式,再解绑这一个。"
+
 #: src/libs/resume/ats.ts
 msgid "This link is missing its protocol."
 msgstr "此链接缺少其协议。"
@@ -6430,6 +6628,11 @@ msgstr "此部分位于侧边栏中。"
 #: src/features/auth/pages/error.tsx
 msgid "This sign-in attempt expired or was already used. Please start again."
 msgstr "此次登录尝试已过期或已被使用。请重新开始。"
+
+#. Paragraph on the placeholder email and on removing a phone number
+#: src/routes/_home/privacy.tsx
+msgid "This software requires a unique email address on every account, so one created by phone number alone is given a placeholder address derived from it. That address is not a mailbox and nothing is sent to it. You can change or remove the number from your account settings; removing it turns phone sign-in off for that account, so keep another way in if it is the only one you have."
+msgstr "本软件要求每个账号都有唯一的邮箱地址,因此仅凭手机号创建的账号会被分配一个由该号码派生的占位邮箱。该地址不是一个真实邮箱,也不会向它发送任何邮件。你可以在账号设置中更换或移除手机号;移除后该账号的手机号登录将停用,所以如果这是你唯一的登录方式,请先保留其它方式。"
 
 #: src/features/auth/pages/register.tsx
 msgid "This step is optional, but recommended."
@@ -6994,6 +7197,18 @@ msgstr "变换开头方式，避免这部分读起来像套话。"
 msgid "Vercel AI Gateway"
 msgstr "Vercel AI Gateway"
 
+#. Label for the SMS verification code input
+#. Label for the SMS verification code input
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Verification Code"
+msgstr "验证码"
+
+#. Section heading: the providers that deliver verification text messages
+#: src/routes/_home/privacy.tsx
+msgid "Verification SMS providers"
+msgstr "验证码短信服务商"
+
 #: src/features/settings/pages/profile.tsx
 msgid "Verified"
 msgstr "已验证"
@@ -7017,6 +7232,7 @@ msgid "Verifying code..."
 msgstr "正在验证验证码…"
 
 #: src/dialogs/auth/enable-two-factor.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
 msgid "Verifying code…"
 msgstr "验证码…"
 
@@ -7024,11 +7240,18 @@ msgstr "验证码…"
 msgid "Verifying password..."
 msgstr "正在验证密码…"
 
+#. Hint explaining that the new number replaces the current one once verified
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Verifying the code replaces the number your account uses to sign in."
+msgstr "验证通过后,新号码将替换账号用于登录的号码。"
+
 #: src/features/auth/pages/register.tsx
 msgid "Verifying your email is required when resetting your password."
 msgstr "重置密码时必须先验证你的电子邮箱。"
 
+#. Note under the consent checkbox naming the version being accepted
 #. Note under the legal consent checkbox naming the version being accepted
+#: src/features/auth/components/legal-consent-checkbox.tsx
 #: src/features/auth/pages/register.tsx
 msgid "Version {legalDocumentVersion} of both documents."
 msgstr "以上两份文件的版本为 {legalDocumentVersion}。"
@@ -7100,6 +7323,14 @@ msgstr "我们无法打开此会话。"
 msgid "We couldn't read your profile from the provider."
 msgstr "我们无法从提供商读取您的个人资料。"
 
+#. Hint telling the user which number the verification code was sent to
+#. Hint telling the user which number the verification code was sent to
+#. placeholder {0}: otp.phoneNumber
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "We sent a 6-digit code to {0}."
+msgstr "我们已向 {0} 发送 6 位验证码。"
+
 #: src/features/settings/pages/profile.tsx
 msgid "We sent a confirmation link to your new email address. Open it to confirm the change."
 msgstr "我们已向你的新邮箱地址发送了确认链接。打开它以确认此次更改。"
@@ -7107,6 +7338,11 @@ msgstr "我们已向你的新邮箱地址发送了确认链接。打开它以确
 #: src/features/settings/pages/profile.tsx
 msgid "We sent a new verification link to your email address. Open it to verify your account."
 msgstr "我们已向你的邮箱地址发送了新的验证链接。打开它以验证你的账户。"
+
+#. Hint under the phone number input explaining an account is created on first use
+#: src/features/auth/components/phone-auth.tsx
+msgid "We'll create your account the first time you use this number."
+msgstr "首次使用该号码时将自动创建你的账号。"
 
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Web search"
@@ -7125,6 +7361,17 @@ msgstr "网络搜索"
 msgid "Website"
 msgstr "网站"
 
+#. Authentication provider display name in account settings
+#. Brand name label for WeChat social sign-in button
+#: src/features/auth/components/social-auth.tsx
+#: src/features/settings/authentication/components/hooks.tsx
+msgid "WeChat"
+msgstr "微信"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "WeChat sign-in"
+msgstr "微信登录"
+
 #: src/features/ats-checker/parse-preview.tsx
 msgid "What a parser reads"
 msgstr "解析器读到的内容"
@@ -7140,6 +7387,10 @@ msgstr "你想让我做什么？"
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "What do you want to rename this section to?"
 msgstr "你想把这个章节重命名为什么？"
+
+#: src/routes/admin/settings.tsx
+msgid "What the server can actually use right now. Credentials are read from environment variables at startup, so a change needs a restart; the switches above take effect immediately."
+msgstr "以下显示服务端当前真正可用的能力。凭证在服务启动时从环境变量读取,因此改动凭证需要重启;上面的开关则立即生效。"
 
 #: src/routes/_home/ats-checker.tsx
 msgid "What this checks"
@@ -7303,6 +7554,11 @@ msgstr "你也可以用用户名登录。"
 msgid "You can always go back to the original."
 msgstr "你随时可以恢复原文。"
 
+#. Paragraph on unlinking a third-party sign-in and keeping one way in
+#: src/routes/_home/privacy.tsx
+msgid "You can unlink WeChat or Alipay from your account settings at any time, and unlinking does not delete the account itself. At least one way of signing in has to stay — a password, or another linked service — because removing the last one would leave you unable to get back in. Which providers are offered at all is up to whoever runs this instance."
+msgstr "你可以随时在账号设置中解绑微信或支付宝,解绑不会删除账号本身。至少要保留一种登录方式 —— 密码,或另一个已绑定的服务 —— 因为移除最后一种会让你再也无法登录。究竟提供哪些登录渠道,取决于本实例的运营者。"
+
 #: src/features/auth/pages/error.tsx
 msgid "You cancelled the sign-in before it finished."
 msgstr "您在登录完成前取消了登录。"
@@ -7436,6 +7692,10 @@ msgstr "你的密码已重置。现在可以用新密码登录了。"
 #: src/dialogs/auth/change-password.tsx
 msgid "Your password has been updated."
 msgstr "你的密码已更新。"
+
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Your phone number has been changed."
+msgstr "你的手机号已更换。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Your phone number is written in an unusual shape."

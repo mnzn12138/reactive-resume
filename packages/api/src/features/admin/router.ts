@@ -1,6 +1,14 @@
 import { adminProcedure } from "../../context";
-import { adminAuditDto, adminOverviewDto, adminResumeDto, adminSettingDto, adminUserDto } from "../../dto/admin";
+import {
+	adminAuditDto,
+	adminDiagnosticsDto,
+	adminOverviewDto,
+	adminResumeDto,
+	adminSettingDto,
+	adminUserDto,
+} from "../../dto/admin";
 import { adminAuditService } from "./audit-service";
+import { adminDiagnosticsService } from "./diagnostics-service";
 import { adminOverviewService } from "./overview-service";
 import { adminResumeService } from "./resume-service";
 import { adminUserService } from "./service";
@@ -197,10 +205,27 @@ const auditRouter = {
 		.handler(({ input }) => adminAuditService.list(input)),
 };
 
+const diagnosticsRouter = {
+	get: adminProcedure
+		.route({
+			method: "GET",
+			path: "/admin/diagnostics",
+			tags: ["Internal"],
+			operationId: "adminGetDiagnostics",
+			summary: "Inspect the domestic sign-in channels",
+			description:
+				"Returns, for WeChat QR, Alipay QR and phone number + SMS code, whether every credential they need is present, which environment variables are still missing, and whether a runtime switch closed the channel. Credentials are masked down to their last four characters. Administrator access required.",
+			successDescription: "One entry per channel, always in the same order.",
+		})
+		.output(adminDiagnosticsDto.get.output)
+		.handler(() => adminDiagnosticsService.get()),
+};
+
 export const adminRouter = {
 	users: usersRouter,
 	resumes: resumesRouter,
 	overview: overviewRouter,
 	settings: settingsRouter,
 	audit: auditRouter,
+	diagnostics: diagnosticsRouter,
 };

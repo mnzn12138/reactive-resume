@@ -139,6 +139,76 @@ function RouteComponent() {
 				</p>
 			</LegalSection>
 
+			<LegalSection heading={<Trans comment="Section heading: the phone number used for sign-in">Phone number</Trans>}>
+				<p>
+					<Trans comment="Paragraph on what a phone number is stored as and what it is used for">
+						If this instance has phone sign-in enabled and you choose to use it, your number is stored in international
+						format: a leading plus sign, then the country code, then the rest of the number, as in +8613800138000.
+						Alongside it sits a flag recording whether the number has been confirmed by a code you entered. It is used
+						for signing you in and for getting you back into an account you cannot otherwise reach. It is not used to
+						send you marketing, and it is not handed to anyone for that purpose.
+					</Trans>
+				</p>
+				<p>
+					<Trans comment="Paragraph on the placeholder email and on removing a phone number">
+						This software requires a unique email address on every account, so one created by phone number alone is
+						given a placeholder address derived from it. That address is not a mailbox and nothing is sent to it. You
+						can change or remove the number from your account settings; removing it turns phone sign-in off for that
+						account, so keep another way in if it is the only one you have.
+					</Trans>
+				</p>
+			</LegalSection>
+
+			<LegalSection
+				heading={
+					<Trans comment="Section heading: the providers that deliver verification text messages">
+						Verification SMS providers
+					</Trans>
+				}
+			>
+				<p>
+					<Trans comment="Paragraph on which SMS provider carries the code and why the number reaches it">
+						If this instance has phone sign-in enabled, the one-time codes arrive as text messages sent by whichever
+						provider the operator of this instance has configured and holds a contract with, which is one of Alibaba
+						Cloud SMS or Tencent Cloud SMS. A code cannot be delivered without that provider receiving your number,
+						because the number is the address the message goes to. Which of the two is in use is the operator's choice
+						and not something this page can state on their behalf; ask them if you need to know.
+					</Trans>
+				</p>
+				<p>
+					<Trans comment="Paragraph on the hashed send log and its rate-limiting and audit purpose">
+						Each message leaves a row in this deployment's own send log, and that row does not hold your number or your
+						IP address in a readable form: it holds a keyed HMAC digest of each, from which the original cannot be
+						recovered. The log is what makes the limits enforceable — a cooldown of sixty seconds between codes, ten
+						messages per number per day, and twenty per IP address per hour — and what lets an operator trace abuse
+						after the fact. It is not a record of anything you wrote, and it is not used for anything else.
+					</Trans>
+				</p>
+			</LegalSection>
+
+			<LegalSection
+				heading={<Trans comment="Section heading: signing in through WeChat or Alipay">Third-party sign-in</Trans>}
+			>
+				<p>
+					<Trans comment="Paragraph on the identifiers WeChat and Alipay return, and the absence of an email address">
+						If this instance offers WeChat or Alipay sign-in and you use it, those services confirm who you are without
+						handing over an email address. What they return is an identifier: an openid or a unionid from WeChat, a
+						user_id from Alipay. It is stable for you within that service and means nothing outside it. That identifier
+						is what gets stored and linked to your account. Because an email address is required on every account in
+						this software, an account created this way is given a placeholder address generated for it. It is not a
+						mailbox you can receive mail at, and nothing is sent to it.
+					</Trans>
+				</p>
+				<p>
+					<Trans comment="Paragraph on unlinking a third-party sign-in and keeping one way in">
+						You can unlink WeChat or Alipay from your account settings at any time, and unlinking does not delete the
+						account itself. At least one way of signing in has to stay — a password, or another linked service — because
+						removing the last one would leave you unable to get back in. Which providers are offered at all is up to
+						whoever runs this instance.
+					</Trans>
+				</p>
+			</LegalSection>
+
 			<LegalSection
 				heading={<Trans comment="Section heading: user rights over their data">What you can ask for</Trans>}
 			>

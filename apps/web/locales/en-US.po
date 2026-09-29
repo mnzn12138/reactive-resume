@@ -288,6 +288,11 @@ msgstr "About me"
 msgid "Accept the Terms of Service and the Privacy Policy to create your account."
 msgstr "Accept the Terms of Service and the Privacy Policy to create your account."
 
+#. Admin console confirmation that the vendor accepted the test SMS
+#: src/features/settings/admin/test-sms-form.tsx
+msgid "Accepted"
+msgstr "Accepted"
+
 #: src/features/auth/pages/consent.tsx
 msgid "Access your account through the API, including reading and changing your resumes and job applications."
 msgstr "Access your account through the API, including reading and changing your resumes and job applications."
@@ -611,6 +616,17 @@ msgstr "AI providers require REDIS_URL and ENCRYPTION_SECRET to be configured."
 #: src/features/homepage/feature-explorer.tsx
 msgid "AI, when you want it"
 msgstr "AI, when you want it"
+
+#. Authentication provider display name in account settings
+#. Brand name label for Alipay social sign-in button
+#: src/features/auth/components/social-auth.tsx
+#: src/features/settings/authentication/components/hooks.tsx
+msgid "Alipay"
+msgstr "Alipay"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Alipay sign-in"
+msgstr "Alipay sign-in"
 
 #: src/features/homepage/languages-showcase.tsx
 msgid "All app languages"
@@ -1062,6 +1078,8 @@ msgstr "Campus recruitment layout for mainland China graduates: airy header with
 #. Confirmation dialog button label to abort resetting a resume section
 #. Profile settings form action to discard unsaved edits
 #. Secondary action button to close two-factor setup dialog
+#. Secondary action that aborts changing the phone number
+#. Secondary action that aborts changing the phone number
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/dialogs/resume/sections/custom.tsx
 #: src/dialogs/resume/sections/section-item-dialog.tsx
@@ -1073,6 +1091,7 @@ msgstr "Campus recruitment layout for mainland China graduates: airy header with
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/sharing/image-card.tsx
 #: src/features/resume/sharing/qr-card.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
@@ -1117,6 +1136,13 @@ msgstr "Change language"
 #: src/features/command-palette/pages/preferences/index.tsx
 msgid "Change language to…"
 msgstr "Change language to…"
+
+#. Authentication settings action that starts changing the bound phone number
+#. Secondary action that returns from the code step to entering a phone number
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Change Number"
+msgstr "Change Number"
 
 #: src/features/command-palette/pages/preferences/index.tsx
 msgid "Change theme to…"
@@ -1196,6 +1222,10 @@ msgstr "Checking…"
 #: src/routes/_home/privacy.tsx
 msgid "Children"
 msgstr "Children"
+
+#: src/routes/admin/settings.tsx
+msgid "China sign-in channels and SMS"
+msgstr "China sign-in channels and SMS"
 
 #: src/libs/locale.ts
 msgid "Chinese (Simplified)"
@@ -1293,6 +1323,22 @@ msgstr "Client ID"
 msgid "Close AI assistant"
 msgstr "Close AI assistant"
 
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Closed by switch"
+msgstr "Closed by switch"
+
+#: src/routes/admin/settings.tsx
+msgid "Closes phone number verification and stops outbound verification SMS. Existing accounts keep their verified numbers."
+msgstr "Closes phone number verification and stops outbound verification SMS. Existing accounts keep their verified numbers."
+
+#: src/routes/admin/settings.tsx
+msgid "Closes the Alipay QR sign-in endpoint. Accounts already linked to Alipay can still use their other sign-in methods."
+msgstr "Closes the Alipay QR sign-in endpoint. Accounts already linked to Alipay can still use their other sign-in methods."
+
+#: src/routes/admin/settings.tsx
+msgid "Closes the WeChat QR sign-in endpoint. Accounts already linked to WeChat can still use their other sign-in methods."
+msgstr "Closes the WeChat QR sign-in endpoint. Accounts already linked to WeChat can still use their other sign-in methods."
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Cohere"
 msgstr "Cohere"
@@ -1351,6 +1397,8 @@ msgid "Configured"
 msgstr "Configured"
 
 #. Account deletion confirmation dialog confirm action in account settings
+#. Primary action button that verifies the code and moves the account to the new number
+#: src/features/settings/authentication/components/phone-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
@@ -1362,7 +1410,9 @@ msgstr "Confirm"
 msgid "Confirm Password"
 msgstr "Confirm Password"
 
+#. Authentication settings action that starts binding a phone number
 #. Authentication settings action to link a social login provider
+#: src/features/settings/authentication/components/phone-section.tsx
 #: src/features/settings/authentication/components/social-provider.tsx
 msgid "Connect"
 msgstr "Connect"
@@ -1543,6 +1593,10 @@ msgstr "Could not restore this patch."
 #: src/routes/admin/settings.tsx
 msgid "Could not save the setting. Please try again."
 msgstr "Could not save the setting. Please try again."
+
+#: src/features/settings/admin/test-sms-form.tsx
+msgid "Could not send the test message. Please try again."
+msgstr "Could not send the test message. Please try again."
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Could not set up two-factor authentication."
@@ -2016,6 +2070,10 @@ msgid "Disable 2FA"
 msgstr "Disable 2FA"
 
 #: src/routes/admin/settings.tsx
+msgid "Disable Alipay sign-in"
+msgstr "Disable Alipay sign-in"
+
+#: src/routes/admin/settings.tsx
 msgid "Disable email and password authentication"
 msgstr "Disable email and password authentication"
 
@@ -2023,9 +2081,17 @@ msgstr "Disable email and password authentication"
 msgid "Disable new signups"
 msgstr "Disable new signups"
 
+#: src/routes/admin/settings.tsx
+msgid "Disable phone number sign-in"
+msgstr "Disable phone number sign-in"
+
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disable Two-Factor Authentication"
 msgstr "Disable Two-Factor Authentication"
+
+#: src/routes/admin/settings.tsx
+msgid "Disable WeChat sign-in"
+msgstr "Disable WeChat sign-in"
 
 #: src/dialogs/auth/disable-two-factor.tsx
 msgid "Disabling two-factor authentication..."
@@ -2199,6 +2265,11 @@ msgstr "Duplicate your resume to create a new one, just like the original."
 msgid "Duplicating your resume..."
 msgstr "Duplicating your resume..."
 
+#. Paragraph on the hashed send log and its rate-limiting and audit purpose
+#: src/routes/_home/privacy.tsx
+msgid "Each message leaves a row in this deployment's own send log, and that row does not hold your number or your IP address in a readable form: it holds a keyed HMAC digest of each, from which the original cannot be recovered. The log is what makes the limits enforceable — a cooldown of sixty seconds between codes, ten messages per number per day, and twenty per IP address per hour — and what lets an operator trace abuse after the fact. It is not a record of anything you wrote, and it is not used for anything else."
+msgstr "Each message leaves a row in this deployment's own send log, and that row does not hold your number or your IP address in a readable form: it holds a keyed HMAC digest of each, from which the original cannot be recovered. The log is what makes the limits enforceable — a cooldown of sixty seconds between codes, ten messages per number per day, and twenty per IP address per hour — and what lets an operator trace abuse after the fact. It is not a record of anything you wrote, and it is not used for anything else."
+
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "Earlier versions are kept; the builder's undo history is reset."
 msgstr "Earlier versions are kept; the builder's undo history is reset."
@@ -2283,6 +2354,8 @@ msgstr "Education"
 msgid "Effective date: {version}"
 msgstr "Effective date: {version}"
 
+#. Tab label that switches the login form to email and password
+#: src/features/auth/pages/login.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Email"
 msgstr "Email"
@@ -2321,6 +2394,7 @@ msgstr "Enable editing"
 msgid "Enable Two-Factor Authentication"
 msgstr "Enable Two-Factor Authentication"
 
+#: src/features/settings/admin/diagnostics-card.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Enabled"
 msgstr "Enabled"
@@ -2470,6 +2544,8 @@ msgstr "Exported pipeline-flow.png"
 msgid "Extracted text"
 msgstr "Extracted text"
 
+#. Admin console label for a test SMS the vendor refused
+#: src/features/settings/admin/test-sms-form.tsx
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Failed"
 msgstr "Failed"
@@ -2478,6 +2554,11 @@ msgstr "Failed"
 #: src/routes/agent/-components/thread-sidebar.tsx
 msgid "Failed to archive thread."
 msgstr "Failed to archive thread."
+
+#. Fallback toast when changing the bound phone number fails
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Failed to change your phone number. Please try again."
+msgstr "Failed to change your phone number. Please try again."
 
 #. Fallback toast when account registration fails without a server error message
 #: src/features/auth/pages/register.tsx
@@ -2560,6 +2641,16 @@ msgstr "Failed to save AI provider."
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Failed to send password reset email. Please try again."
 msgstr "Failed to send password reset email. Please try again."
+
+#. Fallback toast when requesting an SMS verification code fails without a server message
+#: src/features/auth/phone-otp.ts
+msgid "Failed to send the verification code. Please try again."
+msgstr "Failed to send the verification code. Please try again."
+
+#. Fallback toast when the SMS verification code cannot be verified
+#: src/features/auth/components/phone-auth.tsx
+msgid "Failed to sign in. Please check the code and try again."
+msgstr "Failed to sign in. Please check the code and try again."
 
 #. Fallback toast when sign-in fails and no server error message is available
 #. Fallback toast when sign-in fails without an error message
@@ -3028,7 +3119,9 @@ msgstr "Hyphenation"
 msgid "I design software for teams, from early research to the details people use every day."
 msgstr "I design software for teams, from early research to the details people use every day."
 
+#. Label beside the legal consent checkbox that gates the sign-up buttons
 #. Label beside the legal consent checkbox; the two links open the legal documents
+#: src/features/auth/components/legal-consent-checkbox.tsx
 #: src/features/auth/pages/register.tsx
 msgid "I have read and agree to the <0>Terms of Service</0> and the <1>Privacy Policy</1>."
 msgstr "I have read and agree to the <0>Terms of Service</0> and the <1>Privacy Policy</1>."
@@ -3041,6 +3134,21 @@ msgstr "Icon"
 #: src/features/ats-checker/messages.ts
 msgid "If it came from a scan, that is expected. Otherwise remove it; recruiters read it as keyword stuffing."
 msgstr "If it came from a scan, that is expected. Otherwise remove it; recruiters read it as keyword stuffing."
+
+#. Paragraph on what a phone number is stored as and what it is used for
+#: src/routes/_home/privacy.tsx
+msgid "If this instance has phone sign-in enabled and you choose to use it, your number is stored in international format: a leading plus sign, then the country code, then the rest of the number, as in +8613800138000. Alongside it sits a flag recording whether the number has been confirmed by a code you entered. It is used for signing you in and for getting you back into an account you cannot otherwise reach. It is not used to send you marketing, and it is not handed to anyone for that purpose."
+msgstr "If this instance has phone sign-in enabled and you choose to use it, your number is stored in international format: a leading plus sign, then the country code, then the rest of the number, as in +8613800138000. Alongside it sits a flag recording whether the number has been confirmed by a code you entered. It is used for signing you in and for getting you back into an account you cannot otherwise reach. It is not used to send you marketing, and it is not handed to anyone for that purpose."
+
+#. Paragraph on which SMS provider carries the code and why the number reaches it
+#: src/routes/_home/privacy.tsx
+msgid "If this instance has phone sign-in enabled, the one-time codes arrive as text messages sent by whichever provider the operator of this instance has configured and holds a contract with, which is one of Alibaba Cloud SMS or Tencent Cloud SMS. A code cannot be delivered without that provider receiving your number, because the number is the address the message goes to. Which of the two is in use is the operator's choice and not something this page can state on their behalf; ask them if you need to know."
+msgstr "If this instance has phone sign-in enabled, the one-time codes arrive as text messages sent by whichever provider the operator of this instance has configured and holds a contract with, which is one of Alibaba Cloud SMS or Tencent Cloud SMS. A code cannot be delivered without that provider receiving your number, because the number is the address the message goes to. Which of the two is in use is the operator's choice and not something this page can state on their behalf; ask them if you need to know."
+
+#. Paragraph on the identifiers WeChat and Alipay return, and the absence of an email address
+#: src/routes/_home/privacy.tsx
+msgid "If this instance offers WeChat or Alipay sign-in and you use it, those services confirm who you are without handing over an email address. What they return is an identifier: an openid or a unionid from WeChat, a user_id from Alipay. It is stable for you within that service and means nothing outside it. That identifier is what gets stored and linked to your account. Because an email address is required on every account in this software, an account created this way is given a placeholder address generated for it. It is not a mailbox you can receive mail at, and nothing is sent to it."
+msgstr "If this instance offers WeChat or Alipay sign-in and you use it, those services confirm who you are without handing over an email address. What they return is an identifier: an openid or a unionid from WeChat, a user_id from Alipay. It is stable for you within that service and means nothing outside it. That identifier is what gets stored and linked to your account. Because an email address is required on every account in this software, an account created this way is given a placeholder address generated for it. It is not a mailbox you can receive mail at, and nothing is sent to it."
 
 #: src/features/resume/sharing/image-card.tsx
 msgid "Image Card"
@@ -3240,6 +3348,11 @@ msgstr "Keep a single address, so software does not have to guess which one to u
 #: src/features/auth/pages/consent.tsx
 msgid "Keep access when you are not using the application."
 msgstr "Keep access when you are not using the application."
+
+#. Tooltip explaining why the last sign-in method cannot be disconnected
+#: src/features/settings/authentication/components/social-provider.tsx
+msgid "Keep at least one way to sign in."
+msgstr "Keep at least one way to sign in."
 
 #: src/features/homepage/export-playground.tsx
 msgid "Keep editing in Word, Google Docs, or Pages. Layout may differ from the PDF."
@@ -3656,6 +3769,10 @@ msgstr "Microsoft Word"
 msgid "Missing working resume"
 msgstr "Missing working resume"
 
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Missing:"
+msgstr "Missing:"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Mistral AI"
 msgstr "Mistral AI"
@@ -3960,6 +4077,7 @@ msgstr "No warranty"
 msgid "No work-experience section was found."
 msgstr "No work-experience section was found."
 
+#: src/features/settings/admin/diagnostics-card.tsx
 #: src/routes/admin/settings.tsx
 msgid "Not configured"
 msgstr "Not configured"
@@ -4319,8 +4437,10 @@ msgstr "Period"
 msgid "Perplexity"
 msgstr "Perplexity"
 
+#. Tab label that switches the login form to phone number and SMS code
 #: src/dialogs/resume/sections/reference.tsx
 #: src/features/ats-checker/parse-preview.tsx
+#: src/features/auth/pages/login.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Phone"
 msgstr "Phone"
@@ -4328,6 +4448,25 @@ msgstr "Phone"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Phone (optional)"
 msgstr "Phone (optional)"
+
+#. Section heading: the phone number used for sign-in
+#: src/features/settings/admin/test-sms-form.tsx
+#: src/routes/_home/privacy.tsx
+msgid "Phone number"
+msgstr "Phone number"
+
+#. Authentication provider display name in account settings
+#. Label for the phone number input in account settings
+#. Label for the phone number input used to sign in with an SMS code
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/hooks.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Phone Number"
+msgstr "Phone Number"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Phone number sign-in"
+msgstr "Phone number sign-in"
 
 #: src/routes/agent/index.tsx
 msgid "Pick a conversation from the sidebar, or start a new thread to work on a draft."
@@ -4835,6 +4974,21 @@ msgstr "Replace icon fonts with plain text, then re-export."
 msgid "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 msgstr "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 
+#. Action that asks for another SMS verification code
+#. Action that asks for another SMS verification code
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Resend Code"
+msgstr "Resend Code"
+
+#. Resend button label counting down the seconds left before another code can be requested
+#. Resend button label counting down the seconds left before another code can be requested
+#. placeholder {0}: otp.secondsLeft
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Resend in {0}s"
+msgstr "Resend in {0}s"
+
 #: src/features/settings/pages/profile.tsx
 msgid "Resend verification email"
 msgstr "Resend verification email"
@@ -5285,6 +5439,13 @@ msgstr "Semantic CSS stylesheet"
 msgid "Send answer"
 msgstr "Send answer"
 
+#. Primary action button that requests an SMS verification code for the entered phone number
+#. Primary action button that requests an SMS verification code for the new number
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Send Code"
+msgstr "Send Code"
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Send message"
 msgstr "Send message"
@@ -5294,6 +5455,11 @@ msgstr "Send message"
 msgid "Send Password Reset Email"
 msgstr "Send Password Reset Email"
 
+#. Admin console action that sends one test SMS through the configured vendor
+#: src/features/settings/admin/test-sms-form.tsx
+msgid "Send test message"
+msgstr "Send test message"
+
 #: src/features/ats-checker/messages.ts
 msgid "Send the resume itself rather than a portfolio wrapper."
 msgstr "Send the resume itself rather than a portfolio wrapper."
@@ -5301,6 +5467,10 @@ msgstr "Send the resume itself rather than a portfolio wrapper."
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Sending password reset email..."
 msgstr "Sending password reset email..."
+
+#: src/features/auth/phone-otp.ts
+msgid "Sending verification code…"
+msgstr "Sending verification code…"
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "Sends the text already extracted from your PDF to the AI provider you choose below. The PDF file itself is never uploaded."
@@ -5332,6 +5502,10 @@ msgstr "Server logs: request path, time, status, IP address, and user agent. Eve
 msgid "Set a password if you want only people who know it to open the public URL."
 msgstr "Set a password if you want only people who know it to open the public URL."
 
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Set ALIPAY_APP_ID, ALIPAY_PRIVATE_KEY and ALIPAY_PUBLIC_KEY on the server, then restart it."
+msgstr "Set ALIPAY_APP_ID, ALIPAY_PRIVATE_KEY and ALIPAY_PUBLIC_KEY on the server, then restart it."
+
 #: src/routes/admin/settings.tsx
 msgid "Set in this console"
 msgstr "Set in this console"
@@ -5341,6 +5515,10 @@ msgstr "Set in this console"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Set Password"
 msgstr "Set Password"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Set SMS_PROVIDER to aliyun or tencent and fill in that vendor's credentials, then restart the server."
+msgstr "Set SMS_PROVIDER to aliyun or tencent and fill in that vendor's credentials, then restart the server."
 
 #: src/features/ats-checker/messages.ts
 msgid "Set the document language when exporting."
@@ -5365,6 +5543,10 @@ msgstr "Set up an AI provider first."
 #: src/routes/builder/$resumeId/-components/ai-assistant.tsx
 msgid "Set up an AI provider to chat about this resume and apply edits automatically."
 msgstr "Set up an AI provider to chat about this resume and apply edits automatically."
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "Set WECHAT_APP_ID and WECHAT_APP_SECRET on the server, then restart it."
+msgstr "Set WECHAT_APP_ID and WECHAT_APP_SECRET on the server, then restart it."
 
 #: src/features/command-palette/pages/navigation.tsx
 #: src/routes/admin/-components/sidebar.tsx
@@ -5483,6 +5665,11 @@ msgstr "Sidebar Width"
 msgid "Sign in"
 msgstr "Sign in"
 
+#. Primary action button that verifies the SMS code, signing the user in or creating the account
+#: src/features/auth/components/phone-auth.tsx
+msgid "Sign in / Register"
+msgstr "Sign in / Register"
+
 #: src/features/ats-checker/ai-review/locked-card.tsx
 msgid "Sign in and connect your own AI provider to get rewrite suggestions for weak bullets. The checks above are free and need no account."
 msgstr "Sign in and connect your own AI provider to get rewrite suggestions for weak bullets. The checks above are free and need no account."
@@ -5528,6 +5715,7 @@ msgstr "Sign-in uses a session cookie, and it is strictly necessary: without it 
 msgid "Signed in as {email}"
 msgstr "Signed in as {email}"
 
+#: src/features/auth/components/phone-auth.tsx
 #: src/features/auth/components/social-auth.tsx
 #: src/features/auth/pages/login.tsx
 msgid "Signing in..."
@@ -5996,12 +6184,12 @@ msgid "That file is too large to check in the browser."
 msgstr "That file is too large to check in the browser."
 
 #: src/features/auth/pages/error.tsx
-msgid "That provider account is already linked to a different user."
-msgstr "That provider account is already linked to a different user."
+msgid "That provider account could not be linked because it shares no email address with your account."
+msgstr "That provider account could not be linked because it shares no email address with your account."
 
 #: src/features/auth/pages/error.tsx
-msgid "That provider account uses a different email address than your account."
-msgstr "That provider account uses a different email address than your account."
+msgid "That provider account is already linked to a different user."
+msgstr "That provider account is already linked to a different user."
 
 #: src/features/auth/pages/error.tsx
 msgid "That sign-in provider is no longer available on this server."
@@ -6058,8 +6246,8 @@ msgid "The provider didn't share an email address, which is required to sign in.
 msgstr "The provider didn't share an email address, which is required to sign in."
 
 #: src/features/auth/pages/error.tsx
-msgid "The provider rejected this sign-in attempt. Please start again."
-msgstr "The provider rejected this sign-in attempt. Please start again."
+msgid "The provider rejected this sign-in attempt. If you scanned an old QR code, please start again."
+msgstr "The provider rejected this sign-in attempt. If you scanned an old QR code, please start again."
 
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "The provider returned a review that could not be read. Try again."
@@ -6179,6 +6367,11 @@ msgstr "Thinking"
 #: src/routes/_home/privacy.tsx
 msgid "Third-party services"
 msgstr "Third-party services"
+
+#. Section heading: signing in through WeChat or Alipay
+#: src/routes/_home/privacy.tsx
+msgid "Third-party sign-in"
+msgstr "Third-party sign-in"
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
@@ -6323,6 +6516,11 @@ msgstr "This is an XFA form, so most software reads only the empty shell."
 msgid "This is not a common resume page size."
 msgstr "This is not a common resume page size."
 
+#. Hint explaining that the last remaining sign-in method cannot be removed
+#: src/features/settings/authentication/components/social-provider.tsx
+msgid "This is your only way to sign in. Connect another method before disconnecting this one."
+msgstr "This is your only way to sign in. Connect another method before disconnecting this one."
+
 #: src/libs/resume/ats.ts
 msgid "This link is missing its protocol."
 msgstr "This link is missing its protocol."
@@ -6425,6 +6623,11 @@ msgstr "This section sits in the sidebar."
 #: src/features/auth/pages/error.tsx
 msgid "This sign-in attempt expired or was already used. Please start again."
 msgstr "This sign-in attempt expired or was already used. Please start again."
+
+#. Paragraph on the placeholder email and on removing a phone number
+#: src/routes/_home/privacy.tsx
+msgid "This software requires a unique email address on every account, so one created by phone number alone is given a placeholder address derived from it. That address is not a mailbox and nothing is sent to it. You can change or remove the number from your account settings; removing it turns phone sign-in off for that account, so keep another way in if it is the only one you have."
+msgstr "This software requires a unique email address on every account, so one created by phone number alone is given a placeholder address derived from it. That address is not a mailbox and nothing is sent to it. You can change or remove the number from your account settings; removing it turns phone sign-in off for that account, so keep another way in if it is the only one you have."
 
 #: src/features/auth/pages/register.tsx
 msgid "This step is optional, but recommended."
@@ -6989,6 +7192,18 @@ msgstr "Vary the openings so the section does not read as boilerplate."
 msgid "Vercel AI Gateway"
 msgstr "Vercel AI Gateway"
 
+#. Label for the SMS verification code input
+#. Label for the SMS verification code input
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Verification Code"
+msgstr "Verification Code"
+
+#. Section heading: the providers that deliver verification text messages
+#: src/routes/_home/privacy.tsx
+msgid "Verification SMS providers"
+msgstr "Verification SMS providers"
+
 #: src/features/settings/pages/profile.tsx
 msgid "Verified"
 msgstr "Verified"
@@ -7012,6 +7227,7 @@ msgid "Verifying code..."
 msgstr "Verifying code..."
 
 #: src/dialogs/auth/enable-two-factor.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
 msgid "Verifying code…"
 msgstr "Verifying code…"
 
@@ -7019,11 +7235,18 @@ msgstr "Verifying code…"
 msgid "Verifying password..."
 msgstr "Verifying password..."
 
+#. Hint explaining that the new number replaces the current one once verified
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Verifying the code replaces the number your account uses to sign in."
+msgstr "Verifying the code replaces the number your account uses to sign in."
+
 #: src/features/auth/pages/register.tsx
 msgid "Verifying your email is required when resetting your password."
 msgstr "Verifying your email is required when resetting your password."
 
+#. Note under the consent checkbox naming the version being accepted
 #. Note under the legal consent checkbox naming the version being accepted
+#: src/features/auth/components/legal-consent-checkbox.tsx
 #: src/features/auth/pages/register.tsx
 msgid "Version {legalDocumentVersion} of both documents."
 msgstr "Version {legalDocumentVersion} of both documents."
@@ -7095,6 +7318,14 @@ msgstr "We couldn't open this thread."
 msgid "We couldn't read your profile from the provider."
 msgstr "We couldn't read your profile from the provider."
 
+#. Hint telling the user which number the verification code was sent to
+#. Hint telling the user which number the verification code was sent to
+#. placeholder {0}: otp.phoneNumber
+#: src/features/auth/components/phone-auth.tsx
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "We sent a 6-digit code to {0}."
+msgstr "We sent a 6-digit code to {0}."
+
 #: src/features/settings/pages/profile.tsx
 msgid "We sent a confirmation link to your new email address. Open it to confirm the change."
 msgstr "We sent a confirmation link to your new email address. Open it to confirm the change."
@@ -7102,6 +7333,11 @@ msgstr "We sent a confirmation link to your new email address. Open it to confir
 #: src/features/settings/pages/profile.tsx
 msgid "We sent a new verification link to your email address. Open it to verify your account."
 msgstr "We sent a new verification link to your email address. Open it to verify your account."
+
+#. Hint under the phone number input explaining an account is created on first use
+#: src/features/auth/components/phone-auth.tsx
+msgid "We'll create your account the first time you use this number."
+msgstr "We'll create your account the first time you use this number."
 
 #: src/routes/agent/-components/tool-part-card.tsx
 msgid "Web search"
@@ -7120,6 +7356,17 @@ msgstr "Web search"
 msgid "Website"
 msgstr "Website"
 
+#. Authentication provider display name in account settings
+#. Brand name label for WeChat social sign-in button
+#: src/features/auth/components/social-auth.tsx
+#: src/features/settings/authentication/components/hooks.tsx
+msgid "WeChat"
+msgstr "WeChat"
+
+#: src/features/settings/admin/diagnostics-card.tsx
+msgid "WeChat sign-in"
+msgstr "WeChat sign-in"
+
 #: src/features/ats-checker/parse-preview.tsx
 msgid "What a parser reads"
 msgstr "What a parser reads"
@@ -7135,6 +7382,10 @@ msgstr "What do you want to do?"
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx
 msgid "What do you want to rename this section to?"
 msgstr "What do you want to rename this section to?"
+
+#: src/routes/admin/settings.tsx
+msgid "What the server can actually use right now. Credentials are read from environment variables at startup, so a change needs a restart; the switches above take effect immediately."
+msgstr "What the server can actually use right now. Credentials are read from environment variables at startup, so a change needs a restart; the switches above take effect immediately."
 
 #: src/routes/_home/ats-checker.tsx
 msgid "What this checks"
@@ -7298,6 +7549,11 @@ msgstr "You can also sign in with your username."
 msgid "You can always go back to the original."
 msgstr "You can always go back to the original."
 
+#. Paragraph on unlinking a third-party sign-in and keeping one way in
+#: src/routes/_home/privacy.tsx
+msgid "You can unlink WeChat or Alipay from your account settings at any time, and unlinking does not delete the account itself. At least one way of signing in has to stay — a password, or another linked service — because removing the last one would leave you unable to get back in. Which providers are offered at all is up to whoever runs this instance."
+msgstr "You can unlink WeChat or Alipay from your account settings at any time, and unlinking does not delete the account itself. At least one way of signing in has to stay — a password, or another linked service — because removing the last one would leave you unable to get back in. Which providers are offered at all is up to whoever runs this instance."
+
 #: src/features/auth/pages/error.tsx
 msgid "You cancelled the sign-in before it finished."
 msgstr "You cancelled the sign-in before it finished."
@@ -7431,6 +7687,10 @@ msgstr "Your password has been reset. You can now sign in with your new password
 #: src/dialogs/auth/change-password.tsx
 msgid "Your password has been updated."
 msgstr "Your password has been updated."
+
+#: src/features/settings/authentication/components/phone-section.tsx
+msgid "Your phone number has been changed."
+msgstr "Your phone number has been changed."
 
 #: src/features/ats-checker/messages.ts
 msgid "Your phone number is written in an unusual shape."
