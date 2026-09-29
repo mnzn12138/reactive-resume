@@ -84,9 +84,9 @@
 
 | # | 步骤 | 天数 | 要点 |
 |---|---|---|---|
-| M1 | 契约导出(只切要迁的接口) | 2~3 | `/api/openapi` 端点现在就能用(`app.ts:49-50`);不必一次改 124 处 |
-| M2 | Alembic 基线 + SQLAlchemy 模型 | 2~3 | `pg_dump --schema-only` 出 DDL;之后 Drizzle 停更 |
-| M3 | Python 取身份 | 1 | `session.token` 是明文列,一条 `JOIN session/user WHERE token=? AND expires_at>now()` 即可 |
+| M1 | 契约导出(只切要迁的接口) | 2~3 | **已完成(2026-09-29)**。`services/resume-api/tools/export_contract.mjs` 拉 `/api/openapi/spec.json`(注意**必须带 `/spec.json`**,裸 `/api/openapi` 是 404),白名单切出 7 个 operationId;忽略 64 个。脚本幂等(连跑两次 md5 相同),白名单缺项报错 |
+| M2 | Alembic 基线 + SQLAlchemy 模型 | 2~3 | **已完成(2026-09-29)**。基线 `0001` = `pg_dump --schema-only` 全部 28 张表;模型只建 `resume` / `user` / `session`(只读,认人用)/ `resume_statistics`。空库 upgrade→downgrade→upgrade 已验,临时库已 DROP。**生产库还没 stamp,真交接前要 `alembic stamp 0001`** |
+| M3 | Python 取身份 | 1 | **已完成(2026-09-29)**。`services/resume-api/app/identity.py`,cookie `better-auth.session_token` → `session JOIN user`,8 个 pytest 覆盖有效/过期/无 cookie/伪造 |
 | M4 | 简历 CRUD 迁 Python | 4~6 | 核心工作量 |
 | M5 | PDF / DOCX 联调 | 2~3 | 渲染仍调 Node 内部端点,`packages/pdf` 一行不改 |
 | M6 | 部署 + 验收 | 3~4 | 两边环境变量名必须一字不差(尤其 `AUTH_SECRET`) |
@@ -110,15 +110,15 @@
 4. **A5 国产大模型预设 + A6 中文提示词(1.5~2.5) —— 已完成(2026-09-28),见 4.8**
 5. **A7 结构化文本导出 + A8 二维码名片 + A9 简历图片卡(2.5~3) —— 已完成(2026-09-28),见 4.9**
 6. **A10 中文隐私与用户协议(1~1.5) —— 已完成(2026-09-28),见 4.10**
-7. **B1 微信 + B3 支付宝 + B2 手机号短信**(4.5~5.5)
-8. B4 国产对象存储(0.5)
-9. A3 中文字体通道(0.5~2.5)
+7. **B1 微信 + B3 支付宝 + B2 手机号短信**(4.5~5.5) —— **已完成(2026-09-29)**
+8. **B4 国产对象存储(0.5) —— 已完成(2026-09-29)**:`packages/api/src/features/storage/presets.ts` 三家预设,显式 `S3_ENDPOINT` 永远赢,冲突打 warn;健康检查 `type` 扩到 `local/s3/oss/cos/obs`。见 `DEPLOYMENT.md` 3.4.1
+9. **A3 中文字体通道(0.5~2.5) —— 已完成(2026-09-29)**:中文回退权重收敛到 400/700 ⇒ 40.3 MiB → **20.1 MiB**;配子集化 + 自托管覆盖表 ⇒ **4.2 MiB 且可离线**。⚠️ **不要**改回「CJK 不注册 italic」——`@react-pdf/font@4.1.2` 按 `fontStyle` 精确匹配且无回退,中文里一个 `<em>` 就会抛 `Could not resolve font`,已实测。见 `DEPLOYMENT.md` 3.5
 
 ### 4.2 迁移后(3 项,约 11~14 天)
 
 判定依据:属新业务或落在 `packages/api` 业务层,迁移后归 Python 一次成型,避免写两遍。
 
-1. A11 ATS 国内可解析性规则(1.5)
+1. **A11 ATS 国内可解析性规则(1.5) —— 已完成(2026-09-29)**:6 个维度盘点后新增 9 条 code(双栏页、表格内条目、纯图片条目、图标字段、半截时间、缺职位、私用区字符、全角日期、非标准项目符号)。「页眉页脚」与「图形化时间轴」**缺数据字段、做不了数据级判定**,交给已有的文件级规则(`TEXT_IN_MARGIN_ZONE`).顺带修了 `2020.03 - 2022.06` / `2020年3月` 这类国内写法被判为不可解析的误报
 2. 校招岗位板(doc1,6~7 天,新建 `recruitment_post` / `_report` / `_bookmark` 三表)
 3. A12 招聘平台格式适配(2~3)
 
