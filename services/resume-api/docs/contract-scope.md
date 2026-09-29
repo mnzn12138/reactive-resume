@@ -63,14 +63,14 @@ node tools/export_contract.mjs --url <spec 地址>      # 或显式指定
 | 分组 | 代表性路径 | 为什么留在 Node |
 | --- | --- | --- |
 | 导入解析 | `POST /resumes/import`、`POST /ai/parse-pdf`、`POST /ai/parse-docx` | 依赖 pdf/docx 解析与大模型链路，Python 侧不具备 |
-| 简历附属能力 | `POST /resumes/{id}/lock`、`POST /resumes/{id}/duplicate`、`PUT|DELETE /resumes/{id}/password`、`POST /resumes/{username}/{slug}/password/verify`、`GET /resumes/{id}/pdf`、`GET /resumes/{id}/updates`、`/resumes/{resumeId}/versions/*` | 不在「CRUD 最小集」内；涉及渲染、SSE、版本快照 |
+| 简历附属能力 | `POST /resumes/{id}/lock`、`POST /resumes/{id}/duplicate`、`PUT\|DELETE /resumes/{id}/password`、`POST /resumes/{username}/{slug}/password/verify`、`GET /resumes/{id}/pdf`、`GET /resumes/{id}/updates`、`/resumes/{resumeId}/versions/*` | 不在「CRUD 最小集」内；涉及渲染、SSE、版本快照 |
 | 统计 | `GET /resumes/{id}/statistics`、`GET /resumes/{id}/statistics/daily`、`GET /statistics*`、`POST /resumes/{username}/{slug}/statistics/download` | 明确约定「统计留在 Node」 |
 | 简历标签（聚合） | `GET /resumes/tags` | 聚合查询，不属于 CRUD 核心 |
-| applications | `GET|POST|PUT|DELETE /applications*`、`POST /applications/import` | 完全不在迁移范围 |
+| applications | `GET\|POST\|PUT\|DELETE /applications*`、`POST /applications/import` | 完全不在迁移范围 |
 | AI | `POST /ai/chat`、`POST /ai/ats-review`、`POST /applications/{id}/ai/*` | 依赖大模型网关 |
 | MCP | MCP server 暴露的同一批工具 | 走 Node 的 MCP 实现 |
 | Agent | `/agent/threads*`、`/agent/messages/*`、`/agent/actions/*`、`/agent/attachments/*` | 依赖 SSE 流式与存储 |
-| 全部鉴权 | `/auth/*`（Better Auth）、`GET /auth/providers`、`GET|DELETE /auth/account` | 会话生命周期仍由 Node 的 Better Auth 负责；Python 只**读** `session` 表认人（见 M3） |
+| 全部鉴权 | `/auth/*`（Better Auth）、`GET /auth/providers`、`GET\|DELETE /auth/account` | 会话生命周期仍由 Node 的 Better Auth 负责；Python 只**读** `session` 表认人（见 M3） |
 | 管理后台 | `admin_audit_log` 等相关接口 | 不在范围 |
 | 其它 | `GET /api/health`、`GET /flags`、`POST /resume/getRoot` | 与简历 CRUD 无关 |
 
