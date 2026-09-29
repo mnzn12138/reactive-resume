@@ -5,6 +5,7 @@ import { aiProvidersRouter } from "../features/ai-providers/router";
 import { applicationsRouter } from "../features/applications/router";
 import { authRouter } from "../features/auth/router";
 import { flagsRouter } from "../features/flags/router";
+import { recruitmentRouter } from "../features/recruitment/router";
 import { resumeRouter } from "../features/resume/router";
 import { smsRouter } from "../features/sms/router";
 import { statisticsRouter } from "../features/statistics/router";
@@ -18,6 +19,7 @@ export default {
 	applications: applicationsRouter,
 	auth: authRouter,
 	flags: flagsRouter,
+	recruitment: recruitmentRouter,
 	resume: resumeRouter,
 	sms: smsRouter,
 	statistics: statisticsRouter,

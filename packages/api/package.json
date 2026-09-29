@@ -8,6 +8,8 @@
 		"./context": "./src/context.ts",
 		"./features/agent/runs": "./src/features/agent/runs.ts",
 		"./features/flags": "./src/features/flags/index.ts",
+		"./features/recruitment/convert": "./src/features/recruitment/convert.ts",
+		"./features/recruitment/options": "./src/features/recruitment/options.ts",
 		"./features/resume/export": "./src/features/resume/export.ts",
 		"./features/resume/public-pdf": "./src/features/resume/public-pdf.ts",
 		"./features/resume/social-meta": "./src/features/resume/social-meta.ts",
