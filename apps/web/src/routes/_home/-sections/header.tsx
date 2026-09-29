@@ -1,5 +1,6 @@
 import { t } from "@lingui/core/macro";
-import { ArrowRightIcon, TranslateIcon } from "@phosphor-icons/react";
+import { Trans } from "@lingui/react/macro";
+import { ArrowRightIcon, MegaphoneIcon, TranslateIcon } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
 import { m, useMotionValue, useSpring } from "motion/react";
 import { useEffect, useRef } from "react";
@@ -8,7 +9,12 @@ import { Button } from "@reactive-resume/ui/components/button";
 import { LocaleCombobox } from "@/features/locale/combobox";
 import { ThemeToggleButton } from "@/features/theme/toggle-button";
 
-export function Header() {
+type HeaderProps = {
+	/** Instance flag; off by default, and the board itself 404s when it is. */
+	showJobBoard?: boolean;
+};
+
+export function Header({ showJobBoard = false }: HeaderProps) {
 	const y = useMotionValue(0);
 	const lastScroll = useRef(0);
 	const ticking = useRef(false);
@@ -53,6 +59,22 @@ export function Header() {
 				</Link>
 
 				<div className="ml-auto flex items-center gap-x-2">
+					{showJobBoard && (
+						<Button
+							size="sm"
+							variant="ghost"
+							nativeButton={false}
+							render={
+								<Link to="/jobs">
+									<MegaphoneIcon />
+									<span className="max-sm:hidden">
+										<Trans>Campus jobs</Trans>
+									</span>
+								</Link>
+							}
+						/>
+					)}
+
 					<LocaleCombobox
 						render={
 							<Button size="icon" variant="ghost" aria-label={t`Change language`}>

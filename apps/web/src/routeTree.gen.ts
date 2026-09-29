@@ -40,6 +40,8 @@ import { Route as AuthVerify2faRouteImport } from "./routes/auth/verify-2fa";
 import { Route as AuthVerify2faBackupRouteImport } from "./routes/auth/verify-2fa-backup";
 import { Route as BuilderResumeIdRouteRouteImport } from "./routes/builder/$resumeId/route";
 import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
+import { Route as JobsIndexRouteImport } from "./routes/jobs/index";
+import { Route as JobsPostIdRouteImport } from "./routes/jobs/$postId";
 import { Route as TemplatesSplatRouteImport } from "./routes/templates/$";
 import { Route as BuilderResumeIdIndexRouteImport } from "./routes/builder/$resumeId/index";
 import { Route as DashboardApplicationsIndexRouteImport } from "./routes/dashboard/applications/index";
@@ -205,6 +207,16 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   path: "/",
   getParentRoute: () => DashboardRouteRoute,
 } as any);
+const JobsIndexRoute = JobsIndexRouteImport.update({
+  id: "/jobs/",
+  path: "/jobs/",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const JobsPostIdRoute = JobsPostIdRouteImport.update({
+  id: "/jobs/$postId",
+  path: "/jobs/$postId",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const TemplatesSplatRoute = TemplatesSplatRouteImport.update({
   id: "/templates/$",
   path: "/templates/$",
@@ -290,11 +302,13 @@ export interface FileRoutesByFullPath {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/jobs/$postId": typeof JobsPostIdRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/admin/": typeof AdminIndexRoute;
   "/agent/": typeof AgentIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
+  "/jobs/": typeof JobsIndexRoute;
   "/dashboard/settings/integrations": typeof DashboardSettingsIntegrationsRouteRoute;
   "/dashboard/settings/account": typeof DashboardSettingsAccountRoute;
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
@@ -326,12 +340,14 @@ export interface FileRoutesByTo {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/jobs/$postId": typeof JobsPostIdRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/": typeof HomeIndexRoute;
   "/admin": typeof AdminIndexRoute;
   "/agent": typeof AgentIndexRoute;
   "/auth": typeof AuthIndexRoute;
   "/dashboard": typeof DashboardIndexRoute;
+  "/jobs": typeof JobsIndexRoute;
   "/dashboard/settings/integrations": typeof DashboardSettingsIntegrationsRouteRoute;
   "/dashboard/settings/account": typeof DashboardSettingsAccountRoute;
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
@@ -370,12 +386,14 @@ export interface FileRoutesById {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/jobs/$postId": typeof JobsPostIdRoute;
   "/templates/$": typeof TemplatesSplatRoute;
   "/_home/": typeof HomeIndexRoute;
   "/admin/": typeof AdminIndexRoute;
   "/agent/": typeof AgentIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
+  "/jobs/": typeof JobsIndexRoute;
   "/dashboard/settings/integrations": typeof DashboardSettingsIntegrationsRouteRoute;
   "/dashboard/settings/account": typeof DashboardSettingsAccountRoute;
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
@@ -415,11 +433,13 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/jobs/$postId"
     | "/templates/$"
     | "/admin/"
     | "/agent/"
     | "/auth/"
     | "/dashboard/"
+    | "/jobs/"
     | "/dashboard/settings/integrations"
     | "/dashboard/settings/account"
     | "/dashboard/settings/job-search"
@@ -451,12 +471,14 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/jobs/$postId"
     | "/templates/$"
     | "/"
     | "/admin"
     | "/agent"
     | "/auth"
     | "/dashboard"
+    | "/jobs"
     | "/dashboard/settings/integrations"
     | "/dashboard/settings/account"
     | "/dashboard/settings/job-search"
@@ -494,12 +516,14 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/jobs/$postId"
     | "/templates/$"
     | "/_home/"
     | "/admin/"
     | "/agent/"
     | "/auth/"
     | "/dashboard/"
+    | "/jobs/"
     | "/dashboard/settings/integrations"
     | "/dashboard/settings/account"
     | "/dashboard/settings/job-search"
@@ -519,7 +543,9 @@ export interface RootRouteChildren {
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
   BuilderResumeIdRouteRoute: typeof BuilderResumeIdRouteRouteWithChildren;
   UsernameSlugRoute: typeof UsernameSlugRoute;
+  JobsPostIdRoute: typeof JobsPostIdRoute;
   TemplatesSplatRoute: typeof TemplatesSplatRoute;
+  JobsIndexRoute: typeof JobsIndexRoute;
 }
 
 declare module "@tanstack/react-router" {
@@ -741,6 +767,20 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof DashboardIndexRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
+    "/jobs/": {
+      id: "/jobs/";
+      path: "/jobs";
+      fullPath: "/jobs/";
+      preLoaderRoute: typeof JobsIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/jobs/$postId": {
+      id: "/jobs/$postId";
+      path: "/jobs/$postId";
+      fullPath: "/jobs/$postId";
+      preLoaderRoute: typeof JobsPostIdRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/templates/$": {
       id: "/templates/$";
       path: "/templates/$";
@@ -949,7 +989,9 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   BuilderResumeIdRouteRoute: BuilderResumeIdRouteRouteWithChildren,
   UsernameSlugRoute: UsernameSlugRoute,
+  JobsPostIdRoute: JobsPostIdRoute,
   TemplatesSplatRoute: TemplatesSplatRoute,
+  JobsIndexRoute: JobsIndexRoute,
 };
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

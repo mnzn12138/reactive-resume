@@ -11,6 +11,7 @@ function RouteComponent() {
 	const rootMode = rootMatch?.loaderData?.root.status;
 	// The homepage ships its own header and skip link; the shared ones are for the other marketing pages.
 	const isHomepage = rootMatch !== undefined && (!rootMode || rootMode === "disabled");
+	const { flags } = Route.useRouteContext();
 	return (
 		<>
 			{!isHomepage && (
@@ -21,7 +22,7 @@ function RouteComponent() {
 					<Trans>Skip to main content</Trans>
 				</a>
 			)}
-			{!rootMatch && <Header />}
+			{!rootMatch && <Header showJobBoard={flags.recruitmentBoardEnabled} />}
 			<Outlet />
 		</>
 	);

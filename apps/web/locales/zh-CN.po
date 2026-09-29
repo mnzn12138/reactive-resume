@@ -139,6 +139,10 @@ msgstr "{count, plural, one {# 条备注} other {# 条备注}}"
 msgid "{count, plural, one {# warning} other {# warnings}}"
 msgstr "{count, plural, one {# 个警告} other {# 个警告}}"
 
+#: src/features/recruitment/components/availability-badge.tsx
+msgid "{days, plural, one {# day left} other {# days left}}"
+msgstr "{days, plural, one {# 天后截止} other {# 天后截止}}"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "{label} over the last 30 days"
 msgstr "{label} 在过去 30 天内"
@@ -150,6 +154,14 @@ msgstr "{passedRules} 项检查中，{totalRules} 项已通过"
 #: src/libs/resume/ats.ts
 msgid "{sectionTitle} · Item {itemNumber}"
 msgstr "{sectionTitle} · 项目 {itemNumber} "
+
+#: src/features/recruitment/components/post-filters.tsx
+msgid "{total, plural, one {# result} other {# results}}"
+msgstr "{total, plural, one {# 条结果} other {# 条结果}}"
+
+#: src/features/recruitment/components/enum-badge-list.tsx
+msgid "+{overflow}"
+msgstr "+{overflow}"
 
 #: src/features/homepage/page.tsx
 msgid "<0>Free forever and open source.</0><1/>No ads, paywalls, or tracking."
@@ -186,6 +198,10 @@ msgstr "2022 至今"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "2022 to now"
 msgstr "2022 至今"
+
+#: src/features/recruitment/labels.ts
+msgid "985/211 bachelor's"
+msgstr "985/211 本科"
 
 #: src/features/ats-checker/messages.ts
 msgid "A date is in the future."
@@ -486,6 +502,10 @@ msgstr "添加关键字"
 msgid "Add link"
 msgstr "添加链接"
 
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Add location"
+msgstr "添加城市"
+
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Add multiple roles to show career progression at the same company."
 msgstr "添加多个职位以展示在同一公司的职业晋升情况。"
@@ -521,6 +541,11 @@ msgstr "添加标签"
 #: src/libs/resume/ats.ts
 msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
 msgstr "在图标旁边补上文字。解析时会丢掉图标、只留下文字。"
+
+#: src/features/recruitment/components/add-to-applications-button.tsx
+#: src/features/recruitment/components/post-table.tsx
+msgid "Add to my applications"
+msgstr "加入我的申请追踪"
 
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Add to pipeline"
@@ -568,6 +593,10 @@ msgstr "高级"
 #: src/features/ats-checker/messages.ts
 msgid "Advice for the person reading it. None of this affects the score."
 msgstr "给读者的建议。这些都不会影响分数。"
+
+#: src/features/recruitment/labels.ts
+msgid "Afternoon tea"
+msgstr "下午茶"
 
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Against the job description"
@@ -681,6 +710,10 @@ msgstr "已覆盖"
 msgid "Already have an account? <0/>"
 msgstr "已有账户？<0/>"
 
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Already in my applications"
+msgstr "已在我的申请追踪中"
+
 #. Paragraph listing optional integrations that receive data
 #: src/routes/_home/privacy.tsx
 msgid "An administrator can connect services that necessarily receive some data: an SMTP provider for verification and password-reset emails, an S3-compatible bucket for uploads, Google, GitHub or LinkedIn for social sign-in, and a model provider for the optional AI features. Which of those are live depends on this deployment."
@@ -711,6 +744,19 @@ msgstr "Anthropic Claude"
 msgid "Any action"
 msgstr "全部操作"
 
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Any batch"
+msgstr "全部批次"
+
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Any benefit"
+msgstr "全部福利"
+
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Any education"
+msgstr "全部学历要求"
+
+#: src/features/recruitment/components/post-filters.tsx
 #: src/routes/admin/resumes.tsx
 #: src/routes/admin/users.tsx
 msgid "Any status"
@@ -724,9 +770,17 @@ msgstr "任意标签"
 msgid "Any target"
 msgstr "全部对象"
 
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Any type"
+msgstr "全部招聘类型"
+
 #: src/routes/admin/resumes.tsx
 msgid "Any visibility"
 msgstr "任意可见性"
+
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Any work mode"
+msgstr "全部工作方式"
 
 #: src/features/resume/builder/password-dialog.tsx
 msgid "Anyone who opens the public URL will need this password."
@@ -792,6 +846,10 @@ msgstr "申请已更新。"
 msgid "Applications"
 msgstr "申请"
 
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Applications accepted indefinitely"
+msgstr "长期招聘，随时可投"
+
 #: src/features/applications/components/insights-view.tsx
 msgid "Applications over time"
 msgstr "申请随时间变化"
@@ -812,6 +870,10 @@ msgstr "已申请"
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Applied on"
 msgstr "申请日期"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Apply on the company's site"
+msgstr "在公司官网投递"
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Approve"
@@ -897,6 +959,10 @@ msgstr "如果您自己无法完成，可以向本实例的运营方索取您的
 msgid "Aspect Ratio"
 msgstr "宽高比"
 
+#: src/features/recruitment/labels.ts
+msgid "Associate degree"
+msgstr "专科"
+
 #: src/libs/resume/section.tsx
 msgid "ATS Check"
 msgstr "ATS 检查"
@@ -937,6 +1003,10 @@ msgstr "身份验证"
 msgid "Auto-fill failed."
 msgstr "自动填充失败。"
 
+#: src/features/recruitment/components/post-table.tsx
+msgid "Availability"
+msgstr "投递状态"
+
 #: src/features/ats-checker/messages.ts
 msgid "Avoid heavy letter-spacing effects, then re-export."
 msgstr "避免使用过大的字距效果，然后重新导出。"
@@ -955,6 +1025,10 @@ msgstr "奖项"
 #: src/features/homepage/export-playground.tsx
 msgid "BA"
 msgstr "BA"
+
+#: src/features/recruitment/labels.ts
+msgid "Bachelor's degree"
+msgstr "统招本科"
 
 #. Action returning a signed-in user to the page where they manage linked providers
 #: src/features/auth/pages/error.tsx
@@ -1009,6 +1083,17 @@ msgstr "基础 URL"
 #: src/libs/resume/section.tsx
 msgid "Basics"
 msgstr "基本信息"
+
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Batch"
+msgstr "批次"
+
+#: src/features/recruitment/components/post-card.tsx
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Benefits"
+msgstr "福利标签"
 
 #: src/features/resume/export/download-dialog.tsx
 msgid "Best for applications, sharing, and printing."
@@ -1084,6 +1169,20 @@ msgstr "项目符号列表"
 msgid "Bulleted list"
 msgstr "项目符号列表"
 
+#: src/features/recruitment/labels.ts
+msgid "Campus"
+msgstr "校招"
+
+#: src/features/recruitment/components/jobs-shell.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
+#: src/features/recruitment/pages/jobs-list.tsx
+#: src/routes/_home/-sections/header.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/jobs/$postId.tsx
+#: src/routes/jobs/index.tsx
+msgid "Campus jobs"
+msgstr "校招岗位"
+
 #. Layout preset name for mainland China campus recruitment resumes
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Campus recruitment"
@@ -1092,6 +1191,14 @@ msgstr "校园招聘"
 #: src/dialogs/resume/template/data.ts
 msgid "Campus recruitment layout for mainland China graduates: airy header with a portrait ID photo, and one-line compact rows that put major, school, and dates side by side so education and internships stay dense."
 msgstr "面向中国大陆应届毕业生的校园招聘模板：清爽的头部配竖版证件照，学校、专业、日期等合并为一行，让教育经历与实习经历保持紧凑。"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Campus recruitment opening."
+msgstr "一个校园招聘岗位。"
+
+#: src/features/recruitment/pages/jobs-list.tsx
+msgid "Campus recruitment openings shared by this community."
+msgstr "由社区整理的校园招聘岗位。"
 
 #. Account deletion confirmation dialog cancel action in account settings
 #. Confirmation dialog button label to abort deleting a custom section in resume builder
@@ -1135,6 +1242,10 @@ msgstr "无法恢复；简历自此编辑后已发生更改。"
 #: src/features/resume/sharing/qr-card.tsx
 msgid "card"
 msgstr "名片"
+
+#: src/features/recruitment/labels.ts
+msgid "Case by case"
+msgstr "优秀可特批"
 
 #: src/components/input/rich-input.tsx
 msgid "Center Align"
@@ -1324,6 +1435,8 @@ msgstr "Clay"
 msgid "Clear"
 msgstr "清除"
 
+#: src/features/recruitment/components/post-filters.tsx
+#: src/features/recruitment/pages/jobs-list.tsx
 #: src/routes/dashboard/applications/index.tsx
 msgid "Clear filters"
 msgstr "清除筛选条件"
@@ -1360,6 +1473,14 @@ msgstr "关闭支付宝扫码登录接口。已绑定支付宝的账号仍可使
 msgid "Closes the WeChat QR sign-in endpoint. Accounts already linked to WeChat can still use their other sign-in methods."
 msgstr "关闭微信扫码登录接口。已绑定微信的账号仍可使用其它登录方式。"
 
+#: src/features/recruitment/components/availability-badge.tsx
+msgid "Closes today"
+msgstr "今天截止"
+
+#: src/features/recruitment/labels.ts
+msgid "Closing soon"
+msgstr "即将截止"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Cohere"
 msgstr "Cohere"
@@ -1388,12 +1509,18 @@ msgstr "命令面板"
 msgid "Command Palette - {currentPage}"
 msgstr "命令面板 - {currentPage}"
 
+#: src/features/recruitment/labels.ts
+msgid "Community"
+msgstr "社区"
+
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Compact"
 msgstr "紧凑型"
 
 #: src/dialogs/resume/sections/experience.tsx
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 msgid "Company"
 msgstr "公司"
 
@@ -1465,6 +1592,10 @@ msgstr "连接已验证，该提供商可以使用了。"
 #: src/features/ats-checker/messages.ts
 msgid "Contact details"
 msgstr "联系方式"
+
+#: src/features/recruitment/components/contact-panel.tsx
+msgid "Contact details are only shown to signed-in users. Log in to see how to reach the poster."
+msgstr "联系方式仅对已登录用户显示，登录后即可查看如何联系发布人。"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Contacts"
@@ -1899,6 +2030,7 @@ msgstr "深色"
 msgid "Dark theme"
 msgstr "深色主题"
 
+#: src/features/recruitment/components/jobs-shell.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
 msgid "Dashboard"
 msgstr "工作台"
@@ -1917,6 +2049,11 @@ msgstr "申请日期"
 #: src/features/ats-checker/parse-preview.tsx
 msgid "Dates"
 msgstr "日期"
+
+#: src/features/recruitment/labels.ts
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Deadline"
+msgstr "截止时间"
 
 #: src/components/input/rich-input.tsx
 msgid "Decrease indent"
@@ -2336,6 +2473,10 @@ msgstr "每一条短信都会在本实例自己的发送日志里留下一条记
 msgid "Earlier versions are kept; the builder's undo history is reset."
 msgstr "保留早期版本；重置构建器的撤销历史记录。"
 
+#: src/features/recruitment/labels.ts
+msgid "Early batch"
+msgstr "提前批"
+
 #: src/components/input/chip-input.tsx
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
@@ -2406,6 +2547,9 @@ msgstr "编辑关键字..."
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/languages-showcase.tsx
 #: src/features/homepage/resume-sculpture.tsx
+#: src/features/recruitment/components/post-card.tsx
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
 msgid "Education"
@@ -2418,6 +2562,7 @@ msgstr "生效日期：{version}"
 
 #. Tab label that switches the login form to email and password
 #: src/features/auth/pages/login.tsx
+#: src/features/recruitment/labels.ts
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Email"
 msgstr "电子邮件"
@@ -2443,6 +2588,10 @@ msgstr "此实例未配置电子邮件发送功能，因此验证功能已禁用
 #: src/features/ats-checker/messages.ts
 msgid "Embed all fonts when exporting, so characters map the way you intended."
 msgstr "导出时嵌入所有字体，确保字符按你的预期显示。"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Employment type"
+msgstr "招聘类型"
 
 #: src/features/settings/authentication/components/two-factor.tsx
 msgid "Enable 2FA"
@@ -2557,9 +2706,14 @@ msgid "Experience"
 msgstr "工作经历"
 
 #. Layout preset name for mainland China experienced-hire resumes
+#: src/features/recruitment/labels.ts
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Experienced hire"
 msgstr "社会招聘"
+
+#: src/features/recruitment/labels.ts
+msgid "Expired"
+msgstr "已截止"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Explore features"
@@ -2825,6 +2979,10 @@ msgstr "已根据职位发布尽量填充。"
 msgid "Filter by"
 msgstr "筛选条件"
 
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Filter by role"
+msgstr "按岗位筛选"
+
 #: src/routes/dashboard/applications/index.tsx
 msgid "Filter by tags"
 msgstr "按标签筛选"
@@ -2853,9 +3011,17 @@ msgstr "显示方式"
 msgid "Fit to view"
 msgstr "适合观看"
 
+#: src/features/recruitment/labels.ts
+msgid "Five insurances"
+msgstr "五险一金"
+
 #: src/features/ats-checker/messages.ts
 msgid "Flatten the form so the text is part of the page."
 msgstr "将表单扁平化，使文字成为页面的一部分。"
+
+#: src/features/recruitment/labels.ts
+msgid "Flexible hours"
+msgstr "弹性工时"
 
 #: src/dialogs/resume/sections/language.tsx
 msgid "Fluency"
@@ -2950,6 +3116,10 @@ msgstr "自由形式"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "French"
 msgstr "法语"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Freshness is decided by the server, so it reads the same wherever this link is opened."
+msgstr "投递状态由服务端计算，在任意位置打开该链接结果都一致。"
 
 #: src/routes/admin/settings.tsx
 msgid "From an environment variable"
@@ -3180,10 +3350,22 @@ msgstr "高亮颜色"
 msgid "Home"
 msgstr "首页"
 
+#: src/features/recruitment/labels.ts
+msgid "Housing allowance"
+msgstr "房补"
+
 #. Section heading: purposes of processing
 #: src/routes/_home/privacy.tsx
 msgid "How it is used"
 msgstr "信息用途"
+
+#: src/features/recruitment/components/contact-panel.tsx
+msgid "How to apply"
+msgstr "投递方式"
+
+#: src/features/recruitment/labels.ts
+msgid "Hybrid"
+msgstr "混合办公"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
@@ -3332,6 +3514,10 @@ msgstr "本实例的整体数据与注册趋势。"
 msgid "Integrations"
 msgstr "集成"
 
+#: src/features/recruitment/labels.ts
+msgid "Intensive"
+msgstr "高强度"
+
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Interaction design"
@@ -3342,6 +3528,14 @@ msgstr "交互设计"
 #: src/libs/resume/section.tsx
 msgid "Interests"
 msgstr "兴趣爱好"
+
+#: src/features/recruitment/labels.ts
+msgid "Internal referral"
+msgstr "内推"
+
+#: src/features/recruitment/labels.ts
+msgid "Internship"
+msgstr "实习"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Interview"
@@ -3354,6 +3548,10 @@ msgstr "AI 提供商配置无效。"
 #: src/dialogs/resume/sections/certification.tsx
 msgid "Issuer"
 msgstr "签发机构"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "It may have been taken down, or its deadline has passed."
+msgstr "它可能已被下架，或投递已经截止。"
 
 #: src/components/input/rich-input.tsx
 msgid "Italic"
@@ -3745,6 +3943,11 @@ msgstr "加载中…"
 msgid "Location"
 msgstr "位置"
 
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Locations"
+msgstr "工作地点"
+
 #. Resume card context menu action to prevent edits
 #. Resume card dropdown action to prevent edits
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -3761,6 +3964,16 @@ msgstr "锁定编辑"
 #: src/routes/admin/resumes.tsx
 msgid "Locked"
 msgstr "已锁定"
+
+#: src/features/recruitment/components/contact-panel.tsx
+#: src/features/recruitment/components/jobs-shell.tsx
+msgid "Log in"
+msgstr "登录"
+
+#: src/features/recruitment/components/add-to-applications-button.tsx
+#: src/features/recruitment/components/post-table.tsx
+msgid "Log in to track this role"
+msgstr "登录后加入追踪"
 
 #. Image card mode that stitches every resume page into one tall image
 #: src/features/resume/sharing/image-card.tsx
@@ -3836,6 +4049,10 @@ msgstr "标记为被拒"
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Match scoring failed."
 msgstr "匹配评分失败。"
+
+#: src/features/recruitment/labels.ts
+msgid "Meal allowance"
+msgstr "餐补"
 
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Medium impact"
@@ -4001,6 +4218,12 @@ msgstr "新建会话"
 msgid "New Thread"
 msgstr "新建会话"
 
+#: src/features/recruitment/labels.ts
+msgid "Newest postings"
+msgstr "最新发布"
+
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-list.tsx
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
@@ -4034,6 +4257,10 @@ msgstr "没有符合条件的操作记录。"
 #: src/features/ats-checker/messages.ts
 msgid "No bullet lists were found."
 msgstr "未找到项目符号列表。"
+
+#: src/features/recruitment/labels.ts
+msgid "No clock-in"
+msgstr "不打卡"
 
 #. Empty-state message when no command palette results match the search query
 #: src/features/command-palette/index.tsx
@@ -4113,6 +4340,14 @@ msgstr "没有简历符合您的搜索条件。"
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "No resumes yet."
 msgstr "还没有简历。"
+
+#: src/features/recruitment/pages/jobs-list.tsx
+msgid "No roles have been published yet."
+msgstr "还没有发布任何岗位。"
+
+#: src/features/recruitment/pages/jobs-list.tsx
+msgid "No roles match these filters."
+msgstr "没有符合这些筛选条件的岗位。"
 
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "No saved versions yet."
@@ -4214,9 +4449,17 @@ msgstr "没有可提供的建议。"
 msgid "Offer"
 msgstr "录用"
 
+#: src/features/recruitment/labels.ts
+msgid "Official"
+msgstr "官方渠道"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Ollama Cloud"
 msgstr "Ollama Cloud"
+
+#: src/features/recruitment/labels.ts
+msgid "On-site"
+msgstr "现场办公"
 
 #: src/features/auth/pages/consent.tsx
 msgid "Only allow applications you trust. This application will be able to:"
@@ -4246,6 +4489,7 @@ msgstr "只检查了前几页。"
 
 #. Resume card context menu action to open the resume editor
 #. Resume card dropdown action to open the resume editor
+#: src/features/recruitment/labels.ts
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
 msgid "Open"
@@ -4291,6 +4535,10 @@ msgstr "打开导出的文件，确认你可以选取并复制其中的每一部
 #: src/features/homepage/ats-playground.tsx
 msgid "Open the full ATS checker"
 msgstr "打开完整的 ATS 检查器"
+
+#: src/features/recruitment/labels.ts
+msgid "Open to all universities"
+msgstr "不强制要求 92"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "OpenAI-compatible"
@@ -4345,6 +4593,10 @@ msgstr "有序列表"
 msgid "Organization"
 msgstr "组织"
 
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Original announcement"
+msgstr "原文公告"
+
 #: src/components/input/rich-input.tsx
 msgid "Original table formatting is preserved. This content is read-only because it cannot be edited safely."
 msgstr "原始表格格式已保留。由于无法安全编辑，此内容为只读。"
@@ -4387,6 +4639,7 @@ msgstr "页面"
 msgid "Page {0}"
 msgstr "第 {0} 页"
 
+#: src/features/recruitment/components/post-table.tsx
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
@@ -4523,6 +4776,7 @@ msgstr "Perplexity"
 #: src/dialogs/resume/sections/reference.tsx
 #: src/features/ats-checker/parse-preview.tsx
 #: src/features/auth/pages/login.tsx
+#: src/features/recruitment/labels.ts
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Phone"
 msgstr "电话"
@@ -4682,6 +4936,8 @@ msgstr "预览和导出会保留有效样式并忽略无效样式。"
 msgid "Preview of the resume image card"
 msgstr "简历图片卡预览"
 
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-list.tsx
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
@@ -4960,6 +5216,10 @@ msgstr "准备好署上你的名字了吗？"
 msgid "Reason"
 msgstr "原因"
 
+#: src/features/recruitment/labels.ts
+msgid "Recently added"
+msgstr "最近录入"
+
 #: src/features/homepage/export-playground.tsx
 msgid "Recruitment platform"
 msgstr "招聘平台"
@@ -4986,6 +5246,14 @@ msgstr "重新编辑样式表"
 msgid "References"
 msgstr "推荐人"
 
+#: src/features/recruitment/labels.ts
+msgid "Referral"
+msgstr "内推"
+
+#: src/features/recruitment/components/contact-panel.tsx
+msgid "Referral code"
+msgstr "内推码"
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Referred by…, things to emphasize, etc."
 msgstr "推荐人…、需要强调的内容等"
@@ -4994,9 +5262,17 @@ msgstr "推荐人…、需要强调的内容等"
 msgid "Register New Device"
 msgstr "注册新设备"
 
+#: src/features/recruitment/labels.ts
+msgid "Regular batch"
+msgstr "正式批"
+
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Remember your password? <0/>"
 msgstr "记得密码？<0/>"
+
+#: src/features/recruitment/labels.ts
+msgid "Remote"
+msgstr "远程办公"
 
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Remote, Hybrid, a city…"
@@ -5026,6 +5302,10 @@ msgstr "移除文件"
 #: src/components/input/rich-input.tsx
 msgid "Remove link"
 msgstr "移除链接"
+
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Remove location"
+msgstr "移除城市"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Remove Password"
@@ -5258,6 +5538,8 @@ msgstr "Rhyhorn 示例简历"
 msgid "Right Align"
 msgstr "右对齐"
 
+#: src/features/recruitment/components/post-table.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 #: src/routes/admin/-components/users-table.tsx
 msgid "Role"
 msgstr "角色"
@@ -5277,6 +5559,10 @@ msgstr "职位 A–Z"
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Role Progression"
 msgstr "职位晋升"
+
+#: src/features/recruitment/labels.ts
+msgid "Rolling"
+msgstr "长期招聘"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Rotation"
@@ -5300,6 +5586,7 @@ msgstr "运行中…"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 msgid "Salary"
 msgstr "薪资"
 
@@ -5459,6 +5746,10 @@ msgstr "搜索简历"
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Search resumes..."
 msgstr "搜索简历……"
+
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Search roles"
+msgstr "搜索岗位"
 
 #: src/routes/admin/users.tsx
 msgid "Search users"
@@ -5871,6 +6162,10 @@ msgstr "单栏布局；风格精致严肃，适合高级或企业级职位。"
 msgid "Single-page standard layout for mainland China applications: left-aligned name with a portrait ID photo, one horizontal contact row, and underlined section headings in the primary color."
 msgstr "适用于中国大陆求职的单页标准版：姓名左对齐，右侧竖版证件照，联系方式横向排列，章节标题使用主题色下划线。"
 
+#: src/features/recruitment/labels.ts
+msgid "Six insurances"
+msgstr "六险一金"
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Size"
 msgstr "大小"
@@ -5980,6 +6275,10 @@ msgstr "登录时出错。请重试。"
 msgid "Something went wrong. Please try again."
 msgstr "出现了一些问题。请重试。"
 
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Sort ascending"
+msgstr "升序排列"
+
 #: src/routes/dashboard/applications/index.tsx
 #: src/routes/dashboard/resumes/index.tsx
 msgid "Sort by"
@@ -5993,9 +6292,14 @@ msgstr "按日期排序"
 msgid "Sort by…"
 msgstr "排序方式…"
 
+#: src/features/recruitment/components/post-filters.tsx
+msgid "Sort descending"
+msgstr "降序排列"
+
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/table-view.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 msgid "Source"
 msgstr "来源"
 
@@ -6047,6 +6351,10 @@ msgstr "阶段日期"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "Standard"
 msgstr "标准"
+
+#: src/features/recruitment/labels.ts
+msgid "Standard hours"
+msgstr "标准工时"
 
 #: src/routes/agent/$threadId.tsx
 msgid "Start a new thread"
@@ -6165,11 +6473,20 @@ msgstr "建议"
 #. Fallback title for a custom summary item in resume builder when content is unavailable
 #: src/dialogs/resume/sections/custom.tsx
 #: src/features/homepage/export-playground.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 msgid "Summary"
 msgstr "总结"
+
+#: src/features/recruitment/labels.ts
+msgid "Summer internship"
+msgstr "暑期实习"
+
+#: src/features/recruitment/labels.ts
+msgid "Supplementary intake"
+msgstr "补录"
 
 #: src/features/ats-checker/messages.ts
 #: src/libs/resume/ats.ts
@@ -6204,6 +6521,7 @@ msgstr "表格里的内容很容易被解析丢弃。改成正文段落和项目
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/table-view.tsx
+#: src/features/recruitment/pages/jobs-detail.tsx
 msgid "Tags"
 msgstr "标签"
 
@@ -6358,6 +6676,10 @@ msgstr "你输入的密码不正确"
 #: src/routes/_home/ats-checker.tsx
 msgid "The PDF is read by code running in this tab. Nothing is uploaded, nothing is stored, and no account is needed. Open your browser's network tab and watch, if you like."
 msgstr "PDF 是由运行在此标签页中的代码读取的。不会上传任何内容，不会存储任何内容，也不需要账号。如果你愿意，可以打开浏览器的网络标签页观察一下。"
+
+#: src/features/recruitment/components/contact-panel.tsx
+msgid "The person who shared this role did not leave a way to be contacted."
+msgstr "分享这个岗位的人没有留下联系方式。"
 
 #: src/features/resume/export/platform-copy-dialog.tsx
 msgid "The plain text download, unchanged: one line per field in the default order."
@@ -6767,6 +7089,10 @@ msgstr "这个角色没有描述。"
 msgid "This role has no job title."
 msgstr "这段经历没有职位名称。"
 
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "This role is no longer listed."
+msgstr "该岗位已不再展示。"
+
 #: src/libs/resume/ats.ts
 msgid "This section has content but never appears."
 msgstr "该部分有内容但从未出现。"
@@ -6931,6 +7257,10 @@ msgstr "再试一次"
 #: src/features/homepage/feature-explorer.tsx
 msgid "Try the settings to see what visitors can access. When you create your resume, you decide how to share it."
 msgstr "试试这些设置，看看访客可以访问什么。创建简历时，由你决定如何分享。"
+
+#: src/features/recruitment/pages/jobs-list.tsx
+msgid "Try widening your search, or check back after the next hiring batch opens."
+msgstr "试着放宽筛选条件，或在下一批次开放后再来看看。"
 
 #: src/features/homepage/ats-playground.tsx
 msgid "Try your PDF"
@@ -7198,6 +7528,10 @@ msgstr "正在更新你的密码…"
 msgid "Updating your resume..."
 msgstr "正在更新你的简历…"
 
+#: src/features/recruitment/labels.ts
+msgid "Upgraded bachelor's"
+msgstr "专升本"
+
 #: src/features/applications/components/import-applications-sheet.tsx
 msgid "Upload .csv"
 msgstr "上传 .csv"
@@ -7434,6 +7768,11 @@ msgstr "作为一份简历，能提取出的文字量非常少。"
 msgid "Very little text was recovered for this many pages."
 msgstr "以这么多页数来说，能提取出的文字非常少。"
 
+#: src/features/recruitment/components/post-card.tsx
+#: src/features/recruitment/components/post-table.tsx
+msgid "View details"
+msgstr "查看详情"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Views"
 msgstr "浏览次数"
@@ -7530,6 +7869,7 @@ msgstr "网站"
 #. Authentication provider display name in account settings
 #. Brand name label for WeChat social sign-in button
 #: src/features/auth/components/social-auth.tsx
+#: src/features/recruitment/labels.ts
 #: src/features/settings/authentication/components/hooks.tsx
 msgid "WeChat"
 msgstr "微信"
@@ -7666,6 +8006,14 @@ msgstr "适用范围"
 #: src/features/ats-checker/messages.ts
 msgid "Words run together when the text is extracted."
 msgstr "文字提取出来后，单词会连在一起。"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Work intensity"
+msgstr "工作强度"
+
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Work mode"
+msgstr "工作方式"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Work OpenAI"

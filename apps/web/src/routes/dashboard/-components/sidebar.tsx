@@ -8,13 +8,14 @@ import {
 	ChatCircleDotsIcon,
 	GearSixIcon,
 	MagnifyingGlassIcon,
+	MegaphoneIcon,
 	ReadCvLogoIcon,
 	SealCheckIcon,
 	ShieldCheckIcon,
 	UserCircleIcon,
 	UserGearIcon,
 } from "@phosphor-icons/react";
-import { Link } from "@tanstack/react-router";
+import { getRouteApi, Link } from "@tanstack/react-router";
 import { AnimatePresence, m } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@reactive-resume/ui/components/avatar";
 import { BrandIcon } from "@reactive-resume/ui/components/brand-icon";
@@ -39,6 +40,9 @@ import { Copyright } from "@/components/ui/copyright";
 import { useCommandPaletteStore } from "@/features/command-palette/store";
 import { UserDropdownMenu } from "@/features/user/dropdown-menu";
 import { authClient } from "@/libs/auth/client";
+
+/** Route context for the dashboard tree: carries the root's feature flags without refetching. */
+const dashboardRoute = getRouteApi("/dashboard");
 
 type SidebarItem = {
 	icon: React.ReactNode;
@@ -105,6 +109,17 @@ const adminSidebarItems = [
 	},
 ] as const satisfies SidebarItem[];
 
+/**
+ * The board lives outside the dashboard but is reached from here, so the entry exists — and is
+ * hidden — purely on the instance flag, with no request of its own: `flags` is already part of
+ * the root router context every dashboard route inherits.
+ */
+const jobBoardSidebarItem = {
+	icon: <MegaphoneIcon />,
+	label: msg`Campus jobs`,
+	href: "/jobs",
+} as const satisfies SidebarItem;
+
 type SidebarItemListProps = {
 	items: readonly SidebarItem[];
 };
@@ -156,6 +171,10 @@ export function DashboardSidebar() {
 	const { i18n } = useLingui();
 	const { state } = useSidebarState();
 	const { data: session } = authClient.useSession();
+	const { flags } = dashboardRoute.useRouteContext();
+
+	// App items are built per render because one of them depends on the instance flag.
+	const appItems = flags?.recruitmentBoardEnabled ? [...appSidebarItems, jobBoardSidebarItem] : appSidebarItems;
 
 	// The console route itself re-checks the role, this only decides whether the
 	// shortcut is offered.
@@ -189,7 +208,7 @@ export function DashboardSidebar() {
 						<Trans>App</Trans>
 					</SidebarGroupLabel>
 					<SidebarGroupContent>
-						<SidebarItemList items={appSidebarItems} />
+						<SidebarItemList items={appItems} />
 					</SidebarGroupContent>
 				</SidebarGroup>
 

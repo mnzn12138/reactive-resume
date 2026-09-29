@@ -77,24 +77,72 @@ function toForm(app: Application): FormState {
 	};
 }
 
+/**
+ * Pre-filled values for a **new** application.
+ *
+ * Shaped by whoever pre-fills it — today `buildApplicationDraft()` over a campus recruitment
+ * post — and deliberately not tied to that caller, so any future "start from X" flow can reuse
+ * the same prop. Nullable fields are expected: the source row may carry no salary or source.
+ */
+export type ApplicationFormDraft = {
+	company: string;
+	role: string;
+	location: string | null;
+	salary: string | null;
+	source: string | null;
+	sourceUrl: string | null;
+	jobDescription: string | null;
+	status: ApplicationStatus;
+};
+
+function draftToForm(draft: ApplicationFormDraft): FormState {
+	return {
+		...emptyForm(),
+		company: draft.company,
+		role: draft.role,
+		location: draft.location ?? "",
+		salary: draft.salary ?? "",
+		source: draft.source ?? "",
+		sourceUrl: draft.sourceUrl ?? "",
+		jobDescription: draft.jobDescription ?? "",
+		status: draft.status,
+	};
+}
+
+/** Content-based identity for a draft, which has no id of its own. */
+const draftSeedKey = (draft: ApplicationFormDraft) => `${draft.company}|${draft.role}|${draft.sourceUrl ?? ""}`;
+
 type Props = {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
 	// When provided, the sheet edits this application instead of creating a new one.
 	application?: Application | null;
+	/**
+	 * Seeds a **new** application's fields. Nothing is created until the visitor saves: the
+	 * caller pre-fills and stays out of the way, which is what keeps a stray click harmless.
+	 */
+	draft?: ApplicationFormDraft | null;
 };
 
-export function ApplicationFormSheet({ open, onOpenChange, application }: Props) {
+export function ApplicationFormSheet({ open, onOpenChange, application, draft }: Props) {
 	const queryClient = useQueryClient();
 	const isEditing = !!application;
 
-	const [form, setForm] = useState<FormState>(() => (application ? toForm(application) : emptyForm()));
+	const seedForm = () => {
+		if (application) return toForm(application);
+		if (draft) return draftToForm(draft);
+		return emptyForm();
+	};
 
-	// Re-sync the form when the sheet's target changes (a different app, or create ↔ edit).
-	const [syncedId, setSyncedId] = useState(application?.id ?? null);
-	if ((application?.id ?? null) !== syncedId) {
-		setSyncedId(application?.id ?? null);
-		setForm(application ? toForm(application) : emptyForm());
+	const [form, setForm] = useState<FormState>(seedForm);
+
+	// Re-sync the form when the sheet's target changes (a different application, a different
+	// draft, or create ↔ edit). A draft carries no id, so it is identified by its contents.
+	const seedKey = application?.id ?? (draft ? draftSeedKey(draft) : null);
+	const [syncedKey, setSyncedKey] = useState(seedKey);
+	if (seedKey !== syncedKey) {
+		setSyncedKey(seedKey);
+		setForm(seedForm());
 	}
 
 	const { data: resumes } = useQuery(orpc.resume.list.queryOptions());
