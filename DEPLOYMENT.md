@@ -211,7 +211,173 @@ SMTP_FROM="Reactive Resume <你的 Gmail 地址>"
 - 三者任一缺失 → 用本地文件系统，默认写在仓库的 `data/` 目录，可用 `LOCAL_STORAGE_PATH` 改，**必须是绝对路径**。
 - `.env.example` 自带 SeaweedFS 的默认值。如果**不打算起 seaweedfs 容器**，就把这几个 `S3_*` 注掉，否则上传会失败。
 
-### 3.5 功能开关
+#### 3.4.1 国产对象存储（阿里云 OSS / 腾讯云 COS / 华为云 OBS）
+
+三家都兼容 S3 协议，底层仍是 `@aws-sdk/client-s3`，**不需要装任何额外 SDK**。只填一个 `STORAGE_PROVIDER` 就能连上，不用自己去查各家的 endpoint 格式：
+
+| `STORAGE_PROVIDER` | 预设 endpoint | 默认 `S3_REGION` | 寻址方式 |
+| --- | --- | --- | --- |
+| `oss` | `https://oss-cn-hangzhou.aliyuncs.com` | `oss-cn-hangzhou` | 虚拟托管式 |
+| `cos` | `https://cos.ap-guangzhou.myqcloud.com` | `ap-guangzhou` | 路径式 |
+| `obs` | `https://obs.cn-north-4.myhuaweicloud.com` | `cn-north-4` | 路径式 |
+| `s3` / `auto`（默认） | 不预设 | `us-east-1` | 沿用 `S3_FORCE_PATH_STYLE` |
+
+规则：
+
+- **显式设了 `S3_ENDPOINT` 就以它为准** —— 预设只是省事，不会覆盖你填的值。两者不一致时服务端会打一条 `console.warn` 说明（形如「已显式设置 S3_ENDPOINT…按显式值处理」），功能不受影响。
+- `S3_REGION` 没填（或还留着默认的 `us-east-1`）时，三家各自落到上表的默认地域；填了就按填的拼 endpoint。
+- 选了 `oss` / `cos` / `obs` 之后，寻址方式由预设决定，`S3_FORCE_PATH_STYLE` 只对 `s3` / `auto` 生效。
+- **凭证三件套（`S3_ACCESS_KEY_ID` + `S3_SECRET_ACCESS_KEY` + `S3_BUCKET`）缺任意一个，仍然回落本地文件系统**，即使 `STORAGE_PROVIDER` 填了厂商也不会报错。
+- `/api/health` 的 `storage.type` 会直接显示当前通道：`local` / `s3` / `oss` / `cos` / `obs`；健康检查消息里也会带上厂商名（如「腾讯云 COS 连接正常」）。
+- 桶所属地域必须和 `S3_REGION` 一致，否则会报 `PermanentRedirect` 之类的错。
+
+三家的最小配置示例（把地域、桶名、密钥换成自己的）：
+
+**阿里云 OSS**
+
+```bash
+STORAGE_PROVIDER="oss"
+S3_ACCESS_KEY_ID="<RAM 用户的 AccessKey ID>"
+S3_SECRET_ACCESS_KEY="<AccessKey Secret>"
+S3_BUCKET="<Bucket 名称>"
+S3_REGION="oss-cn-hangzhou"
+```
+
+地域写完整地域 ID（`oss-cn-hangzhou`）或只写城市（`cn-hangzhou`）都可以，拼出来的 endpoint 都是 `https://oss-cn-hangzhou.aliyuncs.com`。
+
+**腾讯云 COS**
+
+```bash
+STORAGE_PROVIDER="cos"
+S3_ACCESS_KEY_ID="<SecretId>"
+S3_SECRET_ACCESS_KEY="<SecretKey>"
+S3_BUCKET="<Bucket 名称，形如 mybucket-1250000000>"
+S3_REGION="ap-guangzhou"
+```
+
+COS 的桶名**必须带 `-APPID` 后缀**，少写后缀会 403。
+
+**华为云 OBS**
+
+```bash
+STORAGE_PROVIDER="obs"
+S3_ACCESS_KEY_ID="<Access Key Id>"
+S3_SECRET_ACCESS_KEY="<Secret Access Key>"
+S3_BUCKET="<Bucket 名称>"
+S3_REGION="cn-north-4"
+```
+
+想指向内网 endpoint、专有云或自建代理时，直接写 `S3_ENDPOINT` 覆盖即可，例如：
+
+```bash
+STORAGE_PROVIDER="oss"
+S3_ENDPOINT="https://oss-cn-hangzhou-internal.aliyuncs.com"
+```
+
+### 3.5 中文字体自托管（离线 / 内网部署必看）
+
+**为什么要做**：字体默认全部指向 `fonts.gstatic.com`。PDF 导出用的是 `@react-pdf/renderer`，它的 `Font.register` 是**整文件拉取**而且**不认 `unicode-range`**，浏览器那套"按 unicode-range 分块"的优化在这里完全无效。实测（Noto Sans SC，GB2312 字表）：
+
+| 阶段 | 需要拉的字体文件 | 体积 |
+| --- | --- | --- |
+| 改造前 | 4 个权重（400/500/600/700） | ≈40 MiB |
+| 收敛权重后（默认已生效） | 2 个权重（400/700） | ≈20 MiB |
+| 再叠加子集化 | 2 个文件 | ≈4.2 MiB |
+
+两个直接后果：
+
+1. **慢**：首次导出中文 PDF 要拉几十 MiB。
+2. **断网 / 内网直接失败**：`fonts.gstatic.com` 不可达时，中文 PDF 导出会报错。
+
+解决链路分三步，按需取用。
+
+#### 第一步：权重收敛（默认已生效，不用做任何事）
+
+`packages/fonts` 的 `getCjkFallbackFontWeights()` 对中日韩字体只注册 `400` / `700` 两档（正文 + 强调），**拉丁语系行为完全不变**。这一项直接把中文字体文件数砍半。
+
+> 注意：CJK 的 **italic 变体仍然会注册**。中文没有真正的斜体（浏览器和 react-pdf 都是合成的），但 `@react-pdf/renderer` 是按 `fontStyle` **精确匹配**已注册字体的，少注册一个 italic 就会抛 `Could not resolve font ... fontStyle italic`。注册本身不产生下载（字体是懒加载的），italic 变体指向的也是同一个正体文件。
+
+#### 第二步：子集化（推荐）
+
+用 `pyftsubset`（Python fonttools）把字体裁到简历真正会用到的字：
+
+```bash
+# 1) 装工具（只需一次）
+pip install fonttools brotli
+
+# 2) 子集化。源字体自备（例：Noto Sans SC 的 Regular / Bold）
+cd tooling
+./node_modules/.bin/tsx fonts/subset.ts \
+  --source ./NotoSansSC-Regular.ttf \
+  --source ./NotoSansSC-Bold.ttf \
+  --family "Noto Sans SC" \
+  --charset gb2312 \
+  --out ../apps/web/public/fonts
+```
+
+- `--charset`：`gb2312`（6763 个汉字 + ASCII + 中文标点，够用）、`common3500`（GB2312 一级字，更小），或一个 **UTF-8 文本文件的路径**（里面写你自己的字表）。
+- 产物形如 `noto-sans-sc-regular-subset.ttf`，默认落在 `apps/web/public/fonts/`，**已被 `.gitignore` 忽略**——不要提交进仓库，体积太大。
+- 脚本会打印每个文件子集化前后的字节数，并在 `apps/web/public/fonts/subset-manifest.json` 写一份清单，其中的 `overrides` 字段可以直接粘进第三步的覆盖表。
+- 没装 fonttools 时脚本会明确报错并给出安装命令，**不会静默失败**。
+- `pnpm --dir tooling exec tsx ...` 在带空格的参数（如 `--family "Noto Sans SC"`）上可能被 pnpm 拆开，建议按上面那样 `cd tooling` 后直接调 `./node_modules/.bin/tsx`。
+
+#### 第三步：填覆盖表
+
+编辑 `packages/fonts/src/self-hosted.ts` 里的 `selfHostedFontOverrides`（默认是空数组）：
+
+```ts
+export const selfHostedFontOverrides: SelfHostedFontOverride[] = [
+  {
+    family: "Noto Sans SC",
+    weights: ["400", "700"],
+    files: {
+      "400": "/fonts/noto-sans-sc-regular-subset.ttf",
+      "700": "/fonts/noto-sans-sc-bold-subset.ttf",
+    },
+  },
+];
+```
+
+- **不要手改 `packages/fonts/src/webfontlist.json`**：它是 `tooling/fonts/generate.ts` 的生成物，下次生成会覆盖掉。覆盖表是在**运行时**合并进去的（同名 family 覆盖，不会产生重复条目）。
+- `files` 的值可以是**根相对路径**（`/fonts/...`，从 `apps/web/public/` 起算）或完整 URL。
+- 只想覆盖部分权重也可以：没覆盖的权重仍走 `fonts.gstatic.com`。
+- 也可以在启动时用 `registerSelfHostedFontOverride()` 注册（比如从配置文件读），再调一次 `applySelfHostedOverrides()` 生效。
+
+#### `FONT_SELF_HOST_BASE_URL`
+
+想一次性把所有自托管字体换域名（比如从站点自身路径换到 CDN），设这个变量：
+
+```bash
+FONT_SELF_HOST_BASE_URL=https://cdn.example.com
+```
+
+它会被拼到覆盖表里的**根相对路径 / 裸文件名前面**；已经是完整 URL 的值不受影响（方便把某一个字体单独钉在别的域）。已在 `packages/env/src/server.ts` 和 `turbo.json` 的 `globalEnv` 里登记。
+
+#### 怎么确认生效
+
+```ts
+import { describeFontSources } from "@reactive-resume/fonts";
+
+describeFontSources();
+// {
+//   baseUrl: "https://cdn.example.com" | null,
+//   selfHosted: [{ family: "Noto Sans SC", selfHosted: true, weights: [...], files: {...} }],
+//   remote: [ ...还在 fonts.gstatic.com 上的字体... ],
+//   remoteHosts: ["fonts.gstatic.com"],
+// }
+```
+
+只覆盖了部分权重的 family 会**同时出现在 `selfHosted` 和 `remote` 里**——这正是它要告诉你的：还有哪些权重没搬完。
+
+也可以跑体检脚本看当前会拉多少字体（只发 HEAD 请求，不下载字体）：
+
+```bash
+cd tooling && ./node_modules/.bin/tsx scripts/font-payload-audit.ts
+```
+
+---
+
+### 3.6 功能开关
 
 | 变量 | 作用 |
 | --- | --- |
@@ -224,7 +390,7 @@ SMTP_FROM="Reactive Resume <你的 Gmail 地址>"
 
 前两项也可以在后台 `/admin/settings` 里**运行时开关**，不用重启。
 
-### 3.6 只在用 AI/Agent 功能时才需要
+### 3.7 只在用 AI/Agent 功能时才需要
 
 `REDIS_URL` 和 `ENCRYPTION_SECRET` 对核心简历流程是可选的，但**保存 AI 供应商配置**和**已登录的 `/agent` 工作区**需要两者。
 
