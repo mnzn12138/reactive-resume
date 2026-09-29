@@ -1,3 +1,4 @@
+import type { PlatformId } from "@reactive-resume/resume/platform-profiles";
 import type { Template } from "@reactive-resume/schema/templates";
 import type { CSSProperties } from "react";
 import { i18n } from "@lingui/core";
@@ -6,6 +7,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { ArrowDownIcon, ArrowUpRightIcon } from "@phosphor-icons/react";
 import { useId, useMemo, useState } from "react";
+import { PLATFORM_PROFILES, RECRUITMENT_PLATFORMS } from "@reactive-resume/resume/platform-profiles";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { useResumeExport } from "@/features/resume/export/use-resume-export";
@@ -138,6 +140,15 @@ const formats = [
 		color: "#cbb69c",
 	},
 	{
+		id: "platform",
+		label: "Job-site text",
+		extension: ".txt",
+		description: msg`The same lines in the order BOSS 直聘, 智联招聘, and other Chinese job sites ask for them, ready to paste into their online forms.`,
+		note: msg`For filling in a Chinese job-site form`,
+		downloadLabel: msg`Download sample job-site TXT`,
+		color: "#b3a184",
+	},
+	{
 		id: "json",
 		label: "JSON",
 		extension: ".json",
@@ -151,17 +162,19 @@ const formats = [
 export default function ExportPlayground({ name, accent, typeface, template }: ExportPlaygroundProps) {
 	const { i18n } = useLingui();
 	const [format, setFormat] = useState<(typeof formats)[number]["id"]>("pdf");
+	const [platform, setPlatform] = useState<PlatformId>("boss");
 	const [busy, setBusy] = useState(false);
 	const descriptionId = useId();
 	const data = useMemo(
 		() => buildExportSample({ name, accent, typeface, template }, i18n.locale),
 		[name, accent, typeface, template, i18n.locale],
 	);
-	const { onDownloadPDF, onDownloadDOCX, onDownloadMarkdown, onDownloadText, onDownloadJSON } = useResumeExport({
-		name: t`${data.basics.name} Sample Resume`,
-		slug: "sample-resume",
-		data,
-	});
+	const { onDownloadPDF, onDownloadDOCX, onDownloadMarkdown, onDownloadText, onDownloadPlatformText, onDownloadJSON } =
+		useResumeExport({
+			name: t`${data.basics.name} Sample Resume`,
+			slug: "sample-resume",
+			data,
+		});
 	const selected = formats.find((item) => item.id === format) ?? formats[0];
 	// A Map rather than an object literal: static analysis flags computed member access as object injection,
 	// even though `format` is a closed union set only from `formats`.
@@ -170,6 +183,7 @@ export default function ExportPlayground({ name, accent, typeface, template }: E
 		["docx", onDownloadDOCX],
 		["md", onDownloadMarkdown],
 		["txt", onDownloadText],
+		["platform", () => onDownloadPlatformText(platform)],
 		["json", onDownloadJSON],
 	]);
 
@@ -261,6 +275,27 @@ export default function ExportPlayground({ name, accent, typeface, template }: E
 				>
 					{i18n._(selected.description)}
 				</p>
+
+				{format === "platform" ? (
+					<fieldset
+						className="mb-[22px] grid grid-cols-[repeat(auto-fit,minmax(88px,1fr))] gap-[6px]"
+						aria-label={t`Recruitment platform`}
+					>
+						{RECRUITMENT_PLATFORMS.map((id) => (
+							<button
+								key={id}
+								type="button"
+								className={`rounded border border-(--home-line) px-2 py-1.5 text-(--home-muted) text-[13px] transition-colors hover:not-disabled:text-(--home-ink) aria-pressed:border-(--home-ink) aria-pressed:text-(--home-ink) ${buttonState}`}
+								aria-pressed={platform === id}
+								disabled={busy}
+								onClick={() => setPlatform(id)}
+							>
+								{PLATFORM_PROFILES[id].name}
+							</button>
+						))}
+					</fieldset>
+				) : null}
+
 				<button
 					type="button"
 					className={`flex min-h-14 w-full items-center justify-between gap-5 rounded border border-transparent bg-(--home-export-color) px-5 py-4 font-[550] text-[#252329] text-[15px] [transition:transform_120ms_cubic-bezier(0.23,1,0.32,1),opacity_160ms_ease] hover:not-disabled:opacity-90 ${buttonState}`}

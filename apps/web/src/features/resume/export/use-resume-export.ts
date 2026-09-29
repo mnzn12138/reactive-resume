@@ -1,11 +1,15 @@
+import type { PlatformId } from "@reactive-resume/resume/platform-profiles";
+import type { PlatformBlock } from "@reactive-resume/resume/platform-text";
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
 import type { PublicResumePdfOptions } from "@/features/resume/public/public-pdf";
 import { t } from "@lingui/core/macro";
 import { useCallback, useState } from "react";
+import { useCopyToClipboard } from "usehooks-ts";
 import { buildDocx } from "@reactive-resume/docx";
 import { getResumeSectionTitle } from "@reactive-resume/pdf/section-title";
 import { getResumeExportData } from "@reactive-resume/resume/export-sections";
 import { buildMarkdown } from "@reactive-resume/resume/markdown";
+import { buildPlatformBlocks, buildPlatformText } from "@reactive-resume/resume/platform-text";
 import { buildStructuredText } from "@reactive-resume/resume/structured-text";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { downloadWithAnchor, generateFilename, generateLocalizedFilename } from "@reactive-resume/utils/file";
@@ -45,6 +49,24 @@ const getExportName = (resume: ExportableResume) => resume.name || resume.data.b
  */
 export function useResumeExport(resume: ExportableResume | undefined, exportOptions: UseResumeExportOptions = {}) {
 	const [isExporting, setIsExporting] = useState(false);
+	const [, copyToClipboard] = useCopyToClipboard();
+
+	/**
+	 * Renders one recruitment platform's version of the resume: the plain text plus the single blocks
+	 * the copy dialog pastes field by field. Shared by the copy and download paths so both stay in sync.
+	 */
+	const preparePlatformExport = useCallback(
+		async (platform: PlatformId): Promise<{ text: string; blocks: PlatformBlock[] } | undefined> => {
+			if (!resume) return undefined;
+			const data = getResumeExportData(resume.data);
+			const resolveTitle = await createSectionTitleResolver(data);
+			return {
+				text: buildPlatformText(data, { platform, resolveTitle }),
+				blocks: buildPlatformBlocks(data, { platform, resolveTitle }),
+			};
+		},
+		[resume],
+	);
 
 	const onDownloadJSON = useCallback(() => {
 		if (!resume) return;
@@ -83,6 +105,58 @@ export function useResumeExport(resume: ExportableResume | undefined, exportOpti
 			setIsExporting(false);
 		}
 	}, [resume]);
+
+	/** The blocks the copy dialog previews and pastes one at a time, for one platform. */
+	const getPlatformBlocks = useCallback(
+		async (platform: PlatformId): Promise<PlatformBlock[]> => {
+			return (await preparePlatformExport(platform))?.blocks ?? [];
+		},
+		[preparePlatformExport],
+	);
+
+	const onCopyPlatformText = useCallback(
+		async (platform: PlatformId) => {
+			if (!resume) return;
+			setIsExporting(true);
+			try {
+				const prepared = await preparePlatformExport(platform);
+				if (!prepared?.text.trim()) {
+					toast.add({ type: "error", description: t`This resume has no content to export yet.` });
+					return;
+				}
+
+				await copyToClipboard(prepared.text);
+				toast.add({ type: "success", description: t`Copied. Paste it into the job-site form field by field.` });
+			} catch {
+				toast.add({ type: "error", description: t`Could not copy the text. Please try again.` });
+			} finally {
+				setIsExporting(false);
+			}
+		},
+		[copyToClipboard, preparePlatformExport, resume],
+	);
+
+	const onDownloadPlatformText = useCallback(
+		async (platform: PlatformId) => {
+			if (!resume) return;
+			setIsExporting(true);
+			try {
+				const prepared = await preparePlatformExport(platform);
+				if (!prepared?.text.trim()) {
+					toast.add({ type: "error", description: t`This resume has no content to export yet.` });
+					return;
+				}
+
+				const blob = new Blob([prepared.text], { type: "text/plain;charset=utf-8" });
+				downloadWithAnchor(blob, generateLocalizedFilename(`${getExportName(resume)}-${platform}`, "txt"));
+			} catch {
+				toast.add({ type: "error", description: t`Could not generate the text file. Please try again.` });
+			} finally {
+				setIsExporting(false);
+			}
+		},
+		[preparePlatformExport, resume],
+	);
 
 	const onDownloadDOCX = useCallback(async () => {
 		if (!resume) return;
@@ -163,6 +237,9 @@ export function useResumeExport(resume: ExportableResume | undefined, exportOpti
 		onDownloadJSON,
 		onDownloadMarkdown,
 		onDownloadText,
+		getPlatformBlocks,
+		onCopyPlatformText,
+		onDownloadPlatformText,
 		onDownloadDOCX,
 		onDownloadPDF,
 		onPrint,

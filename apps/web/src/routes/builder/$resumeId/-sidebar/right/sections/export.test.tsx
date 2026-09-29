@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
@@ -10,6 +10,7 @@ import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 const downloadWithAnchor = vi.hoisted(() => vi.fn());
 const toast = vi.hoisted(() => ({ add: vi.fn(), close: vi.fn() }));
 const buildDocx = vi.hoisted(() => vi.fn().mockResolvedValue(new Blob(["x"], { type: "application/x-docx" })));
+const writeText = vi.hoisted(() => vi.fn(async (_text: string) => undefined));
 const createResumePdfBlob = vi.hoisted(() => vi.fn().mockResolvedValue(new Blob(["x"], { type: "application/pdf" })));
 const resumeMock = vi.hoisted(() => ({
 	resume: undefined as
@@ -77,7 +78,7 @@ const renderExport = () =>
 	);
 
 const openDialog = () => {
-	const trigger = screen.getByText("Choose PDF, DOCX, Markdown, TXT, or JSON.");
+	const trigger = screen.getByText("Choose PDF, DOCX, Markdown, TXT, JSON, or a job-site form.");
 	fireEvent.click(trigger.closest("button") as HTMLButtonElement);
 };
 
@@ -153,6 +154,58 @@ describe("ExportSectionBuilder", () => {
 		await waitFor(() => expect(buildDocx).toHaveBeenCalledTimes(1));
 		expect(downloadWithAnchor).toHaveBeenCalledTimes(1);
 		expect(downloadWithAnchor.mock.calls[0]?.[1]).toBe("My Resume.docx");
+	});
+
+	it("renders the recruitment platform row alongside the downloads", () => {
+		renderExport();
+		openDialog();
+
+		expect(screen.getByRole("button", { name: "Copy for a recruitment platform" })).toBeInTheDocument();
+	});
+
+	it("copies the whole platform export from the copy dialog", async () => {
+		// `defaultResumeData` has nothing filled in; give it a name so there is something to copy.
+		if (resumeMock.resume) resumeMock.resume.data.basics.name = "My Resume";
+		Object.defineProperty(navigator, "clipboard", { value: { writeText }, configurable: true });
+		writeText.mockClear();
+
+		renderExport();
+		openDialog();
+		fireEvent.click(screen.getByRole("button", { name: "Copy for a recruitment platform" }));
+
+		const dialog = await waitFor(() => {
+			const heading = screen.getByText("Platform");
+			return (heading.closest('[role="dialog"]') ?? heading) as HTMLElement;
+		});
+
+		expect(within(dialog).getByText(/姓名：My Resume/)).toBeInTheDocument();
+
+		fireEvent.click(within(dialog).getByRole("button", { name: "Copy all" }));
+
+		await waitFor(() => expect(writeText).toHaveBeenCalled());
+		expect(writeText.mock.calls[0]?.[0]).toContain("姓名：My Resume");
+	});
+
+	it("downloads the selected platform's text from the copy dialog", async () => {
+		if (resumeMock.resume) resumeMock.resume.data.basics.name = "My Resume";
+
+		renderExport();
+		openDialog();
+		fireEvent.click(screen.getByRole("button", { name: "Copy for a recruitment platform" }));
+
+		const dialog = await waitFor(() => {
+			const heading = screen.getByText("Platform");
+			return (heading.closest('[role="dialog"]') ?? heading) as HTMLElement;
+		});
+
+		fireEvent.click(within(dialog).getByRole("button", { name: "Download TXT" }));
+
+		await waitFor(() => expect(downloadWithAnchor).toHaveBeenCalledTimes(1));
+		// biome-ignore lint/style/noNonNullAssertion: the download call is asserted just above.
+		const [blob, filename] = downloadWithAnchor.mock.calls[0]!;
+		expect((blob as Blob).type).toBe("text/plain;charset=utf-8");
+		// The default profile is the generic one, so the filename carries that choice.
+		expect(filename).toBe("My Resume-generic.txt");
 	});
 
 	it("calls createResumePdfBlob and downloads when PDF is clicked", async () => {

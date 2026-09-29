@@ -9,6 +9,8 @@
 		"./export-sections": "./src/export-sections.ts",
 		"./icons": "./src/icons.ts",
 		"./markdown": "./src/markdown.ts",
+		"./platform-profiles": "./src/platform-profiles.ts",
+		"./platform-text": "./src/platform-text.ts",
 		"./patch": "./src/patch.ts",
 		"./section-availability": "./src/section-availability.ts",
 		"./section-presets": "./src/section-presets.ts",

@@ -443,6 +443,10 @@ msgid "Add a tag and press Enter…"
 msgstr "Add a tag and press Enter…"
 
 #: src/libs/resume/ats.ts
+msgid "Add an end date, or write 至今 for a role you still hold."
+msgstr "Add an end date, or write 至今 for a role you still hold."
+
+#: src/libs/resume/ats.ts
 msgid "Add an entry, or use projects and volunteer work to show equivalent history."
 msgstr "Add an entry, or use projects and volunteer work to show equivalent history."
 
@@ -508,6 +512,10 @@ msgstr "Add some whitespace between sections so a person can skim it."
 #: src/features/applications/components/table-view.tsx
 msgid "Add tag"
 msgstr "Add tag"
+
+#: src/libs/resume/ats.ts
+msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
+msgstr "Add the text next to the icon. Parsers drop the icon and keep the text."
 
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Add to pipeline"
@@ -651,6 +659,10 @@ msgstr "Allow Public Access"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Allow public access to download a QR card that opens your resume."
 msgstr "Allow public access to download a QR card that opens your resume."
+
+#: src/routes/admin/settings.tsx
+msgid "Allows ordinary users to submit openings. While this is off, only an administrator can enter them."
+msgstr "Allows ordinary users to submit openings. While this is off, only an administrator can enter them."
 
 #: src/features/ats-checker/messages.ts
 msgid "Almost none of your bullets carry a number."
@@ -1001,6 +1013,10 @@ msgstr "Best for applications, sharing, and printing."
 msgid "Blank draft"
 msgstr "Blank draft"
 
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Block copied to clipboard."
+msgstr "Block copied to clipboard."
+
 #: src/features/ats-checker/messages.ts
 msgid "Blocker"
 msgstr "Blocker"
@@ -1281,8 +1297,8 @@ msgid "Choose app language"
 msgstr "Choose app language"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Choose PDF, DOCX, Markdown, TXT, or JSON."
-msgstr "Choose PDF, DOCX, Markdown, TXT, or JSON."
+msgid "Choose PDF, DOCX, Markdown, TXT, JSON, or a job-site form."
+msgstr "Choose PDF, DOCX, Markdown, TXT, JSON, or a job-site form."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Choose who can see it"
@@ -1499,12 +1515,27 @@ msgstr "Cookies and local storage"
 msgid "Copied to clipboard."
 msgstr "Copied to clipboard."
 
+#: src/features/resume/export/use-resume-export.ts
+msgid "Copied. Paste it into the job-site form field by field."
+msgstr "Copied. Paste it into the job-site form field by field."
+
 #. Action button to copy two-factor backup codes to clipboard
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/features/applications/components/application-ai-copilot.tsx
+#: src/features/resume/export/download-dialog.tsx
+#: src/features/resume/export/platform-copy-dialog.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Copy"
 msgstr "Copy"
+
+#. placeholder {0}: block.title
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Copy {0}"
+msgstr "Copy {0}"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Copy all"
+msgstr "Copy all"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Copy and store these backup codes in case you lose your device."
@@ -1513,6 +1544,14 @@ msgstr "Copy and store these backup codes in case you lose your device."
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Copy Backup Codes"
 msgstr "Copy Backup Codes"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Copy for a job-site form"
+msgstr "Copy for a job-site form"
+
+#: src/features/resume/export/download-dialog.tsx
+msgid "Copy for a recruitment platform"
+msgstr "Copy for a recruitment platform"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Copy JSON"
@@ -1551,6 +1590,11 @@ msgstr "Correct the year, or write \"Present\" for ongoing work."
 #: src/features/auth/pages/consent.tsx
 msgid "Could not complete this connection. Restart the connection from your client and try again."
 msgstr "Could not complete this connection. Restart the connection from your client and try again."
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+#: src/features/resume/export/use-resume-export.ts
+msgid "Could not copy the text. Please try again."
+msgstr "Could not copy the text. Please try again."
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Could not copy to clipboard. Please copy the text manually."
@@ -2120,6 +2164,14 @@ msgstr "Do not use the service to publish other people's personal information wi
 msgid "Documents sent"
 msgstr "Documents sent"
 
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
+msgstr "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
+
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
+msgstr "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
+
 #: src/features/auth/pages/login.tsx
 msgid "Don't have an account? <0/>"
 msgstr "Don't have an account? <0/>"
@@ -2183,6 +2235,10 @@ msgid "Download sample DOCX"
 msgstr "Download sample DOCX"
 
 #: src/features/homepage/export-playground.tsx
+msgid "Download sample job-site TXT"
+msgstr "Download sample job-site TXT"
+
+#: src/features/homepage/export-playground.tsx
 msgid "Download sample JSON"
 msgstr "Download sample JSON"
 
@@ -2199,6 +2255,7 @@ msgid "Download sample TXT"
 msgstr "Download sample TXT"
 
 #: src/features/resume/export/download-dialog.tsx
+#: src/features/resume/export/platform-copy-dialog.tsx
 msgid "Download TXT"
 msgstr "Download TXT"
 
@@ -2390,6 +2447,10 @@ msgstr "Enable 2FA"
 msgid "Enable editing"
 msgstr "Enable editing"
 
+#: src/routes/admin/settings.tsx
+msgid "Enable the campus recruitment board"
+msgstr "Enable the campus recruitment board"
+
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "Enable Two-Factor Authentication"
@@ -2475,6 +2536,10 @@ msgstr "Exit focus mode"
 #: src/components/input/rich-input.tsx
 msgid "Exit Fullscreen"
 msgstr "Exit Fullscreen"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Expect 期望职位, 期望薪资, and similar fields to come from your own custom fields."
+msgstr "Expect 期望职位, 期望薪资, and similar fields to come from your own custom fields."
 
 #: src/dialogs/resume/sections/custom.tsx
 #: src/features/homepage/export-playground.tsx
@@ -2830,6 +2895,10 @@ msgstr "For a few more edits"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
 msgid "For example, note which companies you sent this resume to, or links to the job descriptions."
 msgstr "For example, note which companies you sent this resume to, or links to the job descriptions."
+
+#: src/features/homepage/export-playground.tsx
+msgid "For filling in a Chinese job-site form"
+msgstr "For filling in a Chinese job-site form"
 
 #: src/features/homepage/export-playground.tsx
 msgid "For filling in a job-site form"
@@ -3310,6 +3379,10 @@ msgstr "Job posting link"
 msgid "Job search pipeline"
 msgstr "Job search pipeline"
 
+#: src/features/resume/export/download-dialog.tsx
+msgid "Job-site text"
+msgstr "Job-site text"
+
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Jobs"
 msgstr "Jobs"
@@ -3517,6 +3590,10 @@ msgstr "Left Align"
 #: src/features/ats-checker/messages.ts
 msgid "Length is not a defect, and there is no universal one-page rule. Keep the pages that earn their place."
 msgstr "Length is not a defect, and there is no universal one-page rule. Keep the pages that earn their place."
+
+#: src/routes/admin/settings.tsx
+msgid "Let users submit job posts"
+msgstr "Let users submit job posts"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Letter"
@@ -4488,6 +4565,10 @@ msgstr "Pick an icon"
 msgid "Pick one format and use it everywhere."
 msgstr "Pick one format and use it everywhere."
 
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Pick the site you are filling in. Every field is ordered and named the way its form asks for it, so you can paste one block at a time."
+msgstr "Pick the site you are filling in. Every field is ordered and named the way its form asks for it, so you can paste one block at a time."
+
 #: src/libs/resume/section.tsx
 msgid "Picture"
 msgstr "Picture"
@@ -4507,6 +4588,10 @@ msgstr "Place it on a page from the Layout panel, or hide it if you meant to par
 #: src/features/resume/export/download-dialog.tsx
 msgid "Plain text, for AI tools and quick edits."
 msgstr "Plain text, for AI tools and quick edits."
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Platform"
+msgstr "Platform"
 
 #: src/components/ui/donation-toast.tsx
 msgid "Please support the project"
@@ -4870,6 +4955,10 @@ msgstr "Ready to put your name on it?"
 msgid "Reason"
 msgstr "Reason"
 
+#: src/features/homepage/export-playground.tsx
+msgid "Recruitment platform"
+msgstr "Recruitment platform"
+
 #: src/components/level/combobox.tsx
 msgid "Rectangle"
 msgstr "Rectangle"
@@ -4974,6 +5063,10 @@ msgstr "Replace icon fonts with plain text, then re-export."
 msgid "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 msgstr "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 
+#: src/libs/resume/ats.ts
+msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+msgstr "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+
 #. Action that asks for another SMS verification code
 #. Action that asks for another SMS verification code
 #: src/features/auth/components/phone-auth.tsx
@@ -5020,6 +5113,10 @@ msgstr "Reset your password"
 #: src/features/auth/pages/reset-password.tsx
 msgid "Resetting your password..."
 msgstr "Resetting your password..."
+
+#: src/features/resume/export/download-dialog.tsx
+msgid "Reshaped for the form on BOSS 直聘, 智联招聘, or similar sites. Copy it one block at a time."
+msgstr "Reshaped for the form on BOSS 直聘, 智联招聘, or similar sites. Copy it one block at a time."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Responsible for working on the design system and helping other teams with their designs."
@@ -5112,9 +5209,17 @@ msgstr "Resumes"
 msgid "Retry"
 msgstr "Retry"
 
+#: src/libs/resume/ats.ts
+msgid "Retype it with halfwidth digits, as in 2020-03."
+msgstr "Retype it with halfwidth digits, as in 2020-03."
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Review edits"
 msgstr "Review edits"
+
+#: src/routes/admin/settings.tsx
+msgid "Review submissions before publishing"
+msgstr "Review submissions before publishing"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Review the resume against a job description, and ask me before changing anything you're unsure about."
@@ -5803,6 +5908,10 @@ msgstr "Some bullets run long."
 msgid "Some characters come out as question marks."
 msgstr "Some characters come out as question marks."
 
+#: src/libs/resume/ats.ts
+msgid "Some characters here come from an icon font."
+msgstr "Some characters here come from an icon font."
+
 #: src/features/ats-checker/report/score-header.tsx
 msgid "Some checks need information this file does not carry: page contents that could not be inspected, or text in a language these checks do not cover. They count as neither a pass nor a fail."
 msgstr "Some checks need information this file does not carry: page contents that could not be inspected, or text in a language these checks do not cover. They count as neither a pass nor a fail."
@@ -6083,6 +6192,10 @@ msgstr "Synced changes made in another tab."
 msgid "Table"
 msgstr "Table"
 
+#: src/libs/resume/ats.ts
+msgid "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
+msgstr "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
+
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/table-view.tsx
@@ -6241,6 +6354,10 @@ msgstr "The password you entered is incorrect"
 msgid "The PDF is read by code running in this tab. Nothing is uploaded, nothing is stored, and no account is needed. Open your browser's network tab and watch, if you like."
 msgstr "The PDF is read by code running in this tab. Nothing is uploaded, nothing is stored, and no account is needed. Open your browser's network tab and watch, if you like."
 
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "The plain text download, unchanged: one line per field in the default order."
+msgstr "The plain text download, unchanged: one line per field in the default order."
+
 #: src/features/auth/pages/error.tsx
 msgid "The provider didn't share an email address, which is required to sign in."
 msgstr "The provider didn't share an email address, which is required to sign in."
@@ -6268,6 +6385,10 @@ msgstr "The resume preview could not be updated. The last valid preview is still
 #: src/features/ats-checker/messages.ts
 msgid "The same line repeats on every page."
 msgstr "The same line repeats on every page."
+
+#: src/features/homepage/export-playground.tsx
+msgid "The same lines in the order BOSS 直聘, 智联招聘, and other Chinese job sites ask for them, ready to paste into their online forms."
+msgstr "The same lines in the order BOSS 直聘, 智联招聘, and other Chinese job sites ask for them, ready to paste into their online forms."
 
 #. placeholder {0}: getPdfFindingMessage(cap).title
 #: src/features/ats-checker/report/score-header.tsx
@@ -6336,6 +6457,10 @@ msgstr "There was not enough information to run this check."
 #: src/routes/_home/terms.tsx
 msgid "These are the terms for using this Reactive Resume deployment. They are written to be read rather than skipped. If something here is unclear, ask whoever runs this instance."
 msgstr "These are the terms for using this Reactive Resume deployment. They are written to be read rather than skipped. If something here is unclear, ask whoever runs this instance."
+
+#: src/libs/resume/ats.ts
+msgid "These bullets are drawn with decorative characters."
+msgstr "These bullets are drawn with decorative characters."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "These checks run as you type and never leave your browser. They test whether software can read your resume, not how well it is written."
@@ -6407,6 +6532,14 @@ msgid "This connection request is invalid or has expired."
 msgstr "This connection request is invalid or has expired."
 
 #: src/libs/resume/ats.ts
+msgid "This contact field is an icon with no text."
+msgstr "This contact field is an icon with no text."
+
+#: src/libs/resume/ats.ts
+msgid "This date is typed with fullwidth digits."
+msgstr "This date is typed with fullwidth digits."
+
+#: src/libs/resume/ats.ts
 msgid "This date will not be read correctly."
 msgstr "This date will not be read correctly."
 
@@ -6421,6 +6554,14 @@ msgstr "This email address will not be recognized."
 #: src/libs/resume/ats.ts
 msgid "This entry has no dates."
 msgstr "This entry has no dates."
+
+#: src/libs/resume/ats.ts
+msgid "This entry is an image with no text behind it."
+msgstr "This entry is an image with no text behind it."
+
+#: src/libs/resume/ats.ts
+msgid "This entry is written inside a table."
+msgstr "This entry is written inside a table."
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "This entry will be permanently deleted. This can't be undone."
@@ -6541,6 +6682,10 @@ msgstr "This measures how faithfully software can extract this file's text. It d
 msgid "This page is in columns, and the text extracts out of order."
 msgstr "This page is in columns, and the text extracts out of order."
 
+#: src/libs/resume/ats.ts
+msgid "This page is split into two columns."
+msgstr "This page is split into two columns."
+
 #: src/features/ats-checker/messages.ts
 msgid "This page is very densely packed."
 msgstr "This page is very densely packed."
@@ -6564,6 +6709,10 @@ msgid "This period ends before it starts."
 msgstr "This period ends before it starts."
 
 #: src/libs/resume/ats.ts
+msgid "This period has a start but no end."
+msgstr "This period has a start but no end."
+
+#: src/libs/resume/ats.ts
 msgid "This period starts in the future."
 msgstr "This period starts in the future."
 
@@ -6572,6 +6721,7 @@ msgstr "This period starts in the future."
 msgid "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
 msgstr "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
 
+#: src/features/resume/export/platform-copy-dialog.tsx
 #: src/features/resume/export/use-resume-export.ts
 msgid "This resume has no content to export yet."
 msgstr "This resume has no content to export yet."
@@ -6607,6 +6757,10 @@ msgstr "This review is a language model's opinion of your writing. It does not c
 #: src/libs/resume/ats.ts
 msgid "This role has no description."
 msgstr "This role has no description."
+
+#: src/libs/resume/ats.ts
+msgid "This role has no job title."
+msgstr "This role has no job title."
 
 #: src/libs/resume/ats.ts
 msgid "This section has content but never appears."
@@ -6796,6 +6950,10 @@ msgstr "Turn your resume into an image you can share"
 #: src/routes/admin/settings.tsx
 msgid "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
 msgstr "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
+
+#: src/routes/admin/settings.tsx
+msgid "Turns on the /jobs board. While this is off the board answers 404 rather than 403, so a closed board stays invisible instead of merely locked."
+msgstr "Turns on the /jobs board. While this is off the board answers 404 rather than 403, so a closed board stays invisible instead of merely locked."
 
 #: src/dialogs/resume/template/data.ts
 msgid "Two-column with a bold colored sidebar and skill bars; great for creative or tech roles where visual flair is welcome."
@@ -7130,6 +7288,10 @@ msgstr "Use sample"
 msgid "Use the app in a language you’re comfortable with. Try a few of the translations made by the community."
 msgstr "Use the app in a language you’re comfortable with. Try a few of the translations made by the community."
 
+#: src/libs/resume/ats.ts
+msgid "Use the editor's bullet list, or a plain -, * or •."
+msgstr "Use the editor's bullet list, or a plain -, * or •."
+
 #: src/features/homepage/feature-explorer.tsx
 msgid "Use this wording"
 msgstr "Use this wording"
@@ -7149,6 +7311,10 @@ msgstr "User"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "User research"
 msgstr "User research"
+
+#: src/routes/admin/settings.tsx
+msgid "User submissions land in the review queue and stay invisible until an administrator approves them. Turn this off to publish them straight away."
+msgstr "User submissions land in the review queue and stay invisible until an administrator approves them. Turn this off to publish them straight away."
 
 #. Label for username input on registration form
 #: src/dialogs/resume/sections/profile.tsx
@@ -7524,6 +7690,10 @@ msgstr "Write each role as a clear title and company line, with the dates alongs
 msgid "Write it as one uninterrupted piece, with no special spacing."
 msgstr "Write it as one uninterrupted piece, with no special spacing."
 
+#: src/libs/resume/ats.ts
+msgid "Write the content as text. A photo is fine; a picture standing in for the words is not."
+msgstr "Write the content as text. A photo is fine; a picture standing in for the words is not."
+
 #: src/features/ats-checker/messages.ts
 msgid "Write the full address so it is recognised as a link."
 msgstr "Write the full address so it is recognised as a link."
@@ -7679,78 +7849,6 @@ msgstr "Your name"
 #: src/libs/resume/ats.ts
 msgid "Your page margins are very narrow."
 msgstr "Your page margins are very narrow."
-
-#: src/libs/resume/ats.ts
-msgid "This page is split into two columns."
-msgstr "This page is split into two columns."
-
-#: src/libs/resume/ats.ts
-msgid "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
-msgstr "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
-
-#: src/libs/resume/ats.ts
-msgid "This entry is written inside a table."
-msgstr "This entry is written inside a table."
-
-#: src/libs/resume/ats.ts
-msgid "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
-msgstr "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
-
-#: src/libs/resume/ats.ts
-msgid "This entry is an image with no text behind it."
-msgstr "This entry is an image with no text behind it."
-
-#: src/libs/resume/ats.ts
-msgid "Write the content as text. A photo is fine; a picture standing in for the words is not."
-msgstr "Write the content as text. A photo is fine; a picture standing in for the words is not."
-
-#: src/libs/resume/ats.ts
-msgid "This contact field is an icon with no text."
-msgstr "This contact field is an icon with no text."
-
-#: src/libs/resume/ats.ts
-msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
-msgstr "Add the text next to the icon. Parsers drop the icon and keep the text."
-
-#: src/libs/resume/ats.ts
-msgid "This period has a start but no end."
-msgstr "This period has a start but no end."
-
-#: src/libs/resume/ats.ts
-msgid "Add an end date, or write 至今 for a role you still hold."
-msgstr "Add an end date, or write 至今 for a role you still hold."
-
-#: src/libs/resume/ats.ts
-msgid "This role has no job title."
-msgstr "This role has no job title."
-
-#: src/libs/resume/ats.ts
-msgid "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
-msgstr "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
-
-#: src/libs/resume/ats.ts
-msgid "Some characters here come from an icon font."
-msgstr "Some characters here come from an icon font."
-
-#: src/libs/resume/ats.ts
-msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
-msgstr "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
-
-#: src/libs/resume/ats.ts
-msgid "This date is typed with fullwidth digits."
-msgstr "This date is typed with fullwidth digits."
-
-#: src/libs/resume/ats.ts
-msgid "Retype it with halfwidth digits, as in 2020-03."
-msgstr "Retype it with halfwidth digits, as in 2020-03."
-
-#: src/libs/resume/ats.ts
-msgid "These bullets are drawn with decorative characters."
-msgstr "These bullets are drawn with decorative characters."
-
-#: src/libs/resume/ats.ts
-msgid "Use the editor's bullet list, or a plain -, * or •."
-msgstr "Use the editor's bullet list, or a plain -, * or •."
 
 #: src/features/auth/pages/reset-password.tsx
 msgid "Your password has been reset. You can now sign in with your new password."

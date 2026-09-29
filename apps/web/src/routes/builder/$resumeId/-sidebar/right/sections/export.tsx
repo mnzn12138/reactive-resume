@@ -26,7 +26,7 @@ export function ExportSectionBuilder() {
 								<Trans>Download</Trans>
 							</h6>
 							<p className="text-muted-foreground text-xs leading-normal">
-								<Trans>Choose PDF, DOCX, Markdown, TXT, or JSON.</Trans>
+								<Trans>Choose PDF, DOCX, Markdown, TXT, JSON, or a job-site form.</Trans>
 							</p>
 						</div>
 					</Button>

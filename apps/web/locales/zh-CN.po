@@ -448,6 +448,10 @@ msgid "Add a tag and press Enter…"
 msgstr "添加标签并按 Enter…"
 
 #: src/libs/resume/ats.ts
+msgid "Add an end date, or write 至今 for a role you still hold."
+msgstr "补上结束时间;如果仍在职,就写「至今」。"
+
+#: src/libs/resume/ats.ts
 msgid "Add an entry, or use projects and volunteer work to show equivalent history."
 msgstr "添加条目，或使用项目和志愿者工作来展示同等的历史。"
 
@@ -513,6 +517,10 @@ msgstr "在各部分之间加一些留白，方便读者快速浏览。"
 #: src/features/applications/components/table-view.tsx
 msgid "Add tag"
 msgstr "添加标签"
+
+#: src/libs/resume/ats.ts
+msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
+msgstr "在图标旁边补上文字。解析时会丢掉图标、只留下文字。"
 
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Add to pipeline"
@@ -656,6 +664,10 @@ msgstr "允许公开访问"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Allow public access to download a QR card that opens your resume."
 msgstr "允许公开访问，以下载可打开简历的二维码名片。"
+
+#: src/routes/admin/settings.tsx
+msgid "Allows ordinary users to submit openings. While this is off, only an administrator can enter them."
+msgstr "允许普通用户提交岗位。关闭时只有管理员可以添加。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Almost none of your bullets carry a number."
@@ -1006,6 +1018,10 @@ msgstr "最适合申请、分享和打印。"
 msgid "Blank draft"
 msgstr "空白草稿"
 
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Block copied to clipboard."
+msgstr "该块已复制到剪贴板。"
+
 #: src/features/ats-checker/messages.ts
 msgid "Blocker"
 msgstr "阻断性问题"
@@ -1286,8 +1302,8 @@ msgid "Choose app language"
 msgstr "选择应用语言"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Choose PDF, DOCX, Markdown, TXT, or JSON."
-msgstr "可选择 PDF、DOCX、Markdown、TXT 或 JSON。"
+msgid "Choose PDF, DOCX, Markdown, TXT, JSON, or a job-site form."
+msgstr "选择 PDF、DOCX、Markdown、TXT、JSON，或招聘平台表单。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Choose who can see it"
@@ -1504,12 +1520,27 @@ msgstr "Cookie 与本地存储"
 msgid "Copied to clipboard."
 msgstr "已复制到剪贴板。"
 
+#: src/features/resume/export/use-resume-export.ts
+msgid "Copied. Paste it into the job-site form field by field."
+msgstr "已复制。请逐项粘贴到招聘平台的表单里。"
+
 #. Action button to copy two-factor backup codes to clipboard
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/features/applications/components/application-ai-copilot.tsx
+#: src/features/resume/export/download-dialog.tsx
+#: src/features/resume/export/platform-copy-dialog.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Copy"
 msgstr "复制"
+
+#. placeholder {0}: block.title
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Copy {0}"
+msgstr "复制 {0}"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Copy all"
+msgstr "复制全部"
 
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Copy and store these backup codes in case you lose your device."
@@ -1518,6 +1549,14 @@ msgstr "复制并妥善保存这些备份码，以防你丢失设备。"
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Copy Backup Codes"
 msgstr "复制备份码"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Copy for a job-site form"
+msgstr "复制到招聘平台表单"
+
+#: src/features/resume/export/download-dialog.tsx
+msgid "Copy for a recruitment platform"
+msgstr "复制为招聘平台填表文本"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Copy JSON"
@@ -1556,6 +1595,11 @@ msgstr "更正年份，或为仍在进行的工作写上“现在”。"
 #: src/features/auth/pages/consent.tsx
 msgid "Could not complete this connection. Restart the connection from your client and try again."
 msgstr "无法完成此次连接。请从你的客户端重新发起连接后再试。"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+#: src/features/resume/export/use-resume-export.ts
+msgid "Could not copy the text. Please try again."
+msgstr "无法复制这段文本，请重试。"
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Could not copy to clipboard. Please copy the text manually."
@@ -2125,6 +2169,14 @@ msgstr "不得利用本服务在无正当理由的情况下发布他人的个人
 msgid "Documents sent"
 msgstr "已发送的文档"
 
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
+msgstr "国内系统按「公司 - 职位 - 起止时间」识别经历。填上职位,或给每个子职位各填一个。"
+
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
+msgstr "国内招聘系统读取双栏版面时经常串行。改成单栏,或让侧栏只放简短的列表。"
+
 #: src/features/auth/pages/login.tsx
 msgid "Don't have an account? <0/>"
 msgstr "没有账户？<0/>"
@@ -2188,6 +2240,10 @@ msgid "Download sample DOCX"
 msgstr "下载示例 DOCX"
 
 #: src/features/homepage/export-playground.tsx
+msgid "Download sample job-site TXT"
+msgstr "下载招聘平台示例 TXT"
+
+#: src/features/homepage/export-playground.tsx
 msgid "Download sample JSON"
 msgstr "下载示例 JSON"
 
@@ -2204,6 +2260,7 @@ msgid "Download sample TXT"
 msgstr "下载示例 TXT"
 
 #: src/features/resume/export/download-dialog.tsx
+#: src/features/resume/export/platform-copy-dialog.tsx
 msgid "Download TXT"
 msgstr "下载 TXT"
 
@@ -2395,6 +2452,10 @@ msgstr "启用 2FA 双重身份验证"
 msgid "Enable editing"
 msgstr "启用编辑"
 
+#: src/routes/admin/settings.tsx
+msgid "Enable the campus recruitment board"
+msgstr "启用校招岗位板"
+
 #: src/dialogs/auth/enable-two-factor.tsx
 msgid "Enable Two-Factor Authentication"
 msgstr "启用双重身份认证"
@@ -2480,6 +2541,10 @@ msgstr "退出专注模式"
 #: src/components/input/rich-input.tsx
 msgid "Exit Fullscreen"
 msgstr "退出全屏"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Expect 期望职位, 期望薪资, and similar fields to come from your own custom fields."
+msgstr "期望职位、期望薪资这类字段来自你自己填写的自定义字段。"
 
 #: src/dialogs/resume/sections/custom.tsx
 #: src/features/homepage/export-playground.tsx
@@ -2835,6 +2900,10 @@ msgstr "用于进一步编辑"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
 msgid "For example, note which companies you sent this resume to, or links to the job descriptions."
 msgstr "例如，记下你把这份简历投给了哪些公司，或者职位描述的链接。"
+
+#: src/features/homepage/export-playground.tsx
+msgid "For filling in a Chinese job-site form"
+msgstr "用来填写国内招聘平台的表单"
 
 #: src/features/homepage/export-playground.tsx
 msgid "For filling in a job-site form"
@@ -3315,6 +3384,10 @@ msgstr "招聘信息链接"
 msgid "Job search pipeline"
 msgstr "求职流程"
 
+#: src/features/resume/export/download-dialog.tsx
+msgid "Job-site text"
+msgstr "招聘平台文本"
+
 #: src/features/command-palette/pages/navigation.tsx
 msgid "Jobs"
 msgstr "工作机会"
@@ -3522,6 +3595,10 @@ msgstr "左对齐"
 #: src/features/ats-checker/messages.ts
 msgid "Length is not a defect, and there is no universal one-page rule. Keep the pages that earn their place."
 msgstr "长度本身不是缺陷，也没有放之四海皆准的一页纸规则。保留那些真正有价值的内容页。"
+
+#: src/routes/admin/settings.tsx
+msgid "Let users submit job posts"
+msgstr "允许用户提交岗位"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx
 msgid "Letter"
@@ -4493,6 +4570,10 @@ msgstr "选择一个图标"
 msgid "Pick one format and use it everywhere."
 msgstr "选定一种格式，并在所有地方保持一致。"
 
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Pick the site you are filling in. Every field is ordered and named the way its form asks for it, so you can paste one block at a time."
+msgstr "选择你正在填写的平台：字段会按该平台表单的顺序排列并使用它的叫法，便于你一次粘贴一块。"
+
 #: src/libs/resume/section.tsx
 msgid "Picture"
 msgstr "图片"
@@ -4512,6 +4593,10 @@ msgstr "将其放置在“布局”面板中的页面上，或者如果您想将
 #: src/features/resume/export/download-dialog.tsx
 msgid "Plain text, for AI tools and quick edits."
 msgstr "纯文本，适合 AI 工具和快速编辑。"
+
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "Platform"
+msgstr "平台"
 
 #: src/components/ui/donation-toast.tsx
 msgid "Please support the project"
@@ -4875,6 +4960,10 @@ msgstr "准备好署上你的名字了吗？"
 msgid "Reason"
 msgstr "原因"
 
+#: src/features/homepage/export-playground.tsx
+msgid "Recruitment platform"
+msgstr "招聘平台"
+
 #: src/components/level/combobox.tsx
 msgid "Rectangle"
 msgstr "矩形"
@@ -4979,6 +5068,10 @@ msgstr "用纯文本替换图标字体，然后重新导出。"
 msgid "Replace tables with plain paragraphs and lists. Cells extract in storage order, not reading order."
 msgstr "用普通段落和列表替换表格。单元格是按存储顺序提取的，而不是按阅读顺序。"
 
+#: src/libs/resume/ats.ts
+msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+msgstr "换成普通文字或常规标点。离开这份文件,这些字符没有任何含义。"
+
 #. Action that asks for another SMS verification code
 #. Action that asks for another SMS verification code
 #: src/features/auth/components/phone-auth.tsx
@@ -5025,6 +5118,10 @@ msgstr "重置密码"
 #: src/features/auth/pages/reset-password.tsx
 msgid "Resetting your password..."
 msgstr "正在重置你的密码…"
+
+#: src/features/resume/export/download-dialog.tsx
+msgid "Reshaped for the form on BOSS 直聘, 智联招聘, or similar sites. Copy it one block at a time."
+msgstr "按 BOSS 直聘、智联招聘等网站的表单重排过，可一块一块复制。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Responsible for working on the design system and helping other teams with their designs."
@@ -5117,9 +5214,17 @@ msgstr "简历"
 msgid "Retry"
 msgstr "重试"
 
+#: src/libs/resume/ats.ts
+msgid "Retype it with halfwidth digits, as in 2020-03."
+msgstr "改成半角数字,例如 2020-03。"
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Review edits"
 msgstr "审核编辑"
+
+#: src/routes/admin/settings.tsx
+msgid "Review submissions before publishing"
+msgstr "发布前先审核投稿"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Review the resume against a job description, and ask me before changing anything you're unsure about."
@@ -5808,6 +5913,10 @@ msgstr "有些要点写得太长。"
 msgid "Some characters come out as question marks."
 msgstr "有些字符会变成问号。"
 
+#: src/libs/resume/ats.ts
+msgid "Some characters here come from an icon font."
+msgstr "这里有字符来自图标字体。"
+
 #: src/features/ats-checker/report/score-header.tsx
 msgid "Some checks need information this file does not carry: page contents that could not be inspected, or text in a language these checks do not cover. They count as neither a pass nor a fail."
 msgstr "有些检查需要这个文件没有携带的信息：无法查看的页面内容，或者这些检查未覆盖的语言的文字。它们既不算通过，也不算失败。"
@@ -6088,6 +6197,10 @@ msgstr "已同步在另一个标签页中所做的更改。"
 msgid "Table"
 msgstr "表格"
 
+#: src/libs/resume/ats.ts
+msgid "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
+msgstr "表格里的内容很容易被解析丢弃。改成正文段落和项目符号列表。"
+
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/table-view.tsx
@@ -6246,6 +6359,10 @@ msgstr "你输入的密码不正确"
 msgid "The PDF is read by code running in this tab. Nothing is uploaded, nothing is stored, and no account is needed. Open your browser's network tab and watch, if you like."
 msgstr "PDF 是由运行在此标签页中的代码读取的。不会上传任何内容，不会存储任何内容，也不需要账号。如果你愿意，可以打开浏览器的网络标签页观察一下。"
 
+#: src/features/resume/export/platform-copy-dialog.tsx
+msgid "The plain text download, unchanged: one line per field in the default order."
+msgstr "与上面的纯文本下载相同：按默认顺序，每个字段一行。"
+
 #: src/features/auth/pages/error.tsx
 msgid "The provider didn't share an email address, which is required to sign in."
 msgstr "提供商未共享电子邮件地址，而登录需要该地址。"
@@ -6273,6 +6390,10 @@ msgstr "简历预览无法更新，仍显示上次有效的预览版本。"
 #: src/features/ats-checker/messages.ts
 msgid "The same line repeats on every page."
 msgstr "同一行文字在每一页都重复出现。"
+
+#: src/features/homepage/export-playground.tsx
+msgid "The same lines in the order BOSS 直聘, 智联招聘, and other Chinese job sites ask for them, ready to paste into their online forms."
+msgstr "内容相同，但按 BOSS 直聘、智联招聘等国内网站表单的顺序排列，可直接粘贴进去。"
 
 #. placeholder {0}: getPdfFindingMessage(cap).title
 #: src/features/ats-checker/report/score-header.tsx
@@ -6341,6 +6462,10 @@ msgstr "信息不足，无法运行此项检查。"
 #: src/routes/_home/terms.tsx
 msgid "These are the terms for using this Reactive Resume deployment. They are written to be read rather than skipped. If something here is unclear, ask whoever runs this instance."
 msgstr "以下是使用本 Reactive Resume 实例的条款。我们尽量写得让人愿意读完，而不是直接跳过。如果其中某处不清楚，请询问本实例的运营方。"
+
+#: src/libs/resume/ats.ts
+msgid "These bullets are drawn with decorative characters."
+msgstr "这些项目符号用的是装饰性字符。"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "These checks run as you type and never leave your browser. They test whether software can read your resume, not how well it is written."
@@ -6412,6 +6537,14 @@ msgid "This connection request is invalid or has expired."
 msgstr "此连接请求无效或已过期。"
 
 #: src/libs/resume/ats.ts
+msgid "This contact field is an icon with no text."
+msgstr "这个联系方式只有图标,没有文字。"
+
+#: src/libs/resume/ats.ts
+msgid "This date is typed with fullwidth digits."
+msgstr "这个日期用了全角数字。"
+
+#: src/libs/resume/ats.ts
 msgid "This date will not be read correctly."
 msgstr "该日期将无法正确读取。"
 
@@ -6426,6 +6559,14 @@ msgstr "该电子邮件地址将不会被识别。"
 #: src/libs/resume/ats.ts
 msgid "This entry has no dates."
 msgstr "该条目没有日期。"
+
+#: src/libs/resume/ats.ts
+msgid "This entry is an image with no text behind it."
+msgstr "这条内容只有图片,没有可读取的文字。"
+
+#: src/libs/resume/ats.ts
+msgid "This entry is written inside a table."
+msgstr "这条经历写在表格里。"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "This entry will be permanently deleted. This can't be undone."
@@ -6546,6 +6687,10 @@ msgstr "这项指标衡量的是软件能多忠实地提取出这个文件中的
 msgid "This page is in columns, and the text extracts out of order."
 msgstr "此页面采用分栏排版，提取出的文字顺序错乱。"
 
+#: src/libs/resume/ats.ts
+msgid "This page is split into two columns."
+msgstr "这一页被分成了两栏。"
+
 #: src/features/ats-checker/messages.ts
 msgid "This page is very densely packed."
 msgstr "此页面排得非常密集。"
@@ -6569,6 +6714,10 @@ msgid "This period ends before it starts."
 msgstr "这个时期在开始之前就结束了。"
 
 #: src/libs/resume/ats.ts
+msgid "This period has a start but no end."
+msgstr "这段时间只有开始,没有结束。"
+
+#: src/libs/resume/ats.ts
 msgid "This period starts in the future."
 msgstr "这个时期从未来开始。"
 
@@ -6577,6 +6726,7 @@ msgstr "这个时期从未来开始。"
 msgid "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
 msgstr "本政策适用于您在此创建的账号，以及您放入其中的一切内容：简历、求职申请和上传的文件。它不适用于其他 Reactive Resume 部署实例——每个实例都有各自的数据库，账号之间并不互通。"
 
+#: src/features/resume/export/platform-copy-dialog.tsx
 #: src/features/resume/export/use-resume-export.ts
 msgid "This resume has no content to export yet."
 msgstr "这份简历还没有可导出的内容。"
@@ -6612,6 +6762,10 @@ msgstr "这条评审是语言模型对你文字的看法。它不会改变上面
 #: src/libs/resume/ats.ts
 msgid "This role has no description."
 msgstr "这个角色没有描述。"
+
+#: src/libs/resume/ats.ts
+msgid "This role has no job title."
+msgstr "这段经历没有职位名称。"
 
 #: src/libs/resume/ats.ts
 msgid "This section has content but never appears."
@@ -6801,6 +6955,10 @@ msgstr "把简历生成可分享的图片"
 #: src/routes/admin/settings.tsx
 msgid "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
 msgstr "关闭邮箱登录、邮箱注册与密码重置。第三方登录仍可使用。"
+
+#: src/routes/admin/settings.tsx
+msgid "Turns on the /jobs board. While this is off the board answers 404 rather than 403, so a closed board stays invisible instead of merely locked."
+msgstr "打开 /jobs 岗位板。关闭时该版面返回 404 而不是 403，因此停用的岗位板看起来是不存在，而不只是无权访问。"
 
 #: src/dialogs/resume/template/data.ts
 msgid "Two-column with a bold colored sidebar and skill bars; great for creative or tech roles where visual flair is welcome."
@@ -7135,6 +7293,10 @@ msgstr "使用示例"
 msgid "Use the app in a language you’re comfortable with. Try a few of the translations made by the community."
 msgstr "使用你熟悉的语言使用应用。试试社区贡献的一些译文。"
 
+#: src/libs/resume/ats.ts
+msgid "Use the editor's bullet list, or a plain -, * or •."
+msgstr "用编辑器的项目符号列表,或改用 -、*、• 这类常规符号。"
+
 #: src/features/homepage/feature-explorer.tsx
 msgid "Use this wording"
 msgstr "使用这个说法"
@@ -7154,6 +7316,10 @@ msgstr "普通用户"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "User research"
 msgstr "用户研究"
+
+#: src/routes/admin/settings.tsx
+msgid "User submissions land in the review queue and stay invisible until an administrator approves them. Turn this off to publish them straight away."
+msgstr "用户投稿先进入审核队列，管理员批准之前对外不可见。关闭这个开关则直接发布。"
 
 #. Label for username input on registration form
 #: src/dialogs/resume/sections/profile.tsx
@@ -7529,6 +7695,10 @@ msgstr "把每一段经历都写成清晰的“职位 + 公司”一行，并在
 msgid "Write it as one uninterrupted piece, with no special spacing."
 msgstr "把它写成一段连续不间断的文字，不要使用特殊间距。"
 
+#: src/libs/resume/ats.ts
+msgid "Write the content as text. A photo is fine; a picture standing in for the words is not."
+msgstr "把内容写成文字。证件照没问题,但用图片代替文字不行。"
+
 #: src/features/ats-checker/messages.ts
 msgid "Write the full address so it is recognised as a link."
 msgstr "写出完整地址，使其能被识别为链接。"
@@ -7684,78 +7854,6 @@ msgstr "你的姓名"
 #: src/libs/resume/ats.ts
 msgid "Your page margins are very narrow."
 msgstr "你的页边距很窄。"
-
-#: src/libs/resume/ats.ts
-msgid "This page is split into two columns."
-msgstr "这一页被分成了两栏。"
-
-#: src/libs/resume/ats.ts
-msgid "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
-msgstr "国内招聘系统读取双栏版面时经常串行。改成单栏,或让侧栏只放简短的列表。"
-
-#: src/libs/resume/ats.ts
-msgid "This entry is written inside a table."
-msgstr "这条经历写在表格里。"
-
-#: src/libs/resume/ats.ts
-msgid "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
-msgstr "表格里的内容很容易被解析丢弃。改成正文段落和项目符号列表。"
-
-#: src/libs/resume/ats.ts
-msgid "This entry is an image with no text behind it."
-msgstr "这条内容只有图片,没有可读取的文字。"
-
-#: src/libs/resume/ats.ts
-msgid "Write the content as text. A photo is fine; a picture standing in for the words is not."
-msgstr "把内容写成文字。证件照没问题,但用图片代替文字不行。"
-
-#: src/libs/resume/ats.ts
-msgid "This contact field is an icon with no text."
-msgstr "这个联系方式只有图标,没有文字。"
-
-#: src/libs/resume/ats.ts
-msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
-msgstr "在图标旁边补上文字。解析时会丢掉图标、只留下文字。"
-
-#: src/libs/resume/ats.ts
-msgid "This period has a start but no end."
-msgstr "这段时间只有开始,没有结束。"
-
-#: src/libs/resume/ats.ts
-msgid "Add an end date, or write 至今 for a role you still hold."
-msgstr "补上结束时间;如果仍在职,就写「至今」。"
-
-#: src/libs/resume/ats.ts
-msgid "This role has no job title."
-msgstr "这段经历没有职位名称。"
-
-#: src/libs/resume/ats.ts
-msgid "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
-msgstr "国内系统按「公司 - 职位 - 起止时间」识别经历。填上职位,或给每个子职位各填一个。"
-
-#: src/libs/resume/ats.ts
-msgid "Some characters here come from an icon font."
-msgstr "这里有字符来自图标字体。"
-
-#: src/libs/resume/ats.ts
-msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
-msgstr "换成普通文字或常规标点。离开这份文件,这些字符没有任何含义。"
-
-#: src/libs/resume/ats.ts
-msgid "This date is typed with fullwidth digits."
-msgstr "这个日期用了全角数字。"
-
-#: src/libs/resume/ats.ts
-msgid "Retype it with halfwidth digits, as in 2020-03."
-msgstr "改成半角数字,例如 2020-03。"
-
-#: src/libs/resume/ats.ts
-msgid "These bullets are drawn with decorative characters."
-msgstr "这些项目符号用的是装饰性字符。"
-
-#: src/libs/resume/ats.ts
-msgid "Use the editor's bullet list, or a plain -, * or •."
-msgstr "用编辑器的项目符号列表,或改用 -、*、• 这类常规符号。"
 
 #: src/features/auth/pages/reset-password.tsx
 msgid "Your password has been reset. You can now sign in with your new password."

@@ -13,8 +13,15 @@ type Website = ResumeData["basics"]["website"];
 /** One copy-pasteable line: `标签：值`. */
 export type StructuredField = { label: string; value: string };
 
-/** A group of fields under a heading — the shape a recruitment form page takes. */
-export type StructuredSection = { title: string; fields: StructuredField[] };
+/**
+ * A group of fields under a heading — the shape a recruitment form page takes.
+ *
+ * `id` identifies *where the block came from*, independent of the (locale-resolved) `title`:
+ * `"basics"`, `"headline"`, or the section id (a built-in `SectionType` or a custom section id).
+ * Callers that reorder blocks — see `@reactive-resume/resume/platform-text` — key off `id`
+ * because titles change with the caller's resolved locale.
+ */
+export type StructuredSection = { id: string; title: string; fields: StructuredField[] };
 
 /** Fullwidth colon, matching `customFieldKeySeparator` used elsewhere in this fork. */
 const FIELD_SEPARATOR = customFieldKeySeparator;
@@ -26,6 +33,13 @@ const BASICS_TITLE = "基本信息";
 const INTENTION_TITLE = "求职意向";
 const INTENTION_LABEL = "求职意向";
 const SELF_EVALUATION_LABEL = "自我评价";
+
+/**
+ * Stable ids for the two synthetic blocks that come from `basics` rather than from a section.
+ * The platform layer keys its ordering, title aliases, and copy blocks off these.
+ */
+export const BASICS_BLOCK_ID = "basics";
+export const INTENTION_BLOCK_ID = "headline";
 /** Used for a custom field that carries no semantic key and no label of its own. */
 const FALLBACK_CUSTOM_FIELD_LABEL = "其他";
 
@@ -65,13 +79,14 @@ export function buildStructuredSections(data: ResumeData, resolveTitle?: Section
 	};
 
 	for (const blockId of STRUCTURED_SECTION_ORDER) {
-		if (blockId === "basics") {
-			push({ title: BASICS_TITLE, fields: renderBasics(data) });
+		if (blockId === BASICS_BLOCK_ID) {
+			push({ id: BASICS_BLOCK_ID, title: BASICS_TITLE, fields: renderBasics(data) });
 			continue;
 		}
 
-		if (blockId === "headline") {
+		if (blockId === INTENTION_BLOCK_ID) {
 			push({
+				id: INTENTION_BLOCK_ID,
 				title: INTENTION_TITLE,
 				fields: compact([field(INTENTION_LABEL, data.basics.headline)]),
 			});
@@ -405,7 +420,7 @@ function renderSection(
 		const summary = data.summary;
 		if (summary.hidden) return undefined;
 		const fields = compact([field(SELF_EVALUATION_LABEL, richText(summary.content))]);
-		return fields.length > 0 ? { title: title || summary.title, fields } : undefined;
+		return fields.length > 0 ? { id: sectionId, title: title || summary.title, fields } : undefined;
 	}
 
 	if (sectionId in data.sections) {
@@ -413,13 +428,13 @@ function renderSection(
 		const section = data.sections[type];
 		if (!section) return undefined;
 		const fields = sectionFieldRenderers[type]?.(section) ?? [];
-		return fields.length > 0 ? { title: title || section.title, fields } : undefined;
+		return fields.length > 0 ? { id: sectionId, title: title || section.title, fields } : undefined;
 	}
 
 	const customSection = data.customSections.find((cs) => cs.id === sectionId);
 	if (!customSection) return undefined;
 	const fields = renderCustomSection(customSection);
-	return fields.length > 0 ? { title: title || customSection.title, fields } : undefined;
+	return fields.length > 0 ? { id: sectionId, title: title || customSection.title, fields } : undefined;
 }
 
 function renderCustomSection(section: CustomSection): StructuredField[] {

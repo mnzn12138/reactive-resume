@@ -3,8 +3,11 @@
 import { act, renderHook } from "@testing-library/react";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "@lingui/core";
+import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 import { sampleResumeData } from "@reactive-resume/schema/resume/sample";
 import { useResumeExport } from "./use-resume-export";
+
+const clipboard = vi.hoisted(() => ({ writeText: vi.fn(async (_text: string) => undefined) }));
 
 const mocks = vi.hoisted(() => ({
 	createResumePdfBlob: vi.fn(async () => new Blob(["local"], { type: "application/pdf" })),
@@ -24,12 +27,18 @@ vi.mock("@/features/resume/export/pdf-document", () => ({
 vi.mock("@reactive-resume/utils/file", () => ({
 	downloadWithAnchor: mocks.downloadWithAnchor,
 	generateFilename: (name: string, extension: string) => `${name}.${extension}`,
+	generateLocalizedFilename: (name: string, extension: string) => `${name}.${extension}`,
 }));
 vi.mock("@reactive-resume/ui/components/toast", () => ({
 	toast: {
 		add: mocks.toastAdd,
 		close: vi.fn(),
 	},
+}));
+// DOCX/Markdown/platform exports resolve locale-aware section titles; stub the async resolver so
+// they fall back without loading real locale catalogs.
+vi.mock("@/libs/resume/section-title-locale", () => ({
+	createSectionTitleResolverForLocale: vi.fn().mockResolvedValue(() => undefined),
 }));
 
 beforeAll(() => i18n.loadAndActivate({ locale: "en", messages: {} }));
@@ -126,6 +135,66 @@ describe("useResumeExport public PDF", () => {
 		await act(() => result.current.onDownloadPDF());
 
 		expect(mocks.downloadWithAnchor).not.toHaveBeenCalled();
+		expect(mocks.toastAdd).toHaveBeenCalledWith(expect.objectContaining({ type: "error" }));
+	});
+});
+
+describe("useResumeExport recruitment platform text", () => {
+	const resume = { name: "Sample", slug: "sample", data: sampleResumeData };
+
+	beforeEach(() => {
+		Object.defineProperty(navigator, "clipboard", { value: clipboard, configurable: true });
+		clipboard.writeText.mockClear();
+		// An earlier test installs a throwing one-shot implementation; clear it so it cannot leak.
+		mocks.downloadWithAnchor.mockReset();
+	});
+
+	it("downloads one platform's ordered text", async () => {
+		const { result } = renderHook(() => useResumeExport(resume));
+
+		await act(() => result.current.onDownloadPlatformText("boss"));
+
+		expect(mocks.downloadWithAnchor).toHaveBeenCalledOnce();
+		// biome-ignore lint/style/noNonNullAssertion: the download call is asserted just above.
+		const [blob, filename] = mocks.downloadWithAnchor.mock.calls[0]!;
+		expect((blob as Blob).type).toBe("text/plain;charset=utf-8");
+		expect(filename).toBe("Sample-boss.txt");
+		expect(await (blob as Blob).text()).toContain("工作经验");
+	});
+
+	it("copies one platform's ordered text to the clipboard", async () => {
+		const { result } = renderHook(() => useResumeExport(resume));
+
+		await act(() => result.current.onCopyPlatformText("zhilian"));
+
+		expect(clipboard.writeText).toHaveBeenCalledOnce();
+		// biome-ignore lint/style/noNonNullAssertion: the clipboard call is asserted just above.
+		const text = clipboard.writeText.mock.calls[0]![0] as string;
+		expect(text).toContain("姓名：David Kowalski");
+		// 智联招聘 asks for education before experience; the generic export asks for the reverse.
+		expect(text.indexOf("教育经历")).toBeLessThan(text.indexOf("工作经验"));
+	});
+
+	it("splits the export into per-form blocks", async () => {
+		const { result } = renderHook(() => useResumeExport(resume));
+
+		let blocks: { id: string; title: string; text: string }[] = [];
+		await act(async () => {
+			blocks = await result.current.getPlatformBlocks("boss");
+		});
+
+		expect(blocks.length).toBeGreaterThan(1);
+		expect(blocks[0]?.id).toBe("basics+headline");
+		expect(blocks.some((block) => block.id === "experience")).toBe(true);
+	});
+
+	it("refuses to write an empty export instead of a blank file", async () => {
+		const { result } = renderHook(() => useResumeExport({ name: "Empty", slug: "empty", data: defaultResumeData }));
+
+		await act(() => result.current.onDownloadPlatformText("generic"));
+
+		expect(mocks.downloadWithAnchor).not.toHaveBeenCalled();
+		expect(clipboard.writeText).not.toHaveBeenCalled();
 		expect(mocks.toastAdd).toHaveBeenCalledWith(expect.objectContaining({ type: "error" }));
 	});
 });

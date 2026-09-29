@@ -3,6 +3,7 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import {
 	CircleNotchIcon,
+	ClipboardTextIcon,
 	DownloadSimpleIcon,
 	FileDocIcon,
 	FileJsIcon,
@@ -21,6 +22,7 @@ import {
 	DialogTrigger,
 } from "@reactive-resume/ui/components/dialog";
 import { cn } from "@reactive-resume/utils/style";
+import { ResumePlatformCopyDialog } from "./platform-copy-dialog";
 import { useResumeExport } from "./use-resume-export";
 
 type DownloadableResume = Parameters<typeof useResumeExport>[0];
@@ -60,6 +62,7 @@ function FormatRow({ action, description, disabled, icon, title }: FormatRowProp
 
 export function ResumeDownloadDialog({ resume, trigger }: ResumeDownloadDialogProps) {
 	const [open, setOpen] = useState(false);
+	const [isPlatformDialogOpen, setIsPlatformDialogOpen] = useState(false);
 	const { isExporting, onDownloadDOCX, onDownloadJSON, onDownloadMarkdown, onDownloadText, onDownloadPDF } =
 		useResumeExport(resume);
 	const disabled = !resume || isExporting;
@@ -158,6 +161,34 @@ export function ResumeDownloadDialog({ resume, trigger }: ResumeDownloadDialogPr
 								<Trans>Download</Trans>
 							</Button>
 						}
+					/>
+
+					<FormatRow
+						icon={<ClipboardTextIcon className="size-5" />}
+						title={<Trans>Job-site text</Trans>}
+						description={
+							<Trans>
+								Reshaped for the form on BOSS 直聘, 智联招聘, or similar sites. Copy it one block at a time.
+							</Trans>
+						}
+						action={
+							<Button
+								size="sm"
+								variant="outline"
+								aria-label={t`Copy for a recruitment platform`}
+								disabled={disabled}
+								onClick={() => setIsPlatformDialogOpen(true)}
+							>
+								<ClipboardTextIcon />
+								<Trans>Copy</Trans>
+							</Button>
+						}
+					/>
+
+					<ResumePlatformCopyDialog
+						resume={resume}
+						open={isPlatformDialogOpen}
+						onOpenChange={setIsPlatformDialogOpen}
 					/>
 
 					<FormatRow
