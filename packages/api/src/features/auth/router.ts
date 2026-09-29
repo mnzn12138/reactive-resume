@@ -1,4 +1,3 @@
-import type { ProviderList } from "./service";
 import { protectedProcedure, publicProcedure } from "../../context";
 import { authService } from "./service";
 
@@ -12,10 +11,10 @@ export const authRouter = {
 				operationId: "listAuthProviders",
 				summary: "List authentication providers",
 				description:
-					"Returns a list of all authentication providers enabled on this Reactive Resume instance, along with their display names. Possible providers include password-based credentials, Google, GitHub, LinkedIn, and custom OAuth. No authentication required.",
+					"Returns a list of all authentication providers enabled on this Reactive Resume instance, along with their display names. Possible providers include password-based credentials, Google, GitHub, LinkedIn, WeChat, Alipay, phone number, and custom OAuth. A provider that an administrator has switched off at runtime is left out, so the web app can decide which buttons to render from this list alone. No authentication required.",
 				successDescription: "A map of enabled authentication provider identifiers to their display names.",
 			})
-			.handler((): ProviderList => authService.providers.list()),
+			.handler(() => authService.providers.list()),
 	},
 
 	exportData: protectedProcedure

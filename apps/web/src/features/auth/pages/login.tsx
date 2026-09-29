@@ -9,10 +9,12 @@ import z from "zod";
 import { Button } from "@reactive-resume/ui/components/button";
 import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from "@reactive-resume/ui/components/form";
 import { Input } from "@reactive-resume/ui/components/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@reactive-resume/ui/components/tabs";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { authClient } from "@/libs/auth/client";
 import { orpc } from "@/libs/orpc/client";
 import { useAppForm } from "@/libs/tanstack-form";
+import { PhoneAuth } from "../components/phone-auth";
 import { SocialAuth } from "../components/social-auth";
 import { getAuthRedirectOptions, getOAuthPasskeyOptions, getOAuthSignInOptions, isOAuthRedirect } from "../redirect";
 
@@ -116,6 +118,113 @@ export function LoginPage({ disableEmailAuth, disableSignups }: Props) {
 		});
 	}, [providers, router, navigate, callbackURL]);
 
+	const emailForm = (
+		<form
+			className="space-y-6"
+			onSubmit={(event) => {
+				event.preventDefault();
+				event.stopPropagation();
+				void form.handleSubmit();
+			}}
+		>
+			<form.Field name="identifier">
+				{(field) => (
+					<FormItem hasError={field.state.meta.isTouched && field.state.meta.errors.length > 0}>
+						<FormLabel>
+							<Trans comment="Label for login identifier input that accepts email or username">Email Address</Trans>
+						</FormLabel>
+						<FormControl
+							render={
+								<Input
+									autoComplete="section-login username webauthn"
+									placeholder="john.doe@example.com"
+									className="lowercase"
+									name={field.name}
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(event) => field.handleChange(event.target.value)}
+								/>
+							}
+						/>
+						<FormMessage errors={field.state.meta.errors} />
+						<FormDescription>
+							<Trans>You can also sign in with your username.</Trans>
+						</FormDescription>
+					</FormItem>
+				)}
+			</form.Field>
+
+			<form.Field name="password">
+				{(field) => (
+					<FormItem hasError={field.state.meta.isTouched && field.state.meta.errors.length > 0}>
+						<div className="flex items-center justify-between">
+							<FormLabel>
+								<Trans comment="Label for password input on login form">Password</Trans>
+							</FormLabel>
+
+							<Button
+								tabIndex={-1}
+								variant="link"
+								nativeButton={false}
+								className="h-auto p-0 text-xs leading-none"
+								render={
+									<Link to="/auth/forgot-password">
+										<Trans comment="Link label to password reset page from login form">Forgot Password?</Trans>
+									</Link>
+								}
+							/>
+						</div>
+						<div className="flex items-center gap-x-1.5">
+							<FormControl
+								render={
+									<Input
+										min={6}
+										max={64}
+										type={showPassword ? "text" : "password"}
+										autoComplete="section-login current-password"
+										name={field.name}
+										value={field.state.value}
+										onBlur={field.handleBlur}
+										onChange={(event) => field.handleChange(event.target.value)}
+									/>
+								}
+							/>
+
+							<Button
+								size="icon"
+								variant="ghost"
+								onClick={toggleShowPassword}
+								aria-label={
+									showPassword
+										? t({
+												comment: "Accessible label for button that hides the password in login form",
+												message: "Hide password",
+											})
+										: t({
+												comment: "Accessible label for button that reveals the password in login form",
+												message: "Show password",
+											})
+								}
+							>
+								{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
+							</Button>
+						</div>
+						<FormMessage errors={field.state.meta.errors} />
+					</FormItem>
+				)}
+			</form.Field>
+
+			<Button type="submit" className="w-full">
+				<Trans comment="Primary action button label on login form">Sign in</Trans>
+			</Button>
+		</form>
+	);
+
+	// The phone channel is only advertised by the server when SMS is configured, so the tab appears
+	// and disappears with `providers.phone` rather than with a feature flag of its own.
+	const phoneEnabled = "phone" in providers;
+	const showTabs = !disableEmailAuth && phoneEnabled;
+
 	return (
 		<>
 			<div className="space-y-1 text-center">
@@ -145,106 +254,32 @@ export function LoginPage({ disableEmailAuth, disableSignups }: Props) {
 				)}
 			</div>
 
-			{!disableEmailAuth && (
-				<form
-					className="space-y-6"
-					onSubmit={(event) => {
-						event.preventDefault();
-						event.stopPropagation();
-						void form.handleSubmit();
-					}}
-				>
-					<form.Field name="identifier">
-						{(field) => (
-							<FormItem hasError={field.state.meta.isTouched && field.state.meta.errors.length > 0}>
-								<FormLabel>
-									<Trans comment="Label for login identifier input that accepts email or username">Email Address</Trans>
-								</FormLabel>
-								<FormControl
-									render={
-										<Input
-											autoComplete="section-login username webauthn"
-											placeholder="john.doe@example.com"
-											className="lowercase"
-											name={field.name}
-											value={field.state.value}
-											onBlur={field.handleBlur}
-											onChange={(event) => field.handleChange(event.target.value)}
-										/>
-									}
-								/>
-								<FormMessage errors={field.state.meta.errors} />
-								<FormDescription>
-									<Trans>You can also sign in with your username.</Trans>
-								</FormDescription>
-							</FormItem>
-						)}
-					</form.Field>
+			{showTabs ? (
+				// `keepMounted` would not matter for correctness, but without it switching tabs resets
+				// whatever was typed into the other form.
+				<Tabs defaultValue="email">
+					<TabsList className="w-full">
+						<TabsTrigger value="email">
+							<Trans comment="Tab label that switches the login form to email and password">Email</Trans>
+						</TabsTrigger>
+						<TabsTrigger value="phone">
+							<Trans comment="Tab label that switches the login form to phone number and SMS code">Phone</Trans>
+						</TabsTrigger>
+					</TabsList>
 
-					<form.Field name="password">
-						{(field) => (
-							<FormItem hasError={field.state.meta.isTouched && field.state.meta.errors.length > 0}>
-								<div className="flex items-center justify-between">
-									<FormLabel>
-										<Trans comment="Label for password input on login form">Password</Trans>
-									</FormLabel>
+					<TabsContent value="email" keepMounted>
+						{emailForm}
+					</TabsContent>
 
-									<Button
-										tabIndex={-1}
-										variant="link"
-										nativeButton={false}
-										className="h-auto p-0 text-xs leading-none"
-										render={
-											<Link to="/auth/forgot-password">
-												<Trans comment="Link label to password reset page from login form">Forgot Password?</Trans>
-											</Link>
-										}
-									/>
-								</div>
-								<div className="flex items-center gap-x-1.5">
-									<FormControl
-										render={
-											<Input
-												min={6}
-												max={64}
-												type={showPassword ? "text" : "password"}
-												autoComplete="section-login current-password"
-												name={field.name}
-												value={field.state.value}
-												onBlur={field.handleBlur}
-												onChange={(event) => field.handleChange(event.target.value)}
-											/>
-										}
-									/>
-
-									<Button
-										size="icon"
-										variant="ghost"
-										onClick={toggleShowPassword}
-										aria-label={
-											showPassword
-												? t({
-														comment: "Accessible label for button that hides the password in login form",
-														message: "Hide password",
-													})
-												: t({
-														comment: "Accessible label for button that reveals the password in login form",
-														message: "Show password",
-													})
-										}
-									>
-										{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-									</Button>
-								</div>
-								<FormMessage errors={field.state.meta.errors} />
-							</FormItem>
-						)}
-					</form.Field>
-
-					<Button type="submit" className="w-full">
-						<Trans comment="Primary action button label on login form">Sign in</Trans>
-					</Button>
-				</form>
+					<TabsContent value="phone" keepMounted>
+						<PhoneAuth />
+					</TabsContent>
+				</Tabs>
+			) : (
+				<>
+					{!disableEmailAuth && emailForm}
+					{phoneEnabled && <PhoneAuth />}
+				</>
 			)}
 
 			<SocialAuth />

@@ -113,7 +113,15 @@ async function isUsernameTaken(candidate: string): Promise<boolean> {
 	return Boolean(existingUser);
 }
 
-async function allocateUniqueUsername(email: string, preferredUsername?: string | null): Promise<string> {
+/**
+ * Picks a username that is not taken yet.
+ *
+ * Exported for the domestic providers: WeChat and Alipay have no email to derive
+ * one from, so they pass a placeholder address and let the nickname — when it
+ * survives normalisation — win, with the same collision handling as any OAuth
+ * sign-up.
+ */
+export async function allocateUniqueUsername(email: string, preferredUsername?: string | null): Promise<string> {
 	const emailLocalPart = getEmailLocalPart(email);
 	const preferred = preferredUsername ? toUsername(preferredUsername) : "";
 	const normalizedEmailLocalPart = toUsername(emailLocalPart);

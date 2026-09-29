@@ -21,6 +21,14 @@ export const rateLimitConfig = {
 				"/two-factor/verify-totp": { window: 600, max: 5 },
 				"/two-factor/verify-backup-code": { window: 600, max: 5 },
 				"/is-username-available": { window: 60, max: 20 },
+				// The `phoneNumber` plugin ships its own 60s/10 rule for
+				// `/phone-number/*`, but it is keyed on the request alone and cannot
+				// see the sign-in shortcut. These two are the coarse front door:
+				// per-number and per-IP windows (60s cooldown, 10/day, 20/hour) are
+				// enforced separately in `packages/sms/rate-limit` against
+				// `sms_send_log`, which is the only place that can count them.
+				"/phone-number/send-otp": { window: 60, max: 5 },
+				"/sign-in/phone-number": { window: 60, max: 5 },
 			},
 		},
 		oauthProvider: {

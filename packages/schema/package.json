@@ -10,6 +10,7 @@
 		"./resume/stylesheet": "./src/resume/stylesheet.ts",
 		"./resume/*": "./src/resume/*.ts",
 		"./schema.json": "./schema.json",
+		"./sms": "./src/sms.ts",
 		"./templates": "./src/templates.ts"
 	},
 	"scripts": {

@@ -13,8 +13,6 @@ function getErrorMessage(code: string | undefined): string {
 		case "state_not_found":
 		case "invalid_callback_request":
 			return t`This sign-in attempt expired or was already used. Please start again.`;
-		case "invalid_code":
-			return t`The provider rejected this sign-in attempt. Please start again.`;
 		case "oauth_provider_not_found":
 			return t`That sign-in provider is no longer available on this server.`;
 		case "issuer_missing":
@@ -27,12 +25,18 @@ function getErrorMessage(code: string | undefined): string {
 			return t`The provider didn't share an email address, which is required to sign in.`;
 		case "email_not_verified":
 			return t`Your email address isn't verified with the provider.`;
-		case "email_does_not_match":
-			return t`That provider account uses a different email address than your account.`;
 		case "account_already_linked_to_different_user":
 			return t`That provider account is already linked to a different user.`;
 		case "unable_to_link_account":
 			return t`We couldn't link that provider account. Please try again.`;
+		// WeChat and Alipay both answer HTTP 200 with a body-level error, so a
+		// cancelled scan, an expired QR code or a code that was already exchanged all
+		// surface here. `error_description` carries the vendor's own code (e.g.
+		// 40029) underneath, for anyone who needs to look it up.
+		case "invalid_code":
+			return t`The provider rejected this sign-in attempt. If you scanned an old QR code, please start again.`;
+		case "email_does_not_match":
+			return t`That provider account could not be linked because it shares no email address with your account.`;
 		case "signup_disabled":
 			return t`New account sign-ups are currently disabled on this server.`;
 		case "invalid_client":

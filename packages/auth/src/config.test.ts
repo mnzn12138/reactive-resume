@@ -21,3 +21,26 @@ describe("session freshness", () => {
 		expect(auth.options.session?.freshAge).toBe(0);
 	});
 });
+
+describe("domestic provider account linking", () => {
+	it("allows linking across different email addresses", () => {
+		// WeChat and Alipay return no email at all, so their accounts hold a
+		// placeholder one. Without this the linking branch compares it against the
+		// signed-in user's real address and fails — silently, because the callback
+		// only redirects with an error code.
+		expect(auth.options.account?.accountLinking?.allowDifferentEmails).toBe(true);
+	});
+
+	it("trusts the two domestic providers and leaves the others as they were", () => {
+		// Trusted status is what lets a provider be linked without a verified email.
+		// It is granted only to the two that cannot deliver one; the compensating
+		// control is the session assertion in `hooks.before` on `/link-social`.
+		expect(auth.options.account?.accountLinking?.trustedProviders).toEqual([
+			"google",
+			"github",
+			"linkedin",
+			"wechat",
+			"alipay",
+		]);
+	});
+});

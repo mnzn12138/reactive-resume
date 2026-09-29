@@ -6,6 +6,7 @@
 	"exports": {
 		"./config": "./src/config.ts",
 		"./instance-settings": "./src/instance-settings.ts",
+		"./sms-otp": "./src/sms-otp.ts",
 		"./types": "./src/types.ts"
 	},
 	"scripts": {
@@ -24,6 +25,7 @@
 		"@reactive-resume/email": "workspace:*",
 		"@reactive-resume/env": "workspace:*",
 		"@reactive-resume/schema": "workspace:*",
+		"@reactive-resume/sms": "workspace:*",
 		"@reactive-resume/utils": "workspace:*",
 		"bcrypt": "^6.0.0",
 		"better-auth": "1.7.3",

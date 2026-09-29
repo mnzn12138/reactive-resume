@@ -1,17 +1,20 @@
 import type { GenericOAuthConfig, GenericOAuthUserInfo } from "better-auth/plugins";
 import type { JWTPayload } from "jose";
+import type { ConsentSource } from "./consent";
 import { drizzleAdapter } from "@better-auth/drizzle-adapter";
 import { dash } from "@better-auth/infra";
 import { oauthProvider } from "@better-auth/oauth-provider";
 import { passkey } from "@better-auth/passkey";
 import { compare, hash } from "bcrypt";
 import { APIError, betterAuth } from "better-auth";
-import { createAuthMiddleware } from "better-auth/api";
+import { addOAuthServerContext, createAuthMiddleware, getOAuthState, getSessionFromCtx } from "better-auth/api";
 import { verifyBearerToken } from "better-auth/oauth2";
 import { admin, jwt } from "better-auth/plugins";
 import { genericOAuth } from "better-auth/plugins/generic-oauth";
+import { phoneNumber } from "better-auth/plugins/phone-number";
 import { twoFactor } from "better-auth/plugins/two-factor";
 import { username } from "better-auth/plugins/username";
+import { eq, inArray } from "drizzle-orm";
 import { createElement } from "react";
 import { db } from "@reactive-resume/db/client";
 import * as schema from "@reactive-resume/db/schema";
@@ -19,11 +22,29 @@ import { ResetPasswordEmail, VerifyEmail, VerifyEmailChange } from "@reactive-re
 import { sendEmail } from "@reactive-resume/email/transport";
 import { env } from "@reactive-resume/env/server";
 import { legalConsentSchema, legalDocuments, legalDocumentVersion } from "@reactive-resume/schema/legal";
+import { resolveSmsConfig } from "@reactive-resume/sms/drivers";
+import { normalizePhoneNumber } from "@reactive-resume/sms/phone";
 import { rateLimitConfig, TRUSTED_IP_HEADERS } from "@reactive-resume/utils/rate-limit";
 import { generateId, toUsername } from "@reactive-resume/utils/string";
 import { isAllowedOAuthRedirectUri } from "@reactive-resume/utils/url-security.node";
-import { isEmailAuthDisabled, isSignupDisabled } from "./instance-settings";
+import {
+	assertLegalConsent,
+	buildConsentTicket,
+	channelFromCallbackPath,
+	isDomesticProvider,
+	resolveConsentSource,
+} from "./consent";
+import { createAlipayOAuthConfig } from "./domestic-oauth/alipay/config";
+import { createWechatOAuthConfig } from "./domestic-oauth/wechat/config";
+import {
+	isAlipayAuthDisabled,
+	isEmailAuthDisabled,
+	isSignupDisabled,
+	isSmsAuthDisabled,
+	isWechatAuthDisabled,
+} from "./instance-settings";
 import { createGithubProfileMapper, createProfileMapper } from "./oauth-profile";
+import { createSmsOtpOptions } from "./sms-otp";
 import { getTrustedOrigins } from "./trusted-origins";
 
 const authBaseUrl = env.APP_URL;
@@ -45,33 +66,242 @@ const EMAIL_AUTH_PATHS = [
 const isEmailAuthPath = (path: string) => EMAIL_AUTH_PATHS.some((candidate) => path.includes(candidate));
 
 /**
- * How a consent row was collected. Stored verbatim on `user_consent.source`.
- *
- * "manual" is reserved for a future re-acceptance surface — asking an existing
- * user to take the current version after a document bump. Nothing produces it
- * yet, so today every row comes from the sign-up gate below.
+ * Every route the `phoneNumber` plugin exposes, plus the sign-in shortcut it
+ * adds. Kept as prefixes so a future route on the same plugin is covered without
+ * editing this list by hand.
  */
-type ConsentSource = "signup-email" | "manual";
+const SMS_AUTH_PATH_PREFIXES = ["/phone-number", "/sign-in/phone-number"] as const;
+
+const isSmsAuthPath = (path: string) => SMS_AUTH_PATH_PREFIXES.some((candidate) => path.includes(candidate));
 
 /**
- * The one endpoint allowed to record consent: the path the gate above actually
- * runs on.
- *
- * A `user_consent` row is legal evidence that this user accepted this version of
- * this document, so it may only be written when the gate has run and `legalConsent`
- * has been validated. That is why `/callback/:id` is deliberately absent: a social
- * or generic-OAuth account is inserted there after a redirect through the third
- * party, so the user never sees our checkbox. Writing a row for it would assert an
- * acceptance that never happened — a misrepresentation of the user, which is worse
- * than having no row at all.
- *
- * Signing in again is absent for the same reason: stamping an existing account
- * with the current document version would backdate consent to a request that
- * asked for nothing.
+ * The one phone route that can create an account, and therefore the one that
+ * needs a consent gate. See `assertPhoneSignUpConsent` for why it is not
+ * `/phone-number/send-otp`.
  */
-function consentSourceFor(path: string): ConsentSource | null {
-	if (path.includes("/sign-up/email")) return "signup-email";
-	return null;
+const PHONE_VERIFY_PATH = "/phone-number/verify";
+
+/**
+ * Per-provider runtime switches for the domestic channels.
+ *
+ * A provider's credentials are read once, at boot, when `getAuthConfig()` builds
+ * the plugin list — so an administrator cannot add or remove a channel at
+ * runtime, only close it. Closing happens here, on the endpoint, mirroring how
+ * `isEmailAuthDisabled` works above: hiding a button is presentation, dropping
+ * the request is enforcement.
+ */
+const PROVIDER_DISABLED_CHECKS: Record<string, () => Promise<boolean>> = {
+	wechat: isWechatAuthDisabled,
+	alipay: isAlipayAuthDisabled,
+};
+
+/** The request body fields the social endpoints carry. Narrowed locally: Better Auth types bodies loosely. */
+const socialProviderFromBody = (body: unknown): string | undefined => {
+	const provider = (body as { provider?: unknown } | undefined)?.provider;
+	return typeof provider === "string" ? provider : undefined;
+};
+
+/**
+ * Which social endpoints each domestic gate applies to.
+ *
+ * The consent gate is scoped to the two new channels on purpose: Google, GitHub
+ * and LinkedIn have always been able to create an account without a checkbox,
+ * and forcing one on them now would change behaviour for every existing
+ * deployment. The new channels get it because they would otherwise add two more
+ * ways to create an account with no consent record at all.
+ */
+const SOCIAL_SIGN_IN_PATH = "/sign-in/social";
+const SOCIAL_LINK_PATH = "/link-social";
+
+/**
+ * Server-side `requestSignUp`, so the callback can create an account.
+ *
+ * The provider is registered with `disableImplicitSignUp: true`, which means the
+ * callback refuses to create anyone unless this flag is set — and this flag is
+ * only ever set here, after the consent gate has passed. A client sending
+ * `requestSignUp: true` itself is ignored: the value is overwritten, not read.
+ */
+function allowAccountCreation(body: unknown): void {
+	if (typeof body !== "object" || body === null) return;
+	(body as { requestSignUp?: boolean }).requestSignUp = true;
+}
+
+/**
+ * Binding a domestic provider is only ever allowed for a signed-in user.
+ *
+ * These two providers are trusted *and* `allowDifferentEmails` is on, because
+ * neither returns an email address — without both, linking fails silently. That
+ * combination makes the linking branch the interesting attack surface, so it is
+ * re-asserted here even though `/link-social` already runs behind
+ * `sessionMiddleware`.
+ *
+ * Fails open on an unexpected error rather than blocking: `sessionMiddleware`
+ * still decides, and a broken lookup must not lock anyone out of linking.
+ */
+async function assertLinkSession(ctx: { context: { session?: unknown } }): Promise<void> {
+	const existing = ctx.context.session as { user?: { id?: string } } | null | undefined;
+	if (existing?.user?.id) return;
+
+	let resolved: unknown = null;
+	try {
+		resolved = await getSessionFromCtx(ctx as Parameters<typeof getSessionFromCtx>[0]);
+	} catch {
+		return;
+	}
+
+	if ((resolved as { user?: { id?: string } } | null)?.user?.id) return;
+
+	throw new APIError("FORBIDDEN", { message: "You must be signed in to link a sign-in provider." });
+}
+
+/**
+ * The fields of an about-to-be-created `user` row this file reads or fills in.
+ * Narrowed locally: Better Auth types the hook loosely and the fork adds
+ * `username` / `displayUsername` / `phoneNumber` on top of its core `User`.
+ */
+type PendingUser = {
+	username?: string | null;
+	displayUsername?: string | null;
+	phoneNumber?: string | null;
+	email?: string;
+	name?: string;
+};
+
+/** Mirrors `minUsernameLength` on the `username` plugin below. */
+const MIN_USERNAME_LENGTH = 3;
+
+const USERNAME_PATTERN = /^[a-z0-9._-]+$/;
+
+/** The `user` row as better-auth hands it to `databaseHooks.user.create.before`. */
+const asPendingUser = (newUser: unknown): PendingUser => (newUser ?? {}) as PendingUser;
+
+const trimmed = (value: unknown): string => (typeof value === "string" ? value.trim() : "");
+
+/**
+ * What to derive a username from when the caller did not supply one.
+ *
+ * Email local part first, then the phone number's digits — `toUsername` keeps
+ * digits, so `+8613800138000` becomes `8613800138000` — and the display name as
+ * a last resort.
+ */
+function usernameSeed(user: PendingUser): string {
+	const localPart = trimmed(user.email).split("@")[0] ?? "";
+	if (localPart !== "") return localPart;
+
+	const phoneNumber = trimmed(user.phoneNumber);
+	if (phoneNumber !== "") return phoneNumber.replace(/\D/g, "");
+
+	return trimmed(user.name);
+}
+
+/**
+ * Fills in `username` / `displayUsername` when the caller left them out.
+ *
+ * This exists because of one upstream detail: `signUpOnVerification` creates the
+ * user with `email` and `name` only, while `user.username` and
+ * `user.displayUsername` are both `notNull().unique()` in this fork — without a
+ * fallback every phone sign-up dies on the constraint before the account is ever
+ * written.
+ *
+ * The guard is `username` being absent, so email and social sign-ups (which
+ * already resolve their own through the `username` plugin) are untouched: this
+ * only ever runs on a path that would otherwise fail.
+ *
+ * Returns `undefined` when nothing needs doing.
+ */
+async function resolveMissingUsername(newUser: unknown): Promise<string | undefined> {
+	const pending = asPendingUser(newUser);
+
+	if (trimmed(pending.username) !== "") return undefined;
+
+	const seed = toUsername(usernameSeed(pending));
+	const base = USERNAME_PATTERN.test(seed) && seed.length >= MIN_USERNAME_LENGTH ? seed.slice(0, 64) : "user";
+
+	let taken: boolean;
+
+	try {
+		const [row] = await db
+			.select({ id: schema.user.id })
+			.from(schema.user)
+			.where(eq(schema.user.username, base))
+			.limit(1);
+
+		taken = row !== undefined;
+	} catch (error) {
+		// The lookup is a nicety, not a gate: a collision costs one extra suffix,
+		// while failing the signup costs the user their account. Fall back to the
+		// suffixed form, which is unique for any practical collision rate.
+		console.error("[auth] username availability check failed; using a suffixed username", { error });
+		taken = true;
+	}
+
+	return taken ? `${base}-${generateId().slice(0, 6)}`.slice(0, 64) : base;
+}
+
+/**
+ * Gate **G1** for the phone channel.
+ *
+ * It is attached to `/phone-number/verify` and not to `/phone-number/send-otp`
+ * on purpose: verification is the only request that can create an account, so
+ * gating `send-otp` would force every *existing* user to tick the box again
+ * before they could even receive a code. Verify is also where it is technically
+ * possible — the endpoint's body schema is `z.object({...}).and(z.record(...))`,
+ * so the extra `legalConsent` field the client posts survives validation and is
+ * still on `ctx.body` when this hook runs.
+ *
+ * Accounts that already exist are exempt: they accepted when they registered and
+ * their `user_consent` rows are already on file.
+ */
+async function assertPhoneSignUpConsent(body: unknown): Promise<void> {
+	const rawPhoneNumber = (body as { phoneNumber?: unknown } | undefined)?.phoneNumber;
+
+	// Not a string means the endpoint's own schema will reject the request; there
+	// is nothing here to decide yet.
+	if (typeof rawPhoneNumber !== "string") return;
+
+	const normalized = normalizePhoneNumber(rawPhoneNumber);
+
+	// The plugin looks the existing user up by the raw `ctx.body.phoneNumber` it
+	// was handed and then writes that same string back to `user.phone_number`, so
+	// the column holds whatever the client typed. Both spellings have to be tried
+	// or a user who first signed up with `+86…` looks unknown when they type
+	// `138…`, and gets asked to re-accept.
+	const candidates =
+		normalized === undefined || normalized === rawPhoneNumber ? [rawPhoneNumber] : [rawPhoneNumber, normalized];
+
+	let hasAccount = false;
+
+	try {
+		const [row] = await db
+			.select({ id: schema.user.id })
+			.from(schema.user)
+			.where(inArray(schema.user.phoneNumber, candidates))
+			.limit(1);
+
+		hasAccount = row !== undefined;
+	} catch (error) {
+		// Fails closed. A wrong "already consented" would create an account with no
+		// `user_consent` row at all, which is the single outcome this gate exists to
+		// prevent; the cost of being wrong the other way is one retry.
+		console.error("[auth] phone-number lookup failed; requiring legal consent", { error });
+		hasAccount = false;
+	}
+
+	if (hasAccount) return;
+
+	const consent = legalConsentSchema.safeParse((body as { legalConsent?: unknown } | undefined)?.legalConsent);
+
+	if (!consent.success) {
+		throw new APIError("FORBIDDEN", {
+			message: "You must accept the privacy policy and terms of service to create an account.",
+		});
+	}
+
+	if (consent.data.version !== legalDocumentVersion) {
+		throw new APIError("FORBIDDEN", {
+			message: "The privacy policy and terms of service have changed. Please review and accept the current versions.",
+		});
+	}
 }
 
 /**
@@ -198,6 +428,31 @@ type WithoutEndpointMetadata<TPlugin> = TPlugin extends { endpoints: infer TEndp
 const getAuthConfig = () => {
 	const authConfigs: GenericOAuthConfig[] = [];
 
+	if (env.WECHAT_APP_ID && env.WECHAT_APP_SECRET) {
+		authConfigs.push(
+			createWechatOAuthConfig({
+				clientId: env.WECHAT_APP_ID,
+				clientSecret: env.WECHAT_APP_SECRET,
+				redirectURI: `${authBaseUrl}/api/auth/callback/wechat`,
+				appUrl: authBaseUrl,
+				disableSignUp: env.FLAG_DISABLE_SIGNUPS,
+			}),
+		);
+	}
+
+	if (env.ALIPAY_APP_ID && env.ALIPAY_PRIVATE_KEY && env.ALIPAY_PUBLIC_KEY) {
+		authConfigs.push(
+			createAlipayOAuthConfig({
+				appId: env.ALIPAY_APP_ID,
+				privateKey: env.ALIPAY_PRIVATE_KEY,
+				alipayPublicKey: env.ALIPAY_PUBLIC_KEY,
+				redirectURI: `${authBaseUrl}/api/auth/callback/alipay`,
+				appUrl: authBaseUrl,
+				disableSignUp: env.FLAG_DISABLE_SIGNUPS,
+			}),
+		);
+	}
+
 	if (isCustomOAuthProviderEnabled()) {
 		authConfigs.push({
 			providerId: "custom",
@@ -246,6 +501,46 @@ const getAuthConfig = () => {
 					throw new APIError("FORBIDDEN", { message: "Email and password authentication is disabled." });
 				}
 
+				// Same treatment for the domestic channels: the switch has to hold on
+				// the request, not just in the login page's markup.
+				if (isSmsAuthPath(ctx.path) && (await isSmsAuthDisabled())) {
+					throw new APIError("FORBIDDEN", { message: "Phone number sign-in is disabled on this instance." });
+				}
+
+				if (ctx.path.includes(SOCIAL_SIGN_IN_PATH) || ctx.path.includes(SOCIAL_LINK_PATH)) {
+					const provider = socialProviderFromBody(ctx.body);
+					const isDisabled = provider ? PROVIDER_DISABLED_CHECKS[provider] : undefined;
+
+					if (isDisabled && (await isDisabled())) {
+						throw new APIError("FORBIDDEN", {
+							message: `Sign-in with ${provider} is disabled on this instance.`,
+						});
+					}
+				}
+
+				// Gate G1 + G2 for the domestic providers: validate the checkbox the
+				// user ticked on the login page, then freeze it into the OAuth state.
+				// Throwing here means the browser never receives an authorization URL,
+				// so there is no callback and therefore no account.
+				if (ctx.path.includes(SOCIAL_SIGN_IN_PATH)) {
+					const provider = socialProviderFromBody(ctx.body);
+
+					if (isDomesticProvider(provider) && provider !== "phone") {
+						const consent = assertLegalConsent(ctx.body);
+
+						await addOAuthServerContext({
+							legalConsent: buildConsentTicket(consent, provider),
+						});
+						allowAccountCreation(ctx.body);
+					}
+				}
+
+				if (ctx.path.includes(SOCIAL_LINK_PATH)) {
+					const provider = socialProviderFromBody(ctx.body);
+
+					if (provider === "wechat" || provider === "alipay") await assertLinkSession(ctx);
+				}
+
 				// Creating an account has to carry explicit consent to the current privacy
 				// policy and terms. The other email paths are left alone on purpose: anyone
 				// signing in or resetting a password consented when they registered, and
@@ -266,6 +561,12 @@ const getAuthConfig = () => {
 								"The privacy policy and terms of service have changed. Please review and accept the current versions.",
 						});
 					}
+				}
+
+				// Same gate as above, for the phone channel. Only fires when the
+				// number has no account yet — see `assertPhoneSignUpConsent`.
+				if (ctx.path.includes(PHONE_VERIFY_PATH)) {
+					await assertPhoneSignUpConsent(ctx.body);
 				}
 
 				if (!ctx.path.includes("/oauth2/register")) return;
@@ -300,16 +601,25 @@ const getAuthConfig = () => {
 			 * `databaseHooks.user.create.after` would be the tighter trigger, but it is
 			 * queued after the transaction and only receives the endpoint context
 			 * opportunistically; this hook reliably has both the new user and the
-			 * request. `consentSourceFor` narrows it to the gated sign-up path, so a
-			 * null source means "no consent was collected" and nothing is inserted —
-			 * an account simply ends up with zero consent rows rather than one
-			 * asserting an acceptance it cannot evidence.
+			 * request. `resolveConsentSource` narrows it to the gated paths, so a null
+			 * source means "no consent was collected" and nothing is inserted — an
+			 * account simply ends up with zero consent rows rather than one asserting
+			 * an acceptance it cannot evidence.
+			 *
+			 * For the domestic callbacks the source additionally requires a
+			 * server-minted ticket, read back from the encrypted OAuth state. That is
+			 * what keeps a `/callback/:id` request that never went through the consent
+			 * gate from producing a row — and, paired with G3, from producing an
+			 * account either.
 			 */
 			after: createAuthMiddleware(async (ctx) => {
-				const source = consentSourceFor(ctx.path);
 				const newSession = ctx.context.newSession;
+				if (!newSession) return;
 
-				if (!source || !newSession) return;
+				const serverContext = channelFromCallbackPath(ctx.path) ? (await getOAuthState())?.serverContext : undefined;
+
+				const source = resolveConsentSource({ path: ctx.path, serverContext, hasNewSession: true });
+				if (!source) return;
 
 				const { ipAddress, userAgent } = newSession.session;
 
@@ -340,7 +650,20 @@ const getAuthConfig = () => {
 						if (await isSignupDisabled()) {
 							throw new APIError("FORBIDDEN", { message: "New signups are disabled on this instance." });
 						}
-						return { data: newUser };
+
+						// The phone channel's `signUpOnVerification` supplies no
+						// username, and both username columns are `notNull` here.
+						// Everything else arrives with one and is left alone.
+						const username = await resolveMissingUsername(newUser);
+						if (username === undefined) return { data: newUser };
+
+						return {
+							data: {
+								...newUser,
+								username,
+								displayUsername: trimmed(asPendingUser(newUser).displayUsername) || username,
+							},
+						};
 					},
 				},
 			},
@@ -417,7 +740,21 @@ const getAuthConfig = () => {
 		account: {
 			accountLinking: {
 				enabled: true,
-				trustedProviders: ["google", "github", "linkedin"],
+				/**
+				 * Neither WeChat nor Alipay returns an email address, so an account
+				 * created through them holds a placeholder one. Without this flag the
+				 * linking branch compares it against the signed-in user's real address
+				 * and refuses — silently, because the callback only redirects with an
+				 * error code.
+				 *
+				 * The flag only affects the two *linking* branches (starting a link and
+				 * finishing one); sign-in and sign-up never compare emails. The
+				 * compensating controls are in `hooks.before`: linking a domestic
+				 * provider still requires a signed-in session, and only these two
+				 * providers are trusted.
+				 */
+				allowDifferentEmails: true,
+				trustedProviders: ["google", "github", "linkedin", "wechat", "alipay"],
 			},
 		},
 
@@ -481,6 +818,15 @@ const getAuthConfig = () => {
 				usernameValidator: (username) => /^[a-z0-9._-]+$/.test(username),
 				validationOrder: { username: "post-normalization", displayUsername: "post-normalization" },
 			}),
+			/**
+			 * The phone channel follows the same rule as `socialProviders`: the
+			 * vendor's credentials are read once, here, at boot — so an
+			 * administrator can *close* the channel at runtime
+			 * (`isSmsAuthDisabled` in `hooks.before`) but can never open one the
+			 * environment does not support. Registering the plugin without a driver
+			 * would only add a sign-in button that always fails on send.
+			 */
+			...(resolveSmsConfig().configured ? [phoneNumber(createSmsOtpOptions())] : []),
 			...(env.BETTER_AUTH_API_KEY
 				? [dash({ apiKey: env.BETTER_AUTH_API_KEY, activityTracking: { enabled: true } })]
 				: []),

@@ -2,6 +2,7 @@ import { m } from "motion/react";
 import { useEnabledProviders } from "./components/hooks";
 import { PasskeysSection } from "./components/passkeys";
 import { PasswordSection } from "./components/password";
+import { PhoneSection } from "./components/phone-section";
 import { SocialProviderSection } from "./components/social-provider";
 import { TwoFactorSection } from "./components/two-factor";
 
@@ -30,6 +31,12 @@ export function AuthenticationSettingsPage() {
 			{"custom" in enabledProviders && (
 				<SocialProviderSection provider="custom" animationDelay={0.16} name={enabledProviders.custom} />
 			)}
+
+			{"wechat" in enabledProviders && <SocialProviderSection provider="wechat" animationDelay={0.2} />}
+
+			{"alipay" in enabledProviders && <SocialProviderSection provider="alipay" animationDelay={0.24} />}
+
+			{"phone" in enabledProviders && <PhoneSection animationDelay={0.28} />}
 		</m.div>
 	);
 }
