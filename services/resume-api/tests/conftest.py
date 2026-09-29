@@ -34,6 +34,7 @@ from alembic import command  # noqa: E402
 from alembic.config import Config  # noqa: E402
 
 from app.db.session import get_db  # noqa: E402
+from app.db.models import Resume  # noqa: E402
 from app.db.models import Session as SessionRow  # noqa: E402
 from app.db.models import User  # noqa: E402
 from app.identity import SESSION_COOKIE_NAME, get_current_user_id  # noqa: E402
@@ -207,3 +208,91 @@ def expired_token(
 def in_one_hour() -> datetime:
     """1 小时后的 UTC 时间，写用例时省得重复算。"""
     return datetime.now(timezone.utc) + timedelta(hours=1)
+
+
+# ---------------------------------------------------------------------------
+# 跨测试文件共用的夹具
+#
+# M5 起上移到这里：`app.main.app` 上的客户端与 resume 工厂原本只属于
+# `test_resume_crud.py`，而 PDF 出口（M5）与渲染契约 diff（M5）都要用。留两份会让
+# 「怎么造一份简历」这件事在两个文件里各自漂移，所以收敛成一处。
+# ---------------------------------------------------------------------------
+
+#: 权威契约（M1 从 Node 服务切出来的切片产物）的位置。
+CONTRACT_PATH = SERVICE_ROOT / "contract" / "resume-openapi.json"
+
+#: 每个用例都要用的最小简历 `data`（够 CRUD 与脱敏测试用，不必是完整 ResumeData）。
+SAMPLE_DATA: dict[str, object] = {
+    "basics": {"name": "张三", "headline": "后端工程师"},
+    "summary": {"content": "简介"},
+    "metadata": {"notes": "作者私有的备注"},
+}
+
+
+@pytest.fixture()
+def api_client(db_session: Session) -> Iterator[TestClient]:
+    """挂在 `app.main.app` 上的 TestClient，只把 `get_db` 换成用例自己的 Session。"""
+    from app.main import app
+
+    app.dependency_overrides[get_db] = lambda: db_session
+    try:
+        with TestClient(app) as test_client:
+            yield test_client
+    finally:
+        app.dependency_overrides.clear()
+
+
+@pytest.fixture(autouse=True)
+def _reset_rate_limiter() -> Iterator[None]:
+    """每个用例前后清空限流计数，用例之间不互相干扰。"""
+    from app.rate_limit import resume_mutation_limiter
+
+    resume_mutation_limiter.reset()
+    yield
+    resume_mutation_limiter.reset()
+
+
+@pytest.fixture()
+def resume_factory(db_session: Session) -> Callable[..., Resume]:
+    """直接插一行 resume（绕开 API，方便构造锁定 / 带密码 / 私有等状态）。"""
+
+    def _make_resume(
+        *,
+        user_id: str,
+        slug: str = "my-resume",
+        name: str = "我的简历",
+        tags: list[str] | None = None,
+        is_public: bool = False,
+        is_locked: bool = False,
+        password: str | None = None,
+        data: dict | None = None,
+    ) -> Resume:
+        now = datetime.now(timezone.utc)
+        row = Resume(
+            id=uuid4().hex,
+            name=name,
+            slug=slug,
+            tags=tags if tags is not None else [],
+            is_public=is_public,
+            is_locked=is_locked,
+            password=password,
+            data=data if data is not None else dict(SAMPLE_DATA),
+            user_id=user_id,
+            created_at=now,
+            updated_at=now,
+        )
+        db_session.add(row)
+        db_session.commit()
+        return row
+
+    return _make_resume
+
+
+@pytest.fixture()
+def authed(api_client: TestClient, session_factory: Callable[..., str], user_id: str) -> str:
+    """已登录的客户端（cookie 设好），返回 user id。"""
+    api_client.cookies.set(
+        SESSION_COOKIE_NAME,
+        session_factory(user_id=user_id, expires_at=datetime.now(timezone.utc) + timedelta(days=1)),
+    )
+    return user_id

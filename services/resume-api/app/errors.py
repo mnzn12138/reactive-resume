@@ -181,6 +181,43 @@ def too_many_requests() -> OrpcError:
     )
 
 
+def pdf_render_failed(operation: str, upstream_status: int, hint: str = "") -> OrpcError:
+    """Node 渲染端点失败（非 200，或 200 但给的不是 PDF）。
+
+    为什么是 502 而不是把上游的状态码原样透出去：Python 在这一跳里是**网关**，
+    上游挂了是我们的上游依赖问题，不是调用方的请求问题。但状态码会写进 message ——
+    「明确报错」的要求是别把 500 吞成一句空话，不是把内部细节藏起来。
+
+    Args:
+        operation: 上游 operationId，便于定位是哪个渲染端点挂了。
+        upstream_status: 上游 HTTP 状态码。
+        hint: 可选的排障提示，会追加到 message 末尾。
+    """
+    message = f"Failed to render the resume PDF (upstream {operation} returned {upstream_status})."
+    if hint:
+        message = f"{message} {hint}"
+
+    return OrpcError(
+        status.HTTP_502_BAD_GATEWAY,
+        "PDF_RENDER_FAILED",
+        message,
+    )
+
+
+def renderer_unavailable(operation: str) -> OrpcError:
+    """Node 渲染端点连不上 / 超时（服务没起、地址配错、渲染卡死）。
+
+    Args:
+        operation: 上游 operationId。
+    """
+    return OrpcError(
+        status.HTTP_503_SERVICE_UNAVAILABLE,
+        "PDF_RENDERER_UNAVAILABLE",
+        f"The resume PDF renderer is unreachable (upstream {operation} did not respond). "
+        "Check NODE_RENDER_BASE_URL and whether the Node server is running.",
+    )
+
+
 def _error_response(status_code: int, code: str, message: str, data: dict[str, Any] | None) -> JSONResponse:
     """把错误码组装成 JSON 响应。"""
     body = ErrorBody(defined=True, code=code, status=status_code, message=message, data=data)

@@ -30,13 +30,15 @@ getResumeBySlug  GET    /resumes/{username}/{slug}  公开简历页数据
   `resume_statistics_daily` 不建模。
 * `resume_version` 快照**不写**。
 * `resume.updated` 事件 / SSE **不发**。
+
+M5 的一处结构改动：见权限 / 公开页授权的两个判定函数（`load_owned_resume`、
+`open_public_resume`）搬到了 `app/resume_access.py` —— 公开 PDF 出口要走同一套判定，
+不能复制一份。本文件与 `app/routers/pdf.py` 现在共用它们。
 """
 
 from __future__ import annotations
 
 import copy
-import hashlib
-import hmac
 import logging
 import re
 from datetime import datetime, timezone
@@ -49,13 +51,14 @@ from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app import errors
-from app.db.models import Resume, ResumeStatistics, User
+from app.db.models import Resume, ResumeStatistics
 from app.db.session import get_db
 from app.defaults import LOCALE_COOKIE_NAME, create_resume_data, resolve_locale
-from app.identity import SESSION_COOKIE_NAME, get_current_user_id, resolve_user_id
+from app.identity import SESSION_COOKIE_NAME, get_current_user_id
 from app.ids import generate_id
 from app.patching import InvalidPatchError, apply_data_patch
 from app.rate_limit import resume_mutation_key, resume_mutation_limiter
+from app.resume_access import load_owned_resume, open_public_resume
 from app.schemas.resume import (
     CreateResumeRequest,
     PatchResumeRequest,
@@ -71,9 +74,6 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/resumes", tags=["Resumes"])
 
-#: 公开简历访问 cookie 的前缀与 Node `packages/api/src/features/resume/access.ts` 一致。
-RESUME_ACCESS_COOKIE_PREFIX = "resume_access"
-
 #: `resume_slug_user_id_unique` —— Node 靠这个约束名把唯一冲突翻成 400。
 SLUG_UNIQUE_CONSTRAINT = "resume_slug_user_id_unique"
 
@@ -85,32 +85,6 @@ _BRACKET_TAG_KEY = re.compile(r"^tags\[\d+\]$")
 # ---------------------------------------------------------------------------
 # 内部小工具
 # ---------------------------------------------------------------------------
-
-
-def _load_owned_resume(db: Session, resume_id: str, user_id: str, *, for_update: bool = False) -> Resume:
-    """取「当前用户名下」的简历，取不到就 404。
-
-    Args:
-        db: 数据库 Session。
-        resume_id: 路径上的简历 id。
-        user_id: 当前登录用户 id。
-        for_update: 是否 `SELECT ... FOR UPDATE`（update / patch / delete 用，
-            与 Node 一样在事务里锁住这一行）。
-
-    Returns:
-        命中的 `Resume` 行。
-
-    Raises:
-        OrpcError: 404 —— 不存在，或不属于当前用户。
-    """
-    statement = select(Resume).where(Resume.id == resume_id, Resume.user_id == user_id)
-    if for_update:
-        statement = statement.with_for_update()
-
-    resume = db.execute(statement).scalar_one_or_none()
-    if resume is None:
-        raise errors.resume_not_found()
-    return resume
 
 
 def _to_list_item(resume: Resume) -> ResumeListItem:
@@ -182,28 +156,6 @@ def _truncate_to_millis(value: datetime) -> datetime:
     """
     aware = value if value.tzinfo is not None else value.replace(tzinfo=timezone.utc)
     return aware.astimezone(timezone.utc).replace(microsecond=(aware.microsecond // 1000) * 1000)
-
-
-def _has_resume_access(request: Request, resume_id: str, password_hash: str | None) -> bool:
-    """访客是否已经通过密码验证（照 Node `access.ts` 的 `hasResumeAccess`）。
-
-    Args:
-        request: 当前请求，用来读 `resume_access_<id>` cookie。
-        resume_id: 简历 id。
-        password_hash: 库里存的 bcrypt 密码哈希，没设密码时为 None。
-
-    Returns:
-        已通过验证返回 True，否则 False。
-    """
-    if not password_hash:
-        return False
-
-    cookie_value = request.cookies.get(f"{RESUME_ACCESS_COOKIE_PREFIX}_{resume_id}")
-    if not cookie_value:
-        return False
-
-    expected = hashlib.sha256(f"{resume_id}:{password_hash}".encode("utf-8")).hexdigest()
-    return hmac.compare_digest(cookie_value, expected)
 
 
 def _increment_views_best_effort(db: Session, resume_id: str) -> None:
@@ -407,7 +359,7 @@ def get_resume(
     Raises:
         OrpcError: 401 未认证；404 不存在或不属于当前用户。
     """
-    return _to_resume_response(_load_owned_resume(db, id, user_id))
+    return _to_resume_response(load_owned_resume(db, id, user_id))
 
 
 @router.put(
@@ -443,7 +395,7 @@ def update_resume(
     """
     _enforce_mutation_limit(user_id, id)
 
-    resume = _load_owned_resume(db, id, user_id, for_update=True)
+    resume = load_owned_resume(db, id, user_id, for_update=True)
     if resume.is_locked:
         raise errors.resume_locked()
 
@@ -514,7 +466,7 @@ def patch_resume(
     """
     _enforce_mutation_limit(user_id, id)
 
-    resume = _load_owned_resume(db, id, user_id, for_update=True)
+    resume = load_owned_resume(db, id, user_id, for_update=True)
     if resume.is_locked:
         raise errors.resume_locked()
 
@@ -570,7 +522,7 @@ def delete_resume(
     """
     _enforce_mutation_limit(user_id, id)
 
-    resume = _load_owned_resume(db, id, user_id, for_update=True)
+    resume = load_owned_resume(db, id, user_id, for_update=True)
     if resume.is_locked:
         raise errors.resume_locked()
 
@@ -626,24 +578,10 @@ def get_resume_by_slug(
     Raises:
         OrpcError: 404 不存在 / 不可见；401 需要密码。
     """
-    statement = (
-        select(Resume)
-        .join(User, User.id == Resume.user_id)
-        .where(Resume.slug == slug, User.username == username)
+    # 可见性与密码判定统一走 `app.resume_access`（公开 PDF 出口用的是同一份）。
+    resume, viewer_is_owner = open_public_resume(
+        db, request, username=username, slug=slug, session_token=session_token
     )
-    resume = db.execute(statement).scalar_one_or_none()
-    if resume is None:
-        raise errors.resume_not_found()
-
-    current_user_id = resolve_user_id(db, session_token)
-    viewer_is_owner = current_user_id is not None and current_user_id == resume.user_id
-
-    # 非 owner 且简历不公开 —— 与「不存在」返回同一个 404。
-    if not viewer_is_owner and not resume.is_public:
-        raise errors.resume_not_found()
-
-    if resume.password is not None and not _has_resume_access(request, resume.id, resume.password):
-        raise errors.need_password(username, slug)
 
     response = _to_shared_response(resume, viewer_is_owner=viewer_is_owner)
 

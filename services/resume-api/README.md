@@ -1,14 +1,18 @@
-# services/resume-api（Python 侧 · 迁移地基 M1~M4）
+# services/resume-api（Python 侧 · 迁移地基 M1~M5）
 
 Reactive Resume 从 Node 迁到 Python 的**地基工程**。
-本轮做四件事：**M1 契约导出**、**M2 Alembic 基线 + SQLAlchemy 模型**、**M3 Python 取身份**、
-**M4 简历 CRUD 路由**。联调与部署（M5/M6）不在本轮。
+已做五件事：**M1 契约导出**、**M2 Alembic 基线 + SQLAlchemy 模型**、**M3 Python 取身份**、
+**M4 简历 CRUD 路由**、**M5 PDF / DOCX 联调**。部署（M6）不在本轮。
 
 > 定位：这次迁移**不是项目重心**（项目重心是国产化改造），只是课程要求的最小集。
-> 范围只限「简历 CRUD + 公开简历页数据」，其余全部留在 Node。详见 `docs/contract-scope.md`。
+> 范围只限「简历 CRUD + 公开简历页数据 + PDF 出口」，其余全部留在 Node。
+> 详见 `docs/contract-scope.md`。
 >
-> **M4 做完也不接管生产流量**：Node 侧仍是权威，Python 服务只是先跑通、能演示，
-> M5/M6 才做联调与流量切换。所以 M4 **一行都没改 Node 侧**。
+> **M5 做完也不接管生产流量**：Node 侧仍是权威，Python 服务只是先跑通、能演示。
+> 所以 **M4 / M5 都没改过 Node 侧**（`packages/pdf`、`apps/server` 均为零改动）。
+>
+> M5 的完整结论（含「故意简化 / 没做到」清单）见 **`docs/render-parity.md`**；
+> M6 的输入（环境变量对照表）见 **`docs/env-parity.md`**。
 
 ## 为什么放在 `services/` 而不是 `apps/` 或 `packages/`
 
@@ -34,32 +38,42 @@ services/resume-api/
 │     ├─ 0001_baseline.py         基线迁移（现有全部表）
 │     └─ 0002_recruitment.py      校招岗位板三张表（别的任务建的，别动）
 ├─ app/
-│  ├─ config.py                   Settings（DATABASE_URL / AUTH_SECRET / PORT）
+│  ├─ config.py                   Settings（DATABASE_URL / AUTH_SECRET / PORT / M5 的 Node 渲染配置）
 │  ├─ defaults.py                 M4：新建简历的初始 data + locale 解析
 │  ├─ errors.py                   M4：oRPC 形状的错误信封 + 异常处理器
 │  ├─ identity.py                 M3：cookie → user id（get_current_user_id）
 │  ├─ ids.py                      M4：UUIDv7 id 生成（与 Node generateId() 同形）
 │  ├─ main.py                     FastAPI 入口（/health + /resumes）
 │  ├─ patching.py                 M4：JSON Patch（RFC 6902），只作用于 data 子树
+│  ├─ pdf_token.py                M5：PDF 下载令牌（与 Node 逐字节兼容的 HMAC 签名）
 │  ├─ rate_limit.py               M4：进程内滑动窗口限流（对齐 resumeMutationRateLimit）
+│  ├─ render_proxy.py             M5：转发到 Node 渲染端点 + 上游状态码映射
+│  ├─ resume_access.py            M5：owner 隔离 + 公开页授权（CRUD 与 PDF 出口共用）
 │  ├─ db/
 │  │  ├─ base.py                  DeclarativeBase + 约束命名约定
 │  │  ├─ models.py                User / Session / Resume / ResumeStatistics / Recruitment*
 │  │  └─ session.py               engine / SessionLocal / get_db 依赖
 │  ├─ routers/
+│  │  ├─ pdf.py                   M5：2 个 PDF 出口（转发给 Node，Python 侧不渲染）
 │  │  └─ resume.py                M4：7 个简历 CRUD 路由
 │  └─ schemas/
 │     └─ resume.py                M4：Pydantic 请求 / 响应模型（形状照契约）
 ├─ contract/
 │  └─ resume-openapi.json         M1 切片产物（生成物，别手改）
 ├─ docs/
-│  └─ contract-scope.md           哪些进 Python / 哪些留 Node
+│  ├─ contract-scope.md           哪些进 Python / 哪些留 Node
+│  ├─ env-parity.md               M5：环境变量对照表（M6 的输入）
+│  └─ render-parity.md            M5：PDF 联调结论 + 故意简化清单
 ├─ tools/
-│  └─ export_contract.mjs         M1 导出脚本
+│  ├─ export_contract.mjs         M1 导出脚本
+│  └─ verify_pdf_token_parity.mjs M5：用 Node 真实实现做令牌互签校验
 └─ tests/
    ├─ conftest.py                 测试库建库 + 跑迁移 + 夹具
    ├─ test_identity.py            M3 的 8 个用例
-   └─ test_resume_crud.py         M4 的 58 个用例
+   ├─ test_resume_crud.py         M4 的 58 个用例
+   ├─ test_pdf_token.py           M5 的令牌用例（含与 Node 的真实互签）
+   ├─ test_pdf_export.py          M5 的 PDF 出口用例（代理层 + 路由层）
+   └─ test_render_contract.py     M5 的 data 形状 diff + JSONB 往返保真
 ```
 
 ---
@@ -251,7 +265,71 @@ Node 的 `generateId()`（`packages/utils/src/string.ts`）就是 `uuidv7()`。
 > **空字符串**，但 `access-policy.ts:58` 实际写的是 `"Resume"`。我们照**代码**实现
 > （`name = "Resume"`），与契约里 `name: {type: string}`（没有 `min(1)`）也对得上。
 
-## 7. 起服务
+## 7. M5 · PDF 出口
+
+两个出口，**都不渲染** —— 总纲定死「渲染仍调 Node 内部端点，`packages/pdf` 一行不改」：
+
+| operationId | 方法 + 路径 | 转发目标 |
+| --- | --- | --- |
+| `downloadResumePdf` | `GET /resumes/{id}/pdf` | `{NODE}/api/resumes/{id}/pdf?token=<Python 自签>` |
+| `downloadPublicResumePdf` | `GET /resumes/{username}/{slug}/pdf` | `{NODE}/api/resumes/{username}/{slug}/pdf` |
+
+链路：**认人 → 判权 → 自签令牌 → 转发 → 把字节带回来**。
+
+### 7.1 令牌是 Python 自己签的
+
+Node 的 `handleResumePdfDownload` 第一件事就是 `if (!token) return 401`，而它的签名只依赖
+`AUTH_SECRET`（`packages/api/src/features/resume/pdf-download-url.ts:52-54`）：
+
+```
+payload = base64url(JSON.stringify({ v, resumeId, userId, expiresAt, issuedAt }))
+token   = `${payload}.${HMAC-SHA256(key = AUTH_SECRET, msg = payload) 的 base64url}`
+```
+
+没有任何「只有前端 / 只有 Node 进程知道」的上下文，所以 Python 用同一个 `AUTH_SECRET`
+就能签出一模一样的令牌。**Node 侧没有签发令牌的 HTTP 端点**（`createResumePdfDownloadUrl`
+只在 MCP 工具里被内部调用），所以「去 Node 换令牌」这条路不存在。
+
+这条互操作**已双向验证**（`tests/test_pdf_token.py`，本机有 Node 时自动跑）：
+
+* Node 真签 → Python 验；
+* Python 签 → Node **真实**的 `verifyResumePdfDownloadToken` 验。
+
+只验单向不够 —— 单向只能证明算法对称，证明不了配置一致。
+
+### 7.2 转发失败的处置
+
+上游非 200 / 非 PDF 一律给出明确错误，**不把 Node 的 500 吞成一句空话**：
+
+| 上游 | Python 返回 |
+| --- | --- |
+| 200 + PDF 字节 | 200，透传 `Content-Type` / `Content-Disposition` |
+| 500 / 502 / 503 / 401 / 410 | **502** `PDF_RENDER_FAILED`（message 里带上游状态码；401 时额外提示核对 `AUTH_SECRET`） |
+| 200 但内容不是 PDF | **502** `PDF_RENDER_FAILED`（魔数校验，防止把 HTML 错误页当 PDF 返回） |
+| 404 | 404 `NOT_FOUND` |
+| 429 | 429 `TOO_MANY_REQUESTS` |
+| 连不上 / 超时 | **503** `PDF_RENDERER_UNAVAILABLE` |
+
+### 7.3 `data` 结构校验：**不补**（明确的边界）
+
+M4 起 `data` 在 Python 侧只校验「是个 JSON 对象」，Node 会跑 784 行的 `resumeDataSchema`。
+本轮的裁决是**维持现状**，把「`data` 结构校验仍由 Node 负责」写成边界，理由是：完整平移
+784 行 zod 到 Pydantic 远超最小集预算，且会在 Python 侧养出第二份简历 schema。
+
+但形状这件事要**在测试里**证明，所以 `tests/test_render_contract.py` 直接读
+`contract/resume-openapi.json`（它把 `resume.data` 的 JSON Schema 完整内联了）做逐字段 diff：
+**0 处 diff**，三种 locale 均 0 处，JSONB 往返逐字节保真。详见 `docs/render-parity.md` 第 3 节。
+
+### 7.4 起服务前要设的
+
+```bash
+export NODE_RENDER_BASE_URL="http://127.0.0.1:3000"      # 默认就是这个
+export NODE_RENDER_TIMEOUT_SECONDS=120                    # 默认 120；冷启动实测 58 秒
+```
+
+完整对照表见 `docs/env-parity.md`。
+
+## 8. 起服务
 
 ```bash
 cd services/resume-api
@@ -261,7 +339,8 @@ export PATH="/usr/bin:/bin:$PATH"
 "$PY" -m app.main
 ```
 
-M4 起挂了 `GET /health`（`{"status": "ok"}`）与 `/resumes` 下的 7 个 CRUD 路由。
+挂了 `GET /health`（`{"status": "ok"}`）、`/resumes` 下的 7 个 CRUD 路由、以及 M5 的 2 个
+PDF 出口。
 
 端到端冒烟（起服务 → 带 cookie 走一遍 → 公开页无 cookie 取一次）：
 

@@ -19,10 +19,8 @@ from __future__ import annotations
 
 import hashlib
 import json
-from collections.abc import Callable, Iterator
+from collections.abc import Callable
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
-from uuid import uuid4
 
 import pytest
 from fastapi.testclient import TestClient
@@ -34,87 +32,11 @@ from app.identity import SESSION_COOKIE_NAME
 from app.rate_limit import resume_mutation_limiter
 from app.schemas.resume import to_iso_millis
 
-SERVICE_ROOT = Path(__file__).resolve().parents[1]
-CONTRACT_PATH = SERVICE_ROOT / "contract" / "resume-openapi.json"
+# 夹具 `api_client` / `resume_factory` / `authed` 已上移到 `tests/conftest.py`（M5 的 PDF
+# 与契约 diff 用例要共用）；下面两个是常量，pytest 不会自动注入，所以显式导入。
+from conftest import CONTRACT_PATH, SAMPLE_DATA
 
-#: 每个用例都要用的最小简历 `data`（够 patch 与脱敏测试用，不必是完整 ResumeData）。
-SAMPLE_DATA = {
-    "basics": {"name": "张三", "headline": "后端工程师"},
-    "summary": {"content": "简介"},
-    "metadata": {"notes": "作者私有的备注"},
-}
-
-
-# ---------------------------------------------------------------------------
-# 夹具
-# ---------------------------------------------------------------------------
-
-
-@pytest.fixture()
-def api_client(db_session: Session) -> Iterator[TestClient]:
-    """挂在 `app.main.app` 上的 TestClient，只把 `get_db` 换成用例自己的 Session。"""
-    from app.main import app
-
-    app.dependency_overrides[get_db] = lambda: db_session
-    try:
-        with TestClient(app) as test_client:
-            yield test_client
-    finally:
-        app.dependency_overrides.clear()
-
-
-@pytest.fixture(autouse=True)
-def _reset_rate_limiter() -> Iterator[None]:
-    """每个用例前后清空限流计数，用例之间不互相干扰。"""
-    resume_mutation_limiter.reset()
-    yield
-    resume_mutation_limiter.reset()
-
-
-@pytest.fixture()
-def resume_factory(db_session: Session) -> Callable[..., Resume]:
-    """直接插一行 resume（绕开 API，方便构造锁定 / 带密码 / 私有等状态）。"""
-
-    def _make_resume(
-        *,
-        user_id: str,
-        slug: str = "my-resume",
-        name: str = "我的简历",
-        tags: list[str] | None = None,
-        is_public: bool = False,
-        is_locked: bool = False,
-        password: str | None = None,
-        data: dict | None = None,
-    ) -> Resume:
-        now = datetime.now(timezone.utc)
-        row = Resume(
-            id=uuid4().hex,
-            name=name,
-            slug=slug,
-            tags=tags if tags is not None else [],
-            is_public=is_public,
-            is_locked=is_locked,
-            password=password,
-            data=data if data is not None else dict(SAMPLE_DATA),
-            user_id=user_id,
-            created_at=now,
-            updated_at=now,
-        )
-        db_session.add(row)
-        db_session.commit()
-        return row
-
-    return _make_resume
-
-
-@pytest.fixture()
-def authed(api_client: TestClient, session_factory: Callable[..., str], user_id: str) -> str:
-    """已登录的客户端（cookie 设好），返回 user id。"""
-    api_client.cookies.set(
-        SESSION_COOKIE_NAME,
-        session_factory(user_id=user_id, expires_at=datetime.now(timezone.utc) + timedelta(days=1)),
-    )
-    return user_id
+# `tests/` 会被 pytest 加进 sys.path，`from conftest import ...` 是它的标准用法。
 
 
 def _access_cookie(resume_id: str, password_hash: str) -> str:
