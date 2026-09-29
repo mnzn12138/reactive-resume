@@ -116,7 +116,9 @@ def db_session(engine: Engine) -> Iterator[Session]:
 def client(db_session: Session) -> Iterator[TestClient]:
     """搭一个只挂 `GET /me` 的最小 FastAPI app，用来验证 `get_current_user_id`。
 
-    没有往 `app.main` 里加路由 —— 简历 CRUD 路由是 M4 的事。
+    为什么不用 `app.main.app`：identity 这 8 个用例只关心「cookie → user id」这一件事，
+    挂上 M4 的简历路由反而把限流、鉴权边界混进来。CRUD 用例在 `test_resume_crud.py`
+    里另建了一个挂在 `app.main.app` 上的客户端。
     """
     application = FastAPI(title="identity-test-app")
     application.dependency_overrides[get_db] = lambda: db_session

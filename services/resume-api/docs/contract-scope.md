@@ -81,12 +81,55 @@ node tools/export_contract.mjs --url <spec 地址>      # 或显式指定
 * Python 侧不接管渲染（PDF / 图片 / 字体），不接管存储。
 * Python 侧需要的数据库表只有 `resume`、`user`、`session`（+ `resume_statistics`，见 M2 说明）。
 
-## 6. 已知缺口（留给 M4）
+## 6. M4 的处置结论（原「已知缺口」，已全部裁决）
 
-* `getResumeBySlug` 在 Node 侧会做 **views 自增**（写 `resume_statistics` 与
-  `resume_statistics_daily`）。本轮只建模了 `resume_statistics`；
-  M4 联调时需要决定：补 `resume_statistics_daily` 模型，或把 view/download 计数继续留给 Node。
-* `createResume` / `updateResume` 在 Node 侧会触发 `resume.updated` 事件通知与
-  `resume_version` 快照；本轮不建模 `resume_version`，M4 需决定是否保留。
-* 限流（`resumeMutationRateLimit`）依赖 `AUTH_SECRET` 做 HMAC pepper，
-  Python 侧必须读到**与 Node 完全一致**的 `AUTH_SECRET`，否则限流失效。
+> 本节原来留给 M4 的三个缺口**都已裁决并实现**，不再有未决项。
+> 实现落在 `app/routers/resume.py`，逐项的「为什么」写在 `README.md` 第 6 节。
+
+### 6.1 `getResumeBySlug` 的 views 自增 —— 做，但只写 `resume_statistics`
+
+**做自增，只写 `resume_statistics`，best-effort**（写失败只记日志，不影响响应）。
+**不建模 `resume_statistics_daily`** —— 「统计」整体明确约定留在 Node（见第 4 节），
+daily 表属于统计聚合，不进最小集。
+
+对齐 Node 的两条语义（`packages/api/src/features/resume/service.ts` 的 `getBySlug`）：
+
+* **owner 自看不计入**（`shouldCountForStatistics`），否则作者每次预览都在给自己的统计灌水；
+* 计数失败不能让访客看不到简历，所以自增放在响应构造之后、且失败只记日志。
+
+**与 Node 的差异（刻意）**：Node 还会按客户端指纹（可信代理 IP → UA + 语言）做 1 小时
+去重（`features/resume/view-dedup.ts`）。Python 侧**不去重**，每次访问 +1 —— 去重属于
+统计策略，随「统计留在 Node」一起不进最小集。
+
+### 6.2 `resume_version` 快照 —— 不保留
+
+`createResume` / `updateResume` 在 Python 侧**不写**版本快照。
+
+理由：版本快照不在「CRUD 最小集」内，且建模了就要在 Alembic 侧同步（与校招岗位板那次一样
+要双 ORM），成本不划算。版本历史的读写接口（`/resumes/{resumeId}/versions/*`）本来就在 Node。
+
+### 6.3 `resume.updated` 事件通知 / SSE —— 不实现
+
+Node 的 SSE 通道（`GET /resumes/{id}/updates`）继续由 Node 提供，Python 侧不发事件。
+
+### 6.4 限流（`resumeMutationRateLimit`）—— 进程内滑动窗口 + `AUTH_SECRET` pepper
+
+* Python 侧读 `app/config.py` 的 `AUTH_SECRET`，与 Node 仓库根 `.env` **同名同值**，
+  作为限流 key 的 HMAC pepper。两边不一致会导致桶名不同、限流语义漂移。
+* 实现成**进程内**滑动窗口（单实例部署，不需要分布式）：**300 次 / 60 秒**，
+  key 语义与 Node 对齐（`resume-mutation:{user_id}:id:{resume_id}`，create 时是 `no-id`），
+  **只作用于写操作**（create / update / patch / delete）。
+* 阈值取自 Node `packages/utils/src/rate-limit.ts` 的 `rateLimitConfig.orpc.resumeMutations`。
+
+> 两处与 Node 的**刻意**差异，都记在 `README.md` 第 6.7 节：
+> Node 只在 `NODE_ENV=production` 启用限流（Python 侧始终启用）；
+> Node 的 `resumeMutationRateLimit` 实际没用 pepper（pepper 用在短信 / IP 限流），
+> Python 侧照本节要求把 pepper 加上，代价只是桶名不可预测，限流语义不变。
+
+### 6.5 M4 新增的两条刻意简化
+
+* `createResume` 的 `withSampleData`：**忽略**，一律写空文档。Node 会生成一份 636 行的
+  示例简历（`packages/schema/src/resume/sample.ts`），平移它等于在 Python 侧再维护一份
+  简历样例。M5 联调时若前端确实依赖，再决定平移或继续走 Node。
+* `resume.data` 的结构校验：Node 会跑 `resumeDataSchema`（`packages/schema/src/resume/data.ts`，
+  784 行）；Python 侧**只校验「是个 JSON 对象」**，内部结构仍由 Node 侧把关。

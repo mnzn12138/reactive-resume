@@ -1,4 +1,4 @@
-# services/resume-api —— Python 侧依赖（Node -> Python 迁移地基，M1~M3）
+# services/resume-api —— Python 侧依赖（Node -> Python 迁移地基，M1~M4）
 # 安装：
 #   C:/Users/22586/.workbuddy/binaries/python/envs/reactive-resume/Scripts/python.exe -m pip install -r requirements.txt
 
@@ -12,3 +12,5 @@ pytest>=8
 # FastAPI TestClient 依赖 httpx
 httpx>=0.27
 python-dotenv>=1.0
+# M4：patchResume 是 JSON Patch（RFC 6902），Node 侧用 fast-json-patch，这里是它的等价物
+jsonpatch>=1.33
