@@ -1,0 +1,14 @@
+# services/resume-api —— Python 侧依赖（Node -> Python 迁移地基，M1~M3）
+# 安装：
+#   C:/Users/22586/.workbuddy/binaries/python/envs/reactive-resume/Scripts/python.exe -m pip install -r requirements.txt
+
+fastapi>=0.115
+uvicorn[standard]>=0.30
+sqlalchemy>=2.0
+alembic>=1.13
+# psycopg 3（不是 psycopg2）。binary 变体自带 libpq，Windows 上免编译。
+psycopg[binary]>=3.2
+pytest>=8
+# FastAPI TestClient 依赖 httpx
+httpx>=0.27
+python-dotenv>=1.0
