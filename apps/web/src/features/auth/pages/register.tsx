@@ -1,3 +1,4 @@
+import type { LegalConsent } from "@reactive-resume/schema/legal";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
@@ -5,9 +6,11 @@ import { Link, useSearch } from "@tanstack/react-router";
 import { useState } from "react";
 import { useToggle } from "usehooks-ts";
 import z from "zod";
+import { legalDocumentRoutes, legalDocumentVersion } from "@reactive-resume/schema/legal";
 import { Alert, AlertDescription, AlertTitle } from "@reactive-resume/ui/components/alert";
 import { Button } from "@reactive-resume/ui/components/button";
-import { FormControl, FormItem, FormLabel, FormMessage } from "@reactive-resume/ui/components/form";
+import { Checkbox } from "@reactive-resume/ui/components/checkbox";
+import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from "@reactive-resume/ui/components/form";
 import { Input } from "@reactive-resume/ui/components/input";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { authClient } from "@/libs/auth/client";
@@ -28,11 +31,27 @@ const formSchema = z.object({
 		}),
 	email: z.email().toLowerCase(),
 	password: z.string().min(6).max(64),
+	// The server rejects a signup that does not carry matching consent, so the client has to make
+	// an unchecked box unsubmittable rather than only uncomfortable.
+	legalConsent: z.boolean().refine((value) => value, {
+		error: () =>
+			t({
+				comment: "Validation error shown when the registration form is submitted without accepting the legal documents",
+				message: "Accept the Terms of Service and the Privacy Policy to create your account.",
+			}),
+	}),
 });
 
 type Props = {
 	disableEmailAuth: boolean;
 };
+
+/**
+ * `legalConsent` is part of the signup contract the server enforces before the user row is created
+ * (see `packages/auth/src/config.ts`). It is declared here rather than inferred so the call site
+ * stays type-checked until the matching field is registered on the auth config as well.
+ */
+type SignUpEmailPayload = Parameters<typeof authClient.signUp.email>[0] & { legalConsent: LegalConsent };
 
 export function RegisterPage({ disableEmailAuth }: Props) {
 	const { callbackURL, reauthenticate } = useSearch({ from: "/auth" });
@@ -40,22 +59,26 @@ export function RegisterPage({ disableEmailAuth }: Props) {
 	const [showPassword, toggleShowPassword] = useToggle(false);
 
 	const form = useAppForm({
-		defaultValues: { name: "", username: "", email: "", password: "" },
+		defaultValues: { name: "", username: "", email: "", password: "", legalConsent: false },
 		validators: { onSubmit: formSchema },
 		onSubmit: async ({ value }) => {
 			const toastId = toast.add({ type: "loading", description: t`Signing up...` });
 
 			const oauthOptions = getOAuthSignInOptions(callbackURL);
 			const createPrompt = new URLSearchParams(oauthOptions.oauth_query).get("prompt")?.split(" ").includes("create");
-			const { data, error } = await authClient.signUp.email({
+			// Validation above guarantees the box is checked, so the payload can state consent literally.
+			const payload: SignUpEmailPayload = {
 				name: value.name,
 				email: value.email,
 				password: value.password,
 				username: value.username,
 				displayUsername: value.username,
 				callbackURL: callbackURL ?? "/dashboard",
+				legalConsent: { accepted: true, version: legalDocumentVersion },
 				...(!createPrompt ? oauthOptions : {}),
-			});
+			};
+
+			const { data, error } = await authClient.signUp.email(payload);
 
 			if (error) {
 				toast.add({
@@ -245,6 +268,58 @@ export function RegisterPage({ disableEmailAuth }: Props) {
 									</Button>
 								</div>
 								<FormMessage errors={field.state.meta.errors} />
+							</FormItem>
+						)}
+					</form.Field>
+
+					<form.Field name="legalConsent">
+						{(field) => (
+							<FormItem hasError={field.state.meta.isTouched && field.state.meta.errors.length > 0}>
+								{/* `FormControl` wires the checkbox to the `FormLabel` below, which is what names it. */}
+								<div className="flex items-start gap-x-2.5">
+									<FormControl
+										className="pt-0.5"
+										render={
+											<Checkbox
+												name={field.name}
+												checked={field.state.value}
+												onBlur={field.handleBlur}
+												onCheckedChange={(checked) => field.handleChange(checked === true)}
+											/>
+										}
+									/>
+
+									<FormLabel className="font-normal text-muted-foreground text-xs leading-relaxed">
+										<Trans comment="Label beside the legal consent checkbox; the two links open the legal documents">
+											I have read and agree to the{" "}
+											<a
+												className="text-foreground underline underline-offset-2"
+												href={legalDocumentRoutes.terms}
+												target="_blank"
+												rel="noreferrer"
+											>
+												Terms of Service
+											</a>{" "}
+											and the{" "}
+											<a
+												className="text-foreground underline underline-offset-2"
+												href={legalDocumentRoutes.privacy}
+												target="_blank"
+												rel="noreferrer"
+											>
+												Privacy Policy
+											</a>
+											.
+										</Trans>
+									</FormLabel>
+								</div>
+
+								<FormMessage errors={field.state.meta.errors} />
+								<FormDescription>
+									<Trans comment="Note under the legal consent checkbox naming the version being accepted">
+										Version {legalDocumentVersion} of both documents.
+									</Trans>
+								</FormDescription>
 							</FormItem>
 						)}
 					</form.Field>

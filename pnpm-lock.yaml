@@ -928,6 +928,9 @@ importers:
       '@reactive-resume/env':
         specifier: workspace:*
         version: link:../env
+      '@reactive-resume/schema':
+        specifier: workspace:*
+        version: link:../schema
       '@reactive-resume/utils':
         specifier: workspace:*
         version: link:../utils

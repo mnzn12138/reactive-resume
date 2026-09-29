@@ -106,9 +106,9 @@
 1. **PDF 基线快照**(必须最先,早于一切 pdf/fonts 改动) —— **已完成,见 4.5**
 2. **A1 中文模板族(4~6) —— 已完成(2026-09-28):3 套(`zhuque`/`qinglong`/`xuanwu`)已注册 18 套,预览图与 i18n 描述已补,全量测试通过(见 4.6)
 3. **A2 国内字段扩展 + A4 分区预设(2) —— 已完成(2026-09-28),见 4.7**
-4. A5 国产大模型预设 + A6 中文提示词(1.5~2.5)
-5. A7 结构化文本导出 + A8 二维码名片 + A9 简历图片卡(2.5~3)
-6. A10 中文隐私与用户协议(1~1.5)
+4. **A5 国产大模型预设 + A6 中文提示词(1.5~2.5) —— 已完成(2026-09-28),见 4.8**
+5. **A7 结构化文本导出 + A8 二维码名片 + A9 简历图片卡(2.5~3) —— 已完成(2026-09-28),见 4.9**
+6. **A10 中文隐私与用户协议(1~1.5) —— 已完成(2026-09-28),见 4.10**
 7. **B1 微信 + B3 支付宝 + B2 手机号短信**(4.5~5.5)
 8. B4 国产对象存储(0.5)
 9. A3 中文字体通道(0.5~2.5)
@@ -218,6 +218,88 @@ pnpm --dir tooling exec tsx scripts/pdf-baseline.ts compare <pre-migration-dir> 
 
 验证:schema 144 测试、resume 新增 8 测试(preset 数据 4 + apply 8,含幂等与自定义分区保留)、web / pdf / docx 全量通过;i18n 新增 6 条已补译,missing 0。
 
+## 4.8 A5 国产大模型预设 + A6 中文提示词 · 已交付(2026-09-28)
+
+**A5 —— 12 家国产大模型预设**
+
+- `packages/ai/domestic-models`:`DOMESTIC_MODEL_PRESETS` 共 12 家 —— deepseek、qwen(通义千问)、glm(智谱)、doubao(豆包)、kimi、hunyuan(混元)、ernie(文心)、spark(星火)、minimax、baichuan、yi(零一万物)、stepfun(阶跃星辰)。
+- **不扩 `AI_PROVIDERS` 枚举**:`packages/api/src/features/ai/service.ts` 的 `.exhaustive()` match 会因新增成员直接编译失败;除 deepseek 外全部复用 `openai-compatible` + 预填 `baseURL`,纯数据预设,零分支改动。
+- 无法核实的(文心 / 星火 / MiniMax / 阶跃)写 `defaultModel: ""` 并在 `notes` 里注明,**不猜模型名**。
+- 前端:AI 设置页新增「国产模型快捷配置」下拉,选中后一次填好 provider / baseURL / model / label,并展示 `notes` 与官方文档链接。
+- 测试 41 条:id 唯一、provider 必须存在于 `aiProviderSchema`、非 deepseek 必须有显式 baseURL、https 且无尾斜杠、`defaultModel === ""` 的必须带 `notes`。
+
+**A6 —— 提示词中文化 + 事实锚定**
+
+- `packages/ai/src/prompts/` 新增 6 份 `.zh-CN.md`(ats-review-system / ats-review-user / chat-system / parser-system / pdf-parser-user / docx-parser-user),与英文版同结构、同段落顺序,且全部 CRLF,便于逐行对照。
+- `packages/ai/src/prompts.ts` 重写为按 locale 装载:`loadPrompts(locale?)` 返回 7 个提示词;`resolvePromptLocale` 把 `zh-TW` 映射到 `zh-CN`(两套目录只有 UI 措辞差异,再养一份近似提示词只会漂移)。**默认 `zh-CN`** —— 本 fork 的 UI 默认语言就是 zh-CN,调用方漏传也能拿到用户读得懂的指令。
+- 解析器的 6 个变量(`FORMAT_HEADER` / `FORMAT_NOUN` / `ALLOWED_INPUT` / `URL_CLAUSE` / `EXTRA_RULES` / `FALLBACK_CLAUSE`)同步做了中文版;parser-system 模板仍是单份 + 按来源替换,产出文本对每种来源保持一致。
+- **事实锚定**:中文解析提示词明确禁止臆测政治面貌、民族、籍贯、出生年月、婚姻状况等国内常见字段(原文没有就留空),并要求日期照抄、不得换算成年月格式。
+- 机器解析的 token 一律保留英文:JSON key、`"high"|"medium"|"low"`、`propose_resume_patches`、`/items/-`、UUID 形状、HTML 标签、简历顶层 key。
+- locale 打通到 API:`parsePdf` / `parseDocx` / `chat` / `atsReview` 四个 procedure 均接受可选 `locale`,前端用 `getLocale()` 传入。DOCX 转纯文本那句提示语也跟着 locale 走(原来硬编码英文)。
+
+验证:ai 9 文件 / 86 测试、api AI 9 文件 / 53 测试全绿;ai + api + web typecheck 绿;biome、markdownlint(仓库 222 文件 0 issue)、knip 均通过。
+
+遗留:`ai.chat` 目前没有前端调用点(agent 走的是另一条传输链),router/service 已接受 `locale` 但无人传值,落回 zh-CN 默认 —— 正是本 fork 想要的行为。
+## 4.9 A7 结构化文本导出 + A8 二维码名片 + A9 简历图片卡 · 已交付(2026-09-28)
+
+### A7 —— 结构化文本导出(.txt)
+
+- 依据源设计书 `plans/_sources/doc3.txt:315,802,882`:招聘网站是「在线表单逐字段填写」,要的是**按表单字段顺序输出、便于逐项复制**的纯文本。这与现有 Markdown 导出(整篇散文,喂给 AI 用)是两回事,**并存不替换**。
+- `packages/resume/structured-text` 新增纯函数 `buildStructuredSections` / `buildStructuredText`。`STRUCTURED_SECTION_ORDER`(基本信息 → 求职意向 → 教育 → 经历 → 项目 → 技能 → 证书 → 奖项 → 自我评价)是顺序的唯一定义处;名单外的分区按 layout 顺序追加在末尾。
+- 基本信息按 `customFieldKeySchema` 枚举顺序输出国内字段(性别/出生年月/民族/政治面貌/籍贯/户籍/婚姻状况/身高),标签取 `customFieldKeyLabels`,**复用 A2 的 `key`**;不碰 `packages/pdf`(其 export map 不暴露 `templates/shared`)。无 `key` 的自定义字段照常输出;空值整行省略(绝不出现裸「标签：」);日期照抄;富文本走 `htmlToMarkdown`。
+- **刻意不按 layout pages 过滤**:PDF 只渲染 layout 里的分区,而招聘表单要的是全字段。验收提出过,判定为符合设计意图,保留现状。
+- 出口:`useResumeExport` 新增 `onDownloadText`,带 try/catch + `setIsExporting` + 错误 toast(**补上了 JSON / Markdown 两条老路径缺的**,但没去改那两条);文件名走 `generateLocalizedFilename`;**空简历不再静默下载 0 字节文件**,改为提示。
+- ⚠️ **导出格式清单有两份**:`features/resume/export/download-dialog.tsx`(手写 JSX 行)与 `features/homepage/export-playground.tsx`(数组 + Map 分发)。加了新格式必须两处都改,否则会静默漂移。导出按钮那句话变了,`export.test.tsx` 里靠字面量点开对话框的断言也要同步改。
+
+### A8 —— 公开简历二维码名片
+
+- `apps/web/src/features/resume/sharing/qr-card.*`:Sharing 区「复制公开链接」旁边加按钮,弹名片预览 + 下载。
+- 用**已安装**的 `qrcode.react@4.2.0`(`QRCodeCanvas` 有真实 canvas ref,可以直接 `drawImage`),**没加任何新依赖**;也可以用 `QRCodeSVG` 但那样得多一步 serialize→Image→canvas。
+- 名片 = 900×1200 竖向卡片:姓名 / 求职意向 / 联系方式 + 居中二维码 + 「扫码查看完整简历」。几何与绘制抽成纯函数(`getQrCardLayout` / `drawQrCard` 接受结构化 context 便于测试),25 条单测。
+- 简历未公开时按钮禁用并说明原因(`isQrCardAvailable` 看 `resume.isPublic`)。
+
+### A9 —— 简历图片卡
+
+- `apps/web/src/features/resume/sharing/image-card.*` + `canvas.ts`:**复用**浏览器端已有的 PDF→PNG 管线(`pdf-thumbnail.ts`,pdfjs 渲染 + `canvasToBlob`),把缩略图那套重构成 `createPdfPageCanvases(file, { pages, resolveRenderSize })`,`createPdfFirstPageImageUrl` 行为不变 —— 仪表盘缩略图零回归,8 条测试守着。
+- 单页图 + **长图**两种模式都做了(长图 = `pages:"all"` + 竖向拼接)。`IMAGE_CARD_SCALE = 2`。
+- **没用 `@napi-rs/canvas`**:它是 `packages/pdf` 的 Node-only devDependency,web 侧 `MODULE_NOT_FOUND`,且被 turbo boundaries 挡着。
+
+### 新增公共能力
+
+- `packages/utils/file` 加 `generateLocalizedFilename`:`slugify("张三-名片")` 会被换成随机动物名(`string.ts:18-22`),中文文件名必须走这条。已验证 `..\..\evil` / `a/b` / 控制字符都被清掉;`generateFilename` 本身一个字节没改。
+
+验证:web 全量 **136 文件 / 979 测试**、resume 1393、utils 226、ai 86、api AI 53 全绿(唯一红的是 `packages/resume` 的 `selector.esm.test.ts`,Windows `spawnSync` EBUSY,环境性问题非回归);web / resume / utils / ai / api typecheck 全绿;knip、biome、i18n(zh-CN / zh-TW missing 0)均通过。
+## 4.10 A10 中文隐私政策与用户协议 · 已交付(2026-09-28)
+
+### 契约层
+
+- `packages/schema/legal` 新增:`legalDocumentSchema`(`privacy` / `terms`)、`legalDocumentVersion`(`2026-09-28`,改文案就 bump)、`legalDocumentRoutes`、`legalConsentSchema`(`accepted` 是 `z.literal(true)`,客户端无法谎报)。schema 是唯一能被 web 与 auth 同时引用的层(db 是服务端专用包,web 拿不到)。
+
+### 数据层
+
+- `packages/db/src/schema/legal.ts`:`userConsent` —— 文本主键 + `generateId()`、`user_id` 外键 **cascade**、`document` / `version` 文本(不用枚举,沿用仓库约定)、`source`、`metadata` jsonb(IP / UA)、`created_at`,**没有 `updatedAt`**(append-only)。唯一索引 `(user_id, document, version)` 让重复同意幂等,bump 版本则插新行。
+- **cascade 与 `admin_audit_log` 的 set null 故意相反**:同意记录是用户本人的个人数据,账号删了就该一起删(这也才满足删除请求)。
+- 迁移 `migrations/20260928123507_amazing_spectrum/`(第 35 个)。`pnpm db:generate` **不需要活库**,只要根 `.env` 里的 `DATABASE_URL`(`drizzle.config.ts` 自己加载)。
+
+### 鉴权层(两处,顺序别搞反)
+
+- **门禁**在 `hooks.before`,只对 `/sign-up/email` 生效:没有 `legalConsent` / `accepted:false` / 版本过期 → 403。已实测 better-auth 的 zod 不会剥掉未知字段,所以 `ctx.body.legalConsent` 读得到,门禁不是「看起来有、实际没跑」。
+- **落库**在 `hooks.after`(不在 `databaseHooks.user.create.after`):`hooks.after` 同时拿得到新建用户与请求上下文(IP/UA 从 `newSession.session` 读,better-auth 已经解析过)。
+- ⚠️ **只对真正被门禁拦住的路径写同意记录**。`consentSourceFor` 现在**只认 `/sign-up/email`**。最初版本还认 `/callback/`(社交/OAuth 建号处),但用户在第三方跳转里根本没看到勾选框 —— 那样写一行等于伪造「已同意」,比没有记录更糟,已修掉。
+- 因此社交注册用户**没有**同意记录:不伪造,但也无从举证;`legalDocumentVersion` bump 后老用户目前也不会被重新提示。这两点是有意的取舍,后续若要补「重新同意」入口就落在 `ConsentSource: "manual"`(已预留)。
+- `auth.api.signUpEmail()`(服务端直调)**不走 hooks**,只有 HTTP / `dispatchAuthEndpoint` 才走 —— 写测试时要知道。
+
+### 前端与服务端
+
+- `apps/web/src/routes/_home/privacy.tsx` / `terms.tsx`:公开路由,默认 SSR,`head()` 给出 title/description/canonical/OG。文案全中文、走 Lingui,生效日期绑定 `legalDocumentVersion`(不是手打日期)。已用真实 catalog 渲染验证:zh-CN 出「隐私政策」、zh-TW 出「隱私權政策」、en-US 出英文。
+- ⚠️ **生产 404 陷阱**:新公开路由必须在 `apps/server/src/static/web.ts` 的 `indexableAppPaths` 登记,否则 dev 一切正常、生产返回 404(`handleWebApp` 对不在集合里的路径直接 404)。同时加进 `reservedPublicResumeSegments`,免得有人抢注 `privacy` / `terms` 用户名把页面顶掉。已实测 `GET /privacy` → 200 无 `X-Robots-Tag`,`/privacy/foo` → 404。
+- `routeTree.gen.ts` 由 `tanstackRouter()` Vite 插件在 dev/build 时生成,**不能手改**;没有独立的 generate 脚本。
+- 注册表单新增必勾的同意框(勾了才发 `legalConsent`),页脚加了法务链接。
+- sitemap 补上两个页面(`SITEMAP_PATHS`);服务端 shell 也补了按页 SEO(title/description/canonical/OG/JSON-LD),**字符串直接取自 zh-CN catalog**,与客户端 `head()` 一致。llms.txt 故意不加(它是指针清单,不是页面索引,已用反向断言锁住)。
+
+验证:web **137 文件 / 983 测试**、server 117、auth 30、db 6、schema 144 全绿;web / server / auth / db / schema typecheck 全绿;knip、`turbo boundaries`、biome 均过;i18n 三个 catalog 1688 条、zh-CN / zh-TW missing 0。
+
+**遗留(非阻塞)**:门禁与落库没有 CI 层回归测试(都要活库,`oauth-flow.integration.test.ts` 整体 skip);社交注册无同意记录;本机 `fs.symlink` 静默失败导致 `packages/auth/node_modules/@reactive-resume/schema` 是手工 junction(`package.json` 与 lockfile 都对,换台能建符号链接的机器 `pnpm install` 即正常)。
 ## 5. 时间账
 
 | 块 | 天数 |

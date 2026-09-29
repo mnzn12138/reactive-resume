@@ -112,4 +112,14 @@ describe("buildUserPrompt", () => {
 	it("says so plainly when nothing was flagged", () => {
 		expect(renderFindings([])).toBe("None reported.");
 	});
+
+	it("writes the review in the locale the caller asked for", () => {
+		expect(buildUserPrompt({ ...baseInput, locale: "zh-CN" })).toContain("评审下面的简历");
+		expect(buildUserPrompt({ ...baseInput, locale: "en-US" })).toContain("Review the resume below");
+	});
+
+	// zh-TW has no prompt catalog of its own; the two Chinese UI catalogs differ in wording only.
+	it("maps Traditional Chinese onto the Simplified prompt set", () => {
+		expect(buildUserPrompt({ ...baseInput, locale: "zh-TW" })).toContain("评审下面的简历");
+	});
 });

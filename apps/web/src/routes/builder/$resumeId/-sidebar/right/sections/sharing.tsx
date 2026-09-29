@@ -12,6 +12,9 @@ import { Switch } from "@reactive-resume/ui/components/switch";
 import { toast } from "@reactive-resume/ui/components/toast";
 import { useCurrentResume, usePatchResume } from "@/features/resume/builder/draft";
 import { ResumePasswordDialog } from "@/features/resume/builder/password-dialog";
+import { ImageCardButton, ImageCardDialog } from "@/features/resume/sharing/image-card";
+import { QrCardButton, QrCardDialog } from "@/features/resume/sharing/qr-card";
+import { getQrCardHeading, isQrCardAvailable } from "@/features/resume/sharing/qr-card.shared";
 import { useConfirm } from "@/hooks/use-confirm";
 import { authClient } from "@/libs/auth/client";
 import { orpc } from "@/libs/orpc/client";
@@ -19,6 +22,8 @@ import { SectionBase } from "../shared/section-base";
 
 export function SharingSectionBuilder() {
 	const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
+	const [isQrCardDialogOpen, setIsQrCardDialogOpen] = useState(false);
+	const [isImageCardDialogOpen, setIsImageCardDialogOpen] = useState(false);
 	const confirm = useConfirm();
 	const [_, copyToClipboard] = useCopyToClipboard();
 	const { data: session } = authClient.useSession();
@@ -30,6 +35,15 @@ export function SharingSectionBuilder() {
 	const { mutateAsync: removePassword } = useMutation(orpc.resume.removePassword.mutationOptions());
 
 	const publicUrl = session ? `${window.location.origin}/${session.user.username}/${resume.slug}` : "";
+
+	const basics = resume.data?.basics;
+	const qrCardHeading = getQrCardHeading({
+		contact: { email: basics?.email, location: basics?.location, phone: basics?.phone },
+		fallbackName: resume.name,
+		headline: basics?.headline,
+		name: basics?.name,
+	});
+	const canShareQrCard = isQrCardAvailable({ isPublic: resume.isPublic === true, url: publicUrl });
 
 	const onCopyUrl = useCallback(async () => {
 		await copyToClipboard(publicUrl);
@@ -108,6 +122,21 @@ export function SharingSectionBuilder() {
 			{isPasswordDialogOpen && (
 				<ResumePasswordDialog onSubmit={onSetPassword} onClose={() => setIsPasswordDialogOpen(false)} />
 			)}
+
+			{isQrCardDialogOpen && (
+				<QrCardDialog
+					contact={qrCardHeading.contact}
+					headline={qrCardHeading.headline}
+					name={qrCardHeading.name}
+					url={publicUrl}
+					onClose={() => setIsQrCardDialogOpen(false)}
+				/>
+			)}
+
+			{isImageCardDialogOpen && (
+				<ImageCardDialog data={resume.data} name={resume.name} onClose={() => setIsImageCardDialogOpen(false)} />
+			)}
+
 			<div className="flex items-center gap-x-4">
 				<Switch
 					id="sharing-switch"
@@ -126,7 +155,7 @@ export function SharingSectionBuilder() {
 				</Label>
 			</div>
 
-			{resume.isPublic && (
+			{resume.isPublic ? (
 				<div className="space-y-4 rounded-md border p-4">
 					<div className="flex items-center gap-x-4">
 						<Switch
@@ -151,6 +180,10 @@ export function SharingSectionBuilder() {
 							<Button size="icon" variant="ghost" aria-label={t`Copy URL`} onClick={onCopyUrl}>
 								<ClipboardIcon />
 							</Button>
+
+							<QrCardButton disabled={!canShareQrCard} onOpen={() => setIsQrCardDialogOpen(true)} />
+
+							<ImageCardButton onOpen={() => setIsImageCardDialogOpen(true)} />
 						</div>
 					</div>
 
@@ -175,6 +208,18 @@ export function SharingSectionBuilder() {
 							<Trans>Set Password</Trans>
 						</Button>
 					)}
+				</div>
+			) : (
+				<div className="space-y-2">
+					<div className="flex items-center gap-x-2">
+						<QrCardButton disabled onOpen={() => setIsQrCardDialogOpen(true)} />
+
+						<ImageCardButton onOpen={() => setIsImageCardDialogOpen(true)} />
+					</div>
+
+					<p className="text-muted-foreground text-xs">
+						<Trans>Allow public access to download a QR card that opens your resume.</Trans>
+					</p>
 				</div>
 			)}
 		</SectionBase>

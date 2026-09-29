@@ -254,6 +254,11 @@ msgstr "A private resume does not appear at its public link."
 msgid "A real sample PDF"
 msgstr "A real sample PDF"
 
+#. Paragraph on how public resume links work
+#: src/routes/_home/terms.tsx
+msgid "A resume is private until you publish it. Publishing creates a URL that anyone with the link can open, and an optional password protects it; unpublishing takes it down again. Do not put anything in a published resume that you would not want the open internet to read."
+msgstr "A resume is private until you publish it. Publishing creates a URL that anyone with the link can open, and an optional password protects it; unpublishing takes it down again. Do not put anything in a published resume that you would not want the open internet to read."
+
 #: src/features/ats-checker/parse-preview.tsx
 msgid "A resume laid out for a human reader, with a photo, headings and columns"
 msgstr "A resume laid out for a human reader, with a photo, headings and columns"
@@ -278,6 +283,11 @@ msgstr "A4"
 msgid "About me"
 msgstr "About me"
 
+#. Validation error shown when the registration form is submitted without accepting the legal documents
+#: src/features/auth/pages/register.tsx
+msgid "Accept the Terms of Service and the Privacy Policy to create your account."
+msgstr "Accept the Terms of Service and the Privacy Policy to create your account."
+
 #: src/features/auth/pages/consent.tsx
 msgid "Access your account through the API, including reading and changing your resumes and job applications."
 msgstr "Access your account through the API, including reading and changing your resumes and job applications."
@@ -291,6 +301,11 @@ msgstr "Accessibility"
 #: src/routes/dashboard/settings/account.tsx
 msgid "Account"
 msgstr "Account"
+
+#. Privacy policy bullet: account details and password hashing
+#: src/routes/_home/privacy.tsx
+msgid "Account details: your email address, display name, and username. Your password is stored only as a hash, never in a form anyone can read back."
+msgstr "Account details: your email address, display name, and username. Your password is stored only as a hash, never in a form anyone can read back."
 
 #: src/routes/builder/$resumeId/-sidebar/left/index.tsx
 msgid "Account menu"
@@ -617,6 +632,10 @@ msgstr "Allow access"
 msgid "Allow Public Access"
 msgstr "Allow Public Access"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
+msgid "Allow public access to download a QR card that opens your resume."
+msgstr "Allow public access to download a QR card that opens your resume."
+
 #: src/features/ats-checker/messages.ts
 msgid "Almost none of your bullets carry a number."
 msgstr "Almost none of your bullets carry a number."
@@ -628,6 +647,11 @@ msgstr "Already covered"
 #: src/features/auth/pages/register.tsx
 msgid "Already have an account? <0/>"
 msgstr "Already have an account? <0/>"
+
+#. Paragraph listing optional integrations that receive data
+#: src/routes/_home/privacy.tsx
+msgid "An administrator can connect services that necessarily receive some data: an SMTP provider for verification and password-reset emails, an S3-compatible bucket for uploads, Google, GitHub or LinkedIn for social sign-in, and a model provider for the optional AI features. Which of those are live depends on this deployment."
+msgstr "An administrator can connect services that necessarily receive some data: an SMTP provider for verification and password-reset emails, an S3-compatible bucket for uploads, Google, GitHub or LinkedIn for social sign-in, and a model provider for the optional AI features. Which of those are live depends on this deployment."
 
 #: src/features/ats-checker/messages.ts
 msgid "An embedded font could not be read."
@@ -818,6 +842,11 @@ msgstr "Area of Study"
 msgid "Artificial Intelligence"
 msgstr "Artificial Intelligence"
 
+#. Paragraph limiting liability, without overriding mandatory law
+#: src/routes/_home/terms.tsx
+msgid "As far as the law allows, whoever runs this instance is not liable for indirect or consequential loss: a missed interview, a lost opportunity, or damage from relying on the service. Nothing here limits liability that cannot be limited by law."
+msgstr "As far as the law allows, whoever runs this instance is not liable for indirect or consequential loss: a missed interview, a lost opportunity, or damage from relying on the service. Nothing here limits liability that cannot be limited by law."
+
 #: src/features/homepage/community-stats.tsx
 msgid "As of <0>{formattedDate}</0>."
 msgstr "As of <0>{formattedDate}</0>."
@@ -825,6 +854,11 @@ msgstr "As of <0>{formattedDate}</0>."
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Ask anything about this resume"
 msgstr "Ask anything about this resume"
+
+#. Privacy policy bullet: contacting the operator for data requests
+#: src/routes/_home/privacy.tsx
+msgid "Ask whoever operates this instance for a copy of your data, or to erase it, if you cannot do it yourself."
+msgstr "Ask whoever operates this instance for a copy of your data, or to erase it, if you cannot do it yourself."
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Aspect Ratio"
@@ -1037,6 +1071,8 @@ msgstr "Campus recruitment layout for mainland China graduates: airy header with
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/homepage/ats-playground.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/features/resume/sharing/image-card.tsx
+#: src/features/resume/sharing/qr-card.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
@@ -1054,6 +1090,11 @@ msgstr "Cancel"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Cannot restore; the resume has changed since this edit was applied."
 msgstr "Cannot restore; the resume has changed since this edit was applied."
+
+#. Filename suffix of the downloaded QR business card image
+#: src/features/resume/sharing/qr-card.tsx
+msgid "card"
+msgstr "card"
 
 #: src/components/input/rich-input.tsx
 msgid "Center Align"
@@ -1100,6 +1141,16 @@ msgstr "Changed an instance setting"
 msgid "Changed your mind? Rename your resume to something more descriptive."
 msgstr "Changed your mind? Rename your resume to something more descriptive."
 
+#. Section heading: changes to the terms
+#: src/routes/_home/terms.tsx
+msgid "Changes to these terms"
+msgstr "Changes to these terms"
+
+#. Section heading: policy updates
+#: src/routes/_home/privacy.tsx
+msgid "Changes to this policy"
+msgstr "Changes to this policy"
+
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Chat"
@@ -1141,6 +1192,11 @@ msgstr "Checking draft"
 msgid "Checking…"
 msgstr "Checking…"
 
+#. Section heading: use by minors
+#: src/routes/_home/privacy.tsx
+msgid "Children"
+msgstr "Children"
+
 #: src/libs/locale.ts
 msgid "Chinese (Simplified)"
 msgstr "Chinese (Simplified)"
@@ -1148,6 +1204,11 @@ msgstr "Chinese (Simplified)"
 #: src/libs/locale.ts
 msgid "Chinese (Traditional)"
 msgstr "Chinese (Traditional)"
+
+#. Quick-fill picker for mainland-China model providers
+#: src/features/settings/integrations/components/ai-section.tsx
+msgid "Chinese model shortcut"
+msgstr "Chinese model shortcut"
 
 #. placeholder {0}: displayName(item)
 #: src/features/homepage/template-shelf.tsx
@@ -1190,8 +1251,8 @@ msgid "Choose app language"
 msgstr "Choose app language"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Choose PDF, DOCX, Markdown, or JSON."
-msgstr "Choose PDF, DOCX, Markdown, or JSON."
+msgid "Choose PDF, DOCX, Markdown, TXT, or JSON."
+msgstr "Choose PDF, DOCX, Markdown, TXT, or JSON."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Choose who can see it"
@@ -1379,6 +1440,11 @@ msgstr "Conversation JSON copied."
 msgid "Converted stylesheet draft"
 msgstr "Converted stylesheet draft"
 
+#. Section heading: cookies and browser storage
+#: src/routes/_home/privacy.tsx
+msgid "Cookies and local storage"
+msgstr "Cookies and local storage"
+
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Copied to clipboard."
 msgstr "Copied to clipboard."
@@ -1448,6 +1514,14 @@ msgstr "Could not generate the DOCX. Please try again."
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Could not generate the PDF. Please try again."
 msgstr "Could not generate the PDF. Please try again."
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Could not generate the preview. Please try again."
+msgstr "Could not generate the preview. Please try again."
+
+#: src/features/resume/export/use-resume-export.ts
+msgid "Could not generate the text file. Please try again."
+msgstr "Could not generate the text file. Please try again."
 
 #: src/features/homepage/export-playground.tsx
 msgid "Could not prepare the sample. Please try again."
@@ -1791,6 +1865,11 @@ msgstr "Delete account"
 msgid "Delete Account"
 msgstr "Delete Account"
 
+#. Privacy policy bullet: right to deletion
+#: src/routes/_home/privacy.tsx
+msgid "Delete individual resumes, or your whole account along with everything in it."
+msgstr "Delete individual resumes, or your whole account along with everything in it."
+
 #: src/features/ats-checker/messages.ts
 msgid "Delete it. Hidden keywords are treated as a deliberate attempt to game the search."
 msgstr "Delete it. Hidden keywords are treated as a deliberate attempt to game the search."
@@ -1961,6 +2040,16 @@ msgstr "Disconnect"
 msgid "Dismiss"
 msgstr "Dismiss"
 
+#. Section heading: governing law and dispute resolution
+#: src/routes/_home/terms.tsx
+msgid "Disputes"
+msgstr "Disputes"
+
+#. Terms bullet: prohibited uses of the service
+#: src/routes/_home/terms.tsx
+msgid "Do not use the service to publish other people's personal information without a reason to, to send spam, to attack this instance, or to break the law where you live."
+msgstr "Do not use the service to publish other people's personal information without a reason to, to send spam, to attack this instance, or to break the law where you live."
+
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Documents sent"
 msgstr "Documents sent"
@@ -1982,14 +2071,24 @@ msgstr "Done"
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/features/homepage/languages-showcase.tsx
 #: src/features/resume/export/download-dialog.tsx
+#: src/features/resume/sharing/image-card.tsx
+#: src/features/resume/sharing/qr-card.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
 msgid "Download"
 msgstr "Download"
 
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Download a card with a QR code that opens your resume, ready to share on WeChat, QQ or in print."
+msgstr "Download a card with a QR code that opens your resume, ready to share on WeChat, QQ or in print."
+
 #: src/features/settings/pages/account.tsx
 msgid "Download a copy of all your data, including your profile and every resume, as a JSON file."
 msgstr "Download a copy of all your data, including your profile and every resume, as a JSON file."
+
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Download a QR card image to share"
+msgstr "Download a QR card image to share"
 
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "Download application details, contacts, notes, and timeline history as CSV."
@@ -2009,6 +2108,10 @@ msgstr "Download options"
 msgid "Download PDF"
 msgstr "Download PDF"
 
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Download QR Card"
+msgstr "Download QR Card"
+
 #: src/features/homepage/export-playground.tsx
 msgid "Download sample DOCX"
 msgstr "Download sample DOCX"
@@ -2025,9 +2128,25 @@ msgstr "Download sample Markdown"
 msgid "Download sample PDF"
 msgstr "Download sample PDF"
 
+#: src/features/homepage/export-playground.tsx
+msgid "Download sample TXT"
+msgstr "Download sample TXT"
+
+#: src/features/resume/export/download-dialog.tsx
+msgid "Download TXT"
+msgstr "Download TXT"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
 msgstr "Downloads"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Downloads every page of your resume stitched into one tall PNG image."
+msgstr "Downloads every page of your resume stitched into one tall PNG image."
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Downloads the first page of your resume as a PNG image."
+msgstr "Downloads the first page of your resume as a PNG image."
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Draft a follow-up"
@@ -2158,6 +2277,11 @@ msgstr "Editing keyword..."
 #: src/libs/resume/section.tsx
 msgid "Education"
 msgstr "Education"
+
+#. Published effective date of a legal document, followed by the version date
+#: src/routes/_home/-sections/legal-document.tsx
+msgid "Effective date: {version}"
+msgstr "Effective date: {version}"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Email"
@@ -2333,6 +2457,11 @@ msgstr "Export PNG"
 msgid "Export the resume as a text PDF rather than as an image or a scan."
 msgstr "Export the resume as a text PDF rather than as an image or a scan."
 
+#. Privacy policy bullet: right to export data
+#: src/routes/_home/privacy.tsx
+msgid "Export your resumes as JSON or PDF and take them somewhere else."
+msgstr "Export your resumes as JSON or PDF and take them somewhere else."
+
 #: src/features/applications/components/insights-view.tsx
 msgid "Exported pipeline-flow.png"
 msgstr "Exported pipeline-flow.png"
@@ -2505,6 +2634,11 @@ msgstr "Failed to verify your code. Please try again."
 msgid "Fatal error"
 msgstr "Fatal error"
 
+#. Structured plain-text export: one 'label: value' line per field, ordered like a job-site form
+#: src/features/resume/export/download-dialog.tsx
+msgid "Field-by-field plain text, ordered the way recruitment forms ask for it."
+msgstr "Field-by-field plain text, ordered the way recruitment forms ask for it."
+
 #: src/features/homepage/page.tsx
 msgid "Fifteen templates, all free. Pick one you like. You can change the type, color, and layout in the editor."
 msgstr "Fifteen templates, all free. Pick one you like. You can change the type, color, and layout in the editor."
@@ -2512,6 +2646,11 @@ msgstr "Fifteen templates, all free. Pick one you like. You can change the type,
 #: src/dialogs/resume/import.tsx
 msgid "File"
 msgstr "File"
+
+#. Privacy policy bullet: uploaded files
+#: src/routes/_home/privacy.tsx
+msgid "Files you upload: profile pictures, attachments, and documents you import."
+msgstr "Files you upload: profile pictures, attachments, and documents you import."
 
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Fill fields"
@@ -2540,6 +2679,10 @@ msgstr "Find the weak bullet points and rewrite them with stronger outcomes, num
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
 msgstr "Fireworks"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "First Page"
+msgstr "First Page"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Fit"
@@ -2596,6 +2739,10 @@ msgstr "For a few more edits"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
 msgid "For example, note which companies you sent this resume to, or links to the job descriptions."
 msgstr "For example, note which companies you sent this resume to, or links to the job descriptions."
+
+#: src/features/homepage/export-playground.tsx
+msgid "For filling in a job-site form"
+msgstr "For filling in a job-site form"
 
 #: src/features/homepage/export-playground.tsx
 msgid "For keeping a copy"
@@ -2669,6 +2816,10 @@ msgstr "Gaps:"
 msgid "Generate a random name"
 msgstr "Generate a random name"
 
+#: src/features/resume/sharing/image-card.tsx
+msgid "Generate Image Card"
+msgstr "Generate Image Card"
+
 #: src/features/resume/export/use-resume-export.ts
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Generating your PDF..."
@@ -2677,6 +2828,11 @@ msgstr "Generating your PDF..."
 #: src/features/homepage/page.tsx
 msgid "Get a second opinion on your writing, share your resume, and keep track of where you’ve applied. It’s all in one place."
 msgstr "Get a second opinion on your writing, share your resume, and keep track of where you’ve applied. It’s all in one place."
+
+#. Link to a Chinese model provider's console where the user gets an API key
+#: src/features/settings/integrations/components/ai-section.tsx
+msgid "Get an API key from the provider console"
+msgstr "Get an API key from the provider console"
 
 #: src/features/homepage/page.tsx
 msgid "Get Started"
@@ -2688,6 +2844,11 @@ msgstr "Get Started"
 #: src/features/settings/authentication/components/hooks.tsx
 msgid "GitHub"
 msgstr "GitHub"
+
+#. Terms bullet: a working email address is required
+#: src/routes/_home/terms.tsx
+msgid "Give an email address that works — verification and password resets go to it."
+msgstr "Give an email address that works — verification and password resets go to it."
 
 #: src/features/ats-checker/messages.ts
 msgid "Give every role a period, such as \"Jan 2020 - Present\", so your timeline can be reconstructed."
@@ -2854,6 +3015,11 @@ msgstr "Highlight Color"
 msgid "Home"
 msgstr "Home"
 
+#. Section heading: purposes of processing
+#: src/routes/_home/privacy.tsx
+msgid "How it is used"
+msgstr "How it is used"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
 msgstr "Hyphenation"
@@ -2861,6 +3027,11 @@ msgstr "Hyphenation"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "I design software for teams, from early research to the details people use every day."
 msgstr "I design software for teams, from early research to the details people use every day."
+
+#. Label beside the legal consent checkbox; the two links open the legal documents
+#: src/features/auth/pages/register.tsx
+msgid "I have read and agree to the <0>Terms of Service</0> and the <1>Privacy Policy</1>."
+msgstr "I have read and agree to the <0>Terms of Service</0> and the <1>Privacy Policy</1>."
 
 #: src/components/level/combobox.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx
@@ -2870,6 +3041,10 @@ msgstr "Icon"
 #: src/features/ats-checker/messages.ts
 msgid "If it came from a scan, that is expected. Otherwise remove it; recruiters read it as keyword stuffing."
 msgstr "If it came from a scan, that is expected. Otherwise remove it; recruiters read it as keyword stuffing."
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Image Card"
+msgstr "Image Card"
 
 #: src/features/ats-checker/messages.ts
 msgid "Images cover most of the page."
@@ -3107,6 +3282,11 @@ msgstr "Keep together"
 msgid "Keep your layout intact. Ready to send, upload, or print."
 msgstr "Keep your layout intact. Ready to send, upload, or print."
 
+#. Terms bullet: keeping credentials secret
+#: src/routes/_home/terms.tsx
+msgid "Keep your password to yourself, and turn on two-factor authentication where this instance offers it."
+msgstr "Keep your password to yourself, and turn on two-factor authentication where this instance offers it."
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Key"
 msgstr "Key"
@@ -3267,6 +3447,11 @@ msgstr "Light"
 msgid "Light theme"
 msgstr "Light theme"
 
+#. Section heading: limitation of liability
+#: src/routes/_home/terms.tsx
+msgid "Limitation of liability"
+msgstr "Limitation of liability"
+
 #. placeholder {0}: diagnostic.range.start.line
 #. placeholder {1}: diagnostic.range.start.column
 #: src/features/resume/stylesheet/status.tsx
@@ -3382,6 +3567,11 @@ msgstr "Lock editing"
 msgid "Locked"
 msgstr "Locked"
 
+#. Image card mode that stitches every resume page into one tall image
+#: src/features/resume/sharing/image-card.tsx
+msgid "Long Image"
+msgstr "Long Image"
+
 #: src/features/ats-checker/messages.ts
 msgid "Long stretches are set in capitals."
 msgstr "Long stretches are set in capitals."
@@ -3415,6 +3605,10 @@ msgstr "Make it your own"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Make the experience section about results and cut the vague responsibilities."
 msgstr "Make the experience section about results and cut the vague responsibilities."
+
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Make the resume public before you can download a QR card."
+msgstr "Make the resume public before you can download a QR card."
 
 #: src/features/ats-checker/messages.ts
 msgid "Make the visible text and the destination match."
@@ -3756,6 +3950,11 @@ msgstr "No threads yet."
 #: src/routes/admin/users.tsx
 msgid "No users match these filters."
 msgstr "No users match these filters."
+
+#. Section heading: no warranty
+#: src/routes/_home/terms.tsx
+msgid "No warranty"
+msgstr "No warranty"
 
 #: src/features/ats-checker/messages.ts
 msgid "No work-experience section was found."
@@ -4249,6 +4448,11 @@ msgstr "Preview and export fall back to base styles."
 msgid "Preview and export keep valid styles and ignore invalid styles."
 msgstr "Preview and export keep valid styles and ignore invalid styles."
 
+#. Alt text of the resume image card preview
+#: src/features/resume/sharing/image-card.tsx
+msgid "Preview of the resume image card"
+msgstr "Preview of the resume image card"
+
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
@@ -4266,6 +4470,18 @@ msgstr "Primary Color"
 #: src/features/ats-checker/messages.ts
 msgid "Print or export the form to a flat PDF before sending it."
 msgstr "Print or export the form to a flat PDF before sending it."
+
+#. Footer link to the privacy policy page
+#. Heading of the privacy policy page
+#: src/features/homepage/site-footer.tsx
+#: src/routes/_home/privacy.tsx
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#. Browser and social-card title of the privacy policy page
+#: src/routes/_home/privacy.tsx
+msgid "Privacy Policy - Reactive Resume"
+msgstr "Privacy Policy - Reactive Resume"
 
 #: src/features/homepage/feature-explorer.tsx
 #: src/routes/admin/-components/resumes-table.tsx
@@ -4355,9 +4571,27 @@ msgstr "Publications"
 msgid "Publisher"
 msgstr "Publisher"
 
+#. Section heading: publishing a resume publicly
+#: src/routes/_home/terms.tsx
+msgid "Publishing"
+msgstr "Publishing"
+
 #: src/features/ats-checker/messages.ts
 msgid "Put a plain email address near the top of the first page. It is what most systems file you under."
 msgstr "Put a plain email address near the top of the first page. It is what most systems file you under."
+
+#: src/features/resume/sharing/qr-card.tsx
+msgid "QR Card"
+msgstr "QR Card"
+
+#. Accessible title for the QR code that links to the public resume
+#: src/features/resume/sharing/qr-card.tsx
+msgid "QR code linking to the public resume"
+msgstr "QR code linking to the public resume"
+
+#: src/features/settings/integrations/components/ai-section.tsx
+msgid "Quick fill from a Chinese provider"
+msgstr "Quick fill from a Chinese provider"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Raw JSON"
@@ -4403,6 +4637,11 @@ msgstr "Reactive Resume (JSON)"
 #: src/components/ui/donation-toast.tsx
 msgid "Reactive Resume is free and open source. If it has helped you, please consider donating."
 msgstr "Reactive Resume is free and open source. If it has helped you, please consider donating."
+
+#. Paragraph describing what the service is and is not
+#: src/routes/_home/terms.tsx
+msgid "Reactive Resume is free and open-source software for writing and publishing a resume. You can read the source, and you can run it yourself. It is not a recruitment agency: it does not apply to jobs on your behalf, and nothing here gets you an interview."
+msgstr "Reactive Resume is free and open-source software for writing and publishing a resume. You can read the source, and you can run it yourself. It is not a recruitment agency: it does not apply to jobs on your behalf, and nothing here gets you an interview."
 
 #. App version label in footer; includes semantic version variable
 #: src/components/ui/copyright.tsx
@@ -4698,6 +4937,11 @@ msgstr "Resume templates"
 msgid "Resume templates for different professions and tastes. Pick the one that suits you."
 msgstr "Resume templates for different professions and tastes. Pick the one that suits you."
 
+#. Filename suffix of the downloaded resume image card
+#: src/features/resume/sharing/image-card.tsx
+msgid "resume-image"
+msgstr "resume-image"
+
 #: src/features/command-palette/pages/navigation.tsx
 #: src/features/command-palette/pages/resumes.tsx
 #: src/features/homepage/community-stats.tsx
@@ -4884,6 +5128,11 @@ msgstr "Say what you actually did."
 msgid "Scan the QR code below with your preferred authenticator app. You can also copy the secret below and paste it into your app."
 msgstr "Scan the QR code below with your preferred authenticator app. You can also copy the secret below and paste it into your app."
 
+#. Caption printed under the QR code on the shareable resume business card
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Scan to view the full resume"
+msgstr "Scan to view the full resume"
+
 #: src/dialogs/resume/sections/education.tsx
 msgid "School"
 msgstr "School"
@@ -4978,6 +5227,11 @@ msgstr "Section Type"
 msgid "Sections"
 msgstr "Sections"
 
+#. Privacy policy bullet: right of access and correction
+#: src/routes/_home/privacy.tsx
+msgid "See and correct your account details yourself, at any time, from settings."
+msgstr "See and correct your account details yourself, at any time, from settings."
+
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "See how this resume matches the posting"
 msgstr "See how this resume matches the posting"
@@ -5068,6 +5322,11 @@ msgstr "Separator"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Serif"
 msgstr "Serif"
+
+#. Privacy policy bullet: web server request logs
+#: src/routes/_home/privacy.tsx
+msgid "Server logs: request path, time, status, IP address, and user agent. Every web server writes these, and they are what makes an outage diagnosable."
+msgstr "Server logs: request path, time, status, IP address, and user agent. Every web server writes these, and they are what makes an outage diagnosable."
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Set a password if you want only people who know it to open the public URL."
@@ -5255,6 +5514,16 @@ msgstr "Sign up"
 msgid "Sign-in didn't complete"
 msgstr "Sign-in didn't complete"
 
+#. Privacy policy bullet: sign-in records
+#: src/routes/_home/privacy.tsx
+msgid "Sign-in records: the times and approximate sources of successful and failed sign-ins, kept so that unusual access can be noticed."
+msgstr "Sign-in records: the times and approximate sources of successful and failed sign-ins, kept so that unusual access can be noticed."
+
+#. Paragraph on cookies and browser storage
+#: src/routes/_home/privacy.tsx
+msgid "Sign-in uses a session cookie, and it is strictly necessary: without it you would be signed out on every page. Your theme and language are remembered in your own browser. This site loads no advertising scripts and no third-party analytics."
+msgstr "Sign-in uses a session cookie, and it is strictly necessary: without it you would be signed out on every page. Your theme and language are remembered in your own browser. This site loads no advertising scripts and no third-party analytics."
+
 #: src/features/auth/pages/consent.tsx
 msgid "Signed in as {email}"
 msgstr "Signed in as {email}"
@@ -5401,6 +5670,8 @@ msgstr "Something went wrong while signing you in. Please try again."
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/features/resume/sharing/image-card.tsx
+#: src/features/resume/sharing/qr-card.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -5666,6 +5937,18 @@ msgstr "Template"
 msgid "Template Gallery"
 msgstr "Template Gallery"
 
+#. Footer link to the terms of service page
+#. Heading of the terms of service page
+#: src/features/homepage/site-footer.tsx
+#: src/routes/_home/terms.tsx
+msgid "Terms of Service"
+msgstr "Terms of Service"
+
+#. Browser and social-card title of the terms of service page
+#: src/routes/_home/terms.tsx
+msgid "Terms of Service - Reactive Resume"
+msgstr "Terms of Service - Reactive Resume"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Test"
 msgstr "Test"
@@ -5727,6 +6010,11 @@ msgstr "That sign-in provider is no longer available on this server."
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "The agent needs your input."
 msgstr "The agent needs your input."
+
+#. Paragraph explaining the optional AI features and what they send
+#: src/routes/_home/privacy.tsx
+msgid "The AI features are optional, and off unless an administrator enables them. When they are on, a check sends what that check needs — the resume text you submit to it — to the model provider configured for this instance, and nothing else."
+msgstr "The AI features are optional, and off unless an administrator enables them. When they are on, a check sends what that check needs — the resume text you submit to it — to the model provider configured for this instance, and nothing else."
 
 #: src/features/auth/pages/error.tsx
 msgid "The application that sent you here made an invalid authorization request."
@@ -5798,6 +6086,21 @@ msgstr "The same line repeats on every page."
 msgid "The score is capped because of a blocking problem: {0}"
 msgstr "The score is capped because of a blocking problem: {0}"
 
+#. Section heading: description of the service
+#: src/routes/_home/terms.tsx
+msgid "The service"
+msgstr "The service"
+
+#. Paragraph disclaiming warranties
+#: src/routes/_home/terms.tsx
+msgid "The software is provided as it is, without warranty of any kind. It is maintained by volunteers, it can break, and it can lose work you have not exported. Keep your own copy of anything that matters."
+msgstr "The software is provided as it is, without warranty of any kind. It is maintained by volunteers, it can break, and it can lose work you have not exported. Keep your own copy of anything that matters."
+
+#. Search-result description of the terms of service page
+#: src/routes/_home/terms.tsx
+msgid "The terms for using this Reactive Resume deployment: what the service is, what you are responsible for, and who owns what you write."
+msgstr "The terms for using this Reactive Resume deployment: what the service is, what you are responsible for, and who owns what you write."
+
 #: src/features/ats-checker/messages.ts
 msgid "The text comes out unreadable."
 msgstr "The text comes out unreadable."
@@ -5841,6 +6144,11 @@ msgstr "There is no summary paragraph."
 msgid "There was not enough information to run this check."
 msgstr "There was not enough information to run this check."
 
+#. Opening paragraph of the terms of service
+#: src/routes/_home/terms.tsx
+msgid "These are the terms for using this Reactive Resume deployment. They are written to be read rather than skipped. If something here is unclear, ask whoever runs this instance."
+msgstr "These are the terms for using this Reactive Resume deployment. They are written to be read rather than skipped. If something here is unclear, ask whoever runs this instance."
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "These checks run as you type and never leave your browser. They test whether software can read your resume, not how well it is written."
 msgstr "These checks run as you type and never leave your browser. They test whether software can read your resume, not how well it is written."
@@ -5849,6 +6157,16 @@ msgstr "These checks run as you type and never leave your browser. They test whe
 msgid "These dates will not be read correctly."
 msgstr "These dates will not be read correctly."
 
+#. Paragraph explaining how terms updates take effect
+#: src/routes/_home/terms.tsx
+msgid "These terms can change. The version and the effective date above say which text applies, and a material change asks for your consent again when you sign up."
+msgstr "These terms can change. The version and the effective date above say which text applies, and a material change asks for your consent again when you sign up."
+
+#. Paragraph on governing law and severability
+#: src/routes/_home/terms.tsx
+msgid "These terms follow the law of the place where this instance is operated, and disputes belong to the courts there. If one clause cannot be enforced, the rest still applies."
+msgstr "These terms follow the law of the place where this instance is operated, and disputes belong to the courts there. If one clause cannot be enforced, the rest still applies."
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "They will be signed out everywhere and unable to sign back in until the ban is lifted."
 msgstr "They will be signed out everywhere and unable to sign back in until the ban is lifted."
@@ -5856,6 +6174,11 @@ msgstr "They will be signed out everywhere and unable to sign back in until the 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Thinking"
 msgstr "Thinking"
+
+#. Section heading: third-party services receiving data
+#: src/routes/_home/privacy.tsx
+msgid "Third-party services"
+msgstr "Third-party services"
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
@@ -5970,6 +6293,11 @@ msgstr "This file's page contents could not be inspected in time."
 msgid "This heading is not one parsers look for."
 msgstr "This heading is not one parsers look for."
 
+#. Opening paragraph of the privacy policy
+#: src/routes/_home/privacy.tsx
+msgid "This instance of Reactive Resume is a self-hosted resume builder. This page says what the software stores, why, and what you can ask to have done with it. It describes this deployment's defaults: an administrator who switches on extra integrations changes the picture, and the sections below say where. If you need an answer specific to this instance, ask whoever runs it."
+msgstr "This instance of Reactive Resume is a self-hosted resume builder. This page says what the software stores, why, and what you can ask to have done with it. It describes this deployment's defaults: an administrator who switches on extra integrations changes the picture, and the sections below say where. If you need an answer specific to this instance, ask whoever runs it."
+
 #: src/features/ats-checker/messages.ts
 msgid "This is a PDF Portfolio: the visible page is only a cover."
 msgstr "This is a PDF Portfolio: the visible page is only a cover."
@@ -5977,6 +6305,11 @@ msgstr "This is a PDF Portfolio: the visible page is only a cover."
 #: src/features/homepage/feature-explorer.tsx
 msgid "This is a sample edit. In the app, connect your own AI provider. Turn on Review edits to approve changes before they’re applied."
 msgstr "This is a sample edit. In the app, connect your own AI provider. Turn on Review edits to approve changes before they’re applied."
+
+#. Paragraph on minimum age and guardian consent
+#: src/routes/_home/privacy.tsx
+msgid "This is a tool for people looking for work, and it is not directed at children. If you are under the age of digital consent where you live, use it with a parent or guardian."
+msgstr "This is a tool for people looking for work, and it is not directed at children. If you are under the age of digital consent where you live, use it with a parent or guardian."
 
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
@@ -6035,6 +6368,15 @@ msgstr "This period ends before it starts."
 #: src/libs/resume/ats.ts
 msgid "This period starts in the future."
 msgstr "This period starts in the future."
+
+#. Scope paragraph of the privacy policy
+#: src/routes/_home/privacy.tsx
+msgid "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
+msgstr "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
+
+#: src/features/resume/export/use-resume-export.ts
+msgid "This resume has no content to export yet."
+msgstr "This resume has no content to export yet."
 
 #: src/routes/builder/$resumeId/-sidebar/left/index.tsx
 msgid "This resume is locked"
@@ -6151,6 +6493,11 @@ msgstr "Title"
 msgid "To delete your account, type the confirmation text below, then click the button."
 msgstr "To delete your account, type the confirmation text below, then click the button."
 
+#. Paragraph listing the purposes data is used for
+#: src/routes/_home/privacy.tsx
+msgid "To run the service you asked for: storing your resumes, rendering them to PDF, publishing the links you choose to publish, sending the verification and password-reset emails you request, and keeping accounts secure. Your data is not sold, and it is not shared for advertising."
+msgstr "To run the service you asked for: storing your resumes, rendering them to PDF, publishing the links you choose to publish, sending the verification and password-reset emails you request, and keeping accounts secure. Your data is not sold, and it is not shared for advertising."
+
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-base.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/shared/section-base.tsx
 msgid "Toggle {sectionTitle} section"
@@ -6234,6 +6581,14 @@ msgstr "Turn off discretionary ligatures when exporting."
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see these numbers."
 msgstr "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see these numbers."
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Turn your resume into an image you can post on 朋友圈, send to a WeChat contact or share on QQ."
+msgstr "Turn your resume into an image you can post on 朋友圈, send to a WeChat contact or share on QQ."
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Turn your resume into an image you can share"
+msgstr "Turn your resume into an image you can share"
 
 #: src/routes/admin/settings.tsx
 msgid "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
@@ -6668,6 +7023,11 @@ msgstr "Verifying password..."
 msgid "Verifying your email is required when resetting your password."
 msgstr "Verifying your email is required when resetting your password."
 
+#. Note under the legal consent checkbox naming the version being accepted
+#: src/features/auth/pages/register.tsx
+msgid "Version {legalDocumentVersion} of both documents."
+msgstr "Version {legalDocumentVersion} of both documents."
+
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "Version history"
 msgstr "Version history"
@@ -6784,6 +7144,31 @@ msgstr "What this checks"
 msgid "What this does not do"
 msgstr "What this does not do"
 
+#. Search-result description of the privacy policy page
+#: src/routes/_home/privacy.tsx
+msgid "What this Reactive Resume deployment stores about you, why it stores it, how long it keeps it, and what you can ask for."
+msgstr "What this Reactive Resume deployment stores about you, why it stores it, how long it keeps it, and what you can ask for."
+
+#. Section heading: categories of data collected
+#: src/routes/_home/privacy.tsx
+msgid "What we collect"
+msgstr "What we collect"
+
+#. Section heading: user rights over their data
+#: src/routes/_home/privacy.tsx
+msgid "What you can ask for"
+msgstr "What you can ask for"
+
+#. Section heading: ownership of user content
+#: src/routes/_home/terms.tsx
+msgid "What you write stays yours"
+msgstr "What you write stays yours"
+
+#. Privacy policy bullet: user-authored resume and application content
+#: src/routes/_home/privacy.tsx
+msgid "What you write: the resumes, job applications, notes, and settings you create."
+msgstr "What you write: the resumes, job applications, notes, and settings you create."
+
 #: src/routes/admin/-components/audit-table.tsx
 msgid "When"
 msgstr "When"
@@ -6793,9 +7178,19 @@ msgstr "When"
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr "When locked, the resume cannot be updated or deleted."
 
+#. Paragraph explaining how policy updates take effect
+#: src/routes/_home/privacy.tsx
+msgid "When this text changes, the version and the effective date above change with it, and signing up asks for consent again. The version published here is the one that applies to you."
+msgstr "When this text changes, the version and the effective date above change with it, and signing up asks for consent again. The version published here is the one that applies to you."
+
 #: src/features/applications/components/insights-view.tsx
 msgid "Where applications come from"
 msgstr "Where applications come from"
+
+#. Section heading: storage location and retention period
+#: src/routes/_home/privacy.tsx
+msgid "Where it is stored, and for how long"
+msgstr "Where it is stored, and for how long"
 
 #: src/features/applications/components/insights-view.tsx
 msgid "Where your applications went"
@@ -6841,6 +7236,11 @@ msgstr "Whether your timeline can be reconstructed."
 msgid "Who changed what, and when, across the admin console."
 msgstr "Who changed what, and when, across the admin console."
 
+#. Section heading: who the privacy policy applies to
+#: src/routes/_home/privacy.tsx
+msgid "Who this applies to"
+msgstr "Who this applies to"
+
 #: src/features/ats-checker/messages.ts
 msgid "Words run together when the text is extracted."
 msgstr "Words run together when the text is extracted."
@@ -6885,6 +7285,11 @@ msgstr "Write the full address, including https://."
 msgid "Writing"
 msgstr "Writing"
 
+#. Terms bullet: responsibility for account activity
+#: src/routes/_home/terms.tsx
+msgid "You are responsible for what happens under your account."
+msgstr "You are responsible for what happens under your account."
+
 #: src/features/auth/pages/login.tsx
 msgid "You can also sign in with your username."
 msgstr "You can also sign in with your username."
@@ -6901,6 +7306,11 @@ msgstr "You cancelled the sign-in before it finished."
 msgid "You have unsaved changes that will be lost."
 msgstr "You have unsaved changes that will be lost."
 
+#. Paragraph on content ownership and the licence granted to the operator
+#: src/routes/_home/terms.tsx
+msgid "You keep the rights to everything you write here. You give this deployment only the permission it needs to work: storing your content, turning it into a PDF, and showing it at the share links you publish yourself. No one here claims ownership of your resume, and nothing you write is licensed to anyone else."
+msgstr "You keep the rights to everything you write here. You give this deployment only the permission it needs to work: storing your content, turning it into a PDF, and showing it at the share links you publish yourself. No one here claims ownership of your resume, and nothing you write is licensed to anyone else."
+
 #: src/dialogs/resume/import.tsx
 msgid "You'll be taken to the Integrations page. The file you selected won't be imported."
 msgstr "You'll be taken to the Integrations page. The file you selected won't be imported."
@@ -6913,6 +7323,11 @@ msgstr "You’re in good company."
 #: src/features/auth/pages/register.tsx
 msgid "You've got mail!"
 msgstr "You've got mail!"
+
+#. Section heading: account responsibilities
+#: src/routes/_home/terms.tsx
+msgid "Your account"
+msgstr "Your account"
 
 #: src/features/settings/pages/account.tsx
 msgid "Your account has been deleted."
@@ -6951,9 +7366,18 @@ msgstr "Your contact details are not on the first page."
 msgid "Your data has been exported."
 msgstr "Your data has been exported."
 
+#. Paragraph on storage location and retention period
+#: src/routes/_home/privacy.tsx
+msgid "Your data lives in this deployment's own database and file storage: on the machine that runs it, or in the object storage bucket its administrator configured. It is kept for as long as your account exists. Deleting a resume, or closing your account, removes it from the database. Backups taken by the operator may still hold a copy for a short while afterwards — ask that operator how long, because it is their choice and not something this page can promise."
+msgstr "Your data lives in this deployment's own database and file storage: on the machine that runs it, or in the object storage bucket its administrator configured. It is kept for as long as your account exists. Deleting a resume, or closing your account, removes it from the database. Backups taken by the operator may still hold a copy for a short while afterwards — ask that operator how long, because it is their choice and not something this page can promise."
+
 #: src/features/ats-checker/messages.ts
 msgid "Your dates are written several different ways."
 msgstr "Your dates are written several different ways."
+
+#: src/features/homepage/export-playground.tsx
+msgid "Your details as label-and-value lines, ordered the way recruitment forms ask for them."
+msgstr "Your details as label-and-value lines, ordered the way recruitment forms ask for them."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Your edit is in."

@@ -1,5 +1,7 @@
+import type { PromptLocale } from "@reactive-resume/ai/prompts";
 import type { AIProvider } from "@reactive-resume/ai/types";
 import type { ResumeData } from "@reactive-resume/schema/resume/data";
+import type { Locale } from "@reactive-resume/utils/locale";
 import type { ModelMessage, UIMessage } from "ai";
 import { inflateRawSync } from "node:zlib";
 import { createAnthropic } from "@ai-sdk/anthropic";
@@ -30,13 +32,7 @@ import {
 import { createOllama } from "ollama-ai-provider-v2";
 import { match } from "ts-pattern";
 import { z } from "zod";
-import {
-	chatSystemPromptTemplate,
-	docxParserSystemPrompt,
-	docxParserUserPrompt,
-	pdfParserSystemPrompt,
-	pdfParserUserPrompt,
-} from "@reactive-resume/ai/prompts";
+import { loadPrompts, resolvePromptLocale } from "@reactive-resume/ai/prompts";
 import { buildAiExtractionTemplate } from "@reactive-resume/ai/resume/extraction-template";
 import { sanitizeAndParseResumeJson } from "@reactive-resume/ai/resume/sanitize";
 import {
@@ -309,9 +305,17 @@ export async function testConnection(input: TestConnectionInput): Promise<TestCo
 	};
 }
 
+/**
+ * Selects the language of the prompts sent to the provider. Optional: without it `loadPrompts`
+ * returns the default (Chinese-first) variant, which is what this fork's users expect.
+ */
+// `| undefined` is explicit because the repo compiles with `exactOptionalPropertyTypes`: a caller
+// that forwards a resolved-but-absent locale must still type-check.
+type WithLocale = { locale?: Locale | undefined };
+
 type ParsePdfInput = z.infer<typeof aiCredentialsSchema> & {
 	file: z.infer<typeof fileInputSchema>;
-};
+} & WithLocale;
 
 type BuildResumeParsingMessagesInput = {
 	userPrompt: string;
@@ -335,14 +339,29 @@ function buildResumeParsingMessages({ userPrompt, file, mediaType }: BuildResume
 	];
 }
 
-function buildResumeParsingTextMessages({ userPrompt, text }: { userPrompt: string; text: string }): ModelMessage[] {
+// The sentence sits between the (localized) user prompt and the extracted text, so it has to
+// follow the same locale — otherwise a Chinese run gets one stray English line in the middle.
+const docxPlainTextNotice: Record<PromptLocale, string> = {
+	"en-US": "The Microsoft Word file has been converted to plain text below.",
+	"zh-CN": "下面的纯文本由该 Microsoft Word 文件转换而来。",
+};
+
+function buildResumeParsingTextMessages({
+	userPrompt,
+	text,
+	locale,
+}: {
+	userPrompt: string;
+	text: string;
+	locale?: Locale | undefined;
+}): ModelMessage[] {
 	return [
 		{
 			role: "user",
 			content: [
 				{
 					type: "text",
-					text: `${userPrompt}\n\nThe Microsoft Word file has been converted to plain text below.\n\n${text}`,
+					text: `${userPrompt}\n\n${docxPlainTextNotice[resolvePromptLocale(locale)]}\n\n${text}`,
 				},
 			],
 		},
@@ -351,6 +370,7 @@ function buildResumeParsingTextMessages({ userPrompt, text }: { userPrompt: stri
 
 async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
 	const model = getModel(input);
+	const { pdfParserSystemPrompt, pdfParserUserPrompt } = loadPrompts(input.locale);
 
 	const result = await generateText({
 		model,
@@ -368,7 +388,7 @@ async function parsePdf(input: ParsePdfInput): Promise<ResumeData> {
 type ParseDocxInput = z.infer<typeof aiCredentialsSchema> & {
 	file: z.infer<typeof fileInputSchema>;
 	mediaType: "application/msword" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-};
+} & WithLocale;
 
 function assertZipRange(buffer: Buffer, offset: number, length: number) {
 	if (offset < 0 || length < 0 || offset + length > buffer.length) throw new Error("Invalid DOCX archive.");
@@ -468,9 +488,14 @@ function extractDocxText(file: z.infer<typeof fileInputSchema>): string {
 
 async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 	const model = getModel(input);
+	const { docxParserSystemPrompt, docxParserUserPrompt } = loadPrompts(input.locale);
 	const messages =
 		input.mediaType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-			? buildResumeParsingTextMessages({ userPrompt: docxParserUserPrompt, text: extractDocxText(input.file) })
+			? buildResumeParsingTextMessages({
+					userPrompt: docxParserUserPrompt,
+					text: extractDocxText(input.file),
+					locale: input.locale,
+				})
 			: buildResumeParsingMessages({
 					userPrompt: docxParserUserPrompt,
 					file: input.file,
@@ -486,7 +511,9 @@ async function parseDocx(input: ParseDocxInput): Promise<ResumeData> {
 	return parseAndValidateResumeJson(result.text);
 }
 
-function buildChatSystemPrompt(resumeData: ResumeData): string {
+function buildChatSystemPrompt(resumeData: ResumeData, locale?: Locale): string {
+	const { chatSystemPromptTemplate } = loadPrompts(locale);
+
 	return chatSystemPromptTemplate.replace("{{RESUME_DATA}}", JSON.stringify(resumeData, null, 2));
 }
 
@@ -494,11 +521,11 @@ type ChatInput = z.infer<typeof aiCredentialsSchema> & {
 	messages: UIMessage[];
 	resumeData: ResumeData;
 	resumeUpdatedAt: Date;
-};
+} & WithLocale;
 
 async function chat(input: ChatInput) {
 	const model = getModel(input);
-	const systemPrompt = buildChatSystemPrompt(input.resumeData);
+	const systemPrompt = buildChatSystemPrompt(input.resumeData, input.locale);
 
 	const result = streamText({
 		model,

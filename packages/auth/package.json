@@ -23,6 +23,7 @@
 		"@reactive-resume/db": "workspace:*",
 		"@reactive-resume/email": "workspace:*",
 		"@reactive-resume/env": "workspace:*",
+		"@reactive-resume/schema": "workspace:*",
 		"@reactive-resume/utils": "workspace:*",
 		"bcrypt": "^6.0.0",
 		"better-auth": "1.7.3",

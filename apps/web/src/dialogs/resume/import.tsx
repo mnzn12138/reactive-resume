@@ -28,6 +28,7 @@ import { useHasUsableAiProvider } from "@/features/settings/integrations/hooks/u
 import { useConfirm } from "@/hooks/use-confirm";
 import { useFormBlocker } from "@/hooks/use-form-blocker";
 import { getOrpcErrorMessage } from "@/libs/error-message";
+import { getLocale } from "@/libs/locale";
 import { client, orpc } from "@/libs/orpc/client";
 import { useAppForm } from "@/libs/tanstack-form";
 import { useDialogStore } from "../store";
@@ -173,6 +174,7 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 						const base64 = await fileToBase64(value.file);
 
 						data = await client.ai.parsePdf({
+							locale: getLocale(),
 							file: { name: value.file.name, data: base64 },
 						});
 					} else {
@@ -208,6 +210,7 @@ export function ImportResumeDialog(_: DialogProps<"resume.import">) {
 							: ("application/vnd.openxmlformats-officedocument.wordprocessingml.document" as const);
 
 					data = await client.ai.parseDocx({
+						locale: getLocale(),
 						mediaType,
 						file: { name: value.file.name, data: base64 },
 					});

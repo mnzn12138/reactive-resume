@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
@@ -149,6 +149,12 @@ describe("AISettingsSection", () => {
 	it("offers popular AI SDK providers and labels Ollama as cloud-hosted", () => {
 		renderSection();
 
+		// Scoped to the provider picker: the Chinese-model shortcut sitting next to it also lists
+		// DeepSeek, so an unscoped role query now matches two options.
+		const providerLabels = within(screen.getByLabelText("Provider"))
+			.getAllByRole("option")
+			.map((option) => option.textContent);
+
 		for (const label of [
 			"Mistral AI",
 			"Cohere",
@@ -161,10 +167,10 @@ describe("AISettingsSection", () => {
 			"Perplexity",
 			"Ollama Cloud",
 		]) {
-			expect(screen.getByRole("option", { name: label })).toBeInTheDocument();
+			expect(providerLabels).toContain(label);
 		}
 
-		expect(screen.queryByRole("option", { name: "Ollama" })).not.toBeInTheDocument();
+		expect(providerLabels).not.toContain("Ollama");
 	});
 
 	it("uses the save-and-test result as the connected provider row", async () => {

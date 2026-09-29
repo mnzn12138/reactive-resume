@@ -6,8 +6,9 @@ import { buildDocx } from "@reactive-resume/docx";
 import { getResumeSectionTitle } from "@reactive-resume/pdf/section-title";
 import { getResumeExportData } from "@reactive-resume/resume/export-sections";
 import { buildMarkdown } from "@reactive-resume/resume/markdown";
+import { buildStructuredText } from "@reactive-resume/resume/structured-text";
 import { toast } from "@reactive-resume/ui/components/toast";
-import { downloadWithAnchor, generateFilename } from "@reactive-resume/utils/file";
+import { downloadWithAnchor, generateFilename, generateLocalizedFilename } from "@reactive-resume/utils/file";
 import { resolvePublicResumePdfBlob } from "@/features/resume/public/public-pdf";
 import { client } from "@/libs/orpc/client";
 import { createSectionTitleResolverForLocale } from "@/libs/resume/section-title-locale";
@@ -15,8 +16,8 @@ import { createResumePdfBlob } from "./pdf-document";
 
 /**
  * Section titles are stored empty by default and resolved (locale-aware) at render time. PDF does
- * this via an injected resolver; DOCX and Markdown reuse the same resolution here so their section
- * headings aren't blank. Returns a `(sectionId) => title` function.
+ * this via an injected resolver; DOCX, Markdown, and the structured-text export reuse the same
+ * resolution here so their section headings aren't blank. Returns a `(sectionId) => title` function.
  */
 const createSectionTitleResolver = async (data: ResumeData) => {
 	const resolveSectionTitle = await createSectionTitleResolverForLocale(data.metadata.page.locale);
@@ -39,8 +40,8 @@ type UseResumeExportOptions = {
 const getExportName = (resume: ExportableResume) => resume.name || resume.data.basics.name || resume.slug;
 
 /**
- * Single source of truth for resume export (PDF / DOCX / JSON / Print). Previously duplicated verbatim
- * between the builder dock and the right-panel Export section (#17).
+ * Single source of truth for resume export (PDF / DOCX / JSON / Markdown / TXT / Print). Previously
+ * duplicated verbatim between the builder dock and the right-panel Export section (#17).
  */
 export function useResumeExport(resume: ExportableResume | undefined, exportOptions: UseResumeExportOptions = {}) {
 	const [isExporting, setIsExporting] = useState(false);
@@ -57,6 +58,30 @@ export function useResumeExport(resume: ExportableResume | undefined, exportOpti
 		const resolveTitle = await createSectionTitleResolver(data);
 		const blob = new Blob([buildMarkdown(data, resolveTitle)], { type: "text/markdown" });
 		downloadWithAnchor(blob, generateFilename(getExportName(resume), "md"));
+	}, [resume]);
+
+	const onDownloadText = useCallback(async () => {
+		if (!resume) return;
+		setIsExporting(true);
+		try {
+			const data = getResumeExportData(resume.data);
+			const resolveTitle = await createSectionTitleResolver(data);
+			const text = buildStructuredText(data, resolveTitle);
+
+			// An empty resume would otherwise download a 0-byte file with no feedback.
+			if (!text.trim()) {
+				toast.add({ type: "error", description: t`This resume has no content to export yet.` });
+				return;
+			}
+
+			const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+			// Localized: a Chinese resume name would otherwise slugify away to a random word.
+			downloadWithAnchor(blob, generateLocalizedFilename(getExportName(resume), "txt"));
+		} catch {
+			toast.add({ type: "error", description: t`Could not generate the text file. Please try again.` });
+		} finally {
+			setIsExporting(false);
+		}
 	}, [resume]);
 
 	const onDownloadDOCX = useCallback(async () => {
@@ -134,5 +159,13 @@ export function useResumeExport(resume: ExportableResume | undefined, exportOpti
 		}
 	}, [exportOptions.publicResumePdf, resume]);
 
-	return { onDownloadJSON, onDownloadMarkdown, onDownloadDOCX, onDownloadPDF, onPrint, isExporting };
+	return {
+		onDownloadJSON,
+		onDownloadMarkdown,
+		onDownloadText,
+		onDownloadDOCX,
+		onDownloadPDF,
+		onPrint,
+		isExporting,
+	};
 }

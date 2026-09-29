@@ -198,6 +198,11 @@ describe("OAuth account creation", () => {
 			if (!input) throw new Error(`Missing ${name} field`);
 			fireEvent.change(input, { target: { value } });
 		}
+		// Signup requires both legal documents to be accepted.
+		const consent = container.querySelector('[role="checkbox"]');
+		if (!consent) throw new Error("Missing legal consent checkbox");
+		fireEvent.click(consent);
+
 		const form = container.querySelector("form");
 		if (!form) throw new Error("Missing registration form");
 		fireEvent.submit(form);

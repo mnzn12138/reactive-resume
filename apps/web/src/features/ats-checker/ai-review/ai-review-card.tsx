@@ -14,6 +14,7 @@ import { toast } from "@reactive-resume/ui/components/toast";
 import { AiProviderPicker } from "@/features/settings/integrations/components/ai-provider-picker";
 import { useHasUsableAiProvider } from "@/features/settings/integrations/hooks/use-has-usable-ai-provider";
 import { getOrpcErrorMessage } from "@/libs/error-message";
+import { getLocale } from "@/libs/locale";
 import { orpc } from "@/libs/orpc/client";
 import { getPdfFindingMessage } from "../messages";
 import { AiReviewResults } from "./ai-review-results";
@@ -70,6 +71,7 @@ export function AiReviewCard({ report, fullText, jobDescription }: AiReviewCardP
 
 		mutate({
 			...(aiProviderId ? { aiProviderId } : {}),
+			locale: getLocale(),
 			extractedText: trimmedText,
 			findings: report.findings.slice(0, MAX_FINDINGS).map((finding) => ({
 				code: finding.code,

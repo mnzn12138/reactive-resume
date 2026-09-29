@@ -18,6 +18,7 @@ import * as schema from "@reactive-resume/db/schema";
 import { ResetPasswordEmail, VerifyEmail, VerifyEmailChange } from "@reactive-resume/email/templates/auth";
 import { sendEmail } from "@reactive-resume/email/transport";
 import { env } from "@reactive-resume/env/server";
+import { legalConsentSchema, legalDocuments, legalDocumentVersion } from "@reactive-resume/schema/legal";
 import { rateLimitConfig, TRUSTED_IP_HEADERS } from "@reactive-resume/utils/rate-limit";
 import { generateId, toUsername } from "@reactive-resume/utils/string";
 import { isAllowedOAuthRedirectUri } from "@reactive-resume/utils/url-security.node";
@@ -42,6 +43,71 @@ const EMAIL_AUTH_PATHS = [
 ] as const;
 
 const isEmailAuthPath = (path: string) => EMAIL_AUTH_PATHS.some((candidate) => path.includes(candidate));
+
+/**
+ * How a consent row was collected. Stored verbatim on `user_consent.source`.
+ *
+ * "manual" is reserved for a future re-acceptance surface — asking an existing
+ * user to take the current version after a document bump. Nothing produces it
+ * yet, so today every row comes from the sign-up gate below.
+ */
+type ConsentSource = "signup-email" | "manual";
+
+/**
+ * The one endpoint allowed to record consent: the path the gate above actually
+ * runs on.
+ *
+ * A `user_consent` row is legal evidence that this user accepted this version of
+ * this document, so it may only be written when the gate has run and `legalConsent`
+ * has been validated. That is why `/callback/:id` is deliberately absent: a social
+ * or generic-OAuth account is inserted there after a redirect through the third
+ * party, so the user never sees our checkbox. Writing a row for it would assert an
+ * acceptance that never happened — a misrepresentation of the user, which is worse
+ * than having no row at all.
+ *
+ * Signing in again is absent for the same reason: stamping an existing account
+ * with the current document version would backdate consent to a request that
+ * asked for nothing.
+ */
+function consentSourceFor(path: string): ConsentSource | null {
+	if (path.includes("/sign-up/email")) return "signup-email";
+	return null;
+}
+
+/**
+ * Appends one `user_consent` row per published legal document.
+ *
+ * Best effort, mirroring `recordAudit` in the admin feature: a failure is
+ * logged and never thrown, because a missing ledger row must not fail a
+ * signup. The `(userId, document, version)` unique index makes a repeat
+ * insert a no-op, so this is safe to call from any account-creating request.
+ */
+async function recordConsent(entry: {
+	userId: string;
+	source: ConsentSource;
+	metadata: { ip?: string; userAgent?: string };
+}): Promise<void> {
+	try {
+		await db
+			.insert(schema.userConsent)
+			.values(
+				legalDocuments.map((document) => ({
+					userId: entry.userId,
+					document,
+					version: legalDocumentVersion,
+					source: entry.source,
+					metadata: entry.metadata,
+				})),
+			)
+			.onConflictDoNothing();
+	} catch (error) {
+		console.error("[auth] failed to record legal consent", {
+			userId: entry.userId,
+			source: entry.source,
+			error,
+		});
+	}
+}
 
 // JWKS must be reachable from inside the Node runtime. `authBaseUrl` is the
 // publicly-visible URL — under Docker port-mapping or behind a reverse proxy
@@ -180,6 +246,28 @@ const getAuthConfig = () => {
 					throw new APIError("FORBIDDEN", { message: "Email and password authentication is disabled." });
 				}
 
+				// Creating an account has to carry explicit consent to the current privacy
+				// policy and terms. The other email paths are left alone on purpose: anyone
+				// signing in or resetting a password consented when they registered, and
+				// gating those would lock existing users out of their accounts.
+				if (ctx.path.includes("/sign-up/email")) {
+					const body = ctx.body as { legalConsent?: unknown } | undefined;
+					const consent = legalConsentSchema.safeParse(body?.legalConsent);
+
+					if (!consent.success) {
+						throw new APIError("FORBIDDEN", {
+							message: "You must accept the privacy policy and terms of service to create an account.",
+						});
+					}
+
+					if (consent.data.version !== legalDocumentVersion) {
+						throw new APIError("FORBIDDEN", {
+							message:
+								"The privacy policy and terms of service have changed. Please review and accept the current versions.",
+						});
+					}
+				}
+
 				if (!ctx.path.includes("/oauth2/register")) return;
 
 				const body = ctx.body as { redirect_uris?: unknown } | undefined;
@@ -199,6 +287,40 @@ const getAuthConfig = () => {
 						});
 					}
 				}
+			}),
+
+			/**
+			 * Runs after the endpoint handler with the same context, so it sees both
+			 * `newSession` (set by `setSessionCookie` on every account-creating path)
+			 * and the incoming request. `newSession.user` is the account that was just
+			 * created, and `newSession.session` already carries the IP and user agent
+			 * Better Auth resolved from `advanced.ipAddress.ipAddressHeaders` — so
+			 * nothing here has to re-parse trusted-proxy headers.
+			 *
+			 * `databaseHooks.user.create.after` would be the tighter trigger, but it is
+			 * queued after the transaction and only receives the endpoint context
+			 * opportunistically; this hook reliably has both the new user and the
+			 * request. `consentSourceFor` narrows it to the gated sign-up path, so a
+			 * null source means "no consent was collected" and nothing is inserted —
+			 * an account simply ends up with zero consent rows rather than one
+			 * asserting an acceptance it cannot evidence.
+			 */
+			after: createAuthMiddleware(async (ctx) => {
+				const source = consentSourceFor(ctx.path);
+				const newSession = ctx.context.newSession;
+
+				if (!source || !newSession) return;
+
+				const { ipAddress, userAgent } = newSession.session;
+
+				await recordConsent({
+					userId: newSession.user.id,
+					source,
+					metadata: {
+						...(ipAddress ? { ip: ipAddress } : {}),
+						...(userAgent ? { userAgent: userAgent } : {}),
+					},
+				});
 			}),
 		},
 

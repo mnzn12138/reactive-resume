@@ -1,3 +1,5 @@
+import { Trans } from "@lingui/react/macro";
+import { Link } from "@tanstack/react-router";
 import { m } from "motion/react";
 import { cn } from "@reactive-resume/utils/style";
 import { wrap } from "./classes";
@@ -27,6 +29,24 @@ export function SiteFooter() {
 					Reactive Resume
 				</m.p>
 			</div>
+
+			{/* The footer only renders on the homepage, so this is a secondary surface for the legal
+			    pages — the signup form's consent checkbox is the one everyone actually sees. */}
+			<nav
+				aria-label="legal"
+				className={cn(
+					wrap,
+					"flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pb-10 text-muted-foreground text-xs",
+				)}
+			>
+				<Link className="transition-colors hover:text-foreground" to="/privacy">
+					<Trans comment="Footer link to the privacy policy page">Privacy Policy</Trans>
+				</Link>
+
+				<Link className="transition-colors hover:text-foreground" to="/terms">
+					<Trans comment="Footer link to the terms of service page">Terms of Service</Trans>
+				</Link>
+			</nav>
 		</footer>
 	);
 }

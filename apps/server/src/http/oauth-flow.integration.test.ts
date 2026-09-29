@@ -1,7 +1,11 @@
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
+import { legalDocumentVersion } from "@reactive-resume/schema/legal";
 
 vi.mock("@reactive-resume/email/transport", () => ({ sendEmail: vi.fn() }));
+
+// `/sign-up/email` rejects a payload without consent to the published documents.
+const legalConsent = { accepted: true, version: legalDocumentVersion } as const;
 
 // Run only against an explicitly supplied disposable database, after applying migrations.
 const databaseURL = process.env.OAUTH_TEST_DATABASE_URL;
@@ -69,6 +73,7 @@ describe.skipIf(!databaseURL)("MCP OAuth flow with PostgreSQL", () => {
 				email: `oauth-${unique}@example.com`,
 				username: `oauth-${unique}`,
 				password: "password123",
+				legalConsent,
 			}),
 		);
 		expect(signup.status, await signup.clone().text()).toBe(200);
@@ -207,6 +212,7 @@ describe.skipIf(!databaseURL)("MCP OAuth flow with PostgreSQL", () => {
 				email: `confidential-${unique}@example.com`,
 				username: `confidential-${unique}`,
 				password: "password123",
+				legalConsent,
 			}),
 		);
 		expect(signup.status, await signup.clone().text()).toBe(200);
@@ -268,7 +274,7 @@ describe.skipIf(!databaseURL)("MCP OAuth flow with PostgreSQL", () => {
 				username: `reauth-${unique}`,
 				password: "password123",
 			};
-			const existingSignup = await post("sign-up/email", credentials);
+			const existingSignup = await post("sign-up/email", { ...credentials, legalConsent });
 			expect(existingSignup.status).toBe(200);
 			const oldCookie = cookieOf(existingSignup);
 			const registration = await post("oauth2/register", {
@@ -304,7 +310,7 @@ describe.skipIf(!databaseURL)("MCP OAuth flow with PostgreSQL", () => {
 				mode === "create"
 					? await post(
 							"sign-up/email",
-							{ ...credentials, email: `new-${unique}@example.com`, username: `new-${unique}` },
+							{ ...credentials, email: `new-${unique}@example.com`, username: `new-${unique}`, legalConsent },
 							oldCookie,
 						)
 					: await post(

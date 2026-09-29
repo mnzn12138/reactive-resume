@@ -15,6 +15,7 @@ import {
 } from "@phosphor-icons/react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
+import { DOMESTIC_MODEL_PRESETS, findDomesticModelPreset } from "@reactive-resume/ai/domestic-models";
 import { AI_PROVIDER_DEFAULT_BASE_URLS } from "@reactive-resume/ai/types";
 import { Badge } from "@reactive-resume/ui/components/badge";
 import { Button } from "@reactive-resume/ui/components/button";
@@ -150,6 +151,20 @@ const providerOptions: AIProviderOption[] = [
 		defaultModel: "",
 	},
 ];
+
+/**
+ * Quick-fill shortcuts for mainland-China models.
+ *
+ * A preset is not a provider: it selects an existing one (usually
+ * `openai-compatible`) and prefills its endpoint, so the `AIProvider` enum never
+ * grows and the exhaustive match in the API package stays valid.
+ */
+const domesticPresetOptions: ComboboxOption[] = DOMESTIC_MODEL_PRESETS.map((preset) => ({
+	value: preset.id,
+	// Brand names stay in their original script — 通义千问 has no established English form.
+	label: preset.name,
+	keywords: [preset.id, preset.name, preset.baseURL],
+}));
 
 // Prefill Base URL + Model from the provider's known defaults when the provider changes.
 function providerDefaults(provider: AIProvider) {
@@ -422,6 +437,11 @@ function CreateProviderForm() {
 	const queryClient = useQueryClient();
 	const [form, setForm] = useState(emptyForm);
 	const [result, setResult] = useState<SaveResult | null>(null);
+	const [domesticPresetId, setDomesticPresetId] = useState<string | null>(null);
+	const domesticPreset = useMemo(
+		() => (domesticPresetId ? findDomesticModelPreset(domesticPresetId) : undefined),
+		[domesticPresetId],
+	);
 	const selectedOption = useMemo(
 		() => providerOptions.find((option) => option.value === form.provider),
 		[form.provider],
@@ -513,6 +533,50 @@ function CreateProviderForm() {
 							setForm((current) => ({ ...current, provider, ...providerDefaults(provider) }));
 						}}
 					/>
+				</div>
+
+				<div className="space-y-2">
+					<Label htmlFor="ai-domestic-preset">
+						<Trans comment="Quick-fill picker for mainland-China model providers">Chinese model shortcut</Trans>
+					</Label>
+					<Combobox
+						id="ai-domestic-preset"
+						value={domesticPresetId}
+						placeholder={t`Quick fill from a Chinese provider`}
+						options={domesticPresetOptions}
+						onValueChange={(id) => {
+							setDomesticPresetId(id);
+							if (!id) return;
+
+							const preset = findDomesticModelPreset(id);
+							if (!preset) return;
+
+							// Leave the model blank when the preset has none: guessing a model id
+							// produces a form that looks complete but cannot be saved.
+							setForm((current) => ({
+								...current,
+								provider: preset.provider,
+								baseURL: preset.baseURL,
+								model: preset.defaultModel,
+								label: current.label || preset.name,
+							}));
+						}}
+					/>
+
+					{domesticPreset?.notes && <p className="text-muted-foreground text-xs">{domesticPreset.notes}</p>}
+
+					{domesticPreset && (
+						<a
+							href={domesticPreset.docsUrl}
+							target="_blank"
+							rel="noreferrer"
+							className="text-muted-foreground text-xs underline"
+						>
+							<Trans comment="Link to a Chinese model provider's console where the user gets an API key">
+								Get an API key from the provider console
+							</Trans>
+						</a>
+					)}
 				</div>
 
 				<div className="space-y-2">

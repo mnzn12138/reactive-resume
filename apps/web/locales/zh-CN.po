@@ -259,6 +259,11 @@ msgstr "私密简历不会显示在其公开链接中。"
 msgid "A real sample PDF"
 msgstr "一份真实的示例 PDF"
 
+#. Paragraph on how public resume links work
+#: src/routes/_home/terms.tsx
+msgid "A resume is private until you publish it. Publishing creates a URL that anyone with the link can open, and an optional password protects it; unpublishing takes it down again. Do not put anything in a published resume that you would not want the open internet to read."
+msgstr "简历在您发布之前是私有的。发布后会生成一个链接，任何拿到链接的人都能打开，您也可以选择加上密码保护；取消发布即可撤下。不要在任何已发布的简历里写下您不希望公开互联网看到的内容。"
+
 #: src/features/ats-checker/parse-preview.tsx
 msgid "A resume laid out for a human reader, with a photo, headings and columns"
 msgstr "为人类读者设计的简历排版，带照片、标题和分栏"
@@ -283,6 +288,11 @@ msgstr "A4"
 msgid "About me"
 msgstr "关于我"
 
+#. Validation error shown when the registration form is submitted without accepting the legal documents
+#: src/features/auth/pages/register.tsx
+msgid "Accept the Terms of Service and the Privacy Policy to create your account."
+msgstr "请先接受用户协议与隐私政策，然后才能创建账号。"
+
 #: src/features/auth/pages/consent.tsx
 msgid "Access your account through the API, including reading and changing your resumes and job applications."
 msgstr "通过 API 访问你的账户，包括读取和修改你的简历与求职申请。"
@@ -296,6 +306,11 @@ msgstr "无障碍设计"
 #: src/routes/dashboard/settings/account.tsx
 msgid "Account"
 msgstr "账户"
+
+#. Privacy policy bullet: account details and password hashing
+#: src/routes/_home/privacy.tsx
+msgid "Account details: your email address, display name, and username. Your password is stored only as a hash, never in a form anyone can read back."
+msgstr "账号信息：您的电子邮箱、显示名称和用户名。密码仅以哈希形式保存，不会以任何可被还原的形式存储。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/index.tsx
 msgid "Account menu"
@@ -622,6 +637,10 @@ msgstr "允许访问"
 msgid "Allow Public Access"
 msgstr "允许公开访问"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
+msgid "Allow public access to download a QR card that opens your resume."
+msgstr "允许公开访问，以下载可打开简历的二维码名片。"
+
 #: src/features/ats-checker/messages.ts
 msgid "Almost none of your bullets carry a number."
 msgstr "你的要点里几乎没有数字。"
@@ -633,6 +652,11 @@ msgstr "已覆盖"
 #: src/features/auth/pages/register.tsx
 msgid "Already have an account? <0/>"
 msgstr "已有账户？<0/>"
+
+#. Paragraph listing optional integrations that receive data
+#: src/routes/_home/privacy.tsx
+msgid "An administrator can connect services that necessarily receive some data: an SMTP provider for verification and password-reset emails, an S3-compatible bucket for uploads, Google, GitHub or LinkedIn for social sign-in, and a model provider for the optional AI features. Which of those are live depends on this deployment."
+msgstr "管理员可以接入一些必然会接收部分数据的服务：用于发送验证邮件与密码重置邮件的 SMTP 服务商、用于存放上传文件的 S3 兼容存储桶、用于第三方登录的 Google、GitHub 或 LinkedIn，以及为可选 AI 功能提供能力的模型服务商。其中哪些处于启用状态，取决于本实例的部署配置。"
 
 #: src/features/ats-checker/messages.ts
 msgid "An embedded font could not be read."
@@ -823,6 +847,11 @@ msgstr "学习领域"
 msgid "Artificial Intelligence"
 msgstr "人工智能"
 
+#. Paragraph limiting liability, without overriding mandatory law
+#: src/routes/_home/terms.tsx
+msgid "As far as the law allows, whoever runs this instance is not liable for indirect or consequential loss: a missed interview, a lost opportunity, or damage from relying on the service. Nothing here limits liability that cannot be limited by law."
+msgstr "在法律允许的范围内，本实例的运营方不对间接或后果性损失承担责任，例如错过的面试、失去的机会，或因依赖本服务而产生的损害。此处不排除法律不允许排除的责任。"
+
 #: src/features/homepage/community-stats.tsx
 msgid "As of <0>{formattedDate}</0>."
 msgstr "截至 <0>{formattedDate}</0>。"
@@ -830,6 +859,11 @@ msgstr "截至 <0>{formattedDate}</0>。"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Ask anything about this resume"
 msgstr "关于这份简历，有什么想问的吗？"
+
+#. Privacy policy bullet: contacting the operator for data requests
+#: src/routes/_home/privacy.tsx
+msgid "Ask whoever operates this instance for a copy of your data, or to erase it, if you cannot do it yourself."
+msgstr "如果您自己无法完成，可以向本实例的运营方索取您的数据副本，或要求删除。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Aspect Ratio"
@@ -1042,6 +1076,8 @@ msgstr "面向中国大陆应届毕业生的校园招聘模板：清爽的头部
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/homepage/ats-playground.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/features/resume/sharing/image-card.tsx
+#: src/features/resume/sharing/qr-card.tsx
 #: src/features/settings/integrations/components/ai-section.tsx
 #: src/features/settings/pages/account.tsx
 #: src/features/settings/pages/profile.tsx
@@ -1059,6 +1095,11 @@ msgstr "取消"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Cannot restore; the resume has changed since this edit was applied."
 msgstr "无法恢复；简历自此编辑后已发生更改。"
+
+#. Filename suffix of the downloaded QR business card image
+#: src/features/resume/sharing/qr-card.tsx
+msgid "card"
+msgstr "名片"
 
 #: src/components/input/rich-input.tsx
 msgid "Center Align"
@@ -1105,6 +1146,16 @@ msgstr "修改了实例设置"
 msgid "Changed your mind? Rename your resume to something more descriptive."
 msgstr "改变主意了？那就把简历重命名得更具体一些吧。"
 
+#. Section heading: changes to the terms
+#: src/routes/_home/terms.tsx
+msgid "Changes to these terms"
+msgstr "协议变更"
+
+#. Section heading: policy updates
+#: src/routes/_home/privacy.tsx
+msgid "Changes to this policy"
+msgstr "政策更新"
+
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/$threadId.tsx
 msgid "Chat"
@@ -1146,6 +1197,11 @@ msgstr "检查草稿"
 msgid "Checking…"
 msgstr "正在检查…"
 
+#. Section heading: use by minors
+#: src/routes/_home/privacy.tsx
+msgid "Children"
+msgstr "未成年人"
+
 #: src/libs/locale.ts
 msgid "Chinese (Simplified)"
 msgstr "中文（简体）"
@@ -1153,6 +1209,11 @@ msgstr "中文（简体）"
 #: src/libs/locale.ts
 msgid "Chinese (Traditional)"
 msgstr "中文（繁体）"
+
+#. Quick-fill picker for mainland-China model providers
+#: src/features/settings/integrations/components/ai-section.tsx
+msgid "Chinese model shortcut"
+msgstr "国产模型快捷入口"
 
 #. placeholder {0}: displayName(item)
 #: src/features/homepage/template-shelf.tsx
@@ -1195,8 +1256,8 @@ msgid "Choose app language"
 msgstr "选择应用语言"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
-msgid "Choose PDF, DOCX, Markdown, or JSON."
-msgstr "可选择 PDF、DOCX、Markdown 或 JSON。"
+msgid "Choose PDF, DOCX, Markdown, TXT, or JSON."
+msgstr "可选择 PDF、DOCX、Markdown、TXT 或 JSON。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Choose who can see it"
@@ -1384,6 +1445,11 @@ msgstr "对话JSON已复制。"
 msgid "Converted stylesheet draft"
 msgstr "已转换的样式表草稿"
 
+#. Section heading: cookies and browser storage
+#: src/routes/_home/privacy.tsx
+msgid "Cookies and local storage"
+msgstr "Cookie 与本地存储"
+
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Copied to clipboard."
 msgstr "已复制到剪贴板。"
@@ -1453,6 +1519,14 @@ msgstr "无法生成 DOCX。请重试。"
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Could not generate the PDF. Please try again."
 msgstr "无法生成 PDF。请重试。"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Could not generate the preview. Please try again."
+msgstr "无法生成预览。请重试。"
+
+#: src/features/resume/export/use-resume-export.ts
+msgid "Could not generate the text file. Please try again."
+msgstr "无法生成文本文件。请重试。"
 
 #: src/features/homepage/export-playground.tsx
 msgid "Could not prepare the sample. Please try again."
@@ -1796,6 +1870,11 @@ msgstr "删除账号"
 msgid "Delete Account"
 msgstr "删除账户"
 
+#. Privacy policy bullet: right to deletion
+#: src/routes/_home/privacy.tsx
+msgid "Delete individual resumes, or your whole account along with everything in it."
+msgstr "删除单份简历，或注销整个账号并清除其中的全部内容。"
+
 #: src/features/ats-checker/messages.ts
 msgid "Delete it. Hidden keywords are treated as a deliberate attempt to game the search."
 msgstr "删除它。隐藏关键词会被视为故意操纵搜索结果的行为。"
@@ -1966,6 +2045,16 @@ msgstr "断开连接"
 msgid "Dismiss"
 msgstr "忽略"
 
+#. Section heading: governing law and dispute resolution
+#: src/routes/_home/terms.tsx
+msgid "Disputes"
+msgstr "争议解决"
+
+#. Terms bullet: prohibited uses of the service
+#: src/routes/_home/terms.tsx
+msgid "Do not use the service to publish other people's personal information without a reason to, to send spam, to attack this instance, or to break the law where you live."
+msgstr "不得利用本服务在无正当理由的情况下发布他人的个人信息、发送垃圾信息、攻击本实例，或违反您所在地的法律。"
+
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Documents sent"
 msgstr "已发送的文档"
@@ -1987,14 +2076,24 @@ msgstr "完成"
 #: src/dialogs/auth/enable-two-factor.tsx
 #: src/features/homepage/languages-showcase.tsx
 #: src/features/resume/export/download-dialog.tsx
+#: src/features/resume/sharing/image-card.tsx
+#: src/features/resume/sharing/qr-card.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx
 msgid "Download"
 msgstr "下载"
 
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Download a card with a QR code that opens your resume, ready to share on WeChat, QQ or in print."
+msgstr "下载一张带二维码的名片，扫码即可打开简历，方便在微信、QQ 或印刷品中分享。"
+
 #: src/features/settings/pages/account.tsx
 msgid "Download a copy of all your data, including your profile and every resume, as a JSON file."
 msgstr "下载包含您的个人资料和所有简历在内的所有数据的副本，格式为 JSON 文件。"
+
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Download a QR card image to share"
+msgstr "下载二维码名片图片用于分享"
 
 #: src/features/applications/components/export-applications-sheet.tsx
 msgid "Download application details, contacts, notes, and timeline history as CSV."
@@ -2014,6 +2113,10 @@ msgstr "下载选项"
 msgid "Download PDF"
 msgstr "下载为 PDF 文档"
 
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Download QR Card"
+msgstr "下载二维码名片"
+
 #: src/features/homepage/export-playground.tsx
 msgid "Download sample DOCX"
 msgstr "下载示例 DOCX"
@@ -2030,9 +2133,25 @@ msgstr "下载示例 Markdown"
 msgid "Download sample PDF"
 msgstr "下载示例 PDF"
 
+#: src/features/homepage/export-playground.tsx
+msgid "Download sample TXT"
+msgstr "下载示例 TXT"
+
+#: src/features/resume/export/download-dialog.tsx
+msgid "Download TXT"
+msgstr "下载 TXT"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Downloads"
 msgstr "下载次数"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Downloads every page of your resume stitched into one tall PNG image."
+msgstr "将简历所有页面拼接为一张长图，以 PNG 格式下载。"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Downloads the first page of your resume as a PNG image."
+msgstr "将简历首页导出为 PNG 图片下载。"
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Draft a follow-up"
@@ -2163,6 +2282,11 @@ msgstr "编辑关键字..."
 #: src/libs/resume/section.tsx
 msgid "Education"
 msgstr "教育经历"
+
+#. Published effective date of a legal document, followed by the version date
+#: src/routes/_home/-sections/legal-document.tsx
+msgid "Effective date: {version}"
+msgstr "生效日期：{version}"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx
 msgid "Email"
@@ -2338,6 +2462,11 @@ msgstr "导出 PNG"
 msgid "Export the resume as a text PDF rather than as an image or a scan."
 msgstr "将简历导出为文本型 PDF，而不是图片或扫描件。"
 
+#. Privacy policy bullet: right to export data
+#: src/routes/_home/privacy.tsx
+msgid "Export your resumes as JSON or PDF and take them somewhere else."
+msgstr "将简历导出为 JSON 或 PDF，带到别处继续使用。"
+
 #: src/features/applications/components/insights-view.tsx
 msgid "Exported pipeline-flow.png"
 msgstr "已导出 pipeline-flow.png"
@@ -2510,6 +2639,11 @@ msgstr "验证您的代码失败。请重试。"
 msgid "Fatal error"
 msgstr "严重错误"
 
+#. Structured plain-text export: one 'label: value' line per field, ordered like a job-site form
+#: src/features/resume/export/download-dialog.tsx
+msgid "Field-by-field plain text, ordered the way recruitment forms ask for it."
+msgstr "逐字段的纯文本，按招聘网站表单的填写顺序排列。"
+
 #: src/features/homepage/page.tsx
 msgid "Fifteen templates, all free. Pick one you like. You can change the type, color, and layout in the editor."
 msgstr "十五款模板，全部免费。挑一款你喜欢的。字体、颜色和版式都可以在编辑器中修改。"
@@ -2517,6 +2651,11 @@ msgstr "十五款模板，全部免费。挑一款你喜欢的。字体、颜色
 #: src/dialogs/resume/import.tsx
 msgid "File"
 msgstr "文件"
+
+#. Privacy policy bullet: uploaded files
+#: src/routes/_home/privacy.tsx
+msgid "Files you upload: profile pictures, attachments, and documents you import."
+msgstr "您上传的文件：头像、附件，以及导入的文档。"
 
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Fill fields"
@@ -2545,6 +2684,10 @@ msgstr "找出薄弱的条目，用更有力的成果、数字、规模和更利
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Fireworks"
 msgstr "Fireworks"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "First Page"
+msgstr "单页图"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Fit"
@@ -2601,6 +2744,10 @@ msgstr "用于进一步编辑"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx
 msgid "For example, note which companies you sent this resume to, or links to the job descriptions."
 msgstr "例如，记下你把这份简历投给了哪些公司，或者职位描述的链接。"
+
+#: src/features/homepage/export-playground.tsx
+msgid "For filling in a job-site form"
+msgstr "用于填写招聘网站表单"
 
 #: src/features/homepage/export-playground.tsx
 msgid "For keeping a copy"
@@ -2674,6 +2821,10 @@ msgstr "差距："
 msgid "Generate a random name"
 msgstr "生成一个随机名称"
 
+#: src/features/resume/sharing/image-card.tsx
+msgid "Generate Image Card"
+msgstr "生成图片卡"
+
 #: src/features/resume/export/use-resume-export.ts
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Generating your PDF..."
@@ -2682,6 +2833,11 @@ msgstr "正在生成你的 PDF…"
 #: src/features/homepage/page.tsx
 msgid "Get a second opinion on your writing, share your resume, and keep track of where you’ve applied. It’s all in one place."
 msgstr "为你的文字获取第二意见，分享你的简历，记录投递去向。这些都在同一个地方。"
+
+#. Link to a Chinese model provider's console where the user gets an API key
+#: src/features/settings/integrations/components/ai-section.tsx
+msgid "Get an API key from the provider console"
+msgstr "从服务商控制台获取 API 密钥"
 
 #: src/features/homepage/page.tsx
 msgid "Get Started"
@@ -2693,6 +2849,11 @@ msgstr "开始"
 #: src/features/settings/authentication/components/hooks.tsx
 msgid "GitHub"
 msgstr "GitHub"
+
+#. Terms bullet: a working email address is required
+#: src/routes/_home/terms.tsx
+msgid "Give an email address that works — verification and password resets go to it."
+msgstr "请填写可用的电子邮箱——验证邮件和密码重置邮件都会发送到该地址。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Give every role a period, such as \"Jan 2020 - Present\", so your timeline can be reconstructed."
@@ -2859,6 +3020,11 @@ msgstr "高亮颜色"
 msgid "Home"
 msgstr "首页"
 
+#. Section heading: purposes of processing
+#: src/routes/_home/privacy.tsx
+msgid "How it is used"
+msgstr "信息用途"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgid "Hyphenation"
 msgstr "连字符"
@@ -2866,6 +3032,11 @@ msgstr "连字符"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "I design software for teams, from early research to the details people use every day."
 msgstr "我为团队设计软件，从早期研究到人们每天使用的细节。"
+
+#. Label beside the legal consent checkbox; the two links open the legal documents
+#: src/features/auth/pages/register.tsx
+msgid "I have read and agree to the <0>Terms of Service</0> and the <1>Privacy Policy</1>."
+msgstr "我已阅读并同意<0>用户协议</0>与<1>隐私政策</1>。"
 
 #: src/components/level/combobox.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx
@@ -2875,6 +3046,10 @@ msgstr "图标"
 #: src/features/ats-checker/messages.ts
 msgid "If it came from a scan, that is expected. Otherwise remove it; recruiters read it as keyword stuffing."
 msgstr "如果是扫描件导致的，这属于正常情况。否则请删除它；招聘人员会把它当作关键词堆砌。"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Image Card"
+msgstr "图片卡"
 
 #: src/features/ats-checker/messages.ts
 msgid "Images cover most of the page."
@@ -3112,6 +3287,11 @@ msgstr "保持同页"
 msgid "Keep your layout intact. Ready to send, upload, or print."
 msgstr "版式原样保留。可直接发送、上传或打印。"
 
+#. Terms bullet: keeping credentials secret
+#: src/routes/_home/terms.tsx
+msgid "Keep your password to yourself, and turn on two-factor authentication where this instance offers it."
+msgstr "请妥善保管密码；若本实例提供两步验证，建议开启。"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Key"
 msgstr "密钥"
@@ -3272,6 +3452,11 @@ msgstr "浅色"
 msgid "Light theme"
 msgstr "浅色主题"
 
+#. Section heading: limitation of liability
+#: src/routes/_home/terms.tsx
+msgid "Limitation of liability"
+msgstr "责任限制"
+
 #. placeholder {0}: diagnostic.range.start.line
 #. placeholder {1}: diagnostic.range.start.column
 #: src/features/resume/stylesheet/status.tsx
@@ -3387,6 +3572,11 @@ msgstr "锁定编辑"
 msgid "Locked"
 msgstr "已锁定"
 
+#. Image card mode that stitches every resume page into one tall image
+#: src/features/resume/sharing/image-card.tsx
+msgid "Long Image"
+msgstr "长图"
+
 #: src/features/ats-checker/messages.ts
 msgid "Long stretches are set in capitals."
 msgstr "有大段文字使用了全大写。"
@@ -3420,6 +3610,10 @@ msgstr "打造成你自己的样子"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Make the experience section about results and cut the vague responsibilities."
 msgstr "把工作经历部分改写成以成果为主，删掉含糊的职责描述。"
+
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Make the resume public before you can download a QR card."
+msgstr "请先将简历设为公开，之后才能下载二维码名片。"
 
 #: src/features/ats-checker/messages.ts
 msgid "Make the visible text and the destination match."
@@ -3761,6 +3955,11 @@ msgstr "暂无会话。"
 #: src/routes/admin/users.tsx
 msgid "No users match these filters."
 msgstr "没有符合条件的用户。"
+
+#. Section heading: no warranty
+#: src/routes/_home/terms.tsx
+msgid "No warranty"
+msgstr "免责声明"
 
 #: src/features/ats-checker/messages.ts
 msgid "No work-experience section was found."
@@ -4254,6 +4453,11 @@ msgstr "预览和导出将回退到基础样式。"
 msgid "Preview and export keep valid styles and ignore invalid styles."
 msgstr "预览和导出会保留有效样式并忽略无效样式。"
 
+#. Alt text of the resume image card preview
+#: src/features/resume/sharing/image-card.tsx
+msgid "Preview of the resume image card"
+msgstr "简历图片卡预览"
+
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
@@ -4271,6 +4475,18 @@ msgstr "主颜色"
 #: src/features/ats-checker/messages.ts
 msgid "Print or export the form to a flat PDF before sending it."
 msgstr "在发送之前，把表单打印或导出为扁平化的 PDF。"
+
+#. Footer link to the privacy policy page
+#. Heading of the privacy policy page
+#: src/features/homepage/site-footer.tsx
+#: src/routes/_home/privacy.tsx
+msgid "Privacy Policy"
+msgstr "隐私政策"
+
+#. Browser and social-card title of the privacy policy page
+#: src/routes/_home/privacy.tsx
+msgid "Privacy Policy - Reactive Resume"
+msgstr "隐私政策 - Reactive Resume"
 
 #: src/features/homepage/feature-explorer.tsx
 #: src/routes/admin/-components/resumes-table.tsx
@@ -4360,9 +4576,27 @@ msgstr "出版物"
 msgid "Publisher"
 msgstr "发布者"
 
+#. Section heading: publishing a resume publicly
+#: src/routes/_home/terms.tsx
+msgid "Publishing"
+msgstr "公开分享"
+
 #: src/features/ats-checker/messages.ts
 msgid "Put a plain email address near the top of the first page. It is what most systems file you under."
 msgstr "在第一页顶部附近放一个纯文本的电子邮件地址。大多数系统正是用它来归档你的资料。"
+
+#: src/features/resume/sharing/qr-card.tsx
+msgid "QR Card"
+msgstr "二维码名片"
+
+#. Accessible title for the QR code that links to the public resume
+#: src/features/resume/sharing/qr-card.tsx
+msgid "QR code linking to the public resume"
+msgstr "指向公开简历的二维码"
+
+#: src/features/settings/integrations/components/ai-section.tsx
+msgid "Quick fill from a Chinese provider"
+msgstr "从国产服务商快速填充"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Raw JSON"
@@ -4408,6 +4642,11 @@ msgstr "反应式简历（JSON）"
 #: src/components/ui/donation-toast.tsx
 msgid "Reactive Resume is free and open source. If it has helped you, please consider donating."
 msgstr "Reactive Resume 是一个免授权费并且代码开源的项目。如果它对您有所帮助，可向我们捐赠以变得更好。"
+
+#. Paragraph describing what the service is and is not
+#: src/routes/_home/terms.tsx
+msgid "Reactive Resume is free and open-source software for writing and publishing a resume. You can read the source, and you can run it yourself. It is not a recruitment agency: it does not apply to jobs on your behalf, and nothing here gets you an interview."
+msgstr "Reactive Resume 是一款免费开源的软件，用于撰写和发布简历。您可以阅读它的源码，也可以自行部署一份。它不是招聘机构：不会代您投递职位，也不保证您能获得面试机会。"
 
 #. App version label in footer; includes semantic version variable
 #: src/components/ui/copyright.tsx
@@ -4703,6 +4942,11 @@ msgstr "简历模板"
 msgid "Resume templates for different professions and tastes. Pick the one that suits you."
 msgstr "面向不同职业和口味的简历模板。挑一款适合你的。"
 
+#. Filename suffix of the downloaded resume image card
+#: src/features/resume/sharing/image-card.tsx
+msgid "resume-image"
+msgstr "简历图"
+
 #: src/features/command-palette/pages/navigation.tsx
 #: src/features/command-palette/pages/resumes.tsx
 #: src/features/homepage/community-stats.tsx
@@ -4889,6 +5133,11 @@ msgstr "说清楚你到底做了什么。"
 msgid "Scan the QR code below with your preferred authenticator app. You can also copy the secret below and paste it into your app."
 msgstr "使用你偏好的验证器应用扫描下方二维码。你也可以复制下面的密钥并粘贴到应用中。"
 
+#. Caption printed under the QR code on the shareable resume business card
+#: src/features/resume/sharing/qr-card.tsx
+msgid "Scan to view the full resume"
+msgstr "扫码查看完整简历"
+
 #: src/dialogs/resume/sections/education.tsx
 msgid "School"
 msgstr "学校"
@@ -4983,6 +5232,11 @@ msgstr "章节类型"
 msgid "Sections"
 msgstr "章节"
 
+#. Privacy policy bullet: right of access and correction
+#: src/routes/_home/privacy.tsx
+msgid "See and correct your account details yourself, at any time, from settings."
+msgstr "您可随时在设置中自行查看并更正账号信息。"
+
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "See how this resume matches the posting"
 msgstr "查看这份简历与职位发布的匹配情况"
@@ -5073,6 +5327,11 @@ msgstr "分隔线"
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Serif"
 msgstr "Serif"
+
+#. Privacy policy bullet: web server request logs
+#: src/routes/_home/privacy.tsx
+msgid "Server logs: request path, time, status, IP address, and user agent. Every web server writes these, and they are what makes an outage diagnosable."
+msgstr "服务器日志：请求路径、时间、状态码、IP 地址与 User-Agent。任何 Web 服务器都会记录这些内容，也正是它们让故障可以被排查。"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Set a password if you want only people who know it to open the public URL."
@@ -5260,6 +5519,16 @@ msgstr "注册"
 msgid "Sign-in didn't complete"
 msgstr "登录未完成"
 
+#. Privacy policy bullet: sign-in records
+#: src/routes/_home/privacy.tsx
+msgid "Sign-in records: the times and approximate sources of successful and failed sign-ins, kept so that unusual access can be noticed."
+msgstr "登录记录：登录成功与失败的时间和大致来源。保留这些信息是为了发现异常访问。"
+
+#. Paragraph on cookies and browser storage
+#: src/routes/_home/privacy.tsx
+msgid "Sign-in uses a session cookie, and it is strictly necessary: without it you would be signed out on every page. Your theme and language are remembered in your own browser. This site loads no advertising scripts and no third-party analytics."
+msgstr "登录使用会话 Cookie，这是严格必需的：没有它，您在每个页面都会被登出。主题与语言偏好保存在您自己的浏览器里。本站不加载广告脚本，也不使用第三方统计。"
+
 #: src/features/auth/pages/consent.tsx
 msgid "Signed in as {email}"
 msgstr "已登录为 {email}"
@@ -5406,6 +5675,8 @@ msgstr "登录时出错。请重试。"
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/resume/builder/password-dialog.tsx
+#: src/features/resume/sharing/image-card.tsx
+#: src/features/resume/sharing/qr-card.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
@@ -5671,6 +5942,18 @@ msgstr "模板"
 msgid "Template Gallery"
 msgstr "模板库"
 
+#. Footer link to the terms of service page
+#. Heading of the terms of service page
+#: src/features/homepage/site-footer.tsx
+#: src/routes/_home/terms.tsx
+msgid "Terms of Service"
+msgstr "用户协议"
+
+#. Browser and social-card title of the terms of service page
+#: src/routes/_home/terms.tsx
+msgid "Terms of Service - Reactive Resume"
+msgstr "用户协议 - Reactive Resume"
+
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Test"
 msgstr "测试"
@@ -5732,6 +6015,11 @@ msgstr "该登录提供商在此服务器上已不可用。"
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "The agent needs your input."
 msgstr "经纪人需要您的意见。"
+
+#. Paragraph explaining the optional AI features and what they send
+#: src/routes/_home/privacy.tsx
+msgid "The AI features are optional, and off unless an administrator enables them. When they are on, a check sends what that check needs — the resume text you submit to it — to the model provider configured for this instance, and nothing else."
+msgstr "AI 功能是可选的，只有在管理员启用后才会开启。开启后，某次检查只会把该次检查所需的内容——即您提交给它的简历文本——发送给本实例所配置的模型服务商，不会发送其他内容。"
 
 #: src/features/auth/pages/error.tsx
 msgid "The application that sent you here made an invalid authorization request."
@@ -5803,6 +6091,21 @@ msgstr "同一行文字在每一页都重复出现。"
 msgid "The score is capped because of a blocking problem: {0}"
 msgstr "由于一个阻断性问题，分数被封顶：{0}"
 
+#. Section heading: description of the service
+#: src/routes/_home/terms.tsx
+msgid "The service"
+msgstr "服务说明"
+
+#. Paragraph disclaiming warranties
+#: src/routes/_home/terms.tsx
+msgid "The software is provided as it is, without warranty of any kind. It is maintained by volunteers, it can break, and it can lose work you have not exported. Keep your own copy of anything that matters."
+msgstr "本软件按其现状提供，不附任何形式的担保。它由志愿者维护，可能出现故障，也可能丢失您尚未导出的内容。重要的内容请自行留一份副本。"
+
+#. Search-result description of the terms of service page
+#: src/routes/_home/terms.tsx
+msgid "The terms for using this Reactive Resume deployment: what the service is, what you are responsible for, and who owns what you write."
+msgstr "使用本 Reactive Resume 实例的条款：服务是什么、您需要负责什么，以及您所写的内容归谁所有。"
+
 #: src/features/ats-checker/messages.ts
 msgid "The text comes out unreadable."
 msgstr "提取出的文字无法阅读。"
@@ -5846,6 +6149,11 @@ msgstr "没有个人简介段落。"
 msgid "There was not enough information to run this check."
 msgstr "信息不足，无法运行此项检查。"
 
+#. Opening paragraph of the terms of service
+#: src/routes/_home/terms.tsx
+msgid "These are the terms for using this Reactive Resume deployment. They are written to be read rather than skipped. If something here is unclear, ask whoever runs this instance."
+msgstr "以下是使用本 Reactive Resume 实例的条款。我们尽量写得让人愿意读完，而不是直接跳过。如果其中某处不清楚，请询问本实例的运营方。"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "These checks run as you type and never leave your browser. They test whether software can read your resume, not how well it is written."
 msgstr "这些检查在你输入时运行，且从不离开你的浏览器。它们检测的是软件能否读懂你的简历，而不是它写得好不好。"
@@ -5854,6 +6162,16 @@ msgstr "这些检查在你输入时运行，且从不离开你的浏览器。它
 msgid "These dates will not be read correctly."
 msgstr "这些日期将无法正确读取。”"
 
+#. Paragraph explaining how terms updates take effect
+#: src/routes/_home/terms.tsx
+msgid "These terms can change. The version and the effective date above say which text applies, and a material change asks for your consent again when you sign up."
+msgstr "这些条款可能会变更。上方所示的版本与生效日期即为当前适用的文本；若发生实质性变更，注册时会再次征求您的同意。"
+
+#. Paragraph on governing law and severability
+#: src/routes/_home/terms.tsx
+msgid "These terms follow the law of the place where this instance is operated, and disputes belong to the courts there. If one clause cannot be enforced, the rest still applies."
+msgstr "这些条款适用本实例运营地的法律，争议由当地法院管辖。若其中某项条款无法执行，其余条款仍然有效。"
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "They will be signed out everywhere and unable to sign back in until the ban is lifted."
 msgstr "该用户将在所有设备上退出登录，解封前无法重新登录。"
@@ -5861,6 +6179,11 @@ msgstr "该用户将在所有设备上退出登录，解封前无法重新登录
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Thinking"
 msgstr "思维"
+
+#. Section heading: third-party services receiving data
+#: src/routes/_home/privacy.tsx
+msgid "Third-party services"
+msgstr "第三方服务"
 
 #: src/routes/builder/$resumeId/-components/header.tsx
 #: src/routes/dashboard/resumes/-components/menus/use-resume-menu-actions.ts
@@ -5975,6 +6298,11 @@ msgstr "未能及时检查完该文件的页面内容。"
 msgid "This heading is not one parsers look for."
 msgstr "这个标题不是解析器寻找的。"
 
+#. Opening paragraph of the privacy policy
+#: src/routes/_home/privacy.tsx
+msgid "This instance of Reactive Resume is a self-hosted resume builder. This page says what the software stores, why, and what you can ask to have done with it. It describes this deployment's defaults: an administrator who switches on extra integrations changes the picture, and the sections below say where. If you need an answer specific to this instance, ask whoever runs it."
+msgstr "本 Reactive Resume 实例是一套自托管的简历制作工具。本页说明软件会存储什么、为什么存储，以及您可以要求如何处理。它描述的是本部署的默认行为：管理员一旦启用额外的集成服务，情况会有所不同，下面各节会指出是哪些地方。如需了解本实例的具体情况，请联系其运营方。"
+
 #: src/features/ats-checker/messages.ts
 msgid "This is a PDF Portfolio: the visible page is only a cover."
 msgstr "这是一个 PDF Portfolio（PDF 作品集包）：可见的页面只是封面。"
@@ -5982,6 +6310,11 @@ msgstr "这是一个 PDF Portfolio（PDF 作品集包）：可见的页面只是
 #: src/features/homepage/feature-explorer.tsx
 msgid "This is a sample edit. In the app, connect your own AI provider. Turn on Review edits to approve changes before they’re applied."
 msgstr "这是一个编辑示例。在应用中连接你自己的 AI 提供商，并开启「审核编辑」，改动会在应用前先经你确认。"
+
+#. Paragraph on minimum age and guardian consent
+#: src/routes/_home/privacy.tsx
+msgid "This is a tool for people looking for work, and it is not directed at children. If you are under the age of digital consent where you live, use it with a parent or guardian."
+msgstr "这是为求职者准备的工具，并不面向儿童。若您未达到所在地的数字同意年龄，请在父母或监护人陪同下使用。"
 
 #: src/dialogs/resume/index.tsx
 msgid "This is a URL-friendly name for your resume."
@@ -6040,6 +6373,15 @@ msgstr "这个时期在开始之前就结束了。"
 #: src/libs/resume/ats.ts
 msgid "This period starts in the future."
 msgstr "这个时期从未来开始。"
+
+#. Scope paragraph of the privacy policy
+#: src/routes/_home/privacy.tsx
+msgid "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
+msgstr "本政策适用于您在此创建的账号，以及您放入其中的一切内容：简历、求职申请和上传的文件。它不适用于其他 Reactive Resume 部署实例——每个实例都有各自的数据库，账号之间并不互通。"
+
+#: src/features/resume/export/use-resume-export.ts
+msgid "This resume has no content to export yet."
+msgstr "这份简历还没有可导出的内容。"
 
 #: src/routes/builder/$resumeId/-sidebar/left/index.tsx
 msgid "This resume is locked"
@@ -6156,6 +6498,11 @@ msgstr "标题"
 msgid "To delete your account, type the confirmation text below, then click the button."
 msgstr "要删除你的账户，请输入下面的确认文字，然后点击按钮。"
 
+#. Paragraph listing the purposes data is used for
+#: src/routes/_home/privacy.tsx
+msgid "To run the service you asked for: storing your resumes, rendering them to PDF, publishing the links you choose to publish, sending the verification and password-reset emails you request, and keeping accounts secure. Your data is not sold, and it is not shared for advertising."
+msgstr "用于提供您所请求的服务：保存您的简历、将其渲染为 PDF、发布您选择公开的链接、发送您请求的验证邮件与密码重置邮件，以及保障账号安全。您的数据不会被出售，也不会为广告目的而共享。"
+
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-base.tsx
 #: src/routes/builder/$resumeId/-sidebar/right/shared/section-base.tsx
 msgid "Toggle {sectionTitle} section"
@@ -6239,6 +6586,14 @@ msgstr "导出时关闭可选连字（discretionary ligatures）。"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx
 msgid "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see these numbers."
 msgstr "开启公开分享后，就能追踪你的简历被查看和下载了多少次。只有你能看到这些数字。"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Turn your resume into an image you can post on 朋友圈, send to a WeChat contact or share on QQ."
+msgstr "把简历做成图片，可直接发朋友圈、发给微信好友或分享到 QQ。"
+
+#: src/features/resume/sharing/image-card.tsx
+msgid "Turn your resume into an image you can share"
+msgstr "把简历生成可分享的图片"
 
 #: src/routes/admin/settings.tsx
 msgid "Turns off email sign-in, email sign-up and password resets. Federated sign-in still works."
@@ -6673,6 +7028,11 @@ msgstr "正在验证密码…"
 msgid "Verifying your email is required when resetting your password."
 msgstr "重置密码时必须先验证你的电子邮箱。"
 
+#. Note under the legal consent checkbox naming the version being accepted
+#: src/features/auth/pages/register.tsx
+msgid "Version {legalDocumentVersion} of both documents."
+msgstr "以上两份文件的版本为 {legalDocumentVersion}。"
+
 #: src/routes/builder/$resumeId/-components/version-history.tsx
 msgid "Version history"
 msgstr "版本历史记录"
@@ -6789,6 +7149,31 @@ msgstr "此项检查的内容"
 msgid "What this does not do"
 msgstr "此项检查不做的事"
 
+#. Search-result description of the privacy policy page
+#: src/routes/_home/privacy.tsx
+msgid "What this Reactive Resume deployment stores about you, why it stores it, how long it keeps it, and what you can ask for."
+msgstr "本 Reactive Resume 实例会存储您的哪些信息、为何存储、保留多久，以及您可以提出哪些要求。"
+
+#. Section heading: categories of data collected
+#: src/routes/_home/privacy.tsx
+msgid "What we collect"
+msgstr "我们收集的信息"
+
+#. Section heading: user rights over their data
+#: src/routes/_home/privacy.tsx
+msgid "What you can ask for"
+msgstr "您的权利"
+
+#. Section heading: ownership of user content
+#: src/routes/_home/terms.tsx
+msgid "What you write stays yours"
+msgstr "您的内容归您所有"
+
+#. Privacy policy bullet: user-authored resume and application content
+#: src/routes/_home/privacy.tsx
+msgid "What you write: the resumes, job applications, notes, and settings you create."
+msgstr "您撰写的内容：您创建的简历、求职申请、备注与设置。"
+
 #: src/routes/admin/-components/audit-table.tsx
 msgid "When"
 msgstr "时间"
@@ -6798,9 +7183,19 @@ msgstr "时间"
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr "简历一旦被锁定，就无法更新或删除。"
 
+#. Paragraph explaining how policy updates take effect
+#: src/routes/_home/privacy.tsx
+msgid "When this text changes, the version and the effective date above change with it, and signing up asks for consent again. The version published here is the one that applies to you."
+msgstr "本政策文本变更时，上方的版本与生效日期会随之更新，注册时也会重新征求同意。此处发布的版本即为对您适用的版本。"
+
 #: src/features/applications/components/insights-view.tsx
 msgid "Where applications come from"
 msgstr "申请来源"
+
+#. Section heading: storage location and retention period
+#: src/routes/_home/privacy.tsx
+msgid "Where it is stored, and for how long"
+msgstr "存储位置与保留期限"
 
 #: src/features/applications/components/insights-view.tsx
 msgid "Where your applications went"
@@ -6846,6 +7241,11 @@ msgstr "你的时间线是否能够被还原出来。"
 msgid "Who changed what, and when, across the admin console."
 msgstr "后台管理中的操作记录：谁在什么时间改了什么。"
 
+#. Section heading: who the privacy policy applies to
+#: src/routes/_home/privacy.tsx
+msgid "Who this applies to"
+msgstr "适用范围"
+
 #: src/features/ats-checker/messages.ts
 msgid "Words run together when the text is extracted."
 msgstr "文字提取出来后，单词会连在一起。"
@@ -6890,6 +7290,11 @@ msgstr "写入完整地址，包括 https:// 。"
 msgid "Writing"
 msgstr "文案"
 
+#. Terms bullet: responsibility for account activity
+#: src/routes/_home/terms.tsx
+msgid "You are responsible for what happens under your account."
+msgstr "您需为账号下发生的一切行为负责。"
+
 #: src/features/auth/pages/login.tsx
 msgid "You can also sign in with your username."
 msgstr "你也可以用用户名登录。"
@@ -6906,6 +7311,11 @@ msgstr "您在登录完成前取消了登录。"
 msgid "You have unsaved changes that will be lost."
 msgstr "你有未保存的更改，这些更改将会丢失。"
 
+#. Paragraph on content ownership and the licence granted to the operator
+#: src/routes/_home/terms.tsx
+msgid "You keep the rights to everything you write here. You give this deployment only the permission it needs to work: storing your content, turning it into a PDF, and showing it at the share links you publish yourself. No one here claims ownership of your resume, and nothing you write is licensed to anyone else."
+msgstr "您在此撰写的一切内容，权利都归您所有。您仅授予本部署运行所必需的许可：存储您的内容、将其转换为 PDF，以及在您自行发布的分享链接上展示。这里没有任何人主张您的简历归其所有，您撰写的内容也不会授权给任何第三方。"
+
 #: src/dialogs/resume/import.tsx
 msgid "You'll be taken to the Integrations page. The file you selected won't be imported."
 msgstr "您将被带到“集成”页面。您选择的文件将不会被导入。"
@@ -6918,6 +7328,11 @@ msgstr "你并不孤单。"
 #: src/features/auth/pages/register.tsx
 msgid "You've got mail!"
 msgstr "你有新邮件！"
+
+#. Section heading: account responsibilities
+#: src/routes/_home/terms.tsx
+msgid "Your account"
+msgstr "账号与使用规范"
 
 #: src/features/settings/pages/account.tsx
 msgid "Your account has been deleted."
@@ -6956,9 +7371,18 @@ msgstr "你的联系方式不在第一页。"
 msgid "Your data has been exported."
 msgstr "你的数据已导出。"
 
+#. Paragraph on storage location and retention period
+#: src/routes/_home/privacy.tsx
+msgid "Your data lives in this deployment's own database and file storage: on the machine that runs it, or in the object storage bucket its administrator configured. It is kept for as long as your account exists. Deleting a resume, or closing your account, removes it from the database. Backups taken by the operator may still hold a copy for a short while afterwards — ask that operator how long, because it is their choice and not something this page can promise."
+msgstr "您的数据保存在本实例自己的数据库与文件存储中——即运行它的那台机器，或管理员所配置的对象存储桶。数据在您的账号存续期间一直保留。删除某份简历或注销账号会将其从数据库中移除。运营方所做的备份可能在此后短时间内仍保留一份副本——具体多久请询问该运营方，因为这是他们的选择，本页无法代为承诺。"
+
 #: src/features/ats-checker/messages.ts
 msgid "Your dates are written several different ways."
 msgstr "你的日期写法不统一，用了好几种不同的方式。"
+
+#: src/features/homepage/export-playground.tsx
+msgid "Your details as label-and-value lines, ordered the way recruitment forms ask for them."
+msgstr "以「标签：值」逐行呈现你的信息，按招聘网站表单的填写顺序排列。"
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Your edit is in."

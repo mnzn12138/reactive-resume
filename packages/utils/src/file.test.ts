@@ -2,7 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { downloadWithAnchor, generateFilename } from "./file";
+import { downloadWithAnchor, generateFilename, generateLocalizedFilename } from "./file";
 
 describe("generateFilename", () => {
 	it("slugifies the prefix without extension", () => {
@@ -27,6 +27,34 @@ describe("generateFilename", () => {
 
 	it("handles empty prefix", () => {
 		expect(generateFilename("", "pdf")).toBe(".pdf");
+	});
+});
+
+describe("generateLocalizedFilename", () => {
+	it("keeps CJK characters that generateFilename would erase", () => {
+		expect(generateFilename("张三-名片", "png")).not.toContain("张三");
+		expect(generateLocalizedFilename("张三-名片", "png")).toBe("张三-名片.png");
+	});
+
+	it("collapses whitespace into a single dash", () => {
+		expect(generateLocalizedFilename("  My   Resume  ", "png")).toBe("My-Resume.png");
+	});
+
+	it("strips characters that filesystems reject", () => {
+		expect(generateLocalizedFilename('re:sume*?<>"|', "png")).toBe("re-sume.png");
+	});
+
+	it("drops leading and trailing separators", () => {
+		expect(generateLocalizedFilename("---resume---", "png")).toBe("resume.png");
+	});
+
+	it("falls back when nothing usable is left", () => {
+		expect(generateLocalizedFilename(":::", "png")).toBe("resume.png");
+		expect(generateLocalizedFilename("", "png")).toBe("resume.png");
+	});
+
+	it("omits the extension when none is given", () => {
+		expect(generateLocalizedFilename("简历图")).toBe("简历图");
 	});
 });
 

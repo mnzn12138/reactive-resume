@@ -1,5 +1,11 @@
 import type { APIRequestContext, Browser, BrowserContext, Page } from "@playwright/test";
 import type { E2EAccount } from "./data";
+import { legalDocumentVersion } from "@reactive-resume/schema/legal";
+
+// `/sign-up/email` rejects a payload that does not carry consent to the published
+// documents, so the API fixture has to send it. `registerViaUi` goes through the
+// register page, which collects the consent itself.
+const legalConsent = { accepted: true, version: legalDocumentVersion } as const;
 
 async function assertAuthResponse(response: Awaited<ReturnType<APIRequestContext["post"]>>) {
 	if (response.ok()) return;
@@ -13,6 +19,10 @@ export async function registerViaUi(page: Page, account: E2EAccount) {
 	await page.getByLabel("Username").fill(account.username);
 	await page.getByLabel("Email Address", { exact: true }).fill(account.email);
 	await page.getByLabel("Password", { exact: true }).fill(account.password);
+	// `/sign-up/email` rejects a payload without consent and the form refuses to submit while the
+	// box is unchecked, so the fixture has to accept before it can sign up. `FormControl` names the
+	// checkbox with the sentence rendered next to it, hence the role + accessible-name lookup.
+	await page.getByRole("checkbox", { name: /I have read and agree to the/ }).check();
 	await page.getByRole("button", { name: "Sign up" }).click();
 	await page.getByRole("button", { name: "Continue" }).click();
 	await page.waitForURL(/\/dashboard/);
@@ -45,6 +55,7 @@ async function registerViaApi(request: APIRequestContext, account: E2EAccount, b
 			username: account.username,
 			displayUsername: account.username,
 			callbackURL: "/dashboard",
+			legalConsent,
 		},
 	});
 

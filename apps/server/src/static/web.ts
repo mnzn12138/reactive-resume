@@ -26,7 +26,7 @@ const noindexShellPrefixes = ["/auth", "/dashboard", "/builder", "/agent", "/tem
  * Without an entry here the fallback below returns 404 for the path in production — the dev Vite
  * server serves the shell for anything, so this failure only ever shows up once deployed.
  */
-const indexableAppPaths = new Set(["/ats-checker"]);
+const indexableAppPaths = new Set(["/ats-checker", "/privacy", "/terms"]);
 const reservedPublicResumeSegments = new Set([
 	"api",
 	"mcp",
@@ -38,6 +38,8 @@ const reservedPublicResumeSegments = new Set([
 	"agent",
 	"templates",
 	"ats-checker",
+	"privacy",
+	"terms",
 ]);
 
 function isAssetPath(pathname: string): boolean {
@@ -203,6 +205,63 @@ function createAtsCheckerSeoMarkup(origin: string) {
 	`;
 }
 
+/**
+ * Server-rendered SEO for the two public legal pages.
+ *
+ * These are the zh-CN strings each route's `head()` renders on the client — `createLegalDocumentHead`
+ * in `apps/web/src/routes/_home/-sections/legal-document.tsx` passes them through Lingui, and the
+ * deployment's default locale is zh-CN, so the values below come from that catalog rather than from
+ * the English `t()` messages in `privacy.tsx` / `terms.tsx`. Server and client markup disagreeing is
+ * a broken social card, so changing one means changing the other.
+ */
+const LEGAL_PAGE_SEO = {
+	"/privacy": {
+		title: "隐私政策 - Reactive Resume",
+		description: "本 Reactive Resume 实例会存储您的哪些信息、为何存储、保留多久，以及您可以提出哪些要求。",
+	},
+	"/terms": {
+		title: "用户协议 - Reactive Resume",
+		description: "使用本 Reactive Resume 实例的条款：服务是什么、您需要负责什么，以及您所写的内容归谁所有。",
+	},
+} as const;
+
+type LegalPagePath = keyof typeof LEGAL_PAGE_SEO;
+
+function isLegalPagePath(pathname: string): pathname is LegalPagePath {
+	return Object.hasOwn(LEGAL_PAGE_SEO, pathname);
+}
+
+function createLegalPageSeoMarkup(origin: string, pathname: LegalPagePath) {
+	const page = LEGAL_PAGE_SEO[pathname];
+	const canonicalUrl = `${origin}${pathname}`;
+	// The OG image is the site banner, matching what `createLegalDocumentHead` advertises.
+	const imageUrl = `${origin}/opengraph/banner.jpg`;
+	const structuredData = {
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		name: page.title,
+		url: canonicalUrl,
+		description: page.description,
+		isPartOf: { "@type": "WebSite", name: "Reactive Resume", url: `${origin}/` },
+	};
+
+	return `
+		<link rel="canonical" href="${canonicalUrl}">
+		<meta property="og:type" content="article">
+		<meta property="og:site_name" content="Reactive Resume">
+		<meta property="og:title" content="${page.title}">
+		<meta property="og:description" content="${page.description}">
+		<meta property="og:url" content="${canonicalUrl}">
+		<meta property="og:image" content="${imageUrl}">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:url" content="${canonicalUrl}">
+		<meta name="twitter:title" content="${page.title}">
+		<meta name="twitter:description" content="${page.description}">
+		<meta name="twitter:image" content="${imageUrl}">
+		<script id="${pathname.slice(1)}-structured-data" type="application/ld+json">${JSON.stringify(structuredData)}</script>
+	`;
+}
+
 // Resume names, headlines, and summaries are user-authored, so they must never reach the served
 // HTML unescaped.
 const escapeAttribute = (value: string) =>
@@ -328,6 +387,18 @@ export async function handleWebApp(request: Request) {
 			.replace(/<meta\s+name="description"[^>]*>/, `<meta name="description" content="${ATS_CHECKER_DESCRIPTION}">`);
 
 		return new Response(withTitle.replace("</head>", `${createAtsCheckerSeoMarkup(origin)}</head>`), { headers });
+	}
+
+	if (isLegalPagePath(pathname)) {
+		const origin = new URL(env.APP_URL).origin;
+		const page = LEGAL_PAGE_SEO[pathname];
+		const withTitle = html
+			.replace(/<title>[^<]*<\/title>/, `<title>${page.title}</title>`)
+			.replace(/<meta\s+name="description"[^>]*>/, `<meta name="description" content="${page.description}">`);
+
+		return new Response(withTitle.replace("</head>", `${createLegalPageSeoMarkup(origin, pathname)}</head>`), {
+			headers,
+		});
 	}
 
 	if (isPublicResumePath(pathname)) {

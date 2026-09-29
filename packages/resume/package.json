@@ -14,6 +14,7 @@
 		"./section-presets": "./src/section-presets.ts",
 		"./section-sort": "./src/section-sort.ts",
 		"./social-meta": "./src/social-meta.ts",
+		"./structured-text": "./src/structured-text.ts",
 		"./stylesheet": "./src/stylesheet/index.ts",
 		"./stylesheet/registry": "./src/stylesheet/registry/index.ts",
 		"./stylesheet/types": "./src/stylesheet/semantic-types.ts"

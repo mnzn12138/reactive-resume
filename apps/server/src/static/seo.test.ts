@@ -34,6 +34,8 @@ describe("SEO static endpoints", () => {
 		expect(response.headers.get("Content-Type")).toBe("application/xml; charset=UTF-8");
 		expect(text).toContain("<loc>https://app.example.com/</loc>");
 		expect(text).toContain("<loc>https://app.example.com/ats-checker</loc>");
+		expect(text).toContain("<loc>https://app.example.com/privacy</loc>");
+		expect(text).toContain("<loc>https://app.example.com/terms</loc>");
 		expect(text).not.toContain("docs.rxresu.me");
 		expect(text).not.toContain("/auth");
 		expect(text).not.toContain("/dashboard");
@@ -57,6 +59,9 @@ describe("SEO static endpoints", () => {
 		expect(text).toContain("- Resume schema: https://app.example.com/schema.json");
 		expect(text).toContain("- MCP documentation: https://docs.rxresu.me/guides/using-the-mcp-server");
 		expect(text).toContain("- OpenAPI specification: https://app.example.com/api/openapi/spec.json");
+		// Deliberate: llms.txt is a curated pointer sheet, not a page index, so the legal pages stay out.
+		expect(text).not.toContain("/privacy");
+		expect(text).not.toContain("/terms");
 	});
 
 	it("returns headers without a body for HEAD responses", async () => {

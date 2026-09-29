@@ -17,6 +17,8 @@ import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
 import { Route as UsernameSlugRouteImport } from "./routes/$username/$slug";
 import { Route as HomeIndexRouteImport } from "./routes/_home/index";
 import { Route as HomeAtsCheckerRouteImport } from "./routes/_home/ats-checker";
+import { Route as HomePrivacyRouteImport } from "./routes/_home/privacy";
+import { Route as HomeTermsRouteImport } from "./routes/_home/terms";
 import { Route as AdminIndexRouteImport } from "./routes/admin/index";
 import { Route as AdminAuditRouteImport } from "./routes/admin/audit";
 import { Route as AdminOverviewRouteImport } from "./routes/admin/overview";
@@ -86,6 +88,16 @@ const HomeIndexRoute = HomeIndexRouteImport.update({
 const HomeAtsCheckerRoute = HomeAtsCheckerRouteImport.update({
   id: "/ats-checker",
   path: "/ats-checker",
+  getParentRoute: () => HomeRouteRoute,
+} as any);
+const HomePrivacyRoute = HomePrivacyRouteImport.update({
+  id: "/privacy",
+  path: "/privacy",
+  getParentRoute: () => HomeRouteRoute,
+} as any);
+const HomeTermsRoute = HomeTermsRouteImport.update({
+  id: "/terms",
+  path: "/terms",
   getParentRoute: () => HomeRouteRoute,
 } as any);
 const AdminIndexRoute = AdminIndexRouteImport.update({
@@ -260,6 +272,8 @@ export interface FileRoutesByFullPath {
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/ats-checker": typeof HomeAtsCheckerRoute;
+  "/privacy": typeof HomePrivacyRoute;
+  "/terms": typeof HomeTermsRoute;
   "/admin/audit": typeof AdminAuditRoute;
   "/admin/overview": typeof AdminOverviewRoute;
   "/admin/resumes": typeof AdminResumesRoute;
@@ -294,6 +308,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/$username/$slug": typeof UsernameSlugRoute;
   "/ats-checker": typeof HomeAtsCheckerRoute;
+  "/privacy": typeof HomePrivacyRoute;
+  "/terms": typeof HomeTermsRoute;
   "/admin/audit": typeof AdminAuditRoute;
   "/admin/overview": typeof AdminOverviewRoute;
   "/admin/resumes": typeof AdminResumesRoute;
@@ -336,6 +352,8 @@ export interface FileRoutesById {
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/_home/ats-checker": typeof HomeAtsCheckerRoute;
+  "/_home/privacy": typeof HomePrivacyRoute;
+  "/_home/terms": typeof HomeTermsRoute;
   "/admin/audit": typeof AdminAuditRoute;
   "/admin/overview": typeof AdminOverviewRoute;
   "/admin/resumes": typeof AdminResumesRoute;
@@ -379,6 +397,8 @@ export interface FileRouteTypes {
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/ats-checker"
+    | "/privacy"
+    | "/terms"
     | "/admin/audit"
     | "/admin/overview"
     | "/admin/resumes"
@@ -413,6 +433,8 @@ export interface FileRouteTypes {
   to:
     | "/$username/$slug"
     | "/ats-checker"
+    | "/privacy"
+    | "/terms"
     | "/admin/audit"
     | "/admin/overview"
     | "/admin/resumes"
@@ -454,6 +476,8 @@ export interface FileRouteTypes {
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/_home/ats-checker"
+    | "/_home/privacy"
+    | "/_home/terms"
     | "/admin/audit"
     | "/admin/overview"
     | "/admin/resumes"
@@ -554,6 +578,20 @@ declare module "@tanstack/react-router" {
       path: "/ats-checker";
       fullPath: "/ats-checker";
       preLoaderRoute: typeof HomeAtsCheckerRouteImport;
+      parentRoute: typeof HomeRouteRoute;
+    };
+    "/_home/privacy": {
+      id: "/_home/privacy";
+      path: "/privacy";
+      fullPath: "/privacy";
+      preLoaderRoute: typeof HomePrivacyRouteImport;
+      parentRoute: typeof HomeRouteRoute;
+    };
+    "/_home/terms": {
+      id: "/_home/terms";
+      path: "/terms";
+      fullPath: "/terms";
+      preLoaderRoute: typeof HomeTermsRouteImport;
       parentRoute: typeof HomeRouteRoute;
     };
     "/admin/": {
@@ -778,11 +816,15 @@ declare module "@tanstack/react-router" {
 
 interface HomeRouteRouteChildren {
   HomeAtsCheckerRoute: typeof HomeAtsCheckerRoute;
+  HomePrivacyRoute: typeof HomePrivacyRoute;
+  HomeTermsRoute: typeof HomeTermsRoute;
   HomeIndexRoute: typeof HomeIndexRoute;
 }
 
 const HomeRouteRouteChildren: HomeRouteRouteChildren = {
   HomeAtsCheckerRoute: HomeAtsCheckerRoute,
+  HomePrivacyRoute: HomePrivacyRoute,
+  HomeTermsRoute: HomeTermsRoute,
   HomeIndexRoute: HomeIndexRoute,
 };
 

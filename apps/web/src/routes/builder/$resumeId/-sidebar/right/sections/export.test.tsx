@@ -8,6 +8,7 @@ import { I18nProvider } from "@lingui/react";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 
 const downloadWithAnchor = vi.hoisted(() => vi.fn());
+const toast = vi.hoisted(() => ({ add: vi.fn(), close: vi.fn() }));
 const buildDocx = vi.hoisted(() => vi.fn().mockResolvedValue(new Blob(["x"], { type: "application/x-docx" })));
 const createResumePdfBlob = vi.hoisted(() => vi.fn().mockResolvedValue(new Blob(["x"], { type: "application/pdf" })));
 const resumeMock = vi.hoisted(() => ({
@@ -28,9 +29,11 @@ type SectionBaseProps = {
 vi.mock("../shared/section-base", () => ({
 	SectionBase: ({ children }: SectionBaseProps) => <div>{children}</div>,
 }));
+vi.mock("@reactive-resume/ui/components/toast", () => ({ toast }));
 vi.mock("@reactive-resume/utils/file", () => ({
 	downloadWithAnchor,
 	generateFilename: (name: string, ext: string) => `${name}.${ext}`,
+	generateLocalizedFilename: (name: string, ext: string) => `${name}.${ext}`,
 }));
 vi.mock("@reactive-resume/docx", () => ({ buildDocx }));
 vi.mock("@/features/resume/export/pdf-document", () => ({ createResumePdfBlob }));
@@ -60,6 +63,8 @@ beforeEach(() => {
 
 afterEach(() => {
 	downloadWithAnchor.mockReset();
+	toast.add.mockReset();
+	toast.close.mockReset();
 	buildDocx.mockClear();
 	createResumePdfBlob.mockClear();
 });
@@ -72,19 +77,45 @@ const renderExport = () =>
 	);
 
 const openDialog = () => {
-	const trigger = screen.getByText("Choose PDF, DOCX, Markdown, or JSON.");
+	const trigger = screen.getByText("Choose PDF, DOCX, Markdown, TXT, or JSON.");
 	fireEvent.click(trigger.closest("button") as HTMLButtonElement);
 };
 
 describe("ExportSectionBuilder", () => {
-	it("renders the PDF, DOCX, Markdown, and JSON format rows", () => {
+	it("renders the PDF, DOCX, Markdown, TXT, and JSON format rows", () => {
 		renderExport();
 		openDialog();
 
 		expect(screen.getByRole("button", { name: "Download PDF" })).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Download DOCX" })).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Download Markdown" })).toBeInTheDocument();
+		expect(screen.getByRole("button", { name: "Download TXT" })).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Download JSON" })).toBeInTheDocument();
+	});
+
+	it("downloads a structured plain-text blob when the TXT button is clicked", async () => {
+		// `defaultResumeData` has no filled-in fields, and the export refuses to write an empty
+		// file — give the resume a name so there is something to export.
+		if (resumeMock.resume) resumeMock.resume.data.basics.name = "My Resume";
+
+		renderExport();
+		openDialog();
+		fireEvent.click(screen.getByRole("button", { name: "Download TXT" }));
+
+		await waitFor(() => expect(downloadWithAnchor).toHaveBeenCalledTimes(1));
+		// biome-ignore lint/style/noNonNullAssertion: The assertion above verifies the download call exists before destructuring it.
+		const [blob, filename] = downloadWithAnchor.mock.calls[0]!;
+		expect((blob as Blob).type).toBe("text/plain;charset=utf-8");
+		expect(filename).toBe("My Resume.txt");
+	});
+
+	it("refuses to download an empty text file for a resume with no content", async () => {
+		renderExport();
+		openDialog();
+		fireEvent.click(screen.getByRole("button", { name: "Download TXT" }));
+
+		await waitFor(() => expect(toast.add).toHaveBeenCalledWith(expect.objectContaining({ type: "error" })));
+		expect(downloadWithAnchor).not.toHaveBeenCalled();
 	});
 
 	it("downloads a Markdown blob when the Markdown button is clicked", async () => {

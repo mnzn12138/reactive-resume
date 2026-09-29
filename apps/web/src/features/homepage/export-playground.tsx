@@ -129,6 +129,15 @@ const formats = [
 		color: "#b7c5ad",
 	},
 	{
+		id: "txt",
+		label: "TXT",
+		extension: ".txt",
+		description: msg`Your details as label-and-value lines, ordered the way recruitment forms ask for them.`,
+		note: msg`For filling in a job-site form`,
+		downloadLabel: msg`Download sample TXT`,
+		color: "#cbb69c",
+	},
+	{
 		id: "json",
 		label: "JSON",
 		extension: ".json",
@@ -148,7 +157,7 @@ export default function ExportPlayground({ name, accent, typeface, template }: E
 		() => buildExportSample({ name, accent, typeface, template }, i18n.locale),
 		[name, accent, typeface, template, i18n.locale],
 	);
-	const { onDownloadPDF, onDownloadDOCX, onDownloadMarkdown, onDownloadJSON } = useResumeExport({
+	const { onDownloadPDF, onDownloadDOCX, onDownloadMarkdown, onDownloadText, onDownloadJSON } = useResumeExport({
 		name: t`${data.basics.name} Sample Resume`,
 		slug: "sample-resume",
 		data,
@@ -160,6 +169,7 @@ export default function ExportPlayground({ name, accent, typeface, template }: E
 		["pdf", onDownloadPDF],
 		["docx", onDownloadDOCX],
 		["md", onDownloadMarkdown],
+		["txt", onDownloadText],
 		["json", onDownloadJSON],
 	]);
 

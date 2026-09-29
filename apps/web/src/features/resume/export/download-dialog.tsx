@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode } from "react";
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import {
 	CircleNotchIcon,
@@ -6,6 +7,7 @@ import {
 	FileDocIcon,
 	FileJsIcon,
 	FilePdfIcon,
+	FileTxtIcon,
 	MarkdownLogoIcon,
 } from "@phosphor-icons/react";
 import { useState } from "react";
@@ -58,7 +60,8 @@ function FormatRow({ action, description, disabled, icon, title }: FormatRowProp
 
 export function ResumeDownloadDialog({ resume, trigger }: ResumeDownloadDialogProps) {
 	const [open, setOpen] = useState(false);
-	const { isExporting, onDownloadDOCX, onDownloadJSON, onDownloadMarkdown, onDownloadPDF } = useResumeExport(resume);
+	const { isExporting, onDownloadDOCX, onDownloadJSON, onDownloadMarkdown, onDownloadText, onDownloadPDF } =
+		useResumeExport(resume);
 	const disabled = !resume || isExporting;
 
 	const run = (action: () => void | Promise<void>) => {
@@ -128,6 +131,28 @@ export function ResumeDownloadDialog({ resume, trigger }: ResumeDownloadDialogPr
 								aria-label="Download Markdown"
 								disabled={isExporting}
 								onClick={() => run(() => onDownloadMarkdown())}
+							>
+								<DownloadSimpleIcon />
+								<Trans>Download</Trans>
+							</Button>
+						}
+					/>
+
+					<FormatRow
+						icon={<FileTxtIcon className="size-5" />}
+						title="TXT"
+						description={
+							<Trans comment="Structured plain-text export: one 'label: value' line per field, ordered like a job-site form">
+								Field-by-field plain text, ordered the way recruitment forms ask for it.
+							</Trans>
+						}
+						action={
+							<Button
+								size="sm"
+								variant="outline"
+								aria-label={t`Download TXT`}
+								disabled={isExporting}
+								onClick={() => run(() => onDownloadText())}
 							>
 								<DownloadSimpleIcon />
 								<Trans>Download</Trans>

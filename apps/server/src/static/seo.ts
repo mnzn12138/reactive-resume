@@ -34,17 +34,21 @@ export function handleRobots(options?: StaticSeoOptions) {
 	return textResponse(body, options);
 }
 
+/**
+ * Indexable public routes advertised in the sitemap.
+ *
+ * Mirrors `indexableAppPaths` in `./web.ts`. It is duplicated rather than imported because that
+ * module resolves the web distribution and registers static middleware at import time.
+ */
+const SITEMAP_PATHS = ["/", "/ats-checker", "/privacy", "/terms"] as const;
+
 export function handleSitemap(options?: StaticSeoOptions) {
 	const baseUrl = appUrl();
+	const urls = SITEMAP_PATHS.flatMap((path) => ["  <url>", `    <loc>${baseUrl}${path}</loc>`, "  </url>"]);
 	const body = [
 		'<?xml version="1.0" encoding="UTF-8"?>',
 		'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-		"  <url>",
-		`    <loc>${baseUrl}/</loc>`,
-		"  </url>",
-		"  <url>",
-		`    <loc>${baseUrl}/ats-checker</loc>`,
-		"  </url>",
+		...urls,
 		"</urlset>",
 		"",
 	].join("\n");

@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { atsReviewSystemPrompt, atsReviewUserPromptTemplate } from "@reactive-resume/ai/prompts";
+import { loadPrompts } from "@reactive-resume/ai/prompts";
+import { localeSchema } from "@reactive-resume/utils/locale";
 import { generateJson } from "./generate-json";
 import { getModel } from "./service";
 
@@ -23,6 +24,9 @@ export const atsReviewInputSchema = z.object({
 		.max(MAX_FINDINGS)
 		.default([]),
 	jobDescription: z.string().trim().max(MAX_JOB_DESCRIPTION_CHARS).optional(),
+	// Selects the language the review is written in. Optional so older clients keep working;
+	// `loadPrompts` falls back to the default (Chinese-first) variant when it is absent.
+	locale: localeSchema.optional(),
 });
 
 type AtsReviewInput = z.infer<typeof atsReviewInputSchema>;
@@ -97,6 +101,8 @@ function renderJobDescriptionSection(jobDescription: string | undefined): string
 }
 
 function buildUserPrompt(input: AtsReviewServiceInput): string {
+	const { atsReviewUserPromptTemplate } = loadPrompts(input.locale);
+
 	return atsReviewUserPromptTemplate
 		.replaceAll("{{EXTRACTED_TEXT}}", input.extractedText)
 		.replaceAll("{{FINDINGS}}", renderFindings(input.findings))
@@ -106,6 +112,7 @@ function buildUserPrompt(input: AtsReviewServiceInput): string {
 /** Qualitative review of the writing. Never returns a score — see {@link atsReviewOutputSchema}. */
 export function reviewResumeText(input: AtsReviewServiceInput): Promise<AtsReviewOutput> {
 	const model = getModel(input);
+	const { atsReviewSystemPrompt } = loadPrompts(input.locale);
 
 	return generateJson(model, { system: atsReviewSystemPrompt, prompt: buildUserPrompt(input) }, atsReviewOutputSchema);
 }

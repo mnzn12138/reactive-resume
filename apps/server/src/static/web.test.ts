@@ -131,6 +131,73 @@ describe("web app fallback classification", () => {
 		});
 	});
 
+	describe("the legal pages", () => {
+		const shell = `<html><head><title>Reactive Resume — A free and open-source resume builder</title><meta name="description" content="Marketing copy."></head><body></body></html>`;
+
+		// Mirrors the zh-CN strings each route's `head()` renders — the server shell and the client
+		// head must not disagree, or the page indexes under one title and previews under another.
+		const legalPages = [
+			{
+				path: "/privacy",
+				title: "隐私政策 - Reactive Resume",
+				description: "本 Reactive Resume 实例会存储您的哪些信息、为何存储、保留多久，以及您可以提出哪些要求。",
+			},
+			{
+				path: "/terms",
+				title: "用户协议 - Reactive Resume",
+				description: "使用本 Reactive Resume 实例的条款：服务是什么、您需要负责什么，以及您所写的内容归谁所有。",
+			},
+		];
+
+		// The dev Vite server answers any path, so without an `indexableAppPaths` entry these two
+		// routes serve fine locally and 404 in production. That is the regression this guards.
+		it.each(legalPages)("serves an indexable shell for $path rather than a 404", async ({ path }) => {
+			vi.mocked(fs.readFile).mockResolvedValue(shell);
+
+			const response = await handleWebApp(new Request(`https://example.com${path}`));
+
+			expect(response.status).toBe(200);
+			expect(response.headers.get("Content-Type")).toBe("text/html; charset=UTF-8");
+			expect(response.headers.get("X-Robots-Tag")).toBeNull();
+			expect(await response.text()).toContain("<body></body>");
+		});
+
+		it.each(legalPages)(
+			"replaces the shell metadata on $path with that page's own",
+			async ({ path, title, description }) => {
+				vi.mocked(fs.readFile).mockResolvedValue(shell);
+
+				const html = await (await handleWebApp(new Request(`https://example.com${path}`))).text();
+
+				expect(html).toContain(`<title>${title}</title>`);
+				expect(html).toContain(`<meta name="description" content="${description}">`);
+				expect(html).toContain(`<link rel="canonical" href="https://rxresu.me${path}">`);
+				expect(html).toContain(`<meta property="og:url" content="https://rxresu.me${path}">`);
+				expect(html).toContain(`<meta property="og:title" content="${title}">`);
+				// `createLegalDocumentHead` advertises these pages as articles, unlike the checker.
+				expect(html).toContain('<meta property="og:type" content="article">');
+				expect(html).toContain('<meta property="og:image" content="https://rxresu.me/opengraph/banner.jpg">');
+				expect(html).toContain(`id="${path.slice(1)}-structured-data"`);
+				expect(html).not.toContain("Marketing copy.");
+				expect(html).not.toContain("Reactive Resume — A free and open-source resume builder");
+			},
+		);
+
+		it.each(["/privacy", "/terms"])("answers HEAD on %s without a body", async (pathname) => {
+			const response = await handleWebApp(new Request(`https://example.com${pathname}`, { method: "HEAD" }));
+
+			expect(response.status).toBe(200);
+			expect(await response.text()).toBe("");
+		});
+
+		it.each(["/privacy/cv", "/terms/cv"])("does not treat %s as a public resume", async (pathname) => {
+			const response = await handleWebApp(new Request(`https://example.com${pathname}`));
+
+			expect(response.status).toBe(404);
+			expect(mocks.getPublicResumeSocialMeta).not.toHaveBeenCalled();
+		});
+	});
+
 	describe("public resume social cards", () => {
 		const shell = `<html><head><title>Reactive Resume — A free and open-source resume builder</title><meta name="description" content="Marketing copy."></head><body></body></html>`;
 

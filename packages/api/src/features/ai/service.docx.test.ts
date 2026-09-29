@@ -88,6 +88,8 @@ function createDocxBase64(text: string): string {
 const { aiService } = await import("./service");
 
 describe("AI DOCX parsing", () => {
+	// Pinned to `en-US`: the assertion below is the original English wording, and the default
+	// prompt locale is now `zh-CN`.
 	it("sends DOCX content as extracted text instead of an unsupported file part", async () => {
 		generateTextMock.mockResolvedValue({ text: JSON.stringify(defaultResumeData) });
 
@@ -96,6 +98,7 @@ describe("AI DOCX parsing", () => {
 			model: "test-model",
 			apiKey: "test-key",
 			baseURL: "https://example.test/v1",
+			locale: "en-US",
 			mediaType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 			file: { name: "resume.docx", data: createDocxBase64("Jane Doe &amp; Co") },
 		});
@@ -106,5 +109,25 @@ describe("AI DOCX parsing", () => {
 		expect(messages).toContain("Jane Doe & Co");
 		expect(messages).toContain("converted to plain text");
 		expect(messages).not.toContain('"type":"file"');
+	});
+
+	it("localizes the plain-text notice with the rest of the prompt", async () => {
+		generateTextMock.mockResolvedValue({ text: JSON.stringify(defaultResumeData) });
+
+		await aiService.parseDocx({
+			provider: "openai-compatible",
+			model: "test-model",
+			apiKey: "test-key",
+			baseURL: "https://example.test/v1",
+			// Omitted on purpose: this fork's default prompt locale is zh-CN.
+			mediaType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+			file: { name: "resume.docx", data: createDocxBase64("张三") },
+		});
+
+		const request = generateTextMock.mock.calls[0]?.[0] as { messages: unknown[] };
+		const messages = JSON.stringify(request.messages);
+
+		expect(messages).toContain("下面的纯文本由该 Microsoft Word 文件转换而来。");
+		expect(messages).not.toContain("converted to plain text");
 	});
 });
