@@ -116,6 +116,59 @@ export const ATS_RULE_CATALOG_V1 = {
 		meaning: "Page margins are narrow enough that content can fall outside the reliably extracted area.",
 		action: "Increase the page margins.",
 	},
+
+	// ---- Mainland-China parser coverage (北森 / Moka / 大易 / e 成) ----
+	// The six behaviours these additions cover are listed in plans/_sources/doc3.txt §3.3. Every
+	// one of them is a *data*-level check: it runs on the draft, before any file exists, so it can
+	// only look at what the schema stores. What the exported file actually looks like is a
+	// separate, file-level pass (`ats-pdf`) and is deliberately not duplicated here.
+	TWO_COLUMN_PAGE_LAYOUT: {
+		severity: "warning",
+		meaning:
+			"A page carries content in both columns, and a two-column page is the shape domestic parsers most often read out of order.",
+		action: "Switch the page to a single column, or keep the side column to short, self-contained lists.",
+	},
+	ENTRY_CONTENT_IN_TABLE: {
+		severity: "warning",
+		meaning: "An entry is written inside a table, and table cells are routinely dropped by domestic parsers.",
+		action: "Rewrite the entry as plain paragraphs and bullet lists, outside any table.",
+	},
+	ENTRY_CONTENT_IMAGE_ONLY: {
+		severity: "warning",
+		meaning: "An entry carries an image but no text, so there is nothing a parser can read out of it.",
+		action: "Write the content as text. Keep images decorative.",
+	},
+	ICON_ONLY_CUSTOM_FIELD: {
+		severity: "info",
+		meaning: "A contact field shows an icon but no text, so it leaves nothing behind once icons are dropped.",
+		action: "Add the text next to the icon; parsers ignore the icon itself.",
+	},
+	INCOMPLETE_PERIOD: {
+		severity: "warning",
+		meaning: "A period has a start but no end, so the parser cannot tell how long the entry lasted.",
+		action: "Give it an end date, or write an ongoing marker such as '至今' for a role you still hold.",
+	},
+	MISSING_EXPERIENCE_POSITION: {
+		severity: "warning",
+		meaning:
+			"An experience entry has no job title, and domestic parsers locate roles by a company-title-period pattern.",
+		action: "Fill in the position, or give each nested role its own title.",
+	},
+	TEXT_PRIVATE_USE_CHARACTER: {
+		severity: "warning",
+		meaning: "Some glyphs come from the Unicode private use area, so they mean nothing outside this file.",
+		action: "Replace icon-font glyphs with plain text or ordinary punctuation.",
+	},
+	FULLWIDTH_DATE_CHARACTER: {
+		severity: "warning",
+		meaning: "A date is typed with fullwidth digits or punctuation, which date parsers do not recognise.",
+		action: "Retype the date with halfwidth digits, as in 2020-03.",
+	},
+	NON_STANDARD_BULLET_CHARACTER: {
+		severity: "info",
+		meaning: "Bullets are drawn with decorative glyphs, and domestic parsers handle them unevenly.",
+		action: "Use the editor's bullet list, or a plain bullet such as -, * or •.",
+	},
 } as const satisfies Readonly<Record<string, AtsRuleReference>>;
 
 export type AtsRuleCode = keyof typeof ATS_RULE_CATALOG_V1;

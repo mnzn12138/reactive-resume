@@ -7685,6 +7685,78 @@ msgstr "你的姓名"
 msgid "Your page margins are very narrow."
 msgstr "你的页边距很窄。"
 
+#: src/libs/resume/ats.ts
+msgid "This page is split into two columns."
+msgstr "这一页被分成了两栏。"
+
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
+msgstr "国内招聘系统读取双栏版面时经常串行。改成单栏,或让侧栏只放简短的列表。"
+
+#: src/libs/resume/ats.ts
+msgid "This entry is written inside a table."
+msgstr "这条经历写在表格里。"
+
+#: src/libs/resume/ats.ts
+msgid "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
+msgstr "表格里的内容很容易被解析丢弃。改成正文段落和项目符号列表。"
+
+#: src/libs/resume/ats.ts
+msgid "This entry is an image with no text behind it."
+msgstr "这条内容只有图片,没有可读取的文字。"
+
+#: src/libs/resume/ats.ts
+msgid "Write the content as text. A photo is fine; a picture standing in for the words is not."
+msgstr "把内容写成文字。证件照没问题,但用图片代替文字不行。"
+
+#: src/libs/resume/ats.ts
+msgid "This contact field is an icon with no text."
+msgstr "这个联系方式只有图标,没有文字。"
+
+#: src/libs/resume/ats.ts
+msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
+msgstr "在图标旁边补上文字。解析时会丢掉图标、只留下文字。"
+
+#: src/libs/resume/ats.ts
+msgid "This period has a start but no end."
+msgstr "这段时间只有开始,没有结束。"
+
+#: src/libs/resume/ats.ts
+msgid "Add an end date, or write 至今 for a role you still hold."
+msgstr "补上结束时间;如果仍在职,就写「至今」。"
+
+#: src/libs/resume/ats.ts
+msgid "This role has no job title."
+msgstr "这段经历没有职位名称。"
+
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
+msgstr "国内系统按「公司 - 职位 - 起止时间」识别经历。填上职位,或给每个子职位各填一个。"
+
+#: src/libs/resume/ats.ts
+msgid "Some characters here come from an icon font."
+msgstr "这里有字符来自图标字体。"
+
+#: src/libs/resume/ats.ts
+msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+msgstr "换成普通文字或常规标点。离开这份文件,这些字符没有任何含义。"
+
+#: src/libs/resume/ats.ts
+msgid "This date is typed with fullwidth digits."
+msgstr "这个日期用了全角数字。"
+
+#: src/libs/resume/ats.ts
+msgid "Retype it with halfwidth digits, as in 2020-03."
+msgstr "改成半角数字,例如 2020-03。"
+
+#: src/libs/resume/ats.ts
+msgid "These bullets are drawn with decorative characters."
+msgstr "这些项目符号用的是装饰性字符。"
+
+#: src/libs/resume/ats.ts
+msgid "Use the editor's bullet list, or a plain -, * or •."
+msgstr "用编辑器的项目符号列表,或改用 -、*、• 这类常规符号。"
+
 #: src/features/auth/pages/reset-password.tsx
 msgid "Your password has been reset. You can now sign in with your new password."
 msgstr "你的密码已重置。现在可以用新密码登录了。"

@@ -5,7 +5,11 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { ATS_RULE_CODES } from "@reactive-resume/resume/ats";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
+
+/** Derived rather than written out, so adding a rule does not invalidate these assertions. */
+const TOTAL_RULES = ATS_RULE_CODES.length;
 
 const resumeState = vi.hoisted(() => ({ data: undefined as ResumeData | undefined }));
 const sidebarState = vi.hoisted(() => ({ toggleSidebar: vi.fn() }));
@@ -124,7 +128,7 @@ describe("AtsCheckSectionBuilder", () => {
 		resumeState.data = makeResume();
 		renderPanel();
 
-		expect(screen.getByText("21 of 21 checks passed")).toBeTruthy();
+		expect(screen.getByText(`${TOTAL_RULES} of ${TOTAL_RULES} checks passed`)).toBeTruthy();
 		expect(screen.getByText(/Every check passed/)).toBeTruthy();
 	});
 
@@ -136,7 +140,7 @@ describe("AtsCheckSectionBuilder", () => {
 
 		expect(screen.getByText("This email address will not be recognized.")).toBeTruthy();
 		expect(screen.getByText(/Use a plain address/)).toBeTruthy();
-		expect(screen.getByText("20 of 21 checks passed")).toBeTruthy();
+		expect(screen.getByText(`${TOTAL_RULES - 1} of ${TOTAL_RULES} checks passed`)).toBeTruthy();
 	});
 
 	it("counts findings by severity", () => {

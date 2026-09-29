@@ -1,4 +1,4 @@
-import type { ExperienceItem, ResumeData } from "@reactive-resume/schema/resume/data";
+import type { ExperienceItem, ResumeData, SkillItem } from "@reactive-resume/schema/resume/data";
 import { describe, expect, it } from "vitest";
 import { defaultResumeData } from "@reactive-resume/schema/resume/default";
 import { sampleResumeData } from "@reactive-resume/schema/resume/sample";
@@ -380,6 +380,240 @@ describe("typography rules", () => {
 				.findings.filter((item) => item.code === "TIGHT_PAGE_MARGINS")
 				.map((item) => item.pointer),
 		).toEqual(["/metadata/page/marginX", "/metadata/page/marginY"]);
+	});
+});
+
+const PRIVATE_USE_SAMPLE = "";
+
+const skillsItem = (overrides: Partial<SkillItem> = {}): SkillItem => ({
+	id: "s1",
+	hidden: false,
+	icon: "",
+	iconColor: "",
+	name: "Mathematics",
+	proficiency: "",
+	level: 0,
+	keywords: [],
+	...overrides,
+});
+
+describe("domestic parser rules: two-column layout", () => {
+	it("flags a page that carries content in both columns", () => {
+		const data = makeResume((resume) => {
+			resume.sections.skills.items = [skillsItem()];
+			resume.metadata.layout.pages = [{ fullWidth: false, main: ["experience"], sidebar: ["skills"] }];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "TWO_COLUMN_PAGE_LAYOUT",
+			severity: "warning",
+			pointer: "/metadata/layout/pages/0",
+			params: { page: 0 },
+		});
+	});
+
+	it("stays quiet when the page has no side column", () => {
+		expect(codesOf(makeResume())).not.toContain("TWO_COLUMN_PAGE_LAYOUT");
+	});
+
+	it("stays quiet on a full-width page", () => {
+		const data = makeResume((resume) => {
+			resume.sections.skills.items = [skillsItem()];
+			resume.metadata.layout.pages = [{ fullWidth: true, main: ["experience"], sidebar: ["skills"] }];
+		});
+
+		expect(codesOf(data)).not.toContain("TWO_COLUMN_PAGE_LAYOUT");
+	});
+
+	it("stays quiet when only one of the two columns carries anything", () => {
+		const data = makeResume((resume) => {
+			resume.metadata.layout.pages = [{ fullWidth: false, main: ["experience"], sidebar: ["skills"] }];
+		});
+
+		expect(codesOf(data)).not.toContain("TWO_COLUMN_PAGE_LAYOUT");
+	});
+});
+
+describe("domestic parser rules: tables", () => {
+	it("flags an experience entry written inside a table", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [
+				experienceItem({ description: "<table><tbody><tr><td>Shipped the engine.</td></tr></tbody></table>" }),
+			];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "ENTRY_CONTENT_IN_TABLE",
+			severity: "warning",
+			pointer: "/sections/experience/items/0/description",
+		});
+	});
+
+	it("stays quiet about an ordinary bullet list", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ description: "<ul><li>Shipped it.</li></ul>" })];
+		});
+
+		expect(codesOf(data)).not.toContain("ENTRY_CONTENT_IN_TABLE");
+	});
+});
+
+describe("domestic parser rules: images and icons", () => {
+	it("flags an entry that renders an image and no text", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ description: '<p><img src="/uploads/chart.png" /></p>' })];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "ENTRY_CONTENT_IMAGE_ONLY",
+			severity: "warning",
+			pointer: "/sections/experience/items/0/description",
+		});
+	});
+
+	it("stays quiet when the image has text beside it", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [
+				experienceItem({ description: '<p><img src="/uploads/chart.png" /> Revenue doubled.</p>' }),
+			];
+		});
+
+		expect(codesOf(data)).not.toContain("ENTRY_CONTENT_IMAGE_ONLY");
+	});
+
+	it("flags a contact field that is nothing but an icon", () => {
+		const data = makeResume((resume) => {
+			resume.basics.customFields = [{ id: "a", icon: "phone", text: "", link: "" }];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "ICON_ONLY_CUSTOM_FIELD",
+			severity: "info",
+			pointer: "/basics/customFields/0/icon",
+		});
+	});
+
+	it("stays quiet about a contact field that carries text", () => {
+		const data = makeResume((resume) => {
+			resume.basics.customFields = [{ id: "a", icon: "phone", text: "政治面貌：中共党员", link: "" }];
+		});
+
+		expect(codesOf(data)).not.toContain("ICON_ONLY_CUSTOM_FIELD");
+	});
+});
+
+describe("domestic parser rules: timeline", () => {
+	it("flags a period that starts but never ends", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ period: "2020.03" })];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "INCOMPLETE_PERIOD",
+			severity: "warning",
+			pointer: "/sections/experience/items/0/period",
+			params: { value: "2020.03" },
+		});
+	});
+
+	it("stays quiet about a period that ends in an ongoing marker", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ period: "2020.03 - 至今" })];
+		});
+
+		expect(codesOf(data)).not.toContain("INCOMPLETE_PERIOD");
+	});
+
+	it("reads the domestic year-month spelling rather than calling it unreadable", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ period: "2020.03 - 2022.06" })];
+		});
+
+		expect(codesOf(data)).not.toContain("UNPARSEABLE_PERIOD");
+	});
+
+	it("flags a date typed with fullwidth digits", () => {
+		const value = "２０２０.０３ - ２０２２.０６";
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ period: value })];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "FULLWIDTH_DATE_CHARACTER",
+			severity: "warning",
+			pointer: "/sections/experience/items/0/period",
+			params: { value },
+		});
+	});
+
+	it("flags an experience entry with no job title", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ position: "" })];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "MISSING_EXPERIENCE_POSITION",
+			severity: "warning",
+			pointer: "/sections/experience/items/0/position",
+		});
+	});
+
+	it("stays quiet when the title lives on a nested role", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [
+				experienceItem({
+					position: "",
+					roles: [{ id: "r1", position: "Engineer", period: "2020 - 2022", description: "<p>Shipped it.</p>" }],
+				}),
+			];
+		});
+
+		expect(codesOf(data)).not.toContain("MISSING_EXPERIENCE_POSITION");
+	});
+});
+
+describe("domestic parser rules: characters", () => {
+	it("flags a private use area glyph", () => {
+		const data = makeResume((resume) => {
+			resume.basics.headline = `Engineer ${PRIVATE_USE_SAMPLE}`;
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "TEXT_PRIVATE_USE_CHARACTER",
+			severity: "warning",
+			pointer: "/basics/headline",
+		});
+	});
+
+	it("stays quiet about the fullwidth punctuation a Chinese resume is written in", () => {
+		const data = makeResume((resume) => {
+			resume.basics.headline = "资深工程师：平台方向";
+		});
+
+		expect(codesOf(data)).not.toContain("TEXT_PRIVATE_USE_CHARACTER");
+	});
+
+	it("flags a decorative glyph used as a bullet", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [experienceItem({ description: "<p>◆ Shipped the engine.</p>" })];
+		});
+
+		expect(lint(data).findings).toContainEqual({
+			code: "NON_STANDARD_BULLET_CHARACTER",
+			severity: "info",
+			pointer: "/sections/experience/items/0/description",
+			params: { character: "◆" },
+		});
+	});
+
+	it("stays quiet about a plain bullet and about the same glyph mid-sentence", () => {
+		const data = makeResume((resume) => {
+			resume.sections.experience.items = [
+				experienceItem({ description: "<ul><li>• Shipped the engine.</li><li>获奖 ◆ 年度最佳</li></ul>" }),
+			];
+		});
+
+		expect(codesOf(data)).not.toContain("NON_STANDARD_BULLET_CHARACTER");
 	});
 });
 

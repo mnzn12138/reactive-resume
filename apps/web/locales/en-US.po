@@ -7680,6 +7680,78 @@ msgstr "Your name"
 msgid "Your page margins are very narrow."
 msgstr "Your page margins are very narrow."
 
+#: src/libs/resume/ats.ts
+msgid "This page is split into two columns."
+msgstr "This page is split into two columns."
+
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
+msgstr "Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists."
+
+#: src/libs/resume/ats.ts
+msgid "This entry is written inside a table."
+msgstr "This entry is written inside a table."
+
+#: src/libs/resume/ats.ts
+msgid "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
+msgstr "Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists."
+
+#: src/libs/resume/ats.ts
+msgid "This entry is an image with no text behind it."
+msgstr "This entry is an image with no text behind it."
+
+#: src/libs/resume/ats.ts
+msgid "Write the content as text. A photo is fine; a picture standing in for the words is not."
+msgstr "Write the content as text. A photo is fine; a picture standing in for the words is not."
+
+#: src/libs/resume/ats.ts
+msgid "This contact field is an icon with no text."
+msgstr "This contact field is an icon with no text."
+
+#: src/libs/resume/ats.ts
+msgid "Add the text next to the icon. Parsers drop the icon and keep the text."
+msgstr "Add the text next to the icon. Parsers drop the icon and keep the text."
+
+#: src/libs/resume/ats.ts
+msgid "This period has a start but no end."
+msgstr "This period has a start but no end."
+
+#: src/libs/resume/ats.ts
+msgid "Add an end date, or write 至今 for a role you still hold."
+msgstr "Add an end date, or write 至今 for a role you still hold."
+
+#: src/libs/resume/ats.ts
+msgid "This role has no job title."
+msgstr "This role has no job title."
+
+#: src/libs/resume/ats.ts
+msgid "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
+msgstr "Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one."
+
+#: src/libs/resume/ats.ts
+msgid "Some characters here come from an icon font."
+msgstr "Some characters here come from an icon font."
+
+#: src/libs/resume/ats.ts
+msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+msgstr "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+
+#: src/libs/resume/ats.ts
+msgid "This date is typed with fullwidth digits."
+msgstr "This date is typed with fullwidth digits."
+
+#: src/libs/resume/ats.ts
+msgid "Retype it with halfwidth digits, as in 2020-03."
+msgstr "Retype it with halfwidth digits, as in 2020-03."
+
+#: src/libs/resume/ats.ts
+msgid "These bullets are drawn with decorative characters."
+msgstr "These bullets are drawn with decorative characters."
+
+#: src/libs/resume/ats.ts
+msgid "Use the editor's bullet list, or a plain -, * or •."
+msgstr "Use the editor's bullet list, or a plain -, * or •."
+
 #: src/features/auth/pages/reset-password.tsx
 msgid "Your password has been reset. You can now sign in with your new password."
 msgstr "Your password has been reset. You can now sign in with your new password."

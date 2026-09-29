@@ -137,6 +137,18 @@ function parseEndpoint(raw: string, months: ReadonlyMap<string, number>): Endpoi
 	const iso = /^(\d{4})-(\d{1,2})(?:-(\d{1,2}))?$/.exec(value);
 	if (iso?.[1] && iso[2]) return toEndpoint(Number(iso[1]), Number(iso[2]));
 
+	// Mainland-China order: the year comes first. `monthYear` below already covers MM/YYYY, so
+	// these two cover YYYY/MM, YYYY.MM and the 年月日 form a Chinese IME produces — the spellings
+	// `doc3` §3.3 asks dates to be standardised on. Without them "2020.03 - 2022.06", the most
+	// common domestic form, parses as nothing at all and is reported as unreadable.
+	const yearMonth = /^(\d{4})\s*[/.]\s*(\d{1,2})$/.exec(value);
+	if (yearMonth?.[1] && yearMonth[2]) return toEndpoint(Number(yearMonth[1]), Number(yearMonth[2]));
+
+	const chineseYearMonth = /^(\d{4})\s*年\s*(\d{1,2})\s*月?$/.exec(value);
+	if (chineseYearMonth?.[1] && chineseYearMonth[2]) {
+		return toEndpoint(Number(chineseYearMonth[1]), Number(chineseYearMonth[2]));
+	}
+
 	const monthYear = /^(\d{1,2})[/.](\d{4})$/.exec(value);
 	if (monthYear?.[1] && monthYear[2]) return toEndpoint(Number(monthYear[2]), Number(monthYear[1]));
 

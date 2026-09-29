@@ -19,92 +19,131 @@ export type AtsFindingTarget = {
 export const atsFindingItemElementId = (itemId: string) => `resume-item-${itemId}`;
 
 export function getAtsFindingMessage(code: AtsRuleCode): AtsFindingMessage {
-	return match(code)
-		.with("MISSING_NAME", () => ({
-			title: t`Your resume has no name.`,
-			action: t`Add your full name under Basics.`,
-		}))
-		.with("MISSING_EMAIL", () => ({
-			title: t`Your resume has no email address.`,
-			action: t`Most systems file candidates by email. Add one under Basics.`,
-		}))
-		.with("MALFORMED_EMAIL", () => ({
-			title: t`This email address will not be recognized.`,
-			action: t`Use a plain address such as name@example.com, with no surrounding text.`,
-		}))
-		.with("MISSING_PHONE", () => ({
-			title: t`Your resume has no phone number.`,
-			action: t`Some application systems require one before you can submit.`,
-		}))
-		.with("MISSING_LOCATION", () => ({
-			title: t`Your resume has no location.`,
-			action: t`Add at least a city and country so roles can be matched to your region.`,
-		}))
-		.with("MALFORMED_URL", () => ({
-			title: t`This link is missing its protocol.`,
-			action: t`Write the full address, including https://.`,
-		}))
-		.with("PICTURE_PRESENT", () => ({
-			title: t`Your resume includes a photo.`,
-			action: t`Some parsers mishandle images, and photos are discouraged in some regions.`,
-		}))
-		.with("EMPTY_PERIOD", () => ({
-			title: t`This entry has no dates.`,
-			action: t`Add a period such as "Jan 2020 - Present" so it lands on your timeline.`,
-		}))
-		.with("UNPARSEABLE_PERIOD", () => ({
-			title: t`These dates will not be read correctly.`,
-			action: t`Use a recognized form such as "Jan 2020 - Mar 2022" or "2020 - 2022".`,
-		}))
-		.with("UNPARSEABLE_DATE", () => ({
-			title: t`This date will not be read correctly.`,
-			action: t`Use a recognized form such as "March 2022" or "2022".`,
-		}))
-		.with("REVERSED_PERIOD", () => ({
-			title: t`This period ends before it starts.`,
-			action: t`Swap the start and end dates.`,
-		}))
-		.with("FUTURE_DATED_PERIOD", () => ({
-			title: t`This period starts in the future.`,
-			action: t`Correct the year, or use "Present" for ongoing work.`,
-		}))
-		.with("SECTION_MISSING_FROM_LAYOUT", () => ({
-			title: t`This section has content but never appears.`,
-			action: t`Place it on a page from the Layout panel, or hide it if you meant to park it.`,
-		}))
-		.with("NO_VISIBLE_EXPERIENCE", () => ({
-			title: t`Your resume shows no work experience.`,
-			action: t`Add an entry, or use projects and volunteer work to show equivalent history.`,
-		}))
-		.with("MISSING_EXPERIENCE_DESCRIPTION", () => ({
-			title: t`This role has no description.`,
-			action: t`Describe what you did so the entry contributes keywords for matching.`,
-		}))
-		.with("NON_STANDARD_SECTION_TITLE", () => ({
-			title: t`This heading is not one parsers look for.`,
-			action: t`Prefer a conventional heading such as "Work Experience" or "Education".`,
-		}))
-		.with("MULTI_COLUMN_PROSE_SECTION", () => ({
-			title: t`This section is split across columns.`,
-			action: t`Columns commonly scramble the order text is read in. Set it to a single column.`,
-		}))
-		.with("PROSE_SECTION_IN_SIDEBAR", () => ({
-			title: t`This section sits in the sidebar.`,
-			action: t`Move it into the main column and keep the sidebar for short lists.`,
-		}))
-		.with("SMALL_BODY_FONT", () => ({
-			title: t`Your body text is very small.`,
-			action: t`Use a size of at least 9pt so re-rendered copies stay accurate.`,
-		}))
-		.with("TIGHT_LINE_HEIGHT", () => ({
-			title: t`Your lines are packed very tightly.`,
-			action: t`Use a line height of at least 1.15 so lines are not merged together.`,
-		}))
-		.with("TIGHT_PAGE_MARGINS", () => ({
-			title: t`Your page margins are very narrow.`,
-			action: t`Increase them so content stays inside the reliably read area.`,
-		}))
-		.exhaustive();
+	return (
+		match(code)
+			.with("MISSING_NAME", () => ({
+				title: t`Your resume has no name.`,
+				action: t`Add your full name under Basics.`,
+			}))
+			.with("MISSING_EMAIL", () => ({
+				title: t`Your resume has no email address.`,
+				action: t`Most systems file candidates by email. Add one under Basics.`,
+			}))
+			.with("MALFORMED_EMAIL", () => ({
+				title: t`This email address will not be recognized.`,
+				action: t`Use a plain address such as name@example.com, with no surrounding text.`,
+			}))
+			.with("MISSING_PHONE", () => ({
+				title: t`Your resume has no phone number.`,
+				action: t`Some application systems require one before you can submit.`,
+			}))
+			.with("MISSING_LOCATION", () => ({
+				title: t`Your resume has no location.`,
+				action: t`Add at least a city and country so roles can be matched to your region.`,
+			}))
+			.with("MALFORMED_URL", () => ({
+				title: t`This link is missing its protocol.`,
+				action: t`Write the full address, including https://.`,
+			}))
+			.with("PICTURE_PRESENT", () => ({
+				title: t`Your resume includes a photo.`,
+				action: t`Some parsers mishandle images, and photos are discouraged in some regions.`,
+			}))
+			.with("EMPTY_PERIOD", () => ({
+				title: t`This entry has no dates.`,
+				action: t`Add a period such as "Jan 2020 - Present" so it lands on your timeline.`,
+			}))
+			.with("UNPARSEABLE_PERIOD", () => ({
+				title: t`These dates will not be read correctly.`,
+				action: t`Use a recognized form such as "Jan 2020 - Mar 2022" or "2020 - 2022".`,
+			}))
+			.with("UNPARSEABLE_DATE", () => ({
+				title: t`This date will not be read correctly.`,
+				action: t`Use a recognized form such as "March 2022" or "2022".`,
+			}))
+			.with("REVERSED_PERIOD", () => ({
+				title: t`This period ends before it starts.`,
+				action: t`Swap the start and end dates.`,
+			}))
+			.with("FUTURE_DATED_PERIOD", () => ({
+				title: t`This period starts in the future.`,
+				action: t`Correct the year, or use "Present" for ongoing work.`,
+			}))
+			.with("SECTION_MISSING_FROM_LAYOUT", () => ({
+				title: t`This section has content but never appears.`,
+				action: t`Place it on a page from the Layout panel, or hide it if you meant to park it.`,
+			}))
+			.with("NO_VISIBLE_EXPERIENCE", () => ({
+				title: t`Your resume shows no work experience.`,
+				action: t`Add an entry, or use projects and volunteer work to show equivalent history.`,
+			}))
+			.with("MISSING_EXPERIENCE_DESCRIPTION", () => ({
+				title: t`This role has no description.`,
+				action: t`Describe what you did so the entry contributes keywords for matching.`,
+			}))
+			.with("NON_STANDARD_SECTION_TITLE", () => ({
+				title: t`This heading is not one parsers look for.`,
+				action: t`Prefer a conventional heading such as "Work Experience" or "Education".`,
+			}))
+			.with("MULTI_COLUMN_PROSE_SECTION", () => ({
+				title: t`This section is split across columns.`,
+				action: t`Columns commonly scramble the order text is read in. Set it to a single column.`,
+			}))
+			.with("PROSE_SECTION_IN_SIDEBAR", () => ({
+				title: t`This section sits in the sidebar.`,
+				action: t`Move it into the main column and keep the sidebar for short lists.`,
+			}))
+			.with("SMALL_BODY_FONT", () => ({
+				title: t`Your body text is very small.`,
+				action: t`Use a size of at least 9pt so re-rendered copies stay accurate.`,
+			}))
+			.with("TIGHT_LINE_HEIGHT", () => ({
+				title: t`Your lines are packed very tightly.`,
+				action: t`Use a line height of at least 1.15 so lines are not merged together.`,
+			}))
+			.with("TIGHT_PAGE_MARGINS", () => ({
+				title: t`Your page margins are very narrow.`,
+				action: t`Increase them so content stays inside the reliably read area.`,
+			}))
+			// ---- Mainland-China parser coverage (北森 / Moka / 大易 / e 成) ----
+			.with("TWO_COLUMN_PAGE_LAYOUT", () => ({
+				title: t`This page is split into two columns.`,
+				action: t`Domestic parsers often read two-column pages out of order. Use a single column, or keep the side column to short lists.`,
+			}))
+			.with("ENTRY_CONTENT_IN_TABLE", () => ({
+				title: t`This entry is written inside a table.`,
+				action: t`Table cells are routinely dropped. Rewrite it as plain paragraphs and bullet lists.`,
+			}))
+			.with("ENTRY_CONTENT_IMAGE_ONLY", () => ({
+				title: t`This entry is an image with no text behind it.`,
+				action: t`Write the content as text. A photo is fine; a picture standing in for the words is not.`,
+			}))
+			.with("ICON_ONLY_CUSTOM_FIELD", () => ({
+				title: t`This contact field is an icon with no text.`,
+				action: t`Add the text next to the icon. Parsers drop the icon and keep the text.`,
+			}))
+			.with("INCOMPLETE_PERIOD", () => ({
+				title: t`This period has a start but no end.`,
+				action: t`Add an end date, or write 至今 for a role you still hold.`,
+			}))
+			.with("MISSING_EXPERIENCE_POSITION", () => ({
+				title: t`This role has no job title.`,
+				action: t`Domestic parsers find a role by its company, title and dates. Fill in the title, or give each nested role one.`,
+			}))
+			.with("TEXT_PRIVATE_USE_CHARACTER", () => ({
+				title: t`Some characters here come from an icon font.`,
+				action: t`Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning.`,
+			}))
+			.with("FULLWIDTH_DATE_CHARACTER", () => ({
+				title: t`This date is typed with fullwidth digits.`,
+				action: t`Retype it with halfwidth digits, as in 2020-03.`,
+			}))
+			.with("NON_STANDARD_BULLET_CHARACTER", () => ({
+				title: t`These bullets are drawn with decorative characters.`,
+				action: t`Use the editor's bullet list, or a plain -, * or •.`,
+			}))
+			.exhaustive()
+	);
 }
 
 function decodePointerToken(token: string): string {
