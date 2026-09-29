@@ -59,6 +59,15 @@ export const env = createEnv({
 			.transform((value) => value.split(" "))
 			.default(["openid", "profile", "email"]),
 
+		// Social Auth (WeChat Open Platform — QR connect)
+		WECHAT_APP_ID: z.string().min(1).optional(),
+		WECHAT_APP_SECRET: z.string().min(1).optional(),
+
+		// Social Auth (Alipay — RSA2 signed gateway calls)
+		ALIPAY_APP_ID: z.string().min(1).optional(),
+		ALIPAY_PRIVATE_KEY: z.string().min(1).optional(),
+		ALIPAY_PUBLIC_KEY: z.string().min(1).optional(),
+
 		// Email (SMTP)
 		SMTP_HOST: z.string().min(1).optional(),
 		SMTP_PORT: z.coerce.number().int().min(1).max(65535).default(587),
@@ -67,7 +76,20 @@ export const env = createEnv({
 		SMTP_FROM: z.string().min(1).optional(),
 		SMTP_SECURE: z.stringbool().default(false),
 
+		// SMS (optional until phone sign-in is enabled)
+		SMS_PROVIDER: z.enum(["aliyun", "tencent"]).optional(),
+		ALIYUN_ACCESS_KEY_ID: z.string().min(1).optional(),
+		ALIYUN_ACCESS_KEY_SECRET: z.string().min(1).optional(),
+		ALIYUN_SMS_SIGN_NAME: z.string().min(1).optional(),
+		ALIYUN_SMS_TEMPLATE_CODE: z.string().min(1).optional(),
+		TENCENT_SECRET_ID: z.string().min(1).optional(),
+		TENCENT_SECRET_KEY: z.string().min(1).optional(),
+		TENCENT_SMS_SDK_APP_ID: z.string().min(1).optional(),
+		TENCENT_SMS_SIGN_NAME: z.string().min(1).optional(),
+		TENCENT_SMS_TEMPLATE_ID: z.string().min(1).optional(),
+
 		// Storage (Optional)
+		STORAGE_PROVIDER: z.enum(["auto", "oss", "cos", "obs", "s3"]).default("auto"),
 		LOCAL_STORAGE_PATH: z.string().min(1).refine(isAbsolute, "LOCAL_STORAGE_PATH must be an absolute path").optional(),
 		S3_ACCESS_KEY_ID: z.string().min(1).optional(),
 		S3_SECRET_ACCESS_KEY: z.string().min(1).optional(),
@@ -83,6 +105,9 @@ export const env = createEnv({
 		// Feature Flags
 		FLAG_DISABLE_SIGNUPS: z.stringbool().default(false),
 		FLAG_DISABLE_EMAIL_AUTH: z.stringbool().default(false),
+		FLAG_DISABLE_WECHAT_AUTH: z.stringbool().default(false),
+		FLAG_DISABLE_ALIPAY_AUTH: z.stringbool().default(false),
+		FLAG_DISABLE_SMS_AUTH: z.stringbool().default(false),
 		FLAG_DISABLE_IMAGE_PROCESSING: z.stringbool().default(false),
 		FLAG_DISABLE_API_RATE_LIMIT: z.stringbool().default(false),
 		FLAG_ALLOW_UNSAFE_AI_BASE_URL: z.stringbool().default(false),

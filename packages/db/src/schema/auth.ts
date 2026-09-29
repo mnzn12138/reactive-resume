@@ -20,6 +20,11 @@ export const user = pg.pgTable(
 		name: pg.text("name").notNull(),
 		email: pg.text("email").notNull().unique(),
 		emailVerified: pg.boolean("email_verified").notNull().default(false),
+		// Phone sign-in (Better Auth `phoneNumber` plugin). Nullable and unique:
+		// PostgreSQL treats NULLs as distinct, so the thousands of accounts without
+		// a number never collide on the constraint.
+		phoneNumber: pg.text("phone_number").unique(),
+		phoneNumberVerified: pg.boolean("phone_number_verified").notNull().default(false),
 		username: pg.text("username").notNull().unique(),
 		displayUsername: pg.text("display_username").notNull().unique(),
 		twoFactorEnabled: pg.boolean("two_factor_enabled").notNull().default(false),
@@ -78,6 +83,10 @@ export const account = pg.pgTable(
 			.$defaultFn(() => generateId()),
 		accountId: pg.text("account_id").notNull(),
 		providerId: pg.text("provider_id").notNull().default("credential"),
+		// WeChat returns both a `unionid` (stable across apps of the same open
+		// platform account, used as `accountId`) and an `openid` (per-app). The
+		// latter is kept for support and for re-linking after an app migration.
+		openid: pg.text("openid"),
 		// Better Auth 1.7.0–1.7.2 wrote this identity namespace. Version 1.7.3
 		// returned to (providerId, accountId), so keep migrated values without
 		// requiring the field on new account inserts.

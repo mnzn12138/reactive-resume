@@ -843,6 +843,9 @@ importers:
       '@reactive-resume/schema':
         specifier: workspace:*
         version: link:../schema
+      '@reactive-resume/sms':
+        specifier: workspace:*
+        version: link:../sms
       '@reactive-resume/utils':
         specifier: workspace:*
         version: link:../utils
@@ -931,6 +934,9 @@ importers:
       '@reactive-resume/schema':
         specifier: workspace:*
         version: link:../schema
+      '@reactive-resume/sms':
+        specifier: workspace:*
+        version: link:../sms
       '@reactive-resume/utils':
         specifier: workspace:*
         version: link:../utils
@@ -1300,6 +1306,18 @@ importers:
       zod:
         specifier: ^4.6.1
         version: 4.6.1
+    devDependencies:
+      '@reactive-resume/config':
+        specifier: workspace:*
+        version: link:../config
+      '@typescript/native-preview':
+        specifier: 7.0.0-dev.20260707.2
+        version: 7.0.0-dev.20260707.2
+      typescript:
+        specifier: ^7.0.2
+        version: 7.0.2
+
+  packages/sms:
     devDependencies:
       '@reactive-resume/config':
         specifier: workspace:*

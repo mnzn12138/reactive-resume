@@ -4,3 +4,4 @@ export * from "./applications";
 export * from "./auth";
 export * from "./legal";
 export * from "./resume";
+export * from "./sms";

@@ -6,4 +6,16 @@ export type AuthSession = {
 };
 
 // ponytail: plain union replaces z.enum solely used for type inference
-export type AuthProvider = "credential" | "passkey" | "google" | "github" | "linkedin" | "custom";
+// `wechat` / `alipay` / `phone` are the domestic (China) channels. Adding a
+// member here is what forces every `match(...).exhaustive()` over providers to
+// be revisited — see the settings authentication hooks.
+export type AuthProvider =
+	| "credential"
+	| "passkey"
+	| "google"
+	| "github"
+	| "linkedin"
+	| "custom"
+	| "wechat"
+	| "alipay"
+	| "phone";

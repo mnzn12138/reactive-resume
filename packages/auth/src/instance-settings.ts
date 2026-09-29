@@ -17,8 +17,20 @@ import { env } from "@reactive-resume/env/server";
  * web app is presentation, not enforcement.
  */
 
-/** Flags an administrator is allowed to override at runtime. `smtpEnabled` is derived, never stored. */
-export const OVERRIDABLE_SETTING_KEYS = ["disableSignups", "disableEmailAuth"] as const;
+/**
+ * Flags an administrator is allowed to override at runtime. `smtpEnabled` is derived, never stored.
+ *
+ * The last three gate the domestic (China) channels. A provider stays registered
+ * in Better Auth whether or not its credentials are present — provider config is
+ * frozen at boot — so these switches are what actually close the endpoints.
+ */
+export const OVERRIDABLE_SETTING_KEYS = [
+	"disableSignups",
+	"disableEmailAuth",
+	"disableWechatAuth",
+	"disableAlipayAuth",
+	"disableSmsAuth",
+] as const;
 
 export type OverridableSettingKey = (typeof OVERRIDABLE_SETTING_KEYS)[number];
 
@@ -37,16 +49,25 @@ export type ResolvedInstanceSettings = Record<OverridableSettingKey, ResolvedSet
 const DEFAULTS: Record<OverridableSettingKey, boolean> = {
 	disableSignups: false,
 	disableEmailAuth: false,
+	disableWechatAuth: false,
+	disableAlipayAuth: false,
+	disableSmsAuth: false,
 };
 
 const ENV_VALUES: Record<OverridableSettingKey, () => boolean> = {
 	disableSignups: () => env.FLAG_DISABLE_SIGNUPS,
 	disableEmailAuth: () => env.FLAG_DISABLE_EMAIL_AUTH,
+	disableWechatAuth: () => env.FLAG_DISABLE_WECHAT_AUTH,
+	disableAlipayAuth: () => env.FLAG_DISABLE_ALIPAY_AUTH,
+	disableSmsAuth: () => env.FLAG_DISABLE_SMS_AUTH,
 };
 
 const ENV_NAMES: Record<OverridableSettingKey, string> = {
 	disableSignups: "FLAG_DISABLE_SIGNUPS",
 	disableEmailAuth: "FLAG_DISABLE_EMAIL_AUTH",
+	disableWechatAuth: "FLAG_DISABLE_WECHAT_AUTH",
+	disableAlipayAuth: "FLAG_DISABLE_ALIPAY_AUTH",
+	disableSmsAuth: "FLAG_DISABLE_SMS_AUTH",
 };
 
 const isKey = (value: string): value is OverridableSettingKey =>
@@ -134,4 +155,19 @@ export async function isSignupDisabled() {
 /** Whether email + password authentication is available. Consulted by Better Auth, not just the UI. */
 export async function isEmailAuthDisabled() {
 	return (await resolveInstanceSettings()).disableEmailAuth.value;
+}
+
+/** Whether WeChat QR sign-in is available. Consulted by Better Auth, not just the UI. */
+export async function isWechatAuthDisabled() {
+	return (await resolveInstanceSettings()).disableWechatAuth.value;
+}
+
+/** Whether Alipay QR sign-in is available. Consulted by Better Auth, not just the UI. */
+export async function isAlipayAuthDisabled() {
+	return (await resolveInstanceSettings()).disableAlipayAuth.value;
+}
+
+/** Whether phone number + SMS code sign-in is available. Consulted by Better Auth, not just the UI. */
+export async function isSmsAuthDisabled() {
+	return (await resolveInstanceSettings()).disableSmsAuth.value;
 }
