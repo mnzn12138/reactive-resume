@@ -1,3 +1,4 @@
+import type { StorageChannelKind } from "./presets";
 import fs from "node:fs/promises";
 import { dirname, extname, join } from "node:path";
 import {
@@ -10,6 +11,7 @@ import {
 import sharp from "sharp";
 import { env } from "@reactive-resume/env/server";
 import { getLocalDataDirectory } from "@reactive-resume/utils/monorepo.node";
+import { DEFAULT_S3_REGION, describeStorageChannel, resolveStoragePreset } from "./presets";
 
 interface StorageWriteInput {
 	key: string;
@@ -43,7 +45,8 @@ interface StorageService {
 
 interface StorageHealthResult {
 	status: "healthy" | "unhealthy";
-	type: "local" | "s3";
+	/** Which backend is actually in use — `oss` / `cos` / `obs` for the domestic vendors. */
+	type: StorageChannelKind;
 	message: string;
 	error?: string;
 }
@@ -255,6 +258,8 @@ class LocalStorageService implements StorageService {
 class S3StorageService implements StorageService {
 	private readonly bucket: string;
 	private readonly client: S3Client;
+	private readonly channel: StorageChannelKind;
+	private readonly channelLabel: string;
 
 	constructor() {
 		if (!env.S3_ACCESS_KEY_ID || !env.S3_SECRET_ACCESS_KEY || !env.S3_BUCKET) {
@@ -262,10 +267,28 @@ class S3StorageService implements StorageService {
 		}
 
 		this.bucket = env.S3_BUCKET;
+
+		// `S3_REGION` defaults to `us-east-1` in `packages/env`, which none of the domestic vendors
+		// understand — treat it as "not supplied" so the preset's default region applies instead.
+		const usesPresetRegion = env.STORAGE_PROVIDER !== "auto" && env.STORAGE_PROVIDER !== "s3";
+		const region = usesPresetRegion && env.S3_REGION === DEFAULT_S3_REGION ? undefined : env.S3_REGION;
+
+		const preset = resolveStoragePreset({
+			provider: env.STORAGE_PROVIDER,
+			region,
+			explicitEndpoint: env.S3_ENDPOINT,
+			explicitForcePathStyle: env.S3_FORCE_PATH_STYLE,
+		});
+
+		if (preset.conflict) console.warn(`[Storage] ${preset.conflict}`);
+
+		this.channel = preset.kind;
+		this.channelLabel = describeStorageChannel(preset.kind);
+
 		this.client = new S3Client({
-			region: env.S3_REGION,
-			forcePathStyle: env.S3_FORCE_PATH_STYLE,
-			...(env.S3_ENDPOINT ? { endpoint: env.S3_ENDPOINT } : {}),
+			region: preset.region,
+			forcePathStyle: preset.forcePathStyle,
+			...(preset.endpoint ? { endpoint: preset.endpoint } : {}),
 			credentials: {
 				accessKeyId: env.S3_ACCESS_KEY_ID,
 				secretAccessKey: env.S3_SECRET_ACCESS_KEY,
@@ -360,15 +383,15 @@ class S3StorageService implements StorageService {
 			await this.client.send(deleteCommand);
 
 			return {
-				type: "s3",
+				type: this.channel,
 				status: "healthy",
-				message: "S3 storage is accessible and credentials are valid.",
+				message: `${this.channelLabel}连接正常,凭证有效。`,
 			};
 		} catch (error: unknown) {
 			return {
-				type: "s3",
+				type: this.channel,
 				status: "unhealthy",
-				message: "Failed to connect to S3 storage or invalid credentials.",
+				message: `${this.channelLabel}连接失败或凭证无效。`,
 				error: error instanceof Error ? error.message : "Unknown error",
 			};
 		}

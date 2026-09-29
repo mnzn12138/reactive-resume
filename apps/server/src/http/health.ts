@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { withTimeout } from "es-toolkit";
-import { getStorageService } from "@reactive-resume/api/features/storage";
+import { getStorageService, STORAGE_CHANNEL_KINDS } from "@reactive-resume/api/features/storage";
 import { db } from "@reactive-resume/db/client";
 import { appVersion } from "../app-version";
 
@@ -38,7 +38,11 @@ function publicCheck(check: CheckResult, name: "Database" | "Storage"): CheckRes
 		status: check.status,
 		latencyMs: check.latencyMs,
 		error: `${name} health check failed.`,
-		...(check.type === "local" || check.type === "s3" ? { type: check.type } : {}),
+		// The storage channel is safe to expose even when unhealthy: it says *where* the instance
+		// stores files, which the operator needs in order to fix it. It must keep listing every
+		// provider the storage service can report, or a failing OSS/COS/OBS bucket loses the one
+		// clue that identifies it.
+		...(typeof check.type === "string" && STORAGE_CHANNEL_KINDS.has(check.type) ? { type: check.type } : {}),
 	};
 }
 

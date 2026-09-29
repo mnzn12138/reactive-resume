@@ -3,7 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const { execute, healthcheck } = vi.hoisted(() => ({ execute: vi.fn(), healthcheck: vi.fn() }));
 
 vi.mock("@reactive-resume/db/client", () => ({ db: { execute } }));
-vi.mock("@reactive-resume/api/features/storage", () => ({ getStorageService: () => ({ healthcheck }) }));
+vi.mock("@reactive-resume/api/features/storage", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@reactive-resume/api/features/storage")>()),
+	getStorageService: () => ({ healthcheck }),
+}));
 vi.mock("../app-version", () => ({ appVersion: "9.8.7" }));
 
 import { handleHealth } from "./health";
