@@ -142,18 +142,26 @@ function toList(value: string, max: number): string[] {
 		.slice(0, max);
 }
 
-type Editable = Omit<RecruitmentPostCreateInput, "company" | "role">;
-
 /**
  * The form state as the server's editable field set.
  *
- * Every optional field is omitted rather than sent empty: `update` treats a present field as
- * "change this", and an empty string is a change to empty, not "leave it alone".
+ * `company` and `role` are members of `recruitmentPostEditableSchema` — optional there, and
+ * only `create` re-declares them as required — so `update` accepts them too. They are sent on
+ * every save for that reason: §4.3.7 has the server recompute `dedupeKey` when either changes,
+ * which is the only way 「编辑」 can fix a typo in a company name. Omitting them made the two
+ * fields look editable while silently discarding whatever was typed into them.
+ *
+ * Every *other* optional field is omitted rather than sent empty: `update` treats a present
+ * field as "change this", and an empty string is a change to empty, not "leave it alone".
  */
+type Editable = RecruitmentPostCreateInput;
+
 function toEditable(state: FormState): Editable {
 	const contactValue = state.contactValue.trim();
 
 	return {
+		company: state.company.trim(),
+		role: state.role.trim(),
 		batch: state.batch,
 		employmentType: state.employmentType,
 		workMode: state.workMode,
@@ -305,7 +313,7 @@ export function PostFormSheet({ open, onOpenChange, post, requireReview, onSubmi
 		const editable = toEditable(form);
 
 		if (post === null) {
-			create.mutate({ company: form.company.trim(), role: form.role.trim(), ...editable });
+			create.mutate(editable);
 			return;
 		}
 
