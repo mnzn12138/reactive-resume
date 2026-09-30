@@ -59,8 +59,12 @@ class Session(Base):
     """`session` 表 —— **只读**用途（认人）。
 
     为什么需要：M3 的核心。`session.token` 是**明文** text 列，且项目没开 better-auth 的
-    cookieCache，所以浏览器 cookie `better-auth.session_token` 的值就是 `session.token`，
-    直接 `WHERE session.token = ? AND session.expires_at > now()` 即可认人，
+    cookieCache，所以认人不需要解任何东西。
+
+    ⚠️ 但**库里存的只是 cookie 的前半段**：better-auth 1.7 起 cookie 是
+    `<session.token>.<base64(HMAC-SHA256(AUTH_SECRET, token))>`。要拿它认人，先剥掉签名段
+    （见 `app/identity.split_signed_token`）—— 早期这里写的是「cookie 的值就是 session.token」，
+    M6 端到端验收时实测推翻了它。剥完再 `WHERE session.token = ? AND expires_at > now()`，
     不需要改前端的 `authClient.getSession()`。
     """
 
