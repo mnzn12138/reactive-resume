@@ -24,7 +24,7 @@
 
 ### 2.1 `AUTH_SECRET` —— 这次联调的硬前提
 
-它有两个用途，两个都要求两边**同值**：
+它有**三个**用途，全部都要求两边**同值**：
 
 1. **限流的 HMAC pepper**（M4 引入，Python 侧自己的设计，Node 的 `resumeMutationRateLimit`
    实际没用 pepper；不一致只会导致两边桶名不同、限流语义漂移，不会报错）。
@@ -32,6 +32,11 @@
    Node 的 `verifyResumePdfDownloadToken`（`packages/api/src/features/resume/pdf-download-url.ts:52-54`）
    用 `createHmac("sha256", env.AUTH_SECRET)` 验签。Python 侧签错 → Node 返回
    **401** → Python 翻成 **502**，并从现象上完全看不出是密钥配错了。
+3. **会话 cookie 的签名密钥**（M6 端到端验收时实测发现）。better-auth 1.7 起写进浏览器的
+   cookie 是 `<session.token>.<base64(HMAC-SHA256(AUTH_SECRET, session.token))>`
+   （标准 base64、**带** `=` 填充）。Python 侧 `app/identity.py` 剥掉签名段后还要**验签**，
+   所以两边 `AUTH_SECRET` 不一致时，**所有需要登录的接口会一律 401** —— 而这个 401 和
+   「没登录」长得一模一样。详见 `docs/acceptance.md` 第 4.1 节。
 
 所以 M5 的 `app/render_proxy.py` 在拿到上游 401 时，会在报错里专门附一句
 「先核对两边 AUTH_SECRET 是否一字不差」—— 就是为了把这类事故从「502」拉回「配置错了」。

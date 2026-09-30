@@ -18,6 +18,7 @@
 - [6. 部署验收清单](#6-部署验收清单)
 - [7. 已知坑](#7-已知坑)
 - [8. 目录结构速览](#8-目录结构速览)
+- [9. Python 服务（resume-api）](#9-python-服务servicesresume-api)
 
 ---
 
@@ -529,6 +530,205 @@ reactive-resume/
 ```
 
 更详细的包边界与依赖方向见 [`AGENTS.md`](./AGENTS.md)。
+
+---
+
+## 9. Python 服务（`services/resume-api`）
+
+> **先读这段**：Python 服务是 Node → Python 的**最小集迁移产物**，范围只有
+> 「简历 CRUD + 公开简历页数据 + PDF 出口」（7 + 2 个接口）。
+> **它不接管生产流量 —— Node 侧仍是权威。** 本节是「能跑起来、能演示、能验收」的部署说明，
+> 不是切流方案。范围边界见 `services/resume-api/docs/contract-scope.md`。
+
+### 9.1 与现有路线保持一致：**宿主机跑，不进容器**
+
+本仓库的路线是「宿主机用 pnpm 跑 Node，`docker compose` 只跑 Postgres / Redis / MinIO 这几个
+基础设施」，两份 compose 里**没有应用服务**。Python 服务照同一条路走 —— **不要新造一个
+Dockerfile 去跑 Python 应用**（那是已经被推翻的路线）。
+
+### 9.2 建 venv 装依赖
+
+用托管 Python，**不要污染全局 Python**：
+
+```bash
+export PATH="/usr/bin:/bin:$PATH"
+
+C:/Users/22586/.workbuddy/binaries/python/versions/3.13.12/python.exe \
+  -m venv C:/Users/22586/.workbuddy/binaries/python/envs/reactive-resume
+
+# Windows 的 venv 是 Scripts/，不是 bin/
+C:/Users/22586/.workbuddy/binaries/python/envs/reactive-resume/Scripts/python.exe \
+  -m pip install -r services/resume-api/requirements.txt
+```
+
+下文把 venv 里的 python 记作 `$PY`：
+
+```bash
+PY="C:/Users/22586/.workbuddy/binaries/python/envs/reactive-resume/Scripts/python.exe"
+```
+
+### 9.3 环境变量：**两边必须一字不差**
+
+完整对照表在 **`services/resume-api/docs/env-parity.md`**，那里是唯一权威。这里只强调三件事：
+
+1. **`AUTH_SECRET` 必须和 Node 侧完全一致。** 它在 Python 侧有**三个**用途：限流的 HMAC pepper、
+   M5 的 PDF 下载令牌签名、以及（M6 实测发现的）**会话 cookie 的验签**。
+   两边不一致时表现为「所有需要登录的接口 401 / PDF 下载 502」，**从现象上完全看不出是密钥配错了**。
+2. **`DATABASE_URL` 指向同一个物理库**，但格式不同：Node 用 `postgresql://`，
+   Python 用 `postgresql+psycopg://`（SQLAlchemy 要带 driver 段）。明确不支持 SQLite。
+3. **`PORT` 两边不但不必一致，还必须不一致**（它们是不同进程的监听端口，撞了直接 `EADDRINUSE`）。
+   更麻烦的是：仓库根 `.env` 里 `PORT="3000"` 是**前端 dev 端口**，而 Python 会把它继承过来。
+   **起 Python 服务时必须显式覆盖 `PORT`**（见 9.4）。
+
+改完 `.env` **必须重启**两边的服务 —— 两边都是模块加载时解析的。
+
+机械化检查（建议放进 CI）：
+
+```bash
+node services/resume-api/tools/check_env_parity.mjs            # 比名字
+node services/resume-api/tools/check_env_parity.mjs --values    # 再比一次 AUTH_SECRET 的实际取值
+```
+
+`AUTH_SECRET` / `DATABASE_URL` 不一致会 **exit 2**。
+
+### 9.4 起服务
+
+```bash
+cd services/resume-api
+export PATH="/usr/bin:/bin:$PATH"
+
+PORT=4000 \
+DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/postgres" \
+NODE_RENDER_BASE_URL="http://127.0.0.1:3001" \
+"$PY" -m uvicorn app.main:app --host 127.0.0.1 --port 4000
+```
+
+三个必须想清楚的点：
+
+* **`PORT=4000` 要显式写。** 不写的话 Python 会从 `.env` 继承 `PORT=3000`，去抢前端的端口。
+* **`NODE_RENDER_BASE_URL` 指向 Node 的**服务端**端口，不是前端端口。** dev 下
+  `apps/server` 监听的是 **`SERVER_PORT`**（`.env` 默认 **3001**），而 `PORT`（3000）是前端
+  Vite 的端口 —— `apps/server/src/index.ts` 只在 `NODE_ENV=production` 时才读 `PORT`。
+  所以默认配 `http://127.0.0.1:3001`；如果你像验收时那样把 `SERVER_PORT` 改成了 3000，就填 3000。
+  填错的表现是 PDF 出口返回 **503 `PDF_RENDERER_UNAVAILABLE`**。
+* **`NODE_RENDER_TIMEOUT_SECONDS`** 默认 120 秒 —— 实测 Node **冷启动首次渲染要 58 ~ 69 秒**
+  （要拉 CJK 字体），60 秒会刚好卡在边缘上。
+
+挂的接口：`GET /health`、`/resumes` 下 7 个 CRUD、2 个 PDF 出口。
+⚠️ 注意 Python 侧的路径**没有 `/api` 前缀**（对比 Node 的 `/api/*`，见 9.5）。
+
+冒烟：
+
+```bash
+curl -s http://127.0.0.1:4000/health                                     # {"status":"ok"}
+curl -s -H "Cookie: better-auth.session_token=<token>" http://127.0.0.1:4000/resumes
+```
+
+> 本机有 `HTTP_PROXY` 时，`curl` 打 `127.0.0.1` 会被代理拦掉并**全部返回 502**，看起来像服务挂了。
+> 加 `--noproxy '*'`。
+
+### 9.5 反向代理 / 路径路由规则
+
+下面这张表是**起真实 Node 服务逐个打出来的**（`docs/acceptance.md` 第 3 节有完整实测记录），不是猜的：
+
+| 路径前缀 | 给谁 | 说明 |
+| --- | --- | --- |
+| `/api/rpc`、`/api/rpc/*` | **Node** | oRPC 全部业务接口（**实测 `POST /api/rpc/resume/getRoot` → 200**）。spec 里的 path 不带这个前缀，实际 HTTP 路径是 `/api/rpc` + spec path |
+| `/api/openapi/*` | **Node** | 权威 spec 在 `/api/openapi/spec.json`；**裸 `/api/openapi` 是 404** |
+| `/api/auth/*` | **Node** | Better Auth（会话生命周期仍归 Node） |
+| `/api/health` | **Node** | |
+| `/api/resumes/:id/pdf`、`/api/resumes/:username/:slug/pdf` | **Node** | 这是 **Hono 路由，不走 oRPC**。Python 的 PDF 出口本身就是转发到这里的，**必须留在 Node** |
+| `/api/uploads/*`、`/uploads/*` | **Node** | |
+| `/schema.json`、`/mcp*`、`/.well-known/*` | **Node** | |
+| `/robots.txt`、`/sitemap.xml`、`/llms.txt` | **Node** | |
+| `/*` | **Node** | 前端兜底 |
+| **`/health`、`/resumes/*`（无 `/api`）** | **Python（仅当你决定让它承接时）** | 见下方 ⚠️ |
+
+⚠️ **切流前必须知道的两件事**：
+
+1. **Python 的路径没有 `/api` 前缀**，和 Node 的 `/api/*` 天然不冲突 —— 但也意味着不能简单地
+   「把 `/resumes` 指过去」就完事。要让 Python 承接这 7 个接口，得给它挂上 `/api` 前缀
+   （uvicorn/FastAPI 侧用 `root_path`，或在反代层做路径重写），并且把
+   `/api/resumes/*/pdf` **继续留给 Node**（Python 的 PDF 出口是「Python 转发到 Node」，
+   走反代绕回 Node 会自己打自己）。
+2. **前端现在打的是 `/api/rpc/*`**，不是 `/api/resumes`。所以即使反代把 `/api/resumes`
+   指给了 Python，**前端流量也一个都不会过来** —— 要真正切流必须同时改前端。
+   这正是「Python 不接管生产流量」这条定位的具体含义。
+
+**结论：默认配置下反代里没有 Python 的位置。** Python 服务按 9.4 起在 `127.0.0.1:4000`，
+只用于验收与演示；上面的表是「将来真要切的时候该怎么切」。
+
+### 9.6 数据库：Alembic
+
+> ⚠️⚠️ **生产库还没有 `alembic_version` 表 —— 交接前必须先 `alembic stamp`，否则 Alembic
+> 会在一个已经有全部表的库上重跑基线（表已存在 → 报错）。**
+> 这一步**本文不替你执行**（不动正在使用的库），请按下面步骤自己跑。
+
+```bash
+cd services/resume-api
+export PATH="/usr/bin:/bin:$PATH"
+DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/postgres" \
+  "$PY" -m alembic current          # 期望：空（base）—— 说明还没 stamp
+```
+
+**stamp 到当前 head `0002`，不是 `0001`**：
+
+```bash
+DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/postgres" "$PY" -m alembic heads
+# 期望输出：0002 (head)
+
+DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/postgres" "$PY" -m alembic stamp 0002
+DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/postgres" "$PY" -m alembic current
+# 期望输出：0002 (head)
+```
+
+为什么是 `0002` 而不是 `0001`：Drizzle 的迁移里**已经包含**校招岗位板那三张表
+（`recruitment_post` / `recruitment_post_bookmark` / `recruitment_post_report`）。
+只 stamp `0001` 会让 `0002` 处于待应用状态，下次 `upgrade head` 又会去建已存在的表。
+
+全新库（**不要对正在使用的库跑**）：
+
+```bash
+DATABASE_URL="postgresql+psycopg://postgres:postgres@localhost:5432/<临时库>" \
+  "$PY" -m alembic upgrade head
+```
+
+> 连库一律用 **`127.0.0.1`**，不要用 `localhost`：Docker 的 Postgres 只发布了 `127.0.0.1:5432`，
+> `localhost` 会先解析到 IPv6 `::1`，libpq 在没设 `connect_timeout` 时会**一直挂住不报错**。
+>
+> `alembic.ini` **必须保持纯 ASCII** —— alembic 用平台默认编码（本机 cp936）读它，写中文会
+> `UnicodeDecodeError`。
+
+### 9.7 进程守护（**没有 systemd**）
+
+Windows 上不要写 systemd unit，跑不了。三个实际可选的方案：
+
+| 方案 | 适用 | 怎么做 |
+| --- | --- | --- |
+| **Windows 任务计划程序**（推荐，零安装） | 单机自托管 | `schtasks /create /tn "resume-api" /sc onstart /ru SYSTEM /tr "…\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 4000"`，再把 `PYTHONUNBUFFERED=1` 与各环境变量配进任务，或在 `/tr` 里套一个 `.bat` 先 `set` 再启动 |
+| **NSSM**（Non-Sucking Service Manager） | 想要真正的 Windows 服务（有 `restart` 语义） | `nssm install resume-api <python.exe>` → 在 NSSM 的 Environment 页填环境变量 → `nssm start resume-api`。崩溃自动重启、stdout 重定向都它管 |
+| **pm2**（Node 侧已经在用生态里的话） | Linux 生产 / 想和 Node 统一运维 | `pm2 start "$PY" --name resume-api --interpreter none -- -m uvicorn app.main:app --host 127.0.0.1 --port 4000` |
+
+三个方案都要注意的**同一件事**：环境变量必须在**服务上下文里**设好
+（`AUTH_SECRET` / `DATABASE_URL` / `PORT` / `NODE_RENDER_BASE_URL`）。
+Python 侧会去读仓库根 `.env`，但工作目录要是 `services/resume-api`，且 `PORT` 记得显式覆盖（9.3）。
+
+Linux 生产环境照常给 systemd unit，把同样的 ExecStart 与 `Environment=` 填进去即可。
+
+### 9.8 验收
+
+**照 `services/resume-api/docs/acceptance.md` 跑** —— 那里每一条都附了本机实测结果。
+最短的三条：
+
+```bash
+node services/resume-api/tools/check_env_parity.mjs --values    # 环境变量门禁
+cd services/resume-api && "$PY" -m pytest -q                    # 单测
+curl -s http://127.0.0.1:4000/health                            # 存活
+```
+
+⚠️ 跑 pytest 的 Postgres **必须**是 glibc 版镜像（`postgres:17`），
+**不要用 `postgres:17-alpine`** —— musl 的排序规则和 glibc 不一样，会让
+`test_list_resumes_sort_by_name` 平白无故红一条（`docs/acceptance.md` 第 0.1 节）。
 
 ---
 

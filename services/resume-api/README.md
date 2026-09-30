@@ -63,18 +63,24 @@ services/resume-api/
 ├─ docs/
 │  ├─ contract-scope.md           哪些进 Python / 哪些留 Node
 │  ├─ env-parity.md               M5：环境变量对照表（M6 的输入）
+│  ├─ acceptance.md               M6：验收清单 + 本机实测结果
 │  └─ render-parity.md            M5：PDF 联调结论 + 故意简化清单
 ├─ tools/
 │  ├─ export_contract.mjs         M1 导出脚本
+│  ├─ check_env_parity.mjs        M6：环境变量一致性检查（可进 CI 的门禁）
 │  └─ verify_pdf_token_parity.mjs M5：用 Node 真实实现做令牌互签校验
 └─ tests/
    ├─ conftest.py                 测试库建库 + 跑迁移 + 夹具
    ├─ test_identity.py            M3 的 8 个用例
+   ├─ test_identity_cookie_signature.py  M6：带签名 cookie 的认人（8 个用例）
    ├─ test_resume_crud.py         M4 的 58 个用例
    ├─ test_pdf_token.py           M5 的令牌用例（含与 Node 的真实互签）
    ├─ test_pdf_export.py          M5 的 PDF 出口用例（代理层 + 路由层）
    └─ test_render_contract.py     M5 的 data 形状 diff + JSONB 往返保真
 ```
+
+**部署步骤在仓库根 `DEPLOYMENT.md` 的第 9 节**（宿主机跑，不进容器；含反代规则与
+Alembic `stamp` 警告）。验收**逐项实测结果**见 `docs/acceptance.md`。
 
 ---
 
@@ -182,7 +188,11 @@ export PATH="/usr/bin:/bin:$PATH"
 * **直连本机 Postgres**（不用 SQLite）。测试库 `resume_api_test` 不存在时会自动创建。
 * 会话级夹具会先在测试库上跑一次 `alembic upgrade head`，等价于顺带验证基线迁移。
 * 每个用例前后 `TRUNCATE` 相关表。
-* 当前结果：**66 passed**（M3 的 8 个 identity 用例 + M4 的 58 个 CRUD 用例）。
+* 当前**收集到 137 个用例**（M3 的 8 个 identity + M4 的 58 个 CRUD + M5 的 63 个 + M6 新增 8 个
+  cookie 签名用例）。上一次实跑结果是 **136 passed**（那时 M6 只有 7 个）。
+* ⚠️ Postgres 镜像**必须**是 glibc 版（`postgres:17`），**别用 `postgres:17-alpine`** ——
+  musl 的排序规则和 glibc 不同，会让 `test_list_resumes_sort_by_name` 平白无故红一条。
+  详见 `docs/acceptance.md` 第 0.1 节。
 
 ## 6. M4 · 简历 CRUD
 
@@ -225,7 +235,8 @@ export PATH="/usr/bin:/bin:$PATH"
 ### 6.4 限流
 
 * 读 `app/config.py` 里已有的 `AUTH_SECRET`，与 Node 仓库根 `.env` **同名同值**，
-  作为限流 key 的 HMAC pepper。
+  作为限流 key 的 HMAC pepper。（`AUTH_SECRET` 在 Python 侧共有**三个**用途：限流 pepper、
+  M5 的 PDF 令牌签名、M6 发现的会话 cookie 验签 —— 见 `docs/env-parity.md` §2.1。）
 * **进程内**滑动窗口，**300 次 / 60 秒**，只作用于写操作（create / update / patch / delete）
   —— 与 Node `rateLimitConfig.orpc.resumeMutations` 逐项对齐。
 * key 语义照 Node：`resume-mutation:{user_id}:id:{resume_id}`；create 时还没有 id，是 `no-id`。
@@ -358,9 +369,13 @@ curl -s http://127.0.0.1:4000/resumes/<username>/smoke-cv     # 公开页，无�
 ## M3 取身份是怎么工作的
 
 * `session.token` 是**明文** text 列（`packages/db/src/schema/auth.ts`），且项目没开
-  better-auth 的 cookieCache ⇒ **浏览器 cookie 的值就是 `session.token`**。
+  better-auth 的 cookieCache ⇒ 认人不需要解任何东西。
 * cookie 名：`better-auth.session_token`。
-* 认人只需一条查询：
+* ⚠️ **cookie 的值不等于 `session.token`**（M6 端到端验收实测发现，推翻了早期假设）：
+  better-auth 1.7 起 cookie 是 `<session.token>.<base64(HMAC-SHA256(AUTH_SECRET, token))>`，
+  库里只存前半段。直接拿整个 cookie 去查会**一律 401**，而且和「没登录」长得一模一样。
+  见 `docs/acceptance.md` 第 4.1 节。
+* 认人的查询（`app/identity.py` 已先把签名段剥掉并验签）：
 
   ```sql
   SELECT "user".id
