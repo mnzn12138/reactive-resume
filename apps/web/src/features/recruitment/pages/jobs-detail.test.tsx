@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { buildApplicationDraft } from "@reactive-resume/api/features/recruitment/convert";
 import { mockPostAnonymous, mockPostDetail } from "../__fixtures__/post";
 import { JobsDetailPage } from "./jobs-detail";
@@ -25,8 +26,19 @@ vi.mock("@/libs/orpc/client", () => ({
 		applications: {
 			create: { mutationOptions: (options: object) => ({ ...options, mutationFn: createSpy }) },
 		},
+		recruitment: {
+			getById: { queryKey: (options?: { input?: { id?: string } }) => ["recruitment", "getById", options?.input?.id] },
+			bookmarks: { queryKey: () => ["recruitment", "bookmarks"] },
+			list: { queryKey: () => ["recruitment", "list"] },
+			bookmark: { mutationOptions: (options: object) => ({ ...options, mutationFn: vi.fn() }) },
+			unbookmark: { mutationOptions: (options: object) => ({ ...options, mutationFn: vi.fn() }) },
+			report: { mutationOptions: (options: object) => ({ ...options, mutationFn: vi.fn() }) },
+		},
 	},
 }));
+
+// The bookmark button toasts on success and on failure; the manager is not mounted here.
+vi.mock("@reactive-resume/ui/components/toast", () => ({ toast: { add: vi.fn() } }));
 
 vi.mock("@/features/applications/components/application-form-sheet", () => ({
 	ApplicationFormSheet: ({ open, draft }: { open: boolean; draft: unknown }) =>
@@ -51,14 +63,16 @@ const renderPage = (
 	} = {},
 ) =>
 	render(
-		<I18nProvider i18n={i18n}>
-			<JobsDetailPage
-				post={"post" in props ? props.post : mockPostDetail}
-				isLoading={props.isLoading ?? false}
-				isAuthenticated={props.isAuthenticated ?? true}
-				loginHref={LOGIN_HREF}
-			/>
-		</I18nProvider>,
+		<QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
+			<I18nProvider i18n={i18n}>
+				<JobsDetailPage
+					post={"post" in props ? props.post : mockPostDetail}
+					isLoading={props.isLoading ?? false}
+					isAuthenticated={props.isAuthenticated ?? true}
+					loginHref={LOGIN_HREF}
+				/>
+			</I18nProvider>
+		</QueryClientProvider>,
 	);
 
 const readDraft = () => JSON.parse(screen.getByTestId("application-sheet").textContent ?? "{}");

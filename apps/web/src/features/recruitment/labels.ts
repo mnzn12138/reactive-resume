@@ -7,7 +7,9 @@ import type {
 	ContactKind,
 	EducationRequired,
 	EmploymentType,
+	PostStatus,
 	RecruitmentSource,
+	ReportReason,
 	WorkIntensity,
 	WorkMode,
 } from "@reactive-resume/schema/recruitment/data";
@@ -91,6 +93,30 @@ export const availabilityLabels: Record<Availability, MessageDescriptor> = {
 	closingSoon: msg`Closing soon`,
 	rolling: msg`Rolling`,
 	expired: msg`Expired`,
+};
+
+/**
+ * Moderation state, as the submitter and the reviewer see it.
+ *
+ * `draft` and `expired` are never chosen by a submitter, but both are reachable — a draft
+ * from an abandoned form, an expired post an administrator took down — so they need a label.
+ */
+export const statusLabels: Record<PostStatus, MessageDescriptor> = {
+	draft: msg`Draft`,
+	pending: msg`In review`,
+	published: msg`Published`,
+	rejected: msg`Rejected`,
+	closed: msg`Taken down`,
+	expired: msg`Expired`,
+};
+
+/** Why someone reported a post. The copy is addressed to the reporter, not to a reviewer. */
+export const reportReasonLabels: Record<ReportReason, MessageDescriptor> = {
+	notHiring: msg`They are not actually hiring`,
+	fakeInfo: msg`The details are wrong or invented`,
+	kpiFarming: msg`Posted only to hit a quota`,
+	duplicate: msg`The same role is listed twice`,
+	other: msg`Something else`,
 };
 
 /** Sort options mirror `recruitmentSortOptions`; unlike the lists above, order is the UI order. */

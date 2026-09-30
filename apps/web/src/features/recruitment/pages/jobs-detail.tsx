@@ -4,6 +4,7 @@ import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { ArrowSquareOutIcon, CalendarBlankIcon, MegaphoneIcon } from "@phosphor-icons/react";
+import { Link } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { buildApplicationDraft } from "@reactive-resume/api/features/recruitment/convert";
 import { Badge } from "@reactive-resume/ui/components/badge";
@@ -14,10 +15,12 @@ import { Skeleton } from "@reactive-resume/ui/components/skeleton";
 import { cn } from "@reactive-resume/utils/style";
 import { AddToApplicationsButton, useApplicationDraftSheet } from "../components/add-to-applications-button";
 import { AvailabilityBadge } from "../components/availability-badge";
+import { BookmarkButton } from "../components/bookmark-button";
 import { CompanyLogo } from "../components/company-logo";
 import { ContactPanel } from "../components/contact-panel";
 import { EnumBadgeList } from "../components/enum-badge-list";
 import { JobsShell } from "../components/jobs-shell";
+import { ReportButton, useReportDialog } from "../components/report-dialog";
 import {
 	batchLabels,
 	benefitLabels,
@@ -99,6 +102,7 @@ type PostDetailBodyProps = {
 function PostDetailBody({ post, isAuthenticated, loginHref }: PostDetailBodyProps) {
 	const { i18n } = useLingui();
 	const { startTracking, sheet } = useApplicationDraftSheet();
+	const { openReport, reported, dialog: reportDialog } = useReportDialog(post.id);
 
 	const track = useCallback(() => startTracking(buildApplicationDraft(post)), [post, startTracking]);
 
@@ -115,10 +119,14 @@ function PostDetailBody({ post, isAuthenticated, loginHref }: PostDetailBodyProp
 						<div className="flex flex-wrap items-center gap-2">
 							<Badge variant="outline">{i18n.t(batchLabels[post.batch])}</Badge>
 							<AvailabilityBadge availability={post.availability} daysUntilDeadline={post.daysUntilDeadline} />
+							{/* The id is null until `application.recruitment_post_id` ships; the link is already
+							    wired so the badge becomes a way in rather than a dead end on the day it isn't. */}
 							{post.myApplicationId !== null && (
-								<Badge variant="secondary">
-									<Trans>Already in my applications</Trans>
-								</Badge>
+								<Link to="/dashboard/applications" aria-label={t`Open my applications`}>
+									<Badge variant="secondary">
+										<Trans>Already in my applications</Trans>
+									</Badge>
+								</Link>
 							)}
 						</div>
 					</div>
@@ -202,6 +210,18 @@ function PostDetailBody({ post, isAuthenticated, loginHref }: PostDetailBodyProp
 					onStartTracking={track}
 				/>
 
+				<div className="flex items-center gap-x-2">
+					<BookmarkButton
+						postId={post.id}
+						bookmarked={post.bookmarked}
+						isAuthenticated={isAuthenticated}
+						loginHref={loginHref}
+						className="flex-1"
+					/>
+
+					<ReportButton onClick={openReport} reported={reported} className="flex-1" />
+				</div>
+
 				<ContactPanel contact={post.contact} isAuthenticated={isAuthenticated} loginHref={loginHref} />
 
 				<Separator />
@@ -213,6 +233,7 @@ function PostDetailBody({ post, isAuthenticated, loginHref }: PostDetailBodyProp
 			</aside>
 
 			{sheet}
+			{reportDialog}
 		</div>
 	);
 }

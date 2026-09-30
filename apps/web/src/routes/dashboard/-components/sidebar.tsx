@@ -15,9 +15,11 @@ import {
 	UserCircleIcon,
 	UserGearIcon,
 } from "@phosphor-icons/react";
+import { useQuery } from "@tanstack/react-query";
 import { getRouteApi, Link } from "@tanstack/react-router";
 import { AnimatePresence, m } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@reactive-resume/ui/components/avatar";
+import { Badge } from "@reactive-resume/ui/components/badge";
 import { BrandIcon } from "@reactive-resume/ui/components/brand-icon";
 import { Kbd } from "@reactive-resume/ui/components/kbd";
 import {
@@ -40,6 +42,7 @@ import { Copyright } from "@/components/ui/copyright";
 import { useCommandPaletteStore } from "@/features/command-palette/store";
 import { UserDropdownMenu } from "@/features/user/dropdown-menu";
 import { authClient } from "@/libs/auth/client";
+import { orpc } from "@/libs/orpc/client";
 
 /** Route context for the dashboard tree: carries the root's feature flags without refetching. */
 const dashboardRoute = getRouteApi("/dashboard");
@@ -48,6 +51,8 @@ type SidebarItem = {
 	icon: React.ReactNode;
 	label: MessageDescriptor;
 	href: React.ComponentProps<typeof Link>["to"];
+	/** Optional counter beside the label — how many submissions are waiting on this admin. */
+	badge?: number;
 };
 
 const appSidebarItems = [
@@ -120,6 +125,20 @@ const jobBoardSidebarItem = {
 	href: "/jobs",
 } as const satisfies SidebarItem;
 
+/** Where the reader's own submissions and bookmarks live. */
+const myPostsSidebarItem = {
+	icon: <BriefcaseIcon />,
+	label: msg`My campus posts`,
+	href: "/dashboard/recruitment",
+} as const satisfies SidebarItem;
+
+/** The review queue, with the number of submissions waiting on it. */
+const recruitmentReviewSidebarItem = {
+	icon: <MegaphoneIcon />,
+	label: msg`Recruitment Review`,
+	href: "/admin/recruitment",
+} as const satisfies SidebarItem;
+
 type SidebarItemListProps = {
 	items: readonly SidebarItem[];
 };
@@ -139,6 +158,14 @@ function SidebarItemList({ items }: SidebarItemListProps) {
 								<span className="shrink-0 transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:-ms-8 group-data-[collapsible=icon]:opacity-0">
 									{i18n.t(item.label)}
 								</span>
+								{(item.badge ?? 0) > 0 && (
+									<Badge
+										variant="destructive"
+										className="ms-auto tabular-nums transition-opacity duration-200 ease-in-out group-data-[collapsible=icon]:opacity-0"
+									>
+										{item.badge}
+									</Badge>
+								)}
 							</Link>
 						}
 					/>
@@ -173,12 +200,27 @@ export function DashboardSidebar() {
 	const { data: session } = authClient.useSession();
 	const { flags } = dashboardRoute.useRouteContext();
 
-	// App items are built per render because one of them depends on the instance flag.
-	const appItems = flags?.recruitmentBoardEnabled ? [...appSidebarItems, jobBoardSidebarItem] : appSidebarItems;
+	const boardEnabled = flags?.recruitmentBoardEnabled === true;
+
+	// App items are built per render because two of them depend on the instance flag.
+	const appItems = boardEnabled ? [...appSidebarItems, myPostsSidebarItem, jobBoardSidebarItem] : appSidebarItems;
 
 	// The console route itself re-checks the role, this only decides whether the
 	// shortcut is offered.
 	const isAdmin = session?.user.role === "admin";
+
+	// Only the total is read, so the queue's size costs a single row — and it is not requested
+	// at all unless this reader is an administrator on an instance with the board switched on,
+	// because the endpoint answers 403 for everyone else.
+	const pending = useQuery({
+		...orpc.admin.recruitment.posts.list.queryOptions({ input: { status: "pending", limit: 1, offset: 0 } }),
+		enabled: isAdmin && boardEnabled,
+		select: (data) => data.total,
+	});
+
+	const adminItems = boardEnabled
+		? [...adminSidebarItems, { ...recruitmentReviewSidebarItem, badge: pending.data ?? 0 }]
+		: adminSidebarItems;
 
 	return (
 		<Sidebar variant="floating" collapsible="icon">
@@ -227,7 +269,7 @@ export function DashboardSidebar() {
 							<Trans>Administration</Trans>
 						</SidebarGroupLabel>
 						<SidebarGroupContent>
-							<SidebarItemList items={adminSidebarItems} />
+							<SidebarItemList items={adminItems} />
 						</SidebarGroupContent>
 					</SidebarGroup>
 				)}

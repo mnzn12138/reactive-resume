@@ -53,6 +53,24 @@ msgstr "{0} and everything they own — resumes and applications — will be per
 msgid "{0} applications tracked"
 msgstr "{0} applications tracked"
 
+#. placeholder {0}: post.role
+#. placeholder {1}: post.company
+#: src/routes/admin/recruitment/index.tsx
+msgid "{0} at {1} comes off the board. The submitter can share it again, and it will come back here for review."
+msgstr "{0} at {1} comes off the board. The submitter can share it again, and it will come back here for review."
+
+#. placeholder {0}: post.role
+#. placeholder {1}: post.company
+#: src/routes/admin/recruitment/index.tsx
+msgid "{0} at {1} is deleted for good, together with its reports and bookmarks. Applications created from it are kept. This cannot be undone."
+msgstr "{0} at {1} is deleted for good, together with its reports and bookmarks. Applications created from it are kept. This cannot be undone."
+
+#. placeholder {0}: target.role
+#. placeholder {1}: target.company
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
+msgid "{0} at {1} will be deleted. Reports and bookmarks go with it; applications you already created from it stay."
+msgstr "{0} at {1} will be deleted. Reports and bookmarks go with it; applications you already created from it stay."
+
 #. Character count readout for the rich-text editor
 #. placeholder {0}: state.characterCount
 #: src/components/input/rich-input.tsx
@@ -178,6 +196,10 @@ msgstr "<ul><li>Led research and interface design for a collaborative planning t
 msgid "1 Column / Inline"
 msgstr "1 Column / Inline"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "200-300/day"
+msgstr "200-300/day"
+
 #: src/features/homepage/resume-sculpture.tsx
 msgid "2015 to 2019"
 msgstr "2015 to 2019"
@@ -262,6 +284,10 @@ msgstr "A page is rotated."
 msgid "A PDF for the application. A Word file for a few more edits. Download a sample using your choices."
 msgstr "A PDF for the application. A Word file for a few more edits. Download a sample using your choices."
 
+#: src/features/recruitment/errors.ts
+msgid "A post for this company, role and city already exists."
+msgstr "A post for this company, role and city already exists."
+
 #: src/features/homepage/feature-explorer.tsx
 msgid "A private resume does not appear at its public link."
 msgstr "A private resume does not appear at its public link."
@@ -339,6 +365,9 @@ msgstr "Action"
 #: src/features/applications/components/table-view.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/report-table.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Actions"
 msgstr "Actions"
 
@@ -484,6 +513,11 @@ msgstr "Add at least a city and country so roles can be matched to your region."
 msgid "Add contact"
 msgstr "Add contact"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+#: src/features/recruitment/errors.ts
+msgid "Add either an application link or a link to the original announcement."
+msgstr "Add either an application link or a link to the original announcement."
+
 #: src/features/ats-checker/messages.ts
 msgid "Add figures where you have them: volumes, percentages, timeframes, team sizes."
 msgstr "Add figures where you have them: volumes, percentages, timeframes, team sizes."
@@ -554,6 +588,10 @@ msgstr "Add two or three lines at the top describing what you do."
 msgid "Add your full name under Basics."
 msgstr "Add your full name under Basics."
 
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Added to your bookmarks."
+msgstr "Added to your bookmarks."
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Adjust the resume for a remote-first role that values async communication and ownership."
 msgstr "Adjust the resume for a remote-first role that values async communication and ownership."
@@ -562,6 +600,7 @@ msgstr "Adjust the resume for a remote-first role that values async communicatio
 #: src/routes/admin/-components/users-table.tsx
 #: src/routes/admin/audit.tsx
 #: src/routes/admin/overview.tsx
+#: src/routes/admin/recruitment/index.tsx
 #: src/routes/admin/resumes.tsx
 #: src/routes/admin/settings.tsx
 #: src/routes/admin/users.tsx
@@ -714,6 +753,18 @@ msgstr "Already in my applications"
 msgid "An administrator can connect services that necessarily receive some data: an SMTP provider for verification and password-reset emails, an S3-compatible bucket for uploads, Google, GitHub or LinkedIn for social sign-in, and a model provider for the optional AI features. Which of those are live depends on this deployment."
 msgstr "An administrator can connect services that necessarily receive some data: an SMTP provider for verification and password-reset emails, an S3-compatible bucket for uploads, Google, GitHub or LinkedIn for social sign-in, and a model provider for the optional AI features. Which of those are live depends on this deployment."
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "An administrator reviews every submission before it appears on the board."
+msgstr "An administrator reviews every submission before it appears on the board."
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "An administrator reviews reports. You can report a post once."
+msgstr "An administrator reviews reports. You can report a post once."
+
+#: src/features/recruitment/errors.ts
+msgid "An administrator took this post down, so it cannot be edited. Submit it again instead."
+msgstr "An administrator took this post down, so it cannot be edited. Submit it again instead."
+
 #: src/features/ats-checker/messages.ts
 msgid "An embedded font could not be read."
 msgstr "An embedded font could not be read."
@@ -750,6 +801,10 @@ msgstr "Any benefit"
 #: src/features/recruitment/components/post-filters.tsx
 msgid "Any education"
 msgstr "Any education"
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Any state"
+msgstr "Any state"
 
 #: src/features/recruitment/components/post-filters.tsx
 #: src/routes/admin/resumes.tsx
@@ -788,6 +843,10 @@ msgstr "Anyone with the link can view the resume."
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Anyone with the public URL will be able to view your resume without a password."
 msgstr "Anyone with the public URL will be able to view your resume without a password."
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Anything that helps an administrator judge this"
+msgstr "Anything that helps an administrator judge this"
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "API Key"
@@ -830,6 +889,11 @@ msgstr "Application date to"
 msgid "Application deleted."
 msgstr "Application deleted."
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Application link"
+msgstr "Application link"
+
 #: src/features/applications/components/application-form-sheet.tsx
 msgid "Application updated."
 msgstr "Application updated."
@@ -842,8 +906,13 @@ msgid "Applications"
 msgstr "Applications"
 
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Applications accepted indefinitely"
 msgstr "Applications accepted indefinitely"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Applications are accepted indefinitely"
+msgstr "Applications are accepted indefinitely"
 
 #: src/features/applications/components/insights-view.tsx
 msgid "Applications over time"
@@ -870,9 +939,19 @@ msgstr "Applied on"
 msgid "Apply on the company's site"
 msgstr "Apply on the company's site"
 
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Approve"
 msgstr "Approve"
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Approve, reject, take down or delete submissions, and work through reports."
+msgstr "Approve, reject, take down or delete submissions, and work through reports."
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Approved — it is on the board now."
+msgstr "Approved — it is on the board now."
 
 #: src/routes/agent/-components/patch-approval-card.tsx
 msgid "Approved, waiting for the agent…"
@@ -940,6 +1019,10 @@ msgstr "As far as the law allows, whoever runs this instance is not liable for i
 #: src/features/homepage/community-stats.tsx
 msgid "As of <0>{formattedDate}</0>."
 msgstr "As of <0>{formattedDate}</0>."
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Ascending"
+msgstr "Ascending"
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Ask anything about this resume"
@@ -1079,14 +1162,21 @@ msgstr "Base URL"
 msgid "Basics"
 msgstr "Basics"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/components/post-table.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
 msgid "Batch"
 msgstr "Batch"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Beijing, Shanghai"
+msgstr "Beijing, Shanghai"
+
 #: src/features/recruitment/components/post-card.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/components/post-table.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Benefits"
 msgstr "Benefits"
 
@@ -1118,6 +1208,22 @@ msgstr "Body"
 #: src/components/input/rich-input.tsx
 msgid "Bold"
 msgstr "Bold"
+
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Bookmark"
+msgstr "Bookmark"
+
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Bookmark this post"
+msgstr "Bookmark this post"
+
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Bookmarked"
+msgstr "Bookmarked"
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "Bookmarks"
+msgstr "Bookmarks"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Border Radius"
@@ -1211,6 +1317,8 @@ msgstr "Campus recruitment openings shared by this community."
 #: src/features/applications/components/export-applications-sheet.tsx
 #: src/features/applications/components/import-applications-sheet.tsx
 #: src/features/homepage/ats-playground.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
+#: src/features/recruitment/components/report-dialog.tsx
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/sharing/image-card.tsx
 #: src/features/resume/sharing/qr-card.tsx
@@ -1221,6 +1329,7 @@ msgstr "Campus recruitment openings shared by this community."
 #: src/hooks/use-confirm.tsx
 #: src/hooks/use-prompt.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx
@@ -1514,6 +1623,7 @@ msgstr "Compact"
 
 #: src/dialogs/resume/sections/experience.tsx
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/components/post-table.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
 msgid "Company"
@@ -1526,6 +1636,10 @@ msgstr "Company / Role"
 #: src/routes/dashboard/applications/index.tsx
 msgid "Company A–Z"
 msgstr "Company A–Z"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Company and role are both required."
+msgstr "Company and role are both required."
 
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Compare this resume against this job posting URL and update the keywords without overselling anything."
@@ -1584,6 +1698,14 @@ msgstr "Connection failed."
 msgid "Connection verified. The provider is ready to use."
 msgstr "Connection verified. The provider is ready to use."
 
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Contact"
+msgstr "Contact"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Contact channel"
+msgstr "Contact channel"
+
 #: src/features/ats-checker/messages.ts
 msgid "Contact details"
 msgstr "Contact details"
@@ -1591,6 +1713,10 @@ msgstr "Contact details"
 #: src/features/recruitment/components/contact-panel.tsx
 msgid "Contact details are only shown to signed-in users. Log in to see how to reach the poster."
 msgstr "Contact details are only shown to signed-in users. Log in to see how to reach the poster."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Contact value"
+msgstr "Contact value"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Contacts"
@@ -2027,6 +2153,7 @@ msgstr "Dark theme"
 
 #: src/features/recruitment/components/jobs-shell.tsx
 #: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/recruitment/index.tsx
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -2045,8 +2172,11 @@ msgstr "Date applied"
 msgid "Dates"
 msgstr "Dates"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/labels.ts
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/index.tsx
 msgid "Deadline"
 msgstr "Deadline"
 
@@ -2057,6 +2187,10 @@ msgstr "Decrease indent"
 #: src/routes/agent/-components/resume-pane.tsx
 msgid "Decrease zoom"
 msgstr "Decrease zoom"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Dedupe key"
+msgstr "Dedupe key"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "Deep check"
@@ -2081,6 +2215,9 @@ msgstr "Degree"
 #: src/features/settings/authentication/components/passkeys.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/admin/recruitment/index.tsx
 #: src/routes/agent/-components/agent-chat.tsx
 #: src/routes/agent/-components/thread-sidebar.tsx
 #: src/routes/builder/$resumeId/-components/header.tsx
@@ -2139,6 +2276,10 @@ msgstr "Delete this agent thread?"
 msgid "Delete this application?"
 msgstr "Delete this application?"
 
+#: src/routes/admin/recruitment/index.tsx
+msgid "Delete this post?"
+msgstr "Delete this post?"
+
 #: src/routes/admin/-components/resumes-table.tsx
 msgid "Delete this resume?"
 msgstr "Delete this resume?"
@@ -2170,6 +2311,10 @@ msgstr "Deleted a user"
 msgid "Deleted account"
 msgstr "Deleted account"
 
+#: src/routes/admin/recruitment/index.tsx
+msgid "Deleted. Applications created from it were kept."
+msgstr "Deleted. Applications created from it were kept."
+
 #: src/features/settings/pages/account.tsx
 msgid "Deleting your account..."
 msgstr "Deleting your account..."
@@ -2195,6 +2340,10 @@ msgstr "Deny"
 #: src/routes/admin/settings.tsx
 msgid "Derived from whether SMTP is configured. Change the SMTP environment variables to turn it on or off."
 msgstr "Derived from whether SMTP is configured. Change the SMTP environment variables to turn it on or off."
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Descending"
+msgstr "Descending"
 
 #: src/features/ats-checker/messages.ts
 msgid "Describe each role with short bullets. Solid paragraphs are harder to skim and to segment."
@@ -2236,8 +2385,13 @@ msgid "Designed websites and tools for a growing creative community."
 msgstr "Designed websites and tools for a growing creative community."
 
 #: src/routes/admin/-components/audit-table.tsx
+#: src/routes/admin/recruitment/-components/report-table.tsx
 msgid "Details"
 msgstr "Details"
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Details (optional)"
+msgstr "Details (optional)"
 
 #. Label above the raw error text forwarded by the identity provider
 #: src/features/auth/pages/error.tsx
@@ -2408,6 +2562,10 @@ msgstr "Downloads every page of your resume stitched into one tall PNG image."
 msgid "Downloads the first page of your resume as a PNG image."
 msgstr "Downloads the first page of your resume as a PNG image."
 
+#: src/features/recruitment/labels.ts
+msgid "Draft"
+msgstr "Draft"
+
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Draft a follow-up"
 msgstr "Draft a follow-up"
@@ -2476,6 +2634,7 @@ msgstr "Early batch"
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/routes/builder/$resumeId/-components/mobile-builder-shell.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Edit"
 msgstr "Edit"
 
@@ -2526,6 +2685,10 @@ msgstr "Edit model"
 msgid "Edit note"
 msgstr "Edit note"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Edit this opening"
+msgstr "Edit this opening"
+
 #: src/features/resume/export/download-dialog.tsx
 msgid "Editable in Word, Google Docs, and Pages."
 msgstr "Editable in Word, Google Docs, and Pages."
@@ -2538,15 +2701,21 @@ msgstr "Editing is disabled until you unlock it."
 msgid "Editing keyword..."
 msgstr "Editing keyword..."
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Editing sends this post back for review"
+msgstr "Editing sends this post back for review"
+
 #: src/dialogs/resume/sections/custom.tsx
 #: src/features/homepage/export-playground.tsx
 #: src/features/homepage/languages-showcase.tsx
 #: src/features/homepage/resume-sculpture.tsx
 #: src/features/recruitment/components/post-card.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/components/post-table.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Education"
 msgstr "Education"
 
@@ -2585,6 +2754,7 @@ msgid "Embed all fonts when exporting, so characters map the way you intended."
 msgstr "Embed all fonts when exporting, so characters map the way you intended."
 
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Employment type"
 msgstr "Employment type"
 
@@ -2669,6 +2839,10 @@ msgstr "Error"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "Every check passed. Nothing here should stop a parser from reading your resume."
 msgstr "Every check passed. Nothing here should stop a parser from reading your resume."
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Everything the board stores about this submission."
+msgstr "Everything the board stores about this submission."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Example application"
@@ -2957,6 +3131,10 @@ msgstr "Fifteen templates, all free. Pick one you like. You can change the type,
 msgid "File"
 msgstr "File"
 
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Filed"
+msgstr "Filed"
+
 #. Privacy policy bullet: uploaded files
 #: src/routes/_home/privacy.tsx
 msgid "Files you upload: profile pictures, attachments, and documents you import."
@@ -3062,6 +3240,10 @@ msgstr "For a few more edits"
 msgid "For example, note which companies you sent this resume to, or links to the job descriptions."
 msgstr "For example, note which companies you sent this resume to, or links to the job descriptions."
 
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
+msgid "For example: the announcement link does not open, or the salary range is missing."
+msgstr "For example: the announcement link does not open, or the salary range is missing."
+
 #: src/features/homepage/export-playground.tsx
 msgid "For filling in a Chinese job-site form"
 msgstr "For filling in a Chinese job-site form"
@@ -3119,6 +3301,10 @@ msgstr "Freshness is decided by the server, so it reads the same wherever this l
 #: src/routes/admin/settings.tsx
 msgid "From an environment variable"
 msgstr "From an environment variable"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Frontend, 2027 graduation"
+msgstr "Frontend, 2027 graduation"
 
 #: src/features/resume/export/download-dialog.tsx
 msgid "Full resume data for backup or import."
@@ -3239,6 +3425,10 @@ msgstr "Grid"
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "Groq"
 msgstr "Groq"
+
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Handled"
+msgstr "Handled"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx
 msgctxt "Headings or Titles (H1, H2, H3, H4, H5, H6)"
@@ -3460,6 +3650,10 @@ msgstr "Importing…"
 msgid "In {0}"
 msgstr "In {0}"
 
+#: src/features/recruitment/labels.ts
+msgid "In review"
+msgstr "In review"
+
 #: src/components/input/rich-input.tsx
 msgid "Increase indent"
 msgstr "Increase indent"
@@ -3547,6 +3741,10 @@ msgstr "Issuer"
 #: src/features/recruitment/pages/jobs-detail.tsx
 msgid "It may have been taken down, or its deadline has passed."
 msgstr "It may have been taken down, or its deadline has passed."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "It stays on the board while an administrator looks at your changes, and goes back up once they approve them."
+msgstr "It stays on the board while an administrator looks at your changes, and goes back up once they approve them."
 
 #: src/components/input/rich-input.tsx
 msgid "Italic"
@@ -3729,6 +3927,14 @@ msgstr "Last active"
 msgid "Last downloaded on {0}"
 msgstr "Last downloaded on {0}"
 
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Last edited"
+msgstr "Last edited"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Last reviewed by"
+msgstr "Last reviewed by"
+
 #: src/routes/dashboard/applications/index.tsx
 msgid "Last updated"
 msgstr "Last updated"
@@ -3881,6 +4087,10 @@ msgstr "LinkedIn, Referral…"
 msgid "Linking your {providerName} account..."
 msgstr "Linking your {providerName} account..."
 
+#: src/features/recruitment/errors.ts
+msgid "Links have to start with http:// or https://."
+msgstr "Links have to start with http:// or https://."
+
 #: src/routes/dashboard/resumes/index.tsx
 msgid "List"
 msgstr "List"
@@ -3938,8 +4148,11 @@ msgstr "Loading…"
 msgid "Location"
 msgstr "Location"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/components/post-table.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Locations"
 msgstr "Locations"
 
@@ -3964,6 +4177,10 @@ msgstr "Locked"
 #: src/features/recruitment/components/jobs-shell.tsx
 msgid "Log in"
 msgstr "Log in"
+
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Log in to bookmark"
+msgstr "Log in to bookmark"
 
 #: src/features/recruitment/components/add-to-applications-button.tsx
 #: src/features/recruitment/components/post-table.tsx
@@ -4037,9 +4254,17 @@ msgstr "Margin (Horizontal)"
 msgid "Margin (Vertical)"
 msgstr "Margin (Vertical)"
 
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Mark handled"
+msgstr "Mark handled"
+
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Mark rejected"
 msgstr "Mark rejected"
+
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Marked as handled."
+msgstr "Marked as handled."
 
 #: src/features/applications/components/application-ai-copilot.tsx
 msgid "Match scoring failed."
@@ -4090,6 +4315,10 @@ msgstr "Most bullets open with filler rather than something you did."
 #: src/features/ats-checker/messages.ts
 msgid "Most entries have no dates."
 msgstr "Most entries have no dates."
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Most reported"
+msgstr "Most reported"
 
 #: src/libs/resume/ats.ts
 msgid "Most systems file candidates by email. Add one under Basics."
@@ -4142,6 +4371,15 @@ msgstr "Moved to"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom-fields.tsx
 msgid "Must start with https://"
 msgstr "Must start with https://"
+
+#: src/routes/dashboard/-components/sidebar.tsx
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "My campus posts"
+msgstr "My campus posts"
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "My submissions"
+msgstr "My submissions"
 
 #. Label for full name input on registration form
 #: src/dialogs/resume/index.tsx
@@ -4213,6 +4451,10 @@ msgstr "New thread"
 msgid "New Thread"
 msgstr "New Thread"
 
+#: src/routes/admin/recruitment/index.tsx
+msgid "Newest first"
+msgstr "Newest first"
+
 #: src/features/recruitment/labels.ts
 msgid "Newest postings"
 msgstr "Newest postings"
@@ -4222,6 +4464,9 @@ msgstr "Newest postings"
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/report-table.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Next"
 msgstr "Next"
 
@@ -4314,6 +4559,10 @@ msgstr "No readable text found. This PDF may contain scanned images. Export a PD
 #: src/routes/_home/ats-checker.tsx
 msgid "No repeating the claim that most resumes are thrown out automatically."
 msgstr "No repeating the claim that most resumes are thrown out automatically."
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "No reports have been filed."
+msgstr "No reports have been filed."
 
 #: src/components/ui/combobox.tsx
 msgid "No results found."
@@ -4428,6 +4677,10 @@ msgstr "Notes"
 msgid "Nothing marks a role as ongoing."
 msgstr "Nothing marks a role as ongoing."
 
+#: src/routes/admin/recruitment/index.tsx
+msgid "Nothing matches these filters."
+msgstr "Nothing matches these filters."
+
 #: src/features/ats-checker/report/report-view.tsx
 msgid "Nothing to fix here."
 msgstr "Nothing to fix here."
@@ -4485,6 +4738,8 @@ msgstr "Only the first pages were checked."
 #. Resume card context menu action to open the resume editor
 #. Resume card dropdown action to open the resume editor
 #: src/features/recruitment/labels.ts
+#: src/routes/admin/recruitment/-components/report-table.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 #: src/routes/dashboard/resumes/-components/menus/context-menu.tsx
 #: src/routes/dashboard/resumes/-components/menus/dropdown-menu.tsx
 msgid "Open"
@@ -4519,6 +4774,15 @@ msgstr "Open in builder"
 msgid "Open Integrations Settings"
 msgstr "Open Integrations Settings"
 
+#: src/features/recruitment/pages/jobs-detail.tsx
+msgid "Open my applications"
+msgstr "Open my applications"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
+msgid "Open on the board"
+msgstr "Open on the board"
+
 #: src/features/homepage/template-shelf.tsx
 msgid "Open template PDF"
 msgstr "Open template PDF"
@@ -4531,6 +4795,10 @@ msgstr "Open the exported file and confirm you can select and copy every part of
 msgid "Open the full ATS checker"
 msgstr "Open the full ATS checker"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Open the post that already exists"
+msgstr "Open the post that already exists"
+
 #: src/features/recruitment/labels.ts
 msgid "Open to all universities"
 msgstr "Open to all universities"
@@ -4542,6 +4810,10 @@ msgstr "OpenAI-compatible"
 #: src/features/ats-checker/tool.tsx
 msgid "Opening the file…"
 msgstr "Opening the file…"
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "Openings you shared, and the ones you bookmarked."
+msgstr "Openings you shared, and the ones you bookmarked."
 
 #: src/features/settings/integrations/components/ai-section.tsx
 msgid "OpenRouter"
@@ -4588,7 +4860,9 @@ msgstr "Ordered List"
 msgid "Organization"
 msgstr "Organization"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Original announcement"
 msgstr "Original announcement"
 
@@ -4638,6 +4912,9 @@ msgstr "Page {0}"
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/report-table.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Page {page} of {pageCount}"
 msgstr "Page {page} of {pageCount}"
 
@@ -4799,6 +5076,11 @@ msgstr "Phone Number"
 msgid "Phone number sign-in"
 msgstr "Phone number sign-in"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+#: src/features/recruitment/errors.ts
+msgid "Pick a contact channel and fill in its value — the two go together."
+msgstr "Pick a contact channel and fill in its value — the two go together."
+
 #: src/routes/agent/index.tsx
 msgid "Pick a conversation from the sidebar, or start a new thread to work on a draft."
 msgstr "Pick a conversation from the sidebar, or start a new thread to work on a draft."
@@ -4811,9 +5093,17 @@ msgstr "Pick a format for your resume."
 msgid "Pick a language. See it on the page."
 msgstr "Pick a language. See it on the page."
 
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Pick a reason"
+msgstr "Pick a reason"
+
 #: src/components/input/icon-picker.tsx
 msgid "Pick an icon"
 msgstr "Pick an icon"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Pick at least one recruitment type."
+msgstr "Pick at least one recruitment type."
 
 #: src/features/ats-checker/messages.ts
 msgid "Pick one format and use it everywhere."
@@ -4838,6 +5128,10 @@ msgstr "Pipeline health across all applications"
 #: src/libs/resume/ats.ts
 msgid "Place it on a page from the Layout panel, or hide it if you meant to park it."
 msgstr "Place it on a page from the Layout panel, or hide it if you meant to park it."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Plain text only."
+msgstr "Plain text only."
 
 #: src/features/resume/export/download-dialog.tsx
 msgid "Plain text, for AI tools and quick edits."
@@ -4868,6 +5162,18 @@ msgstr "Portrait"
 #: src/dialogs/resume/sections/reference.tsx
 msgid "Position"
 msgstr "Position"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Possible duplicate"
+msgstr "Possible duplicate"
+
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Post"
+msgstr "Post"
+
+#: src/features/recruitment/labels.ts
+msgid "Posted only to hit a quota"
+msgstr "Posted only to hit a quota"
 
 #: src/libs/resume/ats.ts
 msgid "Prefer a conventional heading such as \"Work Experience\" or \"Education\"."
@@ -4936,6 +5242,9 @@ msgstr "Preview of the resume image card"
 #: src/routes/admin/-components/audit-table.tsx
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/report-table.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Previous"
 msgstr "Previous"
 
@@ -5041,11 +5350,20 @@ msgstr "Public"
 msgid "Public resumes"
 msgstr "Public resumes"
 
+#: src/routes/admin/recruitment/index.tsx
+msgid "Publication date"
+msgstr "Publication date"
+
 #: src/dialogs/resume/sections/custom.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
 msgid "Publications"
 msgstr "Publications"
+
+#: src/features/recruitment/labels.ts
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Published"
+msgstr "Published"
 
 #: src/dialogs/resume/sections/publication.tsx
 msgid "Publisher"
@@ -5207,7 +5525,10 @@ msgstr "Ready to activate with warnings"
 msgid "Ready to put your name on it?"
 msgstr "Ready to put your name on it?"
 
+#: src/features/recruitment/components/report-dialog.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
+#: src/routes/admin/recruitment/-components/report-table.tsx
 msgid "Reason"
 msgstr "Reason"
 
@@ -5218,6 +5539,19 @@ msgstr "Recently added"
 #: src/features/homepage/export-playground.tsx
 msgid "Recruitment platform"
 msgstr "Recruitment platform"
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Recruitment review"
+msgstr "Recruitment review"
+
+#: src/routes/admin/-components/sidebar.tsx
+#: src/routes/dashboard/-components/sidebar.tsx
+msgid "Recruitment Review"
+msgstr "Recruitment Review"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Recruitment type"
+msgstr "Recruitment type"
 
 #: src/components/level/combobox.tsx
 msgid "Rectangle"
@@ -5246,6 +5580,7 @@ msgid "Referral"
 msgstr "Referral"
 
 #: src/features/recruitment/components/contact-panel.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 msgid "Referral code"
 msgstr "Referral code"
 
@@ -5260,6 +5595,28 @@ msgstr "Register New Device"
 #: src/features/recruitment/labels.ts
 msgid "Regular batch"
 msgstr "Regular batch"
+
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+msgid "Reject"
+msgstr "Reject"
+
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
+msgid "Reject this post"
+msgstr "Reject this post"
+
+#: src/features/recruitment/labels.ts
+msgid "Rejected"
+msgstr "Rejected"
+
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
+msgid "Rejected. The reason is now visible to the submitter."
+msgstr "Rejected. The reason is now visible to the submitter."
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Rejection reason"
+msgstr "Rejection reason"
 
 #: src/features/auth/pages/forgot-password.tsx
 msgid "Remember your password? <0/>"
@@ -5281,6 +5638,10 @@ msgstr "Remove"
 #: src/components/input/chip-input.tsx
 msgid "Remove {chip}"
 msgstr "Remove {chip}"
+
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Remove bookmark"
+msgstr "Remove bookmark"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 msgid "Remove contact"
@@ -5310,6 +5671,10 @@ msgstr "Remove Password"
 msgid "Remove tag"
 msgstr "Remove tag"
 
+#: src/features/recruitment/components/bookmark-button.tsx
+msgid "Removed from your bookmarks."
+msgstr "Removed from your bookmarks."
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx
 msgid "Removing password protection..."
 msgstr "Removing password protection..."
@@ -5321,6 +5686,14 @@ msgstr "Rename"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "Renders your current resume to PDF and runs the full file check in your browser. Nothing is uploaded."
 msgstr "Renders your current resume to PDF and runs the full file check in your browser. Nothing is uploaded."
+
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Reopen"
+msgstr "Reopen"
+
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Reopened."
+msgstr "Reopened."
 
 #: src/dialogs/resume/sections/experience.tsx
 msgid "Reorder"
@@ -5346,6 +5719,28 @@ msgstr "Replace tables with plain paragraphs and lists. Cells extract in storage
 #: src/libs/resume/ats.ts
 msgid "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
 msgstr "Replace them with plain text or ordinary punctuation. Outside this file they carry no meaning."
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Report"
+msgstr "Report"
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Report this post"
+msgstr "Report this post"
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Reported"
+msgstr "Reported"
+
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "Reported by"
+msgstr "Reported by"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/admin/recruitment/index.tsx
+msgid "Reports"
+msgstr "Reports"
 
 #. Action that asks for another SMS verification code
 #. Action that asks for another SMS verification code
@@ -5493,9 +5888,17 @@ msgstr "Retry"
 msgid "Retype it with halfwidth digits, as in 2020-03."
 msgstr "Retype it with halfwidth digits, as in 2020-03."
 
+#: src/routes/admin/recruitment/-components/review-table.tsx
+msgid "Review details"
+msgstr "Review details"
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Review edits"
 msgstr "Review edits"
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Review queue"
+msgstr "Review queue"
 
 #: src/routes/admin/settings.tsx
 msgid "Review submissions before publishing"
@@ -5533,9 +5936,12 @@ msgstr "Rhyhorn sample resume"
 msgid "Right Align"
 msgstr "Right Align"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/components/post-table.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Role"
 msgstr "Role"
 
@@ -5581,7 +5987,9 @@ msgstr "Running…"
 
 #: src/features/applications/components/application-detail-sheet.tsx
 #: src/features/applications/components/table-view.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Salary"
 msgstr "Salary"
 
@@ -5624,6 +6032,7 @@ msgid "Save an unprotected copy, with no password and no permissions restriction
 msgstr "Save an unprotected copy, with no password and no permissions restrictions."
 
 #: src/features/applications/components/application-form-sheet.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 msgid "Save changes"
 msgstr "Save changes"
 
@@ -5658,6 +6067,14 @@ msgstr "Save the file with every page upright."
 msgid "Saved"
 msgstr "Saved"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Saved. It is back in the review queue."
+msgstr "Saved. It is back in the review queue."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Saved. Your edit is back in the review queue — it stays on the board after an administrator approves it."
+msgstr "Saved. Your edit is back in the review queue — it stays on the board after an administrator approves it."
+
 #: src/features/resume/builder/draft.ts
 msgid "Saving is taking longer than expected. Your changes are still open."
 msgstr "Saving is taking longer than expected. Your changes are still open."
@@ -5665,6 +6082,10 @@ msgstr "Saving is taking longer than expected. Your changes are still open."
 #: src/routes/builder/$resumeId/-components/header.tsx
 msgid "Saving…"
 msgstr "Saving…"
+
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Say what is wrong — \"something else\" on its own cannot be acted on."
+msgstr "Say what is wrong — \"something else\" on its own cannot be acted on."
 
 #: src/features/homepage/feature-explorer.tsx
 msgid "Say what you actually did."
@@ -5711,6 +6132,10 @@ msgstr "Search audit entries"
 msgid "Search by administrator or target"
 msgstr "Search by administrator or target"
 
+#: src/routes/admin/recruitment/index.tsx
+msgid "Search by company, role or submitter"
+msgstr "Search by company, role or submitter"
+
 #: src/routes/admin/users.tsx
 msgid "Search by name, email or username"
 msgstr "Search by name, email or username"
@@ -5745,6 +6170,10 @@ msgstr "Search resumes..."
 #: src/features/recruitment/components/post-filters.tsx
 msgid "Search roles"
 msgstr "Search roles"
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Search submissions"
+msgstr "Search submissions"
 
 #: src/routes/admin/users.tsx
 msgid "Search users"
@@ -5851,6 +6280,10 @@ msgstr "Send message"
 msgid "Send Password Reset Email"
 msgstr "Send Password Reset Email"
 
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Send report"
+msgstr "Send report"
+
 #. Admin console action that sends one test SMS through the configured vendor
 #: src/features/settings/admin/test-sms-form.tsx
 msgid "Send test message"
@@ -5880,6 +6313,14 @@ msgstr "Sends the text already extracted from your PDF, plus the job description
 #: src/features/homepage/resume-sculpture.tsx
 msgid "Senior product designer"
 msgstr "Senior product designer"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Separate cities with commas."
+msgstr "Separate cities with commas."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Separate tags with commas."
+msgstr "Separate tags with commas."
 
 #: src/components/input/rich-input.tsx
 msgid "Separator"
@@ -5959,6 +6400,14 @@ msgstr "Setup Authenticator App"
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx
 msgid "Shadow Width"
 msgstr "Shadow Width"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Share a campus opening"
+msgstr "Share a campus opening"
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "Share an opening"
+msgstr "Share an opening"
 
 #: src/routes/admin/overview.tsx
 msgid "Shared through a public link."
@@ -6239,6 +6688,10 @@ msgstr "Some text is rotated."
 msgid "Some totals are unavailable right now."
 msgstr "Some totals are unavailable right now."
 
+#: src/features/recruitment/labels.ts
+msgid "Something else"
+msgstr "Something else"
+
 #: src/routes/agent/-components/agent-chat.tsx
 msgid "Something else…"
 msgstr "Something else…"
@@ -6261,6 +6714,7 @@ msgstr "Something went wrong while signing you in. Please try again."
 
 #: src/features/applications/components/application-actions-menu.tsx
 #: src/features/applications/components/application-detail-sheet.tsx
+#: src/features/recruitment/errors.ts
 #: src/features/resume/builder/password-dialog.tsx
 #: src/features/resume/sharing/image-card.tsx
 #: src/features/resume/sharing/qr-card.tsx
@@ -6397,6 +6851,10 @@ msgstr "Start the resume with your name on its own line."
 msgid "Start thread"
 msgstr "Start thread"
 
+#: src/routes/admin/recruitment/-components/report-table.tsx
+msgid "State"
+msgstr "State"
+
 #. Layout preset name for mainland China state-owned enterprise resumes
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx
 msgid "State-owned & public sector"
@@ -6408,6 +6866,8 @@ msgstr "Statistics"
 
 #: src/routes/admin/-components/resumes-table.tsx
 #: src/routes/admin/-components/users-table.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
 msgid "Status"
 msgstr "Status"
 
@@ -6460,6 +6920,37 @@ msgstr "Stylesheet editor"
 msgid "Stylesheet has fatal errors"
 msgstr "Stylesheet has fatal errors"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Submissions appear on the board straight away."
+msgstr "Submissions appear on the board straight away."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Submit"
+msgstr "Submit"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
+msgid "Submitted"
+msgstr "Submitted"
+
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+msgid "Submitted by"
+msgstr "Submitted by"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Submitted. It appears on the board once an administrator approves it."
+msgstr "Submitted. It appears on the board once an administrator approves it."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Submitted. It is on the board now."
+msgstr "Submitted. It is on the board now."
+
+#: src/features/recruitment/errors.ts
+msgid "Submitting campus job posts is turned off on this instance."
+msgstr "Submitting campus job posts is turned off on this instance."
+
 #: src/features/ats-checker/ai-review/ai-review-results.tsx
 msgid "Suggestions"
 msgstr "Suggestions"
@@ -6468,9 +6959,11 @@ msgstr "Suggestions"
 #. Fallback title for a custom summary item in resume builder when content is unavailable
 #: src/dialogs/resume/sections/custom.tsx
 #: src/features/homepage/export-playground.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
 #: src/libs/resume/section-title.ts
 #: src/libs/resume/section.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx
 msgid "Summary"
 msgstr "Summary"
@@ -6516,7 +7009,9 @@ msgstr "Table cells are routinely dropped. Rewrite it as plain paragraphs and bu
 #: src/dialogs/resume/index.tsx
 #: src/features/applications/components/application-form-sheet.tsx
 #: src/features/applications/components/table-view.tsx
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Tags"
 msgstr "Tags"
 
@@ -6540,9 +7035,27 @@ msgstr "Tailor this resume to a product manager job description, and emphasize r
 msgid "Tailoring failed."
 msgstr "Tailoring failed."
 
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-table.tsx
+#: src/routes/admin/recruitment/index.tsx
+msgid "Take down"
+msgstr "Take down"
+
 #: src/features/homepage/page.tsx
 msgid "Take it<0/>with you."
 msgstr "Take it<0/>with you."
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Take this post down?"
+msgstr "Take this post down?"
+
+#: src/features/recruitment/labels.ts
+msgid "Taken down"
+msgstr "Taken down"
+
+#: src/routes/admin/recruitment/index.tsx
+msgid "Taken down. It is off the board."
+msgstr "Taken down. It is off the board."
 
 #: src/routes/admin/-components/audit-table.tsx
 msgid "Target"
@@ -6601,6 +7114,10 @@ msgstr "Text is written one character at a time."
 msgid "Text sits in the header or footer area."
 msgstr "Text sits in the header or footer area."
 
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "Thanks — an administrator will look at this post."
+msgstr "Thanks — an administrator will look at this post."
+
 #: src/features/ats-checker/tool.tsx
 msgid "That file could not be read as a PDF."
 msgstr "That file could not be read as a PDF."
@@ -6639,13 +7156,26 @@ msgstr "The AI features are optional, and off unless an administrator enables th
 msgid "The application that sent you here made an invalid authorization request."
 msgstr "The application that sent you here made an invalid authorization request."
 
+#: src/features/recruitment/errors.ts
+msgid "The campus job board is turned off on this instance."
+msgstr "The campus job board is turned off on this instance."
+
 #: src/features/ats-checker/ai-review/ai-review-card.tsx
 msgid "The checks above are mechanical. This asks a language model what a reader would think of your bullets, and suggests rewrites. It produces no score."
 msgstr "The checks above are mechanical. This asks a language model what a reader would think of your bullets, and suggests rewrites. It produces no score."
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+#: src/features/recruitment/errors.ts
+msgid "The deadline has to be in the future."
+msgstr "The deadline has to be in the future."
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/ats-check.tsx
 msgid "The deep check could not finish. Please try again."
 msgstr "The deep check could not finish. Please try again."
+
+#: src/features/recruitment/labels.ts
+msgid "The details are wrong or invented"
+msgstr "The details are wrong or invented"
 
 #. Error shown when AI parsing returns invalid resume structure during import
 #: src/dialogs/resume/import.tsx
@@ -6696,6 +7226,10 @@ msgstr "The provider returned a review that could not be read. Try again."
 msgid "The provider's response could not be verified. Please start again."
 msgstr "The provider's response could not be verified. Please start again."
 
+#: src/routes/admin/recruitment/-components/reject-dialog.tsx
+msgid "The reason is shown to whoever submitted it, so it has to say what to fix."
+msgstr "The reason is shown to whoever submitted it, so it has to say what to fix."
+
 #: src/features/homepage/page.tsx
 msgid "The rest of your<0/>job search, too."
 msgstr "The rest of your<0/>job search, too."
@@ -6711,6 +7245,10 @@ msgstr "The same line repeats on every page."
 #: src/features/homepage/export-playground.tsx
 msgid "The same lines in the order BOSS 直聘, 智联招聘, and other Chinese job sites ask for them, ready to paste into their online forms."
 msgstr "The same lines in the order BOSS 直聘, 智联招聘, and other Chinese job sites ask for them, ready to paste into their online forms."
+
+#: src/features/recruitment/labels.ts
+msgid "The same role is listed twice"
+msgstr "The same role is listed twice"
 
 #. placeholder {0}: getPdfFindingMessage(cap).title
 #: src/features/ats-checker/report/score-header.tsx
@@ -6802,6 +7340,10 @@ msgstr "These terms can change. The version and the effective date above say whi
 msgid "These terms follow the law of the place where this instance is operated, and disputes belong to the courts there. If one clause cannot be enforced, the rest still applies."
 msgstr "These terms follow the law of the place where this instance is operated, and disputes belong to the courts there. If one clause cannot be enforced, the rest still applies."
 
+#: src/features/recruitment/labels.ts
+msgid "They are not actually hiring"
+msgstr "They are not actually hiring"
+
 #: src/routes/admin/-components/users-table.tsx
 msgid "They will be signed out everywhere and unable to sign back in until the ban is lifted."
 msgstr "They will be signed out everywhere and unable to sign back in until the ban is lifted."
@@ -6856,6 +7398,10 @@ msgstr "This connection request is invalid or has expired."
 #: src/libs/resume/ats.ts
 msgid "This contact field is an icon with no text."
 msgstr "This contact field is an icon with no text."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "This could not be saved."
+msgstr "This could not be saved."
 
 #: src/libs/resume/ats.ts
 msgid "This date is typed with fullwidth digits."
@@ -7042,6 +7588,10 @@ msgstr "This period starts in the future."
 #: src/routes/_home/privacy.tsx
 msgid "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
 msgstr "This policy covers the account you create here and everything you put in it: resumes, job applications, and uploaded files. It does not cover other Reactive Resume deployments. Each one keeps its own database, and an account does not carry between them."
+
+#: src/features/recruitment/errors.ts
+msgid "This post is no longer available."
+msgstr "This post is no longer available."
 
 #: src/features/resume/export/platform-copy-dialog.tsx
 #: src/features/resume/export/use-resume-export.ts
@@ -7869,6 +8419,10 @@ msgstr "Website"
 msgid "WeChat"
 msgstr "WeChat"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "WeChat handle, email address or phone number"
+msgstr "WeChat handle, email address or phone number"
+
 #: src/features/settings/admin/diagnostics-card.tsx
 msgid "WeChat sign-in"
 msgstr "WeChat sign-in"
@@ -7889,9 +8443,21 @@ msgstr "What do you want to do?"
 msgid "What do you want to rename this section to?"
 msgstr "What do you want to rename this section to?"
 
+#: src/features/recruitment/components/report-dialog.tsx
+msgid "What is wrong with it?"
+msgstr "What is wrong with it?"
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "What the job is"
+msgstr "What the job is"
+
 #: src/routes/admin/settings.tsx
 msgid "What the server can actually use right now. Credentials are read from environment variables at startup, so a change needs a restart; the switches above take effect immediately."
 msgstr "What the server can actually use right now. Credentials are read from environment variables at startup, so a change needs a restart; the switches above take effect immediately."
+
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "What the team does and who they are looking for"
+msgstr "What the team does and who they are looking for"
 
 #: src/routes/_home/ats-checker.tsx
 msgid "What this checks"
@@ -7949,6 +8515,11 @@ msgstr "Where applications come from"
 msgid "Where it is stored, and for how long"
 msgstr "Where it is stored, and for how long"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
+msgid "Where this came from"
+msgstr "Where this came from"
+
 #: src/features/applications/components/insights-view.tsx
 msgid "Where your applications went"
 msgstr "Where your applications went"
@@ -7993,20 +8564,36 @@ msgstr "Whether your timeline can be reconstructed."
 msgid "Who changed what, and when, across the admin console."
 msgstr "Who changed what, and when, across the admin console."
 
+#: src/features/recruitment/components/post-form-sheet.tsx
+msgid "Who is hiring"
+msgstr "Who is hiring"
+
 #. Section heading: who the privacy policy applies to
 #: src/routes/_home/privacy.tsx
 msgid "Who this applies to"
 msgstr "Who this applies to"
 
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
+msgid "Withdraw"
+msgstr "Withdraw"
+
+#: src/routes/dashboard/recruitment/-components/my-posts-table.tsx
+msgid "Withdraw this submission?"
+msgstr "Withdraw this submission?"
+
 #: src/features/ats-checker/messages.ts
 msgid "Words run together when the text is extracted."
 msgstr "Words run together when the text is extracted."
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Work intensity"
 msgstr "Work intensity"
 
+#: src/features/recruitment/components/post-form-sheet.tsx
 #: src/features/recruitment/pages/jobs-detail.tsx
+#: src/routes/admin/recruitment/-components/review-sheet.tsx
 msgid "Work mode"
 msgstr "Work mode"
 
@@ -8075,6 +8662,26 @@ msgstr "You can unlink WeChat or Alipay from your account settings at any time, 
 #: src/features/auth/pages/error.tsx
 msgid "You cancelled the sign-in before it finished."
 msgstr "You cancelled the sign-in before it finished."
+
+#: src/features/recruitment/errors.ts
+msgid "You cannot report a post you submitted yourself."
+msgstr "You cannot report a post you submitted yourself."
+
+#: src/features/recruitment/errors.ts
+msgid "You have already reported this post. An administrator will look at it."
+msgstr "You have already reported this post. An administrator will look at it."
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "You have not bookmarked any openings yet."
+msgstr "You have not bookmarked any openings yet."
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "You have not shared an opening yet, and sharing is turned off on this instance."
+msgstr "You have not shared an opening yet, and sharing is turned off on this instance."
+
+#: src/routes/dashboard/recruitment/index.tsx
+msgid "You have not shared an opening yet."
+msgstr "You have not shared an opening yet."
 
 #: src/hooks/use-form-blocker.tsx
 msgid "You have unsaved changes that will be lost."

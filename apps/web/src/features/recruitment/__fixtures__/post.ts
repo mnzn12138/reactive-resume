@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 
-import type { RecruitmentPost } from "../types";
+import type { RecruitmentPost, RecruitmentPostAdmin, RecruitmentPostOwner } from "../types";
 
 /**
  * Fixtures for the board's tests.
@@ -50,4 +50,28 @@ export const mockPostAnonymous = {
 	...mockPost,
 	contact: null,
 	rejectionReason: null,
+};
+
+/** What `recruitment.mine` returns: the owner's row, plus contact, reason and report count. */
+export const mockPostOwner: RecruitmentPostOwner = {
+	...mockPost,
+	contact: { kind: "wechat", value: "example-hr", referralCode: "CAMPUS-42" },
+	rejectionReason: null,
+	reportCount: 0,
+};
+
+/** What the review queue returns: the owner's row plus submitter, reviewer and dedupe data. */
+export const mockPostAdmin: RecruitmentPostAdmin = {
+	...mockPostOwner,
+	createdBy: { id: "user-1", name: "Zhang San", email: "zhang@example.com" },
+	reviewedBy: null,
+	dedupeKey: "example corp|frontend engineer|beijing",
+	duplicateOf: null,
+};
+
+/** A rejected row, the state 「我的提交」 exists to explain. */
+export const mockPostRejected: RecruitmentPostOwner = {
+	...mockPostOwner,
+	status: "rejected",
+	rejectionReason: "The announcement link does not open.",
 };

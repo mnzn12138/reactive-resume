@@ -43,8 +43,10 @@ import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
 import { Route as JobsIndexRouteImport } from "./routes/jobs/index";
 import { Route as JobsPostIdRouteImport } from "./routes/jobs/$postId";
 import { Route as TemplatesSplatRouteImport } from "./routes/templates/$";
+import { Route as AdminRecruitmentIndexRouteImport } from "./routes/admin/recruitment/index";
 import { Route as BuilderResumeIdIndexRouteImport } from "./routes/builder/$resumeId/index";
 import { Route as DashboardApplicationsIndexRouteImport } from "./routes/dashboard/applications/index";
+import { Route as DashboardRecruitmentIndexRouteImport } from "./routes/dashboard/recruitment/index";
 import { Route as DashboardResumesIndexRouteImport } from "./routes/dashboard/resumes/index";
 import { Route as DashboardSettingsAccountRouteImport } from "./routes/dashboard/settings/account";
 import { Route as DashboardSettingsIntegrationsRouteRouteImport } from "./routes/dashboard/settings/integrations/route";
@@ -222,6 +224,11 @@ const TemplatesSplatRoute = TemplatesSplatRouteImport.update({
   path: "/templates/$",
   getParentRoute: () => rootRouteImport,
 } as any);
+const AdminRecruitmentIndexRoute = AdminRecruitmentIndexRouteImport.update({
+  id: "/recruitment/",
+  path: "/recruitment/",
+  getParentRoute: () => AdminRouteRoute,
+} as any);
 const BuilderResumeIdIndexRoute = BuilderResumeIdIndexRouteImport.update({
   id: "/",
   path: "/",
@@ -231,6 +238,12 @@ const DashboardApplicationsIndexRoute =
   DashboardApplicationsIndexRouteImport.update({
     id: "/applications/",
     path: "/applications/",
+    getParentRoute: () => DashboardRouteRoute,
+  } as any);
+const DashboardRecruitmentIndexRoute =
+  DashboardRecruitmentIndexRouteImport.update({
+    id: "/recruitment/",
+    path: "/recruitment/",
     getParentRoute: () => DashboardRouteRoute,
   } as any);
 const DashboardResumesIndexRoute = DashboardResumesIndexRouteImport.update({
@@ -314,8 +327,10 @@ export interface FileRoutesByFullPath {
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
+  "/admin/recruitment/": typeof AdminRecruitmentIndexRoute;
   "/builder/$resumeId/": typeof BuilderResumeIdIndexRoute;
   "/dashboard/applications/": typeof DashboardApplicationsIndexRoute;
+  "/dashboard/recruitment/": typeof DashboardRecruitmentIndexRoute;
   "/dashboard/resumes/": typeof DashboardResumesIndexRoute;
   "/dashboard/settings/authentication/": typeof DashboardSettingsAuthenticationIndexRoute;
 }
@@ -353,8 +368,10 @@ export interface FileRoutesByTo {
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
+  "/admin/recruitment": typeof AdminRecruitmentIndexRoute;
   "/builder/$resumeId": typeof BuilderResumeIdIndexRoute;
   "/dashboard/applications": typeof DashboardApplicationsIndexRoute;
+  "/dashboard/recruitment": typeof DashboardRecruitmentIndexRoute;
   "/dashboard/resumes": typeof DashboardResumesIndexRoute;
   "/dashboard/settings/authentication": typeof DashboardSettingsAuthenticationIndexRoute;
 }
@@ -399,8 +416,10 @@ export interface FileRoutesById {
   "/dashboard/settings/job-search": typeof DashboardSettingsJobSearchRoute;
   "/dashboard/settings/preferences": typeof DashboardSettingsPreferencesRoute;
   "/dashboard/settings/profile": typeof DashboardSettingsProfileRoute;
+  "/admin/recruitment/": typeof AdminRecruitmentIndexRoute;
   "/builder/$resumeId/": typeof BuilderResumeIdIndexRoute;
   "/dashboard/applications/": typeof DashboardApplicationsIndexRoute;
+  "/dashboard/recruitment/": typeof DashboardRecruitmentIndexRoute;
   "/dashboard/resumes/": typeof DashboardResumesIndexRoute;
   "/dashboard/settings/authentication/": typeof DashboardSettingsAuthenticationIndexRoute;
 }
@@ -445,8 +464,10 @@ export interface FileRouteTypes {
     | "/dashboard/settings/job-search"
     | "/dashboard/settings/preferences"
     | "/dashboard/settings/profile"
+    | "/admin/recruitment/"
     | "/builder/$resumeId/"
     | "/dashboard/applications/"
+    | "/dashboard/recruitment/"
     | "/dashboard/resumes/"
     | "/dashboard/settings/authentication/";
   fileRoutesByTo: FileRoutesByTo;
@@ -484,8 +505,10 @@ export interface FileRouteTypes {
     | "/dashboard/settings/job-search"
     | "/dashboard/settings/preferences"
     | "/dashboard/settings/profile"
+    | "/admin/recruitment"
     | "/builder/$resumeId"
     | "/dashboard/applications"
+    | "/dashboard/recruitment"
     | "/dashboard/resumes"
     | "/dashboard/settings/authentication";
   id:
@@ -529,8 +552,10 @@ export interface FileRouteTypes {
     | "/dashboard/settings/job-search"
     | "/dashboard/settings/preferences"
     | "/dashboard/settings/profile"
+    | "/admin/recruitment/"
     | "/builder/$resumeId/"
     | "/dashboard/applications/"
+    | "/dashboard/recruitment/"
     | "/dashboard/resumes/"
     | "/dashboard/settings/authentication/";
   fileRoutesById: FileRoutesById;
@@ -788,6 +813,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof TemplatesSplatRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/admin/recruitment/": {
+      id: "/admin/recruitment/";
+      path: "/recruitment";
+      fullPath: "/admin/recruitment/";
+      preLoaderRoute: typeof AdminRecruitmentIndexRouteImport;
+      parentRoute: typeof AdminRouteRoute;
+    };
     "/builder/$resumeId/": {
       id: "/builder/$resumeId/";
       path: "/";
@@ -800,6 +832,13 @@ declare module "@tanstack/react-router" {
       path: "/applications";
       fullPath: "/dashboard/applications/";
       preLoaderRoute: typeof DashboardApplicationsIndexRouteImport;
+      parentRoute: typeof DashboardRouteRoute;
+    };
+    "/dashboard/recruitment/": {
+      id: "/dashboard/recruitment/";
+      path: "/recruitment";
+      fullPath: "/dashboard/recruitment/";
+      preLoaderRoute: typeof DashboardRecruitmentIndexRouteImport;
       parentRoute: typeof DashboardRouteRoute;
     };
     "/dashboard/resumes/": {
@@ -879,6 +918,7 @@ interface AdminRouteRouteChildren {
   AdminSettingsRoute: typeof AdminSettingsRoute;
   AdminUsersRoute: typeof AdminUsersRoute;
   AdminIndexRoute: typeof AdminIndexRoute;
+  AdminRecruitmentIndexRoute: typeof AdminRecruitmentIndexRoute;
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
@@ -888,6 +928,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminSettingsRoute: AdminSettingsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminRecruitmentIndexRoute: AdminRecruitmentIndexRoute,
 };
 
 const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
@@ -948,6 +989,7 @@ interface DashboardRouteRouteChildren {
   DashboardSettingsPreferencesRoute: typeof DashboardSettingsPreferencesRoute;
   DashboardSettingsProfileRoute: typeof DashboardSettingsProfileRoute;
   DashboardApplicationsIndexRoute: typeof DashboardApplicationsIndexRoute;
+  DashboardRecruitmentIndexRoute: typeof DashboardRecruitmentIndexRoute;
   DashboardResumesIndexRoute: typeof DashboardResumesIndexRoute;
   DashboardSettingsAuthenticationIndexRoute: typeof DashboardSettingsAuthenticationIndexRoute;
 }
@@ -961,6 +1003,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardSettingsPreferencesRoute: DashboardSettingsPreferencesRoute,
   DashboardSettingsProfileRoute: DashboardSettingsProfileRoute,
   DashboardApplicationsIndexRoute: DashboardApplicationsIndexRoute,
+  DashboardRecruitmentIndexRoute: DashboardRecruitmentIndexRoute,
   DashboardResumesIndexRoute: DashboardResumesIndexRoute,
   DashboardSettingsAuthenticationIndexRoute:
     DashboardSettingsAuthenticationIndexRoute,
