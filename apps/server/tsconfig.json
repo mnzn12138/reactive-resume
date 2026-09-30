@@ -1,6 +1,18 @@
 {
 	"extends": "@reactive-resume/config/tsconfig.base.json",
-	"include": ["src/**/*.ts", "src/**/*.tsx", "tsdown.config.ts", "vitest.config.ts"],
+	// `@reactive-resume/pdf` is consumed straight from source: tsdown bundles every workspace
+	// package, and the dev server loads it through tsx. tsx resolves a single tsconfig — the one
+	// nearest to the process cwd — and only applies it to the files its `include` matches, so
+	// without these entries `packages/pdf/src/*.tsx` is compiled with esbuild's default classic
+	// JSX transform and every server-side render throws `ReferenceError: React is not defined`.
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"../../packages/pdf/src/**/*.ts",
+		"../../packages/pdf/src/**/*.tsx",
+		"tsdown.config.ts",
+		"vitest.config.ts"
+	],
 	"compilerOptions": {
 		"jsx": "react-jsx",
 		"lib": ["ESNext", "DOM"],
